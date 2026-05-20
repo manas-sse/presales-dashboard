@@ -1,0 +1,42 @@
+name: ETL Pipeline
+
+on:
+  schedule:
+    # Runs every hour between 7am–9pm IST (1:30–15:30 UTC)
+    - cron: '30 1,3,5,7,9,11,13,15 * * 1-6'
+  workflow_dispatch:   # allows manual trigger from GitHub UI
+
+jobs:
+  run-etl:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # needed to push updated data/ files
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run ETL
+        env:
+          METABASE_URL:     ${{ secrets.METABASE_URL }}
+          METABASE_API_KEY: ${{ secrets.METABASE_API_KEY }}
+        run: python etl.py
+
+      - name: Commit & push updated data
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          # Only commit if data files actually changed
+          git diff --staged --quiet \
+            && echo "No data changes — skipping commit." \
+            || (git commit -m "data: refresh city_stage [skip ci]" && git push)

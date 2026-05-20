@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SolarSquare — Pre-Sales Referral</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:#f4f4f0;--sur:#ffffff;--sur2:#f7f7f4;--bd:rgba(0,0,0,.08);--bd2:rgba(0,0,0,.15);
+  --tx:#18181a;--t2:#5c5c62;--t3:#9b9b9f;
+  --bl:#1a56db;--bll:#dbeafe;
+  --gn:#166534;--gnl:#dcfce7;
+  --rd:#991b1b;--rdl:#fee2e2;
+  --am:#92400e;--aml:#fef3c7;
+  --so:#f59e0b;
+  --r:8px;--rl:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow:hidden}
+
+/* TOP BAR */
+.topbar{
+  background:#0f0f10;color:#fff;height:50px;padding:0 18px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  position:relative;z-index:400;flex-shrink:0;
+}
+.logo{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;white-space:nowrap}
+.logo-mark{width:24px;height:24px;border-radius:5px;background:linear-gradient(135deg,#f59e0b,#ef4444);display:grid;place-items:center;font-size:9px;font-weight:700;color:#fff;flex-shrink:0}
+.logo-div{color:rgba(255,255,255,.2);margin:0 3px}
+.logo-sub{font-weight:300;color:rgba(255,255,255,.4);font-size:11px}
+.topbar-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+#upd-lbl{font-size:10px;color:rgba(255,255,255,.3);font-family:'DM Mono',monospace;white-space:nowrap}
+.data-pill{background:rgba(245,158,11,.15);color:#f59e0b;font-size:10px;font-weight:500;padding:3px 9px;border-radius:20px;font-family:'DM Mono',monospace;white-space:nowrap}
+.rbtn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.7);padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-family:'DM Sans',sans-serif;transition:background .15s;white-space:nowrap}
+.rbtn:hover{background:rgba(255,255,255,.16)}
+
+/* SHELL */
+.shell{display:flex;height:calc(100vh - 50px);overflow:hidden}
+
+/* SIDEBAR */
+.sidebar{width:186px;background:var(--sur);border-right:1px solid var(--bd);padding:10px 0;flex-shrink:0;overflow-y:auto}
+.sh{font-size:9px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--t3);padding:12px 14px 4px}
+.ni{display:flex;align-items:center;gap:8px;padding:8px 14px;cursor:pointer;font-size:12px;color:var(--t2);border-left:2px solid transparent;transition:all .1s}
+.ni:hover{background:var(--sur2);color:var(--tx)}
+.ni.active{background:#eef2ff;color:var(--bl);border-left-color:var(--bl);font-weight:500}
+.ni .ico{font-size:11px;opacity:.55;width:13px;text-align:center;flex-shrink:0}
+
+/* MOB NAV */
+.mob-nav{display:none;background:var(--sur);border-bottom:1px solid var(--bd);padding:0 10px;overflow-x:auto;white-space:nowrap;scrollbar-width:none;flex-shrink:0}
+.mob-nav::-webkit-scrollbar{display:none}
+.mob-tab{display:inline-block;padding:9px 11px;font-size:12px;color:var(--t2);cursor:pointer;border-bottom:2px solid transparent;font-weight:500}
+.mob-tab.active{color:var(--bl);border-bottom-color:var(--bl)}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.sticky-hdr{background:var(--sur);border-bottom:1px solid var(--bd);padding:9px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.tab-name{font-size:13px;font-weight:600;color:var(--tx);border-left:3px solid var(--bl);padding-left:8px;white-space:nowrap;flex-shrink:0}
+.hdr-filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;flex:1;min-width:0}
+
+.scroll-area{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.panel{display:none;padding:16px}
+.panel.active{display:block}
+
+/* FILTERS */
+.fbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.flabel{font-size:11px;color:var(--t3);font-weight:500;white-space:nowrap}
+.fbar select,.fbar input[type=date],.fbar input[type=text]{
+  font-size:12px;padding:5px 8px;border:1px solid var(--bd2);border-radius:6px;
+  background:var(--sur);color:var(--tx);font-family:'DM Sans',sans-serif;
+  cursor:pointer;min-width:0;
+}
+.fbar input[type=date]{padding:4px 7px;color:var(--tx)}
+.fbar select:focus,.fbar input:focus{outline:2px solid var(--bl);outline-offset:-1px}
+
+/* KPI GRID */
+.kgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.kcard{background:var(--sur);border:1px solid var(--bd);border-radius:var(--rl);padding:14px 15px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.kcard-lbl{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--t3);margin-bottom:6px}
+.kcard-val{font-size:24px;font-weight:600;font-family:'DM Mono',monospace;letter-spacing:-1px;line-height:1;margin-bottom:3px}
+.kcard-sub{font-size:11px;color:var(--t3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.c-blue{color:var(--bl)}.c-green{color:var(--gn)}.c-amber{color:var(--am)}.c-purple{color:#7c3aed}
+
+/* SECTION CARDS */
+.scard{background:var(--sur);border:1px solid var(--bd);border-radius:var(--rl);box-shadow:0 1px 3px rgba(0,0,0,.05);margin-bottom:12px;overflow:hidden}
+.scard-hdr{padding:11px 15px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;flex-shrink:0}
+.scard-title{font-size:12px;font-weight:600;color:var(--tx);white-space:nowrap}
+.scard-hint{font-size:10px;color:var(--t3)}
+.scard-body{padding:14px 15px;overflow-x:auto}
+
+/* TWO COL */
+.twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* CHART */
+.chart-wrap{height:290px;position:relative}
+
+/* TABLES */
+.tw{overflow-x:auto;border-radius:var(--r);border:1px solid var(--bd)}
+.tw table{width:100%;border-collapse:collapse;font-size:12px}
+.tw thead th{
+  background:#eef2ff;color:#3730a3;padding:7px 9px;
+  text-align:left;font-weight:700;font-size:10px;
+  text-transform:uppercase;letter-spacing:.4px;
+  border-bottom:2px solid #c7d2fe;white-space:nowrap;position:sticky;top:0;z-index:1;
+}
+.tw thead th.right{text-align:right}
+.tw tbody td{padding:6px 9px;border-bottom:1px solid var(--bd);vertical-align:middle;white-space:nowrap}
+.tw tbody tr:last-child td{border-bottom:none}
+.tw tbody tr:hover td{background:var(--sur2)}
+.td-city{font-weight:500;max-width:130px;overflow:hidden;text-overflow:ellipsis}
+.td-r{text-align:right}
+.td-total{text-align:right;font-weight:600;background:var(--bll);color:var(--bl)}
+.mono{font-family:'DM Mono',monospace}
+
+/* SORTABLE */
+.tw thead th.sortable{cursor:pointer;user-select:none}
+.tw thead th.sortable:hover{background:#e0e7ff}
+.tw thead th.sort-asc::after{content:' ↑';color:var(--bl)}
+.tw thead th.sort-desc::after{content:' ↓';color:var(--bl)}
+.tw thead th.sortable:not(.sort-asc):not(.sort-desc)::after{content:' ⇅';opacity:.3;font-size:9px}
+
+/* BADGES */
+.badge{display:inline-block;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:500}
+.bg{background:var(--gnl);color:var(--gn)}.br{background:var(--rdl);color:var(--rd)}.ba{background:var(--aml);color:var(--am)}.bb{background:var(--bll);color:var(--bl)}.bx{background:var(--sur2);color:var(--t2)}
+
+/* FUNNEL BARS */
+.funnel-grid{display:grid;gap:5px;margin-top:4px}
+.funnel-row{display:grid;grid-template-columns:170px 1fr 44px 60px;align-items:center;gap:8px}
+.funnel-lbl{font-size:11px;color:var(--t2);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:default}
+.funnel-bg{background:var(--sur2);border-radius:4px;height:20px;overflow:hidden}
+.funnel-fill{height:100%;border-radius:4px;transition:width .45s ease;display:flex;align-items:center;padding-left:7px}
+.funnel-fill span{font-size:10px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden}
+.funnel-pct{font-size:10px;color:var(--t3);text-align:right;white-space:nowrap}
+.funnel-n{font-size:11px;font-family:'DM Mono',monospace;text-align:right;white-space:nowrap}
+.funnel-hdr{display:grid;grid-template-columns:170px 1fr 44px 60px;gap:8px;margin-bottom:4px}
+.funnel-hdr span{font-size:9px;color:var(--t3);text-align:right;text-transform:uppercase;letter-spacing:.4px}
+.funnel-hdr span:first-child{text-align:right}
+.funnel-hdr span:nth-child(2){text-align:left;padding-left:7px}
+
+/* STATE */
+.state-box{display:flex;flex-direction:column;align-items:center;justify-content:center;height:180px;gap:10px;color:var(--t2);font-size:12px}
+.spin{width:20px;height:20px;border:2px solid var(--bd2);border-top-color:var(--bl);border-radius:50%;animation:sp .6s linear infinite;flex-shrink:0}
+@keyframes sp{to{transform:rotate(360deg)}}
+.err-box{background:var(--rdl);border:1px solid #fca5a5;border-radius:var(--r);padding:14px;color:var(--rd);font-size:12px;line-height:1.7}
+.err-box code{background:#fee2e2;padding:1px 5px;border-radius:4px;font-family:'DM Mono',monospace;font-size:11px}
+
+/* DATE RANGE */
+.dr-wrap{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.dr-wrap .flabel{white-space:nowrap}
+
+/* RESPONSIVE */
+@media(max-width:900px){.twocol{grid-template-columns:1fr}}
+@media(max-width:720px){
+  .sidebar{display:none}.mob-nav{display:block}
+  .shell{flex-direction:column}
+  .kgrid{grid-template-columns:repeat(2,1fr)}
+  .panel{padding:10px}
+  .funnel-row{grid-template-columns:110px 1fr 38px 50px}
+  .funnel-hdr{grid-template-columns:110px 1fr 38px 50px}
+  .funnel-lbl{font-size:10px}
+  .topbar-right .data-pill{display:none}
+}
+@media(max-width:420px){.kgrid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">
+    <div class="logo-mark">SS</div>
+    SolarSquare
+    <span class="logo-div">|</span>
+    <span class="logo-sub">Pre-Sales Referral</span>
+  </div>
+  <div class="topbar-right">
+    <div class="data-pill" id="data-pill">— leads</div>
+    <div id="upd-lbl">—</div>
+    <button class="rbtn" onclick="loadData()">↺ Refresh</button>
+  </div>
+</div>
+
+<div class="shell">
+
+  <nav class="sidebar">
+    <div class="sh">Overview</div>
+    <div class="ni active" data-tab="snapshot"><span class="ico">⬡</span>Snapshot</div>
+    <div class="sh">Breakdown</div>
+    <div class="ni" data-tab="matrix"><span class="ico">⊞</span>City × Stage</div>
+    <div class="ni" data-tab="funnel"><span class="ico">▽</span>Stage Funnel</div>
+    <div class="sh">Analytics</div>
+    <div class="ni" data-tab="cohort"><span class="ico">⊟</span>Cohort View</div>
+    <div class="ni" data-tab="chart"><span class="ico">◷</span>Stage Chart</div>
+  </nav>
+
+  <div class="main">
+    <div class="mob-nav">
+      <span class="mob-tab active" data-tab="snapshot">Snapshot</span>
+      <span class="mob-tab" data-tab="matrix">City × Stage</span>
+      <span class="mob-tab" data-tab="funnel">Funnel</span>
+      <span class="mob-tab" data-tab="cohort">Cohort</span>
+      <span class="mob-tab" data-tab="chart">Chart</span>
+    </div>
+
+    <div class="sticky-hdr">
+      <span class="tab-name" id="tab-name">Snapshot</span>
+      <div class="hdr-filters" id="hdr-filters"></div>
+    </div>
+
+    <div class="scroll-area" id="scroll-area">
+      <div id="p-snapshot" class="panel active">
+        <div class="state-box"><div class="spin"></div><span>Loading data…</span></div>
+      </div>
+      <div id="p-matrix"  class="panel"></div>
+      <div id="p-funnel"  class="panel"></div>
+      <div id="p-cohort"  class="panel"></div>
+      <div id="p-chart"   class="panel"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CONSTANTS
+// ─────────────────────────────────────────────────────────────────────────────
+const STAGE_ORDER = [
+  'New Opportunity','New Lead','Presales','Assigned',
+  'Open-Assigned','Qualification In Progress','Qualification in Progress',
+  'Qualification in progress','Qualification Remaining',
+  'Call Not Connected','Open-Call Not Connected',
+  'Call Later','Call Later (Interested)','Call Later (Under Construction)',
+  'Meet Later (Qualified)','Already Spoken',
+  'Followup On Call','Followup At Home','Followup Rescheduled','Future Followup Required',
+  'Meeting Scheduled (BD)','Meeting Confirmed - Customer Home','Meeting Postponed',
+  'Meeting Done - Hot','Meeting Done - Moderate','Meeting Done - Customer Not Reachable',
+  'Meeting - Not Interested','Meeting - Not Qualified','Meeting - Not Inteterested',
+  'Booking Pending by Cx','Booking Pending by ZSM','Booking Processing',
+  'Booking Rejected by Cx','Booking Rejected by ZSM',
+  'Need Payment Details','Pending Verification','Verification Rejected',
+  'Speed Order','Order Confirmed',
+  'Non Qualified - Bill Amount Insufficient','Non Qualified - No Roof Ownership',
+  'Non Qualified - Not Govt Meter','Non Qualified - Roof Area Insufficient',
+  'Non Qualified - Roof Not Fit for Solar',
+  'Lead - Not Interested','Lead - Not Qualified',
+  'Lost In Qualification','Lost to Competitor','lost to competitor',
+  'Not Interested','Not Interested in Solar',
+  'Cold','On-Hold','Inactive Lead',
+  'DNC Lead: Outreach Stopped','Duplicate Opportunity',
+  'Wrong Number','Number Does Not Exist','Language Barrier','Language Issue',
+  'Commercial Lead','Housing Society Enquiry',
+  'Not Serviceable - Offgrid Enquiry','Not Serviceable - SSE not in location',
+  'Not Solar Enquiry - SolarPro Enquiry','Not Solar Enquiry - Vendor / Franchisee',
+  'SIQ - Opportunity Exhausted','SIQ - Opportunity Remaining','SIQ - Remaining',
+  'DEV Scheduled','DEV Postponed','DEV Done','Design Created',
+  'Meter Connection Not Yet Available','Unknown'
+];
+
+const PALETTE = [
+  '#3b82f6','#6366f1','#8b5cf6','#a855f7','#ec4899','#f43f5e',
+  '#ef4444','#f97316','#f59e0b','#eab308','#84cc16','#22c55e',
+  '#10b981','#14b8a6','#06b6d4','#0ea5e9','#60a5fa','#818cf8',
+  '#c084fc','#f472b6','#fb7185','#f87171','#fb923c','#fbbf24'
+];
+
+const TAB_NAMES = {
+  snapshot: 'Snapshot',
+  matrix:   'City × Stage',
+  funnel:   'Stage Funnel',
+  cohort:   'Cohort View',
+  chart:    'Stage Chart'
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────────────────────────────────────
+let DATA      = null;
+let curTab    = 'snapshot';
+let rendered  = {};
+let charts    = {};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// UTILS
+// ─────────────────────────────────────────────────────────────────────────────
+const $  = id  => document.getElementById(id);
+const f  = n   => n == null ? '—' : Math.round(n).toLocaleString('en-IN');
+const p  = (a, b) => b ? ((a / b) * 100).toFixed(1) + '%' : '—';
+
+function sortStages(arr) {
+  return [...arr].sort((a, b) => {
+    const ia = STAGE_ORDER.findIndex(s => s.toLowerCase() === a.toLowerCase());
+    const ib = STAGE_ORDER.findIndex(s => s.toLowerCase() === b.toLowerCase());
+    if (ia < 0 && ib < 0) return a.localeCompare(b);
+    if (ia < 0) return 1;
+    if (ib < 0) return -1;
+    return ia - ib;
+  });
+}
+
+// cohort_week is "YYYY-MM-DD" (Monday of the week).
+// We use it to represent creation date range.
+function weekToDate(w) {
+  if (!w || w === 'Unknown') return null;
+  return new Date(w + 'T00:00:00');
+}
+
+// Filter records by optional criteria
+function filterRecs({ city, status, stage, dateFrom, dateTo } = {}) {
+  return DATA.records.filter(r => {
+    if (city   && city   !== 'all' && r.city       !== city)   return false;
+    if (status && status !== 'all' && r.lead_status !== status) return false;
+    if (stage  && stage  !== 'all' && r.lead_stage  !== stage)  return false;
+    if (dateFrom || dateTo) {
+      const wd = weekToDate(r.cohort_week);
+      if (!wd) return false;
+      if (dateFrom && wd < dateFrom) return false;
+      // dateTo: include the whole week — add 6 days to end
+      if (dateTo) {
+        const endOfWeek = new Date(wd); endOfWeek.setDate(endOfWeek.getDate() + 6);
+        if (endOfWeek > dateTo) return false;
+      }
+    }
+    return true;
+  });
+}
+
+function sumLeads(recs) { return recs.reduce((s, r) => s + r.lead_count, 0); }
+
+function pivotByStage(recs) {
+  const m = {};
+  recs.forEach(r => { m[r.lead_stage] = (m[r.lead_stage] || 0) + r.lead_count; });
+  return m;
+}
+
+function pivotByCity(recs) {
+  const m = {};
+  recs.forEach(r => { m[r.city] = (m[r.city] || 0) + r.lead_count; });
+  return m;
+}
+
+// Heat cell background
+function heatBg(val, max) {
+  if (!val || !max) return '';
+  const alpha = (val / max) * 0.42 + 0.05;
+  return `background:rgba(59,130,246,${alpha.toFixed(2)})`;
+}
+
+// Sortable table
+function makeSortable(tbl) {
+  if (!tbl || tbl.dataset.s) return;
+  tbl.dataset.s = '1';
+  tbl.querySelectorAll('thead th').forEach((th, ci) => {
+    th.classList.add('sortable');
+    th.addEventListener('click', () => {
+      const asc = th.dataset.d !== 'asc';
+      tbl.querySelectorAll('thead th').forEach(h => { h.dataset.d = ''; h.classList.remove('sort-asc','sort-desc'); });
+      th.dataset.d = asc ? 'asc' : 'desc';
+      th.classList.toggle('sort-asc', asc);
+      th.classList.toggle('sort-desc', !asc);
+      const tbody = tbl.querySelector('tbody');
+      if (!tbody) return;
+      [...tbody.querySelectorAll('tr')].sort((a, b) => {
+        const av = cellNum(a, ci), bv = cellNum(b, ci);
+        return asc
+          ? (typeof av === 'number' && typeof bv === 'number' ? av - bv : String(av).localeCompare(String(bv)))
+          : (typeof av === 'number' && typeof bv === 'number' ? bv - av : String(bv).localeCompare(String(av)));
+      }).forEach(r => tbody.appendChild(r));
+    });
+  });
+}
+
+function cellNum(row, ci) {
+  const td = row.querySelectorAll('td')[ci]; if (!td) return 0;
+  const t  = td.textContent.replace(/[,%+→·—%↑↓]/g, '').trim();
+  const n  = parseFloat(t); return isNaN(n) ? t : n;
+}
+
+function autoSort(el) { el && el.querySelectorAll('table').forEach(makeSortable); }
+
+// Build <select> HTML
+function selHTML(id, opts) { return `<select id="${id}">${opts}</select>`; }
+
+function cityOpts(selectedAll = true) {
+  return `<option value="all"${selectedAll?' selected':''}>All Cities</option>` +
+    (DATA.meta.cities || []).filter(c => c !== 'Unknown')
+      .map(c => `<option value="${c}">${c}</option>`).join('');
+}
+function statusOpts() {
+  return '<option value="all">All Statuses</option>' +
+    (DATA.meta.statuses || []).map(s => `<option value="${s}">${s}</option>`).join('');
+}
+
+// Date range UI
+function dateRangeHTML(fromId, toId) {
+  // Default: last 90 days
+  const to   = new Date();
+  const from = new Date(); from.setDate(from.getDate() - 89);
+  const fmt  = d => d.toISOString().slice(0, 10);
+  return `
+    <span class="flabel">From</span>
+    <input type="date" id="${fromId}" value="${fmt(from)}">
+    <span class="flabel">To</span>
+    <input type="date" id="${toId}"   value="${fmt(to)}">
+  `;
+}
+
+function getDateRange(fromId, toId) {
+  const fv = $(fromId)?.value, tv = $(toId)?.value;
+  const from = fv ? new Date(fv + 'T00:00:00') : null;
+  const to   = tv ? new Date(tv + 'T23:59:59') : null;
+  return { dateFrom: from, dateTo: to };
+}
+
+function setHdrFilters(html) { $('hdr-filters').innerHTML = html; }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LOAD DATA
+// ─────────────────────────────────────────────────────────────────────────────
+async function loadData() {
+  $('upd-lbl').textContent = 'Loading…';
+  try {
+    const res = await fetch('./data/city_stage.json?t=' + Date.now());
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    DATA     = await res.json();
+    rendered = {};
+    const m  = DATA.meta;
+    $('data-pill').textContent = (m.total_leads || 0).toLocaleString('en-IN') + ' leads';
+    $('upd-lbl').textContent   = 'Updated ' + new Date(m.generated_at).toLocaleString('en-IN', {
+      timeZone:'Asia/Kolkata', day:'2-digit', month:'short',
+      hour:'2-digit', minute:'2-digit', hour12: false
+    });
+    buildTab(curTab);
+  } catch (err) {
+    $('upd-lbl').textContent = 'Error loading data';
+    $('p-' + curTab).innerHTML = `
+      <div class="err-box">
+        ⚠ Could not load <code>data/city_stage.json</code><br>
+        ${err.message}<br><br>
+        Run <code>python etl.py</code> first to generate the data file.
+      </div>`;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// TAB SWITCHING
+// ─────────────────────────────────────────────────────────────────────────────
+function sw(tab) {
+  if (curTab === tab) return;
+  document.querySelectorAll('.ni, .mob-tab').forEach(el => {
+    el.classList.toggle('active', el.dataset.tab === tab);
+  });
+  $('p-' + curTab).classList.remove('active');
+  $('p-' + tab).classList.add('active');
+  curTab = tab;
+  $('tab-name').textContent = TAB_NAMES[tab] || tab;
+  $('scroll-area').scrollTop = 0;
+  if (!rendered[tab] && DATA) buildTab(tab);
+}
+
+// Wire up sidebar + mob-nav clicks
+document.querySelectorAll('.ni, .mob-tab').forEach(el => {
+  el.addEventListener('click', () => sw(el.dataset.tab));
+});
+
+function buildTab(t) {
+  const fns = { snapshot: bSnapshot, matrix: bMatrix, funnel: bFunnel, cohort: bCohort, chart: bChart };
+  if (fns[t]) fns[t]();
+  rendered[t] = true;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SNAPSHOT
+// ─────────────────────────────────────────────────────────────────────────────
+function bSnapshot() {
+  const recs  = DATA.records;
+  const total = sumLeads(recs);
+
+  const openN = sumLeads(recs.filter(r =>
+    /open|assigned|calling|follow|qualification|meeting sched/i.test(r.lead_status + ' ' + r.lead_stage)));
+  const wonN  = sumLeads(recs.filter(r =>
+    /order confirmed|speed order/i.test(r.lead_stage)));
+  const lostN = sumLeads(recs.filter(r =>
+    /lost|cold|not interested|nq|ni|dnc|inactive|wrong|duplicate/i.test(r.lead_stage + ' ' + r.lead_status)));
+  const cities = (DATA.meta.cities || []).filter(c => c !== 'Unknown').length;
+
+  // Stage funnel preview
+  const st       = pivotByStage(recs);
+  const topStages = sortStages(Object.keys(st)).slice(0, 12);
+  const maxSt    = Math.max(...topStages.map(s => st[s]), 1);
+
+  const fRows = topStages.map((s, i) => {
+    const n = st[s], w = ((n / maxSt) * 100).toFixed(1);
+    return `<div class="funnel-row">
+      <div class="funnel-lbl" title="${s}">${s}</div>
+      <div class="funnel-bg">
+        <div class="funnel-fill" style="width:${w}%;background:${PALETTE[i % PALETTE.length]}">
+          <span>${n > maxSt * 0.12 ? f(n) : ''}</span>
+        </div>
+      </div>
+      <div class="funnel-pct">${((n/total)*100).toFixed(1)}%</div>
+      <div class="funnel-n">${f(n)}</div>
+    </div>`;
+  }).join('');
+
+  // Top cities
+  const ct       = pivotByCity(recs.filter(r => r.city !== 'Unknown'));
+  const topCities = Object.entries(ct).sort((a,b) => b[1]-a[1]).slice(0, 8);
+  const maxCity  = topCities[0]?.[1] || 1;
+
+  const cRows = topCities.map(([c, n]) => {
+    const w = ((n / maxCity) * 100).toFixed(1);
+    return `<div class="funnel-row">
+      <div class="funnel-lbl">${c}</div>
+      <div class="funnel-bg">
+        <div class="funnel-fill" style="width:${w}%;background:#3b82f6">
+          <span>${n > maxCity * 0.12 ? f(n) : ''}</span>
+        </div>
+      </div>
+      <div class="funnel-pct">${((n/total)*100).toFixed(1)}%</div>
+      <div class="funnel-n">${f(n)}</div>
+    </div>`;
+  }).join('');
+
+  const hdrRow = `<div class="funnel-hdr">
+    <span></span><span>Proportion</span><span>%</span><span>Count</span>
+  </div>`;
+
+  setHdrFilters('');
+  $('p-snapshot').innerHTML = `
+    <div class="kgrid">
+      <div class="kcard"><div class="kcard-lbl">Total Leads</div><div class="kcard-val c-blue">${f(total)}</div><div class="kcard-sub">Since Jan 2025</div></div>
+      <div class="kcard"><div class="kcard-lbl">Active Pipeline</div><div class="kcard-val c-green">${f(openN)}</div><div class="kcard-sub">${p(openN,total)} of total</div></div>
+      <div class="kcard"><div class="kcard-lbl">Won / Ordered</div><div class="kcard-val c-amber">${f(wonN)}</div><div class="kcard-sub">${p(wonN,total)} conversion</div></div>
+      <div class="kcard"><div class="kcard-lbl">Cities Active</div><div class="kcard-val c-purple">${cities}</div><div class="kcard-sub">Across India</div></div>
+    </div>
+    <div class="twocol">
+      <div class="scard">
+        <div class="scard-hdr"><span class="scard-title">Stage breakdown</span><span class="scard-hint">Top 12 stages</span></div>
+        <div class="scard-body">${hdrRow}<div class="funnel-grid">${fRows}</div></div>
+      </div>
+      <div class="scard">
+        <div class="scard-hdr"><span class="scard-title">Top cities by volume</span></div>
+        <div class="scard-body">${hdrRow}<div class="funnel-grid">${cRows}</div></div>
+      </div>
+    </div>`;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CITY × STAGE MATRIX
+// ─────────────────────────────────────────────────────────────────────────────
+function bMatrix() {
+  setHdrFilters(`
+    <div class="fbar">
+      <span class="flabel">Status</span>${selHTML('mat-status', statusOpts())}
+      ${dateRangeHTML('mat-from','mat-to')}
+    </div>`);
+
+  $('p-matrix').innerHTML = `
+    <div class="scard">
+      <div class="scard-hdr">
+        <span class="scard-title">City × Stage pivot</span>
+        <span class="scard-hint">Heat = density · click header to sort</span>
+      </div>
+      <div class="scard-body" style="padding:0">
+        <div class="tw" id="matrix-tbl" style="max-height:calc(100vh - 200px);overflow:auto"></div>
+      </div>
+    </div>`;
+
+  function render() {
+    const dr  = getDateRange('mat-from','mat-to');
+    const recs = filterRecs({ status: $('mat-status')?.value, ...dr });
+
+    const ct = {}, st = {}, pv = {};
+    recs.forEach(r => {
+      const c = r.city, s = r.lead_stage, n = r.lead_count;
+      pv[c] = pv[c] || {};
+      pv[c][s] = (pv[c][s] || 0) + n;
+      ct[c]    = (ct[c] || 0) + n;
+      st[s]    = (st[s] || 0) + n;
+    });
+
+    const cities  = Object.keys(pv).sort((a,b) => ct[b]-ct[a]);
+    const stages  = sortStages(Object.keys(st));
+    const grand   = Object.values(st).reduce((a,b) => a+b, 0);
+    let   maxCell = 0;
+    cities.forEach(c => stages.forEach(s => { if ((pv[c][s]||0) > maxCell) maxCell = pv[c][s]||0; }));
+
+    let html = '<table><thead><tr><th>City</th>';
+    stages.forEach(s => html += `<th class="right" title="${s}">${s.length > 13 ? s.slice(0,12)+'…' : s}</th>`);
+    html += '<th class="right">Total</th></tr></thead><tbody>';
+
+    cities.forEach(c => {
+      html += `<tr><td class="td-city" title="${c}">${c}</td>`;
+      stages.forEach(s => {
+        const v = pv[c][s] || 0;
+        html += `<td class="td-r mono" style="${heatBg(v, maxCell)}" title="${c} · ${s}: ${f(v)}">${v || '·'}</td>`;
+      });
+      html += `<td class="td-total">${f(ct[c])}</td></tr>`;
+    });
+
+    html += '<tr style="background:var(--sur2)"><td class="td-city" style="font-weight:600">Total</td>';
+    stages.forEach(s => html += `<td class="td-r mono" style="font-weight:600">${f(st[s]||0)}</td>`);
+    html += `<td class="td-total">${f(grand)}</td></tr></tbody></table>`;
+
+    const wrap = $('matrix-tbl');
+    wrap.innerHTML = html;
+    autoSort(wrap);
+  }
+
+  // Wire events AFTER DOM is set
+  setTimeout(() => {
+    ['mat-status','mat-from','mat-to'].forEach(id => {
+      const el = $(id); if (el) el.addEventListener('change', render);
+    });
+    render();
+  }, 0);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// STAGE FUNNEL
+// ─────────────────────────────────────────────────────────────────────────────
+function bFunnel() {
+  setHdrFilters(`
+    <div class="fbar">
+      <span class="flabel">City</span>${selHTML('fn-city', cityOpts())}
+      ${dateRangeHTML('fn-from','fn-to')}
+    </div>`);
+
+  $('p-funnel').innerHTML = `
+    <div class="scard">
+      <div class="scard-hdr"><span class="scard-title">Stage funnel</span><span class="scard-hint">All stages · ordered by funnel position</span></div>
+      <div class="scard-body" id="fn-body"></div>
+    </div>`;
+
+  function render() {
+    const dr   = getDateRange('fn-from','fn-to');
+    const recs = filterRecs({ city: $('fn-city')?.value, ...dr });
+    const total = sumLeads(recs);
+    const st    = pivotByStage(recs);
+    const stages = sortStages(Object.keys(st));
+    const maxN  = Math.max(...stages.map(s => st[s]), 1);
+
+    const hdrRow = `<div class="funnel-hdr">
+      <span style="text-align:right">Stage</span>
+      <span style="text-align:left;padding-left:7px">Proportion</span>
+      <span>%</span><span>Count</span>
+    </div>`;
+
+    const rows = stages.map((s, i) => {
+      const n = st[s], w = ((n / maxN) * 100).toFixed(1);
+      return `<div class="funnel-row">
+        <div class="funnel-lbl" title="${s}">${s}</div>
+        <div class="funnel-bg">
+          <div class="funnel-fill" style="width:${w}%;background:${PALETTE[i % PALETTE.length]}">
+            <span>${n > maxN * 0.09 ? f(n) : ''}</span>
+          </div>
+        </div>
+        <div class="funnel-pct">${total > 0 ? ((n/total)*100).toFixed(1) : 0}%</div>
+        <div class="funnel-n">${f(n)}</div>
+      </div>`;
+    }).join('');
+
+    const body = $('fn-body');
+    if (body) body.innerHTML = hdrRow + `<div class="funnel-grid">${rows}</div>`;
+  }
+
+  setTimeout(() => {
+    ['fn-city','fn-from','fn-to'].forEach(id => {
+      const el = $(id); if (el) el.addEventListener('change', render);
+    });
+    render();
+  }, 0);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// COHORT VIEW  (creation-date range × stage pivot)
+// ─────────────────────────────────────────────────────────────────────────────
+function bCohort() {
+  setHdrFilters(`
+    <div class="fbar">
+      <span class="flabel">City</span>${selHTML('co-city', cityOpts())}
+      <span class="flabel">Status</span>${selHTML('co-status', statusOpts())}
+      ${dateRangeHTML('co-from','co-to')}
+    </div>`);
+
+  $('p-cohort').innerHTML = `
+    <div class="scard">
+      <div class="scard-hdr">
+        <span class="scard-title">Cohort × Stage</span>
+        <span class="scard-hint">Rows = creation-date week · columns = stage · click header to sort</span>
+      </div>
+      <div class="scard-body" style="padding:0">
+        <div class="tw" id="cohort-tbl" style="max-height:calc(100vh - 200px);overflow:auto"></div>
+      </div>
+    </div>`;
+
+  function render() {
+    const dr   = getDateRange('co-from','co-to');
+    const recs = filterRecs({ city: $('co-city')?.value, status: $('co-status')?.value, ...dr });
+
+    // collect all weeks present in the filtered set
+    const weekSet = new Set(recs.map(r => r.cohort_week).filter(w => w && w !== 'Unknown'));
+    const weeks   = [...weekSet].sort().reverse(); // newest first
+
+    const st = pivotByStage(recs);
+    const stages = sortStages(Object.keys(st)).slice(0, 15);
+
+    // build pivot: week → stage → count
+    const pv = {};
+    recs.forEach(r => {
+      if (!weekSet.has(r.cohort_week)) return;
+      pv[r.cohort_week] = pv[r.cohort_week] || {};
+      pv[r.cohort_week][r.lead_stage] = (pv[r.cohort_week][r.lead_stage] || 0) + r.lead_count;
+    });
+
+    const wkTotals = {};
+    weeks.forEach(w => { wkTotals[w] = stages.reduce((s, st) => s + (pv[w]?.[st] || 0), 0); });
+
+    if (!weeks.length) {
+      $('cohort-tbl').innerHTML = '<div style="padding:20px;color:var(--t3);font-size:12px">No data for selected filters and date range.</div>';
+      return;
+    }
+
+    let html = '<table><thead><tr><th>Week starting</th>';
+    stages.forEach(s => html += `<th class="right" title="${s}">${s.length > 12 ? s.slice(0,11)+'…' : s}</th>`);
+    html += '<th class="right">Total</th></tr></thead><tbody>';
+
+    weeks.forEach(w => {
+      const rowMax = Math.max(...stages.map(s => pv[w]?.[s] || 0), 1);
+      html += `<tr><td class="td-city mono" style="font-size:11px">${w}</td>`;
+      stages.forEach(s => {
+        const v = pv[w]?.[s] || 0;
+        html += `<td class="td-r mono" style="${heatBg(v, rowMax)}">${v || '·'}</td>`;
+      });
+      html += `<td class="td-total">${f(wkTotals[w])}</td></tr>`;
+    });
+    html += '</tbody></table>';
+
+    const wrap = $('cohort-tbl');
+    wrap.innerHTML = html;
+    autoSort(wrap);
+  }
+
+  setTimeout(() => {
+    ['co-city','co-status','co-from','co-to'].forEach(id => {
+      const el = $(id); if (el) el.addEventListener('change', render);
+    });
+    render();
+  }, 0);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// STAGE CHART
+// ─────────────────────────────────────────────────────────────────────────────
+function bChart() {
+  setHdrFilters(`
+    <div class="fbar">
+      <span class="flabel">City</span>${selHTML('ch-city', cityOpts())}
+      <span class="flabel">Status</span>${selHTML('ch-status', statusOpts())}
+      ${dateRangeHTML('ch-from','ch-to')}
+    </div>`);
+
+  $('p-chart').innerHTML = `
+    <div class="scard">
+      <div class="scard-hdr"><span class="scard-title">Leads by stage</span></div>
+      <div class="scard-body"><div class="chart-wrap"><canvas id="stage-canvas"></canvas></div></div>
+    </div>
+    <div class="scard">
+      <div class="scard-hdr"><span class="scard-title">City volume table</span><span class="scard-hint">Click header to sort</span></div>
+      <div class="scard-body" style="padding:0">
+        <div class="tw" id="city-tbl"></div>
+      </div>
+    </div>`;
+
+  function render() {
+    const dr    = getDateRange('ch-from','ch-to');
+    const recs  = filterRecs({ city: $('ch-city')?.value, status: $('ch-status')?.value, ...dr });
+    const total = sumLeads(recs);
+
+    // Chart
+    const st     = pivotByStage(recs);
+    const stages = sortStages(Object.keys(st));
+    const counts = stages.map(s => st[s]);
+    const colors = stages.map((_, i) => PALETTE[i % PALETTE.length]);
+
+    const ctx = $('stage-canvas');
+    if (ctx) {
+      if (charts.stage) charts.stage.destroy();
+      charts.stage = new Chart(ctx, {
+        type: 'bar',
+        data: { labels: stages, datasets: [{ data: counts, backgroundColor: colors, borderRadius: 4, borderSkipped: false }] },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ` ${f(c.parsed.y)} leads` } } },
+          scales: {
+            x: { grid: { display: false }, ticks: { font: { size: 10, family: "'DM Sans'" }, maxRotation: 50 } },
+            y: { beginAtZero: true, grid: { color: '#f0f0f0' }, ticks: { font: { size: 11 }, callback: v => v.toLocaleString('en-IN') } }
+          }
+        }
+      });
+    }
+
+    // City table
+    const ct = pivotByCity(recs.filter(r => r.city !== 'Unknown'));
+    const sorted = Object.entries(ct).sort((a,b) => b[1]-a[1]);
+    let html = '<table><thead><tr><th>City</th><th class="right">Leads</th><th class="right">%</th><th class="right">Volume</th></tr></thead><tbody>';
+    sorted.forEach(([c, n]) => {
+      const pct = total > 0 ? ((n/total)*100).toFixed(1) : 0;
+      const tag = n > 500 ? '<span class="badge bb">High</span>' : n > 100 ? '<span class="badge ba">Mid</span>' : '<span class="badge bx">Low</span>';
+      html += `<tr><td class="td-city">${c}</td><td class="td-r mono">${f(n)}</td><td class="td-r">${pct}%</td><td class="td-r">${tag}</td></tr>`;
+    });
+    html += '</tbody></table>';
+    const wrap = $('city-tbl'); if (wrap) { wrap.innerHTML = html; autoSort(wrap); }
+  }
+
+  setTimeout(() => {
+    ['ch-city','ch-status','ch-from','ch-to'].forEach(id => {
+      const el = $(id); if (el) el.addEventListener('change', render);
+    });
+    render();
+  }, 0);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// BOOT
+// ─────────────────────────────────────────────────────────────────────────────
+loadData();
+</script>
+</body>
+</html>
