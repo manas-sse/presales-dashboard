@@ -3,164 +3,166 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SolarSquare — Pre-Sales Referral</title>
+<title>SolarSquare — Pre-Sales</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 :root{
-  --bg:#f4f4f0;--sur:#ffffff;--sur2:#f7f7f4;--bd:rgba(0,0,0,.08);--bd2:rgba(0,0,0,.15);
+  --bg:#f4f4f0;--sur:#fff;--sur2:#f7f7f4;--bd:rgba(0,0,0,.08);--bd2:rgba(0,0,0,.15);
   --tx:#18181a;--t2:#5c5c62;--t3:#9b9b9f;
-  --bl:#1a56db;--bll:#dbeafe;
-  --gn:#166534;--gnl:#dcfce7;
-  --rd:#991b1b;--rdl:#fee2e2;
-  --am:#92400e;--aml:#fef3c7;
-  --so:#f59e0b;
+  --bl:#1a56db;--bll:#dbeafe;--bld:#1240a8;
+  --gn:#166534;--gnl:#dcfce7;--rd:#991b1b;--rdl:#fee2e2;--am:#92400e;--aml:#fef3c7;
   --r:8px;--rl:12px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow:hidden}
 
-/* TOP BAR */
-.topbar{
-  background:#0f0f10;color:#fff;height:50px;padding:0 18px;
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
-  position:relative;z-index:400;flex-shrink:0;
-}
+.topbar{background:#0f0f10;color:#fff;height:50px;padding:0 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;z-index:400;flex-shrink:0}
 .logo{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;white-space:nowrap}
-.logo-mark{width:24px;height:24px;border-radius:5px;background:linear-gradient(135deg,#f59e0b,#ef4444);display:grid;place-items:center;font-size:9px;font-weight:700;color:#fff;flex-shrink:0}
+.logo-mark{width:24px;height:24px;border-radius:5px;background:linear-gradient(135deg,#f59e0b,#ef4444);display:grid;place-items:center;font-size:9px;font-weight:700;color:#fff}
 .logo-div{color:rgba(255,255,255,.2);margin:0 3px}
 .logo-sub{font-weight:300;color:rgba(255,255,255,.4);font-size:11px}
-.topbar-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.topbar-r{display:flex;align-items:center;gap:8px;flex-shrink:0}
 #upd-lbl{font-size:10px;color:rgba(255,255,255,.3);font-family:'DM Mono',monospace;white-space:nowrap}
-.data-pill{background:rgba(245,158,11,.15);color:#f59e0b;font-size:10px;font-weight:500;padding:3px 9px;border-radius:20px;font-family:'DM Mono',monospace;white-space:nowrap}
-.rbtn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.7);padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-family:'DM Sans',sans-serif;transition:background .15s;white-space:nowrap}
+.data-pill{background:rgba(245,158,11,.15);color:#f59e0b;font-size:10px;font-weight:500;padding:3px 9px;border-radius:20px;font-family:'DM Mono',monospace}
+.rbtn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.7);padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-family:'DM Sans',sans-serif}
 .rbtn:hover{background:rgba(255,255,255,.16)}
 
-/* SHELL */
 .shell{display:flex;height:calc(100vh - 50px);overflow:hidden}
-
-/* SIDEBAR */
 .sidebar{width:186px;background:var(--sur);border-right:1px solid var(--bd);padding:10px 0;flex-shrink:0;overflow-y:auto}
 .sh{font-size:9px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--t3);padding:12px 14px 4px}
 .ni{display:flex;align-items:center;gap:8px;padding:8px 14px;cursor:pointer;font-size:12px;color:var(--t2);border-left:2px solid transparent;transition:all .1s}
 .ni:hover{background:var(--sur2);color:var(--tx)}
 .ni.active{background:#eef2ff;color:var(--bl);border-left-color:var(--bl);font-weight:500}
 .ni .ico{font-size:11px;opacity:.55;width:13px;text-align:center;flex-shrink:0}
-
-/* MOB NAV */
 .mob-nav{display:none;background:var(--sur);border-bottom:1px solid var(--bd);padding:0 10px;overflow-x:auto;white-space:nowrap;scrollbar-width:none;flex-shrink:0}
 .mob-nav::-webkit-scrollbar{display:none}
 .mob-tab{display:inline-block;padding:9px 11px;font-size:12px;color:var(--t2);cursor:pointer;border-bottom:2px solid transparent;font-weight:500}
 .mob-tab.active{color:var(--bl);border-bottom-color:var(--bl)}
-
-/* MAIN */
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
-.sticky-hdr{background:var(--sur);border-bottom:1px solid var(--bd);padding:9px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,.05)}
-.tab-name{font-size:13px;font-weight:600;color:var(--tx);border-left:3px solid var(--bl);padding-left:8px;white-space:nowrap;flex-shrink:0}
-.hdr-filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;flex:1;min-width:0}
-
+.sticky-hdr{background:var(--sur);border-bottom:1px solid var(--bd);padding:9px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.tab-name{font-size:13px;font-weight:600;color:var(--tx);border-left:3px solid var(--bl);padding-left:8px;white-space:nowrap}
 .scroll-area{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .panel{display:none;padding:16px}
 .panel.active{display:block}
 
-/* FILTERS */
-.fbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.flabel{font-size:11px;color:var(--t3);font-weight:500;white-space:nowrap}
-.fbar select,.fbar input[type=date],.fbar input[type=text]{
-  font-size:12px;padding:5px 8px;border:1px solid var(--bd2);border-radius:6px;
-  background:var(--sur);color:var(--tx);font-family:'DM Sans',sans-serif;
-  cursor:pointer;min-width:0;
-}
-.fbar input[type=date]{padding:4px 7px;color:var(--tx)}
-.fbar select:focus,.fbar input:focus{outline:2px solid var(--bl);outline-offset:-1px}
+/* FILTER BLOCK */
+.fb{background:var(--sur);border:1px solid var(--bd);border-radius:var(--rl);padding:12px 14px;margin-bottom:12px}
+.fr{display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.fr+.fr{margin-top:10px;padding-top:10px;border-top:1px dashed var(--bd)}
+.flbl{font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;display:block}
+.flbl .sub{font-weight:400;color:var(--t3);text-transform:none;letter-spacing:0;font-size:10px;margin-left:4px}
+.fg{display:flex;flex-direction:column;min-width:0}
+.frow{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+select.fc,input.fc{font-size:12px;padding:5px 8px;border:1px solid var(--bd2);border-radius:6px;background:var(--sur);color:var(--tx);font-family:'DM Sans',sans-serif;cursor:pointer}
+select.fc:focus,input.fc:focus{outline:2px solid var(--bl);outline-offset:-1px}
+input[type=date].fc{padding:4px 7px;min-width:126px}
+.fi{font-size:11px;color:var(--t3);white-space:nowrap}
 
-/* KPI GRID */
-.kgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
-.kcard{background:var(--sur);border:1px solid var(--bd);border-radius:var(--rl);padding:14px 15px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
-.kcard-lbl{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--t3);margin-bottom:6px}
-.kcard-val{font-size:24px;font-weight:600;font-family:'DM Mono',monospace;letter-spacing:-1px;line-height:1;margin-bottom:3px}
-.kcard-sub{font-size:11px;color:var(--t3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.c-blue{color:var(--bl)}.c-green{color:var(--gn)}.c-amber{color:var(--am)}.c-purple{color:#7c3aed}
+/* MULTI-SELECT */
+.ms-wrap{position:relative;min-width:155px}
+.ms-btn{width:100%;padding:5px 26px 5px 9px;border:1px solid var(--bd2);border-radius:6px;background:var(--sur);color:var(--tx);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;text-align:left;position:relative;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ms-btn::after{content:'▾';position:absolute;right:8px;top:50%;transform:translateY(-50%);color:var(--t3);font-size:10px}
+.ms-dd{display:none;position:absolute;top:calc(100% + 4px);left:0;min-width:210px;background:var(--sur);border:1px solid var(--bd2);border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.12);z-index:600}
+.ms-dd.open{display:flex;flex-direction:column}
+.ms-list{max-height:230px;overflow-y:auto;padding:6px 0}
+.ms-opt{display:flex;align-items:center;gap:8px;padding:6px 12px;font-size:12px;cursor:pointer;color:var(--tx)}
+.ms-opt:hover{background:var(--sur2)}
+.ms-opt input[type=checkbox]{accent-color:var(--bl);width:13px;height:13px;flex-shrink:0;cursor:pointer}
+.ms-sep{border-top:1px solid var(--bd);margin:2px 0}
+.ms-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.ms-foot{padding:8px 10px;border-top:1px solid var(--bd);display:flex;justify-content:flex-end;gap:6px;background:var(--sur2)}
+.ms-apply{padding:5px 14px;background:var(--bl);color:#fff;border:none;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif}
+.ms-apply:hover{background:var(--bld)}
+.ms-clear{padding:5px 10px;background:transparent;color:var(--t2);border:1px solid var(--bd2);border-radius:6px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif}
+
+/* TOGGLES */
+.tgl{display:flex;border:1px solid var(--bd2);border-radius:6px;overflow:hidden;flex-shrink:0}
+.tgl-b{padding:5px 12px;font-size:11px;font-weight:500;background:var(--sur);color:var(--t2);border:none;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
+.tgl-b+.tgl-b{border-left:1px solid var(--bd2)}
+.tgl-b.on{background:var(--bl);color:#fff}
+.comp-btn{padding:5px 12px;font-size:11px;font-weight:500;background:var(--sur2);color:var(--t2);border:1px solid var(--bd2);border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
+.comp-btn.on{background:#ede9fe;color:#5b21b6;border-color:#c4b5fd}
+.ptag{display:inline-flex;align-items:center;padding:1px 7px;border-radius:20px;font-size:10px;font-weight:600;margin-right:3px}
+.pa{background:#dbeafe;color:#1e40af}.pb{background:#ede9fe;color:#5b21b6}
+
+/* KPI */
+.kgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px}
+.kcard{background:var(--sur);border:1px solid var(--bd);border-radius:var(--rl);padding:12px 14px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.kcard.cmp{border-top:3px solid #8b5cf6}
+.kl{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--t3);margin-bottom:5px}
+.kv{font-size:22px;font-weight:600;font-family:'DM Mono',monospace;letter-spacing:-1px;line-height:1;margin-bottom:2px}
+.ks{font-size:10px;color:var(--t3)}
+.kcrow{display:flex;gap:10px;margin-top:3px}
+.ka{font-size:12px;font-family:'DM Mono',monospace;color:#1e40af;font-weight:600}
+.kb{font-size:12px;font-family:'DM Mono',monospace;color:#5b21b6;font-weight:600}
+.kdelta{font-size:10px;padding:1px 5px;border-radius:8px}
+.du{background:var(--gnl);color:var(--gn)}.dd{background:var(--rdl);color:var(--rd)}.dn{background:var(--sur2);color:var(--t2)}
+.cb{color:var(--bl)}.cg{color:var(--gn)}.ca{color:var(--am)}.cr{color:var(--rd)}.cp{color:#7c3aed}
 
 /* SECTION CARDS */
-.scard{background:var(--sur);border:1px solid var(--bd);border-radius:var(--rl);box-shadow:0 1px 3px rgba(0,0,0,.05);margin-bottom:12px;overflow:hidden}
-.scard-hdr{padding:11px 15px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;flex-shrink:0}
-.scard-title{font-size:12px;font-weight:600;color:var(--tx);white-space:nowrap}
-.scard-hint{font-size:10px;color:var(--t3)}
-.scard-body{padding:14px 15px;overflow-x:auto}
+.sc{background:var(--sur);border:1px solid var(--bd);border-radius:var(--rl);box-shadow:0 1px 3px rgba(0,0,0,.05);margin-bottom:12px;overflow:hidden}
+.sc-h{padding:11px 15px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.sc-t{font-size:12px;font-weight:600}
+.sc-hi{font-size:10px;color:var(--t3)}
+.sc-b{padding:14px 15px}
+.cw{height:310px;position:relative}
 
-/* TWO COL */
-.twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-
-/* CHART */
-.chart-wrap{height:290px;position:relative}
-
-/* TABLES */
-.tw{overflow-x:auto;border-radius:var(--r);border:1px solid var(--bd)}
-.tw table{width:100%;border-collapse:collapse;font-size:12px}
-.tw thead th{
-  background:#eef2ff;color:#3730a3;padding:7px 9px;
-  text-align:left;font-weight:700;font-size:10px;
-  text-transform:uppercase;letter-spacing:.4px;
-  border-bottom:2px solid #c7d2fe;white-space:nowrap;position:sticky;top:0;z-index:1;
+/* TABLES — WRAPPED HEADERS */
+.tw{overflow-x:auto}
+.tw table{width:100%;border-collapse:collapse;font-size:11px}
+.tw thead tr:first-child th{
+  background:#1e293b;color:#f1f5f9;padding:6px 8px;font-size:10px;font-weight:600;
+  text-align:center;border-right:1px solid #334155;
+  white-space:normal;line-height:1.25;word-wrap:break-word
 }
-.tw thead th.right{text-align:right}
-.tw tbody td{padding:6px 9px;border-bottom:1px solid var(--bd);vertical-align:middle;white-space:nowrap}
+.tw thead tr:first-child th:first-child{background:#eef2ff;color:#3730a3;text-align:left}
+.tw thead tr:last-child th{
+  background:#eef2ff;color:#3730a3;padding:6px 8px;font-weight:700;font-size:9px;
+  text-transform:uppercase;letter-spacing:.3px;border-bottom:2px solid #c7d2fe;
+  white-space:normal;line-height:1.25;text-align:right;position:sticky;top:0;z-index:1;
+  vertical-align:bottom;word-wrap:break-word;min-width:60px;max-width:120px;
+}
+.tw thead tr:last-child th:first-child{text-align:left;min-width:90px;max-width:150px}
+.tw thead.single tr th{
+  background:#eef2ff;color:#3730a3;padding:6px 8px;font-weight:700;font-size:9px;
+  text-transform:uppercase;letter-spacing:.3px;border-bottom:2px solid #c7d2fe;
+  white-space:normal;line-height:1.25;text-align:right;position:sticky;top:0;z-index:1;
+  vertical-align:bottom;word-wrap:break-word;min-width:60px;max-width:140px;
+}
+.tw thead.single tr th:first-child{text-align:left;min-width:100px;max-width:160px}
+.tw tbody td{padding:5px 8px;border-bottom:1px solid var(--bd);vertical-align:middle;white-space:nowrap}
 .tw tbody tr:last-child td{border-bottom:none}
 .tw tbody tr:hover td{background:var(--sur2)}
-.td-city{font-weight:500;max-width:130px;overflow:hidden;text-overflow:ellipsis}
-.td-r{text-align:right}
-.td-total{text-align:right;font-weight:600;background:var(--bll);color:var(--bl)}
+.tdc{font-weight:500;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tdr{text-align:right}
+.tdt{text-align:right;font-weight:600;background:var(--bll);color:var(--bl)}
+.tdb{text-align:right;font-weight:600;background:#ede9fe;color:#5b21b6}
+.tddu{color:var(--gn);font-size:10px}.tddd{color:var(--rd);font-size:10px}
 .mono{font-family:'DM Mono',monospace}
-
-/* SORTABLE */
 .tw thead th.sortable{cursor:pointer;user-select:none}
-.tw thead th.sortable:hover{background:#e0e7ff}
-.tw thead th.sort-asc::after{content:' ↑';color:var(--bl)}
-.tw thead th.sort-desc::after{content:' ↓';color:var(--bl)}
-.tw thead th.sortable:not(.sort-asc):not(.sort-desc)::after{content:' ⇅';opacity:.3;font-size:9px}
+.tw thead th.sortable:hover{filter:brightness(.95)}
+.tw thead th.sort-asc::after{content:' ↑'}
+.tw thead th.sort-desc::after{content:' ↓'}
 
-/* BADGES */
-.badge{display:inline-block;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:500}
-.bg{background:var(--gnl);color:var(--gn)}.br{background:var(--rdl);color:var(--rd)}.ba{background:var(--aml);color:var(--am)}.bb{background:var(--bll);color:var(--bl)}.bx{background:var(--sur2);color:var(--t2)}
+/* Special cell colors for call attempts view */
+.cell-warn{background:#fef3c7;color:#92400e;font-weight:600}
+.cell-bad{background:#fee2e2;color:#991b1b;font-weight:600}
+.cell-good{background:#dcfce7;color:#166534;font-weight:600}
 
-/* FUNNEL BARS */
-.funnel-grid{display:grid;gap:5px;margin-top:4px}
-.funnel-row{display:grid;grid-template-columns:170px 1fr 44px 60px;align-items:center;gap:8px}
-.funnel-lbl{font-size:11px;color:var(--t2);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:default}
-.funnel-bg{background:var(--sur2);border-radius:4px;height:20px;overflow:hidden}
-.funnel-fill{height:100%;border-radius:4px;transition:width .45s ease;display:flex;align-items:center;padding-left:7px}
-.funnel-fill span{font-size:10px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden}
-.funnel-pct{font-size:10px;color:var(--t3);text-align:right;white-space:nowrap}
-.funnel-n{font-size:11px;font-family:'DM Mono',monospace;text-align:right;white-space:nowrap}
-.funnel-hdr{display:grid;grid-template-columns:170px 1fr 44px 60px;gap:8px;margin-bottom:4px}
-.funnel-hdr span{font-size:9px;color:var(--t3);text-align:right;text-transform:uppercase;letter-spacing:.4px}
-.funnel-hdr span:first-child{text-align:right}
-.funnel-hdr span:nth-child(2){text-align:left;padding-left:7px}
-
-/* STATE */
-.state-box{display:flex;flex-direction:column;align-items:center;justify-content:center;height:180px;gap:10px;color:var(--t2);font-size:12px}
-.spin{width:20px;height:20px;border:2px solid var(--bd2);border-top-color:var(--bl);border-radius:50%;animation:sp .6s linear infinite;flex-shrink:0}
+.stb{display:flex;flex-direction:column;align-items:center;justify-content:center;height:180px;gap:10px;color:var(--t2);font-size:12px}
+.spin{width:20px;height:20px;border:2px solid var(--bd2);border-top-color:var(--bl);border-radius:50%;animation:sp .6s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
-.err-box{background:var(--rdl);border:1px solid #fca5a5;border-radius:var(--r);padding:14px;color:var(--rd);font-size:12px;line-height:1.7}
-.err-box code{background:#fee2e2;padding:1px 5px;border-radius:4px;font-family:'DM Mono',monospace;font-size:11px}
+.err{background:var(--rdl);border:1px solid #fca5a5;border-radius:var(--r);padding:14px;color:var(--rd);font-size:12px;line-height:1.7}
+.nd{padding:24px;text-align:center;color:var(--t3);font-size:12px}
 
-/* DATE RANGE */
-.dr-wrap{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.dr-wrap .flabel{white-space:nowrap}
-
-/* RESPONSIVE */
-@media(max-width:900px){.twocol{grid-template-columns:1fr}}
+@media(max-width:960px){.kgrid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:720px){
   .sidebar{display:none}.mob-nav{display:block}
-  .shell{flex-direction:column}
   .kgrid{grid-template-columns:repeat(2,1fr)}
-  .panel{padding:10px}
-  .funnel-row{grid-template-columns:110px 1fr 38px 50px}
-  .funnel-hdr{grid-template-columns:110px 1fr 38px 50px}
-  .funnel-lbl{font-size:10px}
-  .topbar-right .data-pill{display:none}
+  .panel{padding:10px}.topbar-r .data-pill{display:none}
+  input[type=date].fc{min-width:110px}
 }
 @media(max-width:420px){.kgrid{grid-template-columns:1fr 1fr}}
 </style>
@@ -168,54 +170,37 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-
 <body>
 
 <div class="topbar">
-  <div class="logo">
-    <div class="logo-mark">SS</div>
-    SolarSquare
-    <span class="logo-div">|</span>
-    <span class="logo-sub">Pre-Sales Referral</span>
-  </div>
-  <div class="topbar-right">
-    <div class="data-pill" id="data-pill">— leads</div>
+  <div class="logo"><div class="logo-mark">SS</div>SolarSquare <span class="logo-div">|</span><span class="logo-sub">Pre-Sales</span></div>
+  <div class="topbar-r">
+    <div class="data-pill" id="data-pill">—</div>
     <div id="upd-lbl">—</div>
     <button class="rbtn" onclick="loadData()">↺ Refresh</button>
   </div>
 </div>
 
 <div class="shell">
-
   <nav class="sidebar">
-    <div class="sh">Overview</div>
-    <div class="ni active" data-tab="snapshot"><span class="ico">⬡</span>Snapshot</div>
-    <div class="sh">Breakdown</div>
-    <div class="ni" data-tab="matrix"><span class="ico">⊞</span>City × Stage</div>
-    <div class="ni" data-tab="funnel"><span class="ico">▽</span>Stage Funnel</div>
+    <div class="sh">Views</div>
+    <div class="ni active" data-tab="v1"><span class="ico">⊞</span>Cluster × Stage</div>
+    <div class="ni" data-tab="calls"><span class="ico">☎</span>Call Attempts</div>
     <div class="sh">Analytics</div>
-    <div class="ni" data-tab="cohort"><span class="ico">⊟</span>Cohort View</div>
-    <div class="ni" data-tab="chart"><span class="ico">◷</span>Stage Chart</div>
+    <div class="ni" data-tab="funnel"><span class="ico">▽</span>Stage Funnel</div>
+    <div class="ni" data-tab="cohort"><span class="ico">⊟</span>Cohort</div>
   </nav>
 
   <div class="main">
     <div class="mob-nav">
-      <span class="mob-tab active" data-tab="snapshot">Snapshot</span>
-      <span class="mob-tab" data-tab="matrix">City × Stage</span>
+      <span class="mob-tab active" data-tab="v1">Cluster × Stage</span>
+      <span class="mob-tab" data-tab="calls">Call Attempts</span>
       <span class="mob-tab" data-tab="funnel">Funnel</span>
       <span class="mob-tab" data-tab="cohort">Cohort</span>
-      <span class="mob-tab" data-tab="chart">Chart</span>
     </div>
-
-    <div class="sticky-hdr">
-      <span class="tab-name" id="tab-name">Snapshot</span>
-      <div class="hdr-filters" id="hdr-filters"></div>
-    </div>
-
+    <div class="sticky-hdr"><span class="tab-name" id="tab-name">Cluster × Stage</span></div>
     <div class="scroll-area" id="scroll-area">
-      <div id="p-snapshot" class="panel active">
-        <div class="state-box"><div class="spin"></div><span>Loading data…</span></div>
-      </div>
-      <div id="p-matrix"  class="panel"></div>
-      <div id="p-funnel"  class="panel"></div>
-      <div id="p-cohort"  class="panel"></div>
-      <div id="p-chart"   class="panel"></div>
+      <div id="p-v1"     class="panel active"><div class="stb"><div class="spin"></div>Loading…</div></div>
+      <div id="p-calls"  class="panel"></div>
+      <div id="p-funnel" class="panel"></div>
+      <div id="p-cohort" class="panel"></div>
     </div>
   </div>
 </div>
@@ -223,609 +208,972 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-
 <script>
 'use strict';
 
-// ─────────────────────────────────────────────────────────────────────────────
-// CONSTANTS
-// ─────────────────────────────────────────────────────────────────────────────
-const STAGE_ORDER = [
-  'New Opportunity','New Lead','Presales','Assigned',
-  'Open-Assigned','Qualification In Progress','Qualification in Progress',
-  'Qualification in progress','Qualification Remaining',
-  'Call Not Connected','Open-Call Not Connected',
-  'Call Later','Call Later (Interested)','Call Later (Under Construction)',
-  'Meet Later (Qualified)','Already Spoken',
-  'Followup On Call','Followup At Home','Followup Rescheduled','Future Followup Required',
-  'Meeting Scheduled (BD)','Meeting Confirmed - Customer Home','Meeting Postponed',
-  'Meeting Done - Hot','Meeting Done - Moderate','Meeting Done - Customer Not Reachable',
-  'Meeting - Not Interested','Meeting - Not Qualified','Meeting - Not Inteterested',
-  'Booking Pending by Cx','Booking Pending by ZSM','Booking Processing',
-  'Booking Rejected by Cx','Booking Rejected by ZSM',
-  'Need Payment Details','Pending Verification','Verification Rejected',
-  'Speed Order','Order Confirmed',
-  'Non Qualified - Bill Amount Insufficient','Non Qualified - No Roof Ownership',
-  'Non Qualified - Not Govt Meter','Non Qualified - Roof Area Insufficient',
-  'Non Qualified - Roof Not Fit for Solar',
-  'Lead - Not Interested','Lead - Not Qualified',
-  'Lost In Qualification','Lost to Competitor','lost to competitor',
-  'Not Interested','Not Interested in Solar',
-  'Cold','On-Hold','Inactive Lead',
-  'DNC Lead: Outreach Stopped','Duplicate Opportunity',
-  'Wrong Number','Number Does Not Exist','Language Barrier','Language Issue',
-  'Commercial Lead','Housing Society Enquiry',
-  'Not Serviceable - Offgrid Enquiry','Not Serviceable - SSE not in location',
-  'Not Solar Enquiry - SolarPro Enquiry','Not Solar Enquiry - Vendor / Franchisee',
-  'SIQ - Opportunity Exhausted','SIQ - Opportunity Remaining','SIQ - Remaining',
-  'DEV Scheduled','DEV Postponed','DEV Done','Design Created',
-  'Meter Connection Not Yet Available','Unknown'
-];
-
-const PALETTE = [
-  '#3b82f6','#6366f1','#8b5cf6','#a855f7','#ec4899','#f43f5e',
-  '#ef4444','#f97316','#f59e0b','#eab308','#84cc16','#22c55e',
-  '#10b981','#14b8a6','#06b6d4','#0ea5e9','#60a5fa','#818cf8',
-  '#c084fc','#f472b6','#fb7185','#f87171','#fb923c','#fbbf24'
-];
-
-const TAB_NAMES = {
-  snapshot: 'Snapshot',
-  matrix:   'City × Stage',
-  funnel:   'Stage Funnel',
-  cohort:   'Cohort View',
-  chart:    'Stage Chart'
+// ── STATUS → STAGE HIERARCHY ─────────────────────────────────────────────────
+const STATUS_STAGE_MAP = {
+  'Open':            ['Call Later','Assigned','Meeting Scheduled (BD)','Call Not Connected',
+                      'New Opportunity','Qualification in Progress','Open-Assigned','Presales',
+                      'Language Issue','Call Later (Under Construction)','Call Later (Interested)',
+                      'Open-Call Not Connected','Duplicate Opportunity','Already Spoken',
+                      'Meet Later (Qualified)','Language Barrier','Need Payment Details',
+                      'Qualification in progress'],
+  'Connected':       ['Meeting Confirmed - Customer Home','Speed Order','DEV Scheduled',
+                      'DEV Done','Design Created','Meeting Postponed','DEV Postponed'],
+  'Booked':          ['Booking Processing','Booking Pending by ZSM','Booking Pending by Cx',
+                      'Verification Rejected','Pending Verification',
+                      'Booking Rejected by ZSM','Booking Rejected by Cx'],
+  'Closed - Lost':   ['Lead - Not Qualified','Lead - Not Interested','Meeting - Not Qualified',
+                      'Meeting - Not Interested','Meeting - Not Inteterested',
+                      'Lost to Competitor','Meeting Done - Customer Not Reachable','Assigned'],
+  'Closed - Cold':   ['Future Followup Required','Lead - Not Interested','Inactive Lead','Assigned'],
+  'Meeting':         ['Meeting Done - Hot','Meeting Done - Moderate','Followup On Call',
+                      'Meeting Done - Customer Not Reachable','On-Hold',
+                      'Followup At Home','Followup Rescheduled'],
+  'Prequalification':['Qualification In Progress','Lost In Qualification','Qualification Remaining',
+                      'Assigned','New Lead','Language Issue'],
+  'Closed - Won':    ['Order Confirmed'],
+  'Lost':            ['SIQ - Opportunity Remaining','SIQ - Opportunity Exhausted',
+                      'Not Interested in Solar','Lost to Competitor',
+                      'Non Qualified - Roof Area Insufficient','Not Serviceable - SSE not in location',
+                      'Wrong Number','Number Does Not Exist','Duplicate Opportunity',
+                      'Not Serviceable - Offgrid Enquiry','Not Interested',
+                      'Non Qualified - Bill Amount Insufficient','Cold',
+                      'Non Qualified - No Roof Ownership','Not Solar Enquiry - Vendor / Franchisee',
+                      'SIQ - Remaining','lost to competitor','Non Qualified - Not Govt Meter',
+                      'Housing Society Enquiry','Not Solar Enquiry - SolarPro Enquiry',
+                      'Commercial Lead','Non Qualified - Roof Not Fit for Solar',
+                      'Meter Connection Not Yet Available','DNC Lead: Outreach Stopped']
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// STATE
-// ─────────────────────────────────────────────────────────────────────────────
-let DATA      = null;
-let curTab    = 'snapshot';
-let rendered  = {};
-let charts    = {};
+const STATUS_ORDER = ['Open','Connected','Booked','Closed - Lost','Closed - Cold',
+                      'Meeting','Prequalification','Closed - Won','Lost'];
 
-// ─────────────────────────────────────────────────────────────────────────────
-// UTILS
-// ─────────────────────────────────────────────────────────────────────────────
-const $  = id  => document.getElementById(id);
-const f  = n   => n == null ? '—' : Math.round(n).toLocaleString('en-IN');
-const p  = (a, b) => b ? ((a / b) * 100).toFixed(1) + '%' : '—';
+const STATUS_COLORS = {
+  'Open':'#3b82f6','Connected':'#10b981','Prequalification':'#6366f1',
+  'Meeting':'#f59e0b','Booked':'#8b5cf6','Closed - Won':'#22c55e',
+  'Closed - Lost':'#ef4444','Closed - Cold':'#94a3b8','Lost':'#f97316','Unknown':'#64748b'
+};
+const STATUS_BG = {
+  'Open':'#eff6ff','Connected':'#f0fdf4','Prequalification':'#eef2ff',
+  'Meeting':'#fffbeb','Booked':'#f5f3ff','Closed - Won':'#f0fdf4',
+  'Closed - Lost':'#fef2f2','Closed - Cold':'#f8fafc','Lost':'#fff7ed','Unknown':'#f8fafc'
+};
 
-function sortStages(arr) {
-  return [...arr].sort((a, b) => {
-    const ia = STAGE_ORDER.findIndex(s => s.toLowerCase() === a.toLowerCase());
-    const ib = STAGE_ORDER.findIndex(s => s.toLowerCase() === b.toLowerCase());
-    if (ia < 0 && ib < 0) return a.localeCompare(b);
-    if (ia < 0) return 1;
-    if (ib < 0) return -1;
-    return ia - ib;
-  });
+// ── STATE ────────────────────────────────────────────────────────────────────
+let DATA=null, CALLS=null, curTab='v1', rendered={}, charts={};
+let V1={sel:[],comp:false,pct:false};
+let CV={sel:['Open'],stageSel:'all'};
+let FN={sel:[]};
+
+// ── DOM HELPERS ──────────────────────────────────────────────────────────────
+const $=id=>document.getElementById(id);
+const f=n=>(n==null||isNaN(n))?'—':Math.round(n).toLocaleString('en-IN');
+const pct=(a,b)=>b?((a/b)*100).toFixed(1)+'%':'—';
+
+// Format YYYY-MM-DD → "21-May-2026"
+const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function fmtNice(yyyymmdd){
+  if(!yyyymmdd) return '—';
+  const m = String(yyyymmdd).match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if(!m) return yyyymmdd;
+  return `${m[3]}-${MONTHS[parseInt(m[2])-1]}-${m[1]}`;
+}
+function fmtNiceDate(d){
+  if(!d) return '—';
+  return `${String(d.getDate()).padStart(2,'0')}-${MONTHS[d.getMonth()]}-${d.getFullYear()}`;
 }
 
-// cohort_week is "YYYY-MM-DD" (Monday of the week).
-// We use it to represent creation date range.
-function weekToDate(w) {
-  if (!w || w === 'Unknown') return null;
-  return new Date(w + 'T00:00:00');
+// ── TAB SWITCHING ────────────────────────────────────────────────────────────
+document.querySelectorAll('.ni,.mob-tab').forEach(el=>
+  el.addEventListener('click',()=>sw(el.dataset.tab)));
+
+function sw(tab){
+  if(curTab===tab)return;
+  document.querySelectorAll('.ni,.mob-tab').forEach(e=>e.classList.toggle('active',e.dataset.tab===tab));
+  $('p-'+curTab).classList.remove('active');
+  $('p-'+tab).classList.add('active');
+  curTab=tab;
+  $('tab-name').textContent={v1:'Cluster × Stage',calls:'Call Attempts & Overdue',funnel:'Stage Funnel',cohort:'Cohort View'}[tab]||tab;
+  $('scroll-area').scrollTop=0;
+  if(!rendered[tab])buildTab(tab);
+}
+function buildTab(t){
+  if(!DATA)return;
+  ({v1:bV1,calls:bCalls,funnel:bFunnel,cohort:bCohort}[t]||Function)();
+  rendered[t]=true;
 }
 
-// Filter records by optional criteria
-function filterRecs({ city, status, stage, dateFrom, dateTo } = {}) {
-  return DATA.records.filter(r => {
-    if (city   && city   !== 'all' && r.city       !== city)   return false;
-    if (status && status !== 'all' && r.lead_status !== status) return false;
-    if (stage  && stage  !== 'all' && r.lead_stage  !== stage)  return false;
-    if (dateFrom || dateTo) {
-      const wd = weekToDate(r.cohort_week);
-      if (!wd) return false;
-      if (dateFrom && wd < dateFrom) return false;
-      // dateTo: include the whole week — add 6 days to end
-      if (dateTo) {
-        const endOfWeek = new Date(wd); endOfWeek.setDate(endOfWeek.getDate() + 6);
-        if (endOfWeek > dateTo) return false;
-      }
-    }
+// ── LOAD DATA ────────────────────────────────────────────────────────────────
+async function loadData(){
+  $('upd-lbl').textContent='Loading…';
+  try{
+    const res=await fetch('./data/city_stage.json?t='+Date.now());
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    DATA=await res.json();
+    rendered={};
+    $('data-pill').textContent=(DATA.meta.total_leads||0).toLocaleString('en-IN')+' leads';
+    $('upd-lbl').textContent='Updated '+new Date(DATA.meta.generated_at)
+      .toLocaleString('en-IN',{timeZone:'Asia/Kolkata',day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit',hour12:false});
+    buildTab(curTab);
+  }catch(e){
+    $('upd-lbl').textContent='Error';
+    $('p-'+curTab).innerHTML=`<div class="err">⚠ Cannot load data/city_stage.json<br>${e.message}</div>`;
+  }
+}
+
+async function loadCalls(){
+  if(CALLS) return CALLS;
+  const res = await fetch('./data/call_attempts.json?t='+Date.now());
+  if(!res.ok) throw new Error('HTTP '+res.status);
+  CALLS = await res.json();
+  return CALLS;
+}
+
+// ── DATE UTILS ──────────────────────────────────────────────────────────────
+const sd=d=>{const r=new Date(d);r.setHours(0,0,0,0);return r;};
+const ed=d=>{const r=new Date(d);r.setHours(23,59,59,999);return r;};
+const da=n=>{const d=new Date();d.setDate(d.getDate()-n);return d;};
+const fmtD=d=>d?d.toISOString().slice(0,10):'';
+
+function presetRange(p){
+  const now=new Date();
+  const dow=now.getDay(),diff=(dow===0?-6:1)-dow;
+  const ws=new Date(now);ws.setDate(now.getDate()+diff);
+  const lws=new Date(ws);lws.setDate(lws.getDate()-7);
+  const lwe=new Date(ws);lwe.setDate(lwe.getDate()-1);
+  const ms=new Date(now.getFullYear(),now.getMonth(),1);
+  const lms=new Date(now.getFullYear(),now.getMonth()-1,1);
+  const lme=new Date(now.getFullYear(),now.getMonth(),0);
+  const ys=new Date(now.getFullYear(),0,1);
+  const map={
+    today:[sd(now),ed(now)],yesterday:[sd(da(1)),ed(da(1))],
+    last7:[sd(da(6)),ed(now)],last30:[sd(da(29)),ed(now)],
+    thisweek:[sd(ws),ed(now)],lastweek:[sd(lws),ed(lwe)],
+    thismonth:[sd(ms),ed(now)],lastmonth:[sd(lms),ed(lme)],
+    last3mo:[sd(da(89)),ed(now)],thisyear:[sd(ys),ed(now)],
+    alltime:[new Date('2025-01-01'),ed(now)]
+  };
+  return map[p]||[sd(da(29)),ed(now)];
+}
+
+function getDR(presetId,fromId,toId){
+  const preset=$(presetId)?.value||'last30';
+  if(preset!=='custom'){
+    const[from,to]=presetRange(preset);
+    if($(fromId))$(fromId).value=fmtD(from);
+    if($(toId))$(toId).value=fmtD(to);
+    return{from,to};
+  }
+  const fv=$(fromId)?.value,tv=$(toId)?.value;
+  return{from:fv?new Date(fv+'T00:00:00'):null,to:tv?new Date(tv+'T23:59:59'):null};
+}
+
+function filterDR(recs,from,to){
+  if(!from&&!to)return recs;
+  return recs.filter(r=>{
+    if(!r.cohort_week||r.cohort_week==='Unknown')return false;
+    const ws=new Date(r.cohort_week+'T00:00:00');
+    const we=new Date(ws);we.setDate(we.getDate()+6);we.setHours(23,59,59,999);
+    if(from&&we<from)return false;
+    if(to&&ws>to)return false;
     return true;
   });
 }
 
-function sumLeads(recs) { return recs.reduce((s, r) => s + r.lead_count, 0); }
-
-function pivotByStage(recs) {
-  const m = {};
-  recs.forEach(r => { m[r.lead_stage] = (m[r.lead_stage] || 0) + r.lead_count; });
-  return m;
+// ── AGGREGATION ──────────────────────────────────────────────────────────────
+function aggPivot(records,dimField){
+  const pivot={},rowTotals={},dimTotals={};
+  records.forEach(r=>{
+    const row=r.cluster||'Unknown';
+    const dim=r[dimField]||'Unknown';
+    const n=r.lead_count||0;
+    pivot[row]=pivot[row]||{};
+    pivot[row][dim]=(pivot[row][dim]||0)+n;
+    rowTotals[row]=(rowTotals[row]||0)+n;
+    dimTotals[dim]=(dimTotals[dim]||0)+n;
+  });
+  return{pivot,rowTotals,dimTotals};
+}
+function topClusters(aggA,aggB,n=20){
+  const s=new Set([...Object.keys(aggA.rowTotals),...(aggB?Object.keys(aggB.rowTotals):[])]);
+  s.delete('Unknown');
+  return[...s].sort((a,b)=>(aggA.rowTotals[b]||0)-(aggA.rowTotals[a]||0)).slice(0,n);
+}
+function stageGroups(allDimTotals, selStatuses){
+  const statusList = selStatuses?.length>0 ? selStatuses : STATUS_ORDER;
+  const groups=[], assigned=new Set();
+  statusList.forEach(status=>{
+    const canonical=STATUS_STAGE_MAP[status]||[];
+    const matched=[];
+    canonical.forEach(canon=>{
+      const key=Object.keys(allDimTotals).find(k=>k.toLowerCase().trim()===canon.toLowerCase().trim());
+      if(key&&!assigned.has(key)){matched.push(key);assigned.add(key);}
+    });
+    if(matched.length>0)groups.push({status,stages:matched});
+  });
+  const unassigned=Object.keys(allDimTotals).filter(k=>!assigned.has(k));
+  if(unassigned.length>0)groups.push({status:'Unknown',stages:unassigned});
+  return groups;
+}
+function buildColors(groups){
+  const colors={};
+  groups.forEach(({status,stages})=>{
+    const hex=STATUS_COLORS[status]||'#94a3b8';
+    const [r,g,b]=hexRgb(hex);
+    const n=stages.length;
+    stages.forEach((stage,i)=>{
+      const a=n<=1?0.88:0.92-(i/Math.max(n-1,1))*0.48;
+      colors[stage]=`rgba(${r},${g},${b},${a.toFixed(2)})`;
+    });
+  });
+  return colors;
+}
+function hexRgb(hex){const h=hex.replace('#','');return[parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];}
+function dimAlpha(rgba,factor=0.55){
+  return rgba.replace(/rgba\((\d+),(\d+),(\d+),([\d.]+)\)/,(_,r,g,b,a)=>
+    `rgba(${r},${g},${b},${(parseFloat(a)*factor).toFixed(2)})`);
 }
 
-function pivotByCity(recs) {
-  const m = {};
-  recs.forEach(r => { m[r.city] = (m[r.city] || 0) + r.lead_count; });
-  return m;
+// ── DELTA + HEAT ─────────────────────────────────────────────────────────────
+function dHtml(a,b){
+  if(b==null)return'';
+  const d=b-a,p=a>0?Math.round((d/a)*100):null;
+  if(d===0)return'<span class="dn">—</span>';
+  const cls=d>0?'du':'dd',arr=d>0?'↑':'↓';
+  return`<span class="${cls}">${arr}${p!=null?Math.abs(p)+'%':''}</span>`;
+}
+function hBg(v,max){
+  if(!v||!max)return'';
+  return`background:rgba(59,130,246,${((v/max)*0.38+0.05).toFixed(2)})`;
 }
 
-// Heat cell background
-function heatBg(val, max) {
-  if (!val || !max) return '';
-  const alpha = (val / max) * 0.42 + 0.05;
-  return `background:rgba(59,130,246,${alpha.toFixed(2)})`;
-}
-
-// Sortable table
-function makeSortable(tbl) {
-  if (!tbl || tbl.dataset.s) return;
-  tbl.dataset.s = '1';
-  tbl.querySelectorAll('thead th').forEach((th, ci) => {
+// ── SORTABLE ─────────────────────────────────────────────────────────────────
+function makeSortable(tbl){
+  if(!tbl||tbl.dataset.s)return;
+  tbl.dataset.s='1';
+  const thead=tbl.querySelector('thead');
+  const lastRow=thead.querySelectorAll('tr');
+  const headers=lastRow[lastRow.length-1].querySelectorAll('th');
+  headers.forEach((th,ci)=>{
     th.classList.add('sortable');
-    th.addEventListener('click', () => {
-      const asc = th.dataset.d !== 'asc';
-      tbl.querySelectorAll('thead th').forEach(h => { h.dataset.d = ''; h.classList.remove('sort-asc','sort-desc'); });
-      th.dataset.d = asc ? 'asc' : 'desc';
-      th.classList.toggle('sort-asc', asc);
-      th.classList.toggle('sort-desc', !asc);
-      const tbody = tbl.querySelector('tbody');
-      if (!tbody) return;
-      [...tbody.querySelectorAll('tr')].sort((a, b) => {
-        const av = cellNum(a, ci), bv = cellNum(b, ci);
-        return asc
-          ? (typeof av === 'number' && typeof bv === 'number' ? av - bv : String(av).localeCompare(String(bv)))
-          : (typeof av === 'number' && typeof bv === 'number' ? bv - av : String(bv).localeCompare(String(av)));
-      }).forEach(r => tbody.appendChild(r));
+    th.addEventListener('click',()=>{
+      const asc=th.dataset.d!=='asc';
+      headers.forEach(h=>{h.dataset.d='';h.classList.remove('sort-asc','sort-desc');});
+      th.dataset.d=asc?'asc':'desc';
+      th.classList.toggle('sort-asc',asc);th.classList.toggle('sort-desc',!asc);
+      const tbody=tbl.querySelector('tbody');if(!tbody)return;
+      [...tbody.querySelectorAll('tr')].sort((a,b)=>{
+        const av=cn(a,ci),bv=cn(b,ci);
+        return asc?(typeof av==='number'&&typeof bv==='number'?av-bv:String(av).localeCompare(String(bv)))
+                  :(typeof av==='number'&&typeof bv==='number'?bv-av:String(bv).localeCompare(String(av)));
+      }).forEach(r=>tbody.appendChild(r));
     });
   });
 }
-
-function cellNum(row, ci) {
-  const td = row.querySelectorAll('td')[ci]; if (!td) return 0;
-  const t  = td.textContent.replace(/[,%+→·—%↑↓]/g, '').trim();
-  const n  = parseFloat(t); return isNaN(n) ? t : n;
+function cn(row,ci){
+  const td=row.querySelectorAll('td')[ci];if(!td)return 0;
+  const t=td.textContent.replace(/[,%+↑↓·—%]/g,'').trim();
+  const n=parseFloat(t);return isNaN(n)?t:n;
 }
+function autoSort(el){el?.querySelectorAll('table').forEach(makeSortable);}
 
-function autoSort(el) { el && el.querySelectorAll('table').forEach(makeSortable); }
-
-// Build <select> HTML
-function selHTML(id, opts) { return `<select id="${id}">${opts}</select>`; }
-
-function cityOpts(selectedAll = true) {
-  return `<option value="all"${selectedAll?' selected':''}>All Cities</option>` +
-    (DATA.meta.cities || []).filter(c => c !== 'Unknown')
-      .map(c => `<option value="${c}">${c}</option>`).join('');
-}
-function statusOpts() {
-  return '<option value="all">All Statuses</option>' +
-    (DATA.meta.statuses || []).map(s => `<option value="${s}">${s}</option>`).join('');
-}
-
-// Date range UI
-function dateRangeHTML(fromId, toId) {
-  // Default: last 90 days
-  const to   = new Date();
-  const from = new Date(); from.setDate(from.getDate() - 89);
-  const fmt  = d => d.toISOString().slice(0, 10);
-  return `
-    <span class="flabel">From</span>
-    <input type="date" id="${fromId}" value="${fmt(from)}">
-    <span class="flabel">To</span>
-    <input type="date" id="${toId}"   value="${fmt(to)}">
-  `;
-}
-
-function getDateRange(fromId, toId) {
-  const fv = $(fromId)?.value, tv = $(toId)?.value;
-  const from = fv ? new Date(fv + 'T00:00:00') : null;
-  const to   = tv ? new Date(tv + 'T23:59:59') : null;
-  return { dateFrom: from, dateTo: to };
-}
-
-function setHdrFilters(html) { $('hdr-filters').innerHTML = html; }
-
-// ─────────────────────────────────────────────────────────────────────────────
-// LOAD DATA
-// ─────────────────────────────────────────────────────────────────────────────
-async function loadData() {
-  $('upd-lbl').textContent = 'Loading…';
-  try {
-    const res = await fetch('./data/city_stage.json?t=' + Date.now());
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    DATA     = await res.json();
-    rendered = {};
-    const m  = DATA.meta;
-    $('data-pill').textContent = (m.total_leads || 0).toLocaleString('en-IN') + ' leads';
-    $('upd-lbl').textContent   = 'Updated ' + new Date(m.generated_at).toLocaleString('en-IN', {
-      timeZone:'Asia/Kolkata', day:'2-digit', month:'short',
-      hour:'2-digit', minute:'2-digit', hour12: false
-    });
-    buildTab(curTab);
-  } catch (err) {
-    $('upd-lbl').textContent = 'Error loading data';
-    $('p-' + curTab).innerHTML = `
-      <div class="err-box">
-        ⚠ Could not load <code>data/city_stage.json</code><br>
-        ${err.message}<br><br>
-        Run <code>python etl.py</code> first to generate the data file.
-      </div>`;
-  }
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// TAB SWITCHING
-// ─────────────────────────────────────────────────────────────────────────────
-function sw(tab) {
-  if (curTab === tab) return;
-  document.querySelectorAll('.ni, .mob-tab').forEach(el => {
-    el.classList.toggle('active', el.dataset.tab === tab);
+// ── MULTI-SELECT WIDGET (reusable) ──────────────────────────────────────────
+function setupMS(btnId,ddId,allId,chkClass,applyId,clearId,onApply){
+  const btn=$(btnId),dd=$(ddId);if(!btn||!dd)return;
+  const wrap=btn.closest('.ms-wrap');
+  btn.addEventListener('click',e=>{e.stopPropagation();dd.classList.toggle('open');});
+  document.addEventListener('click',e=>{
+    if(wrap&&!wrap.contains(e.target))dd.classList.remove('open');
   });
-  $('p-' + curTab).classList.remove('active');
-  $('p-' + tab).classList.add('active');
-  curTab = tab;
-  $('tab-name').textContent = TAB_NAMES[tab] || tab;
-  $('scroll-area').scrollTop = 0;
-  if (!rendered[tab] && DATA) buildTab(tab);
+  dd.addEventListener('click',e=>e.stopPropagation());
+  const allChk=$(allId);
+  const chks=()=>[...document.querySelectorAll(chkClass)];
+  allChk?.addEventListener('change',()=>{
+    if(allChk.checked)chks().forEach(c=>c.checked=false);
+  });
+  document.querySelectorAll(chkClass).forEach(c=>
+    c.addEventListener('change',()=>{
+      if(allChk)allChk.checked=chks().every(c2=>!c2.checked);
+    }));
+  $(clearId)?.addEventListener('click',()=>{
+    chks().forEach(c=>c.checked=false);
+    if(allChk)allChk.checked=true;
+  });
+  $(applyId)?.addEventListener('click',()=>{
+    const sel=chks().filter(c=>c.checked).map(c=>c.value);
+    btn.textContent=sel.length===0?'All Statuses':sel.length===1?sel[0]:`${sel.length} Statuses`;
+    dd.classList.remove('open');
+    onApply(sel);
+  });
 }
 
-// Wire up sidebar + mob-nav clicks
-document.querySelectorAll('.ni, .mob-tab').forEach(el => {
-  el.addEventListener('click', () => sw(el.dataset.tab));
-});
+// ═══════════════════════════════════════════════════════════════════════════════
+// VIEW 1 — CLUSTER × STAGE
+// ═══════════════════════════════════════════════════════════════════════════════
+function bV1(){
+  const presentSt=new Set(DATA.records.map(r=>r.lead_status).filter(Boolean));
+  const activeStatuses=[
+    ...STATUS_ORDER.filter(s=>presentSt.has(s)),
+    ...[...presentSt].filter(s=>s&&s!=='Unknown'&&!STATUS_ORDER.includes(s))
+  ];
+  const presetOpts=`
+    <option value="last30">Last 30 days</option>
+    <option value="last7">Last 7 days</option>
+    <option value="today">Today</option>
+    <option value="yesterday">Yesterday</option>
+    <option value="thisweek">This week</option>
+    <option value="lastweek">Last week</option>
+    <option value="thismonth">This month</option>
+    <option value="lastmonth">Last month</option>
+    <option value="last3mo">Last 3 months</option>
+    <option value="thisyear">This year</option>
+    <option value="alltime">All time</option>
+    <option value="custom">Custom</option>`;
 
-function buildTab(t) {
-  const fns = { snapshot: bSnapshot, matrix: bMatrix, funnel: bFunnel, cohort: bCohort, chart: bChart };
-  if (fns[t]) fns[t]();
-  rendered[t] = true;
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// SNAPSHOT
-// ─────────────────────────────────────────────────────────────────────────────
-function bSnapshot() {
-  const recs  = DATA.records;
-  const total = sumLeads(recs);
-
-  const openN = sumLeads(recs.filter(r =>
-    /open|assigned|calling|follow|qualification|meeting sched/i.test(r.lead_status + ' ' + r.lead_stage)));
-  const wonN  = sumLeads(recs.filter(r =>
-    /order confirmed|speed order/i.test(r.lead_stage)));
-  const lostN = sumLeads(recs.filter(r =>
-    /lost|cold|not interested|nq|ni|dnc|inactive|wrong|duplicate/i.test(r.lead_stage + ' ' + r.lead_status)));
-  const cities = (DATA.meta.cities || []).filter(c => c !== 'Unknown').length;
-
-  // Stage funnel preview
-  const st       = pivotByStage(recs);
-  const topStages = sortStages(Object.keys(st)).slice(0, 12);
-  const maxSt    = Math.max(...topStages.map(s => st[s]), 1);
-
-  const fRows = topStages.map((s, i) => {
-    const n = st[s], w = ((n / maxSt) * 100).toFixed(1);
-    return `<div class="funnel-row">
-      <div class="funnel-lbl" title="${s}">${s}</div>
-      <div class="funnel-bg">
-        <div class="funnel-fill" style="width:${w}%;background:${PALETTE[i % PALETTE.length]}">
-          <span>${n > maxSt * 0.12 ? f(n) : ''}</span>
-        </div>
-      </div>
-      <div class="funnel-pct">${((n/total)*100).toFixed(1)}%</div>
-      <div class="funnel-n">${f(n)}</div>
-    </div>`;
-  }).join('');
-
-  // Top cities
-  const ct       = pivotByCity(recs.filter(r => r.city !== 'Unknown'));
-  const topCities = Object.entries(ct).sort((a,b) => b[1]-a[1]).slice(0, 8);
-  const maxCity  = topCities[0]?.[1] || 1;
-
-  const cRows = topCities.map(([c, n]) => {
-    const w = ((n / maxCity) * 100).toFixed(1);
-    return `<div class="funnel-row">
-      <div class="funnel-lbl">${c}</div>
-      <div class="funnel-bg">
-        <div class="funnel-fill" style="width:${w}%;background:#3b82f6">
-          <span>${n > maxCity * 0.12 ? f(n) : ''}</span>
-        </div>
-      </div>
-      <div class="funnel-pct">${((n/total)*100).toFixed(1)}%</div>
-      <div class="funnel-n">${f(n)}</div>
-    </div>`;
-  }).join('');
-
-  const hdrRow = `<div class="funnel-hdr">
-    <span></span><span>Proportion</span><span>%</span><span>Count</span>
-  </div>`;
-
-  setHdrFilters('');
-  $('p-snapshot').innerHTML = `
-    <div class="kgrid">
-      <div class="kcard"><div class="kcard-lbl">Total Leads</div><div class="kcard-val c-blue">${f(total)}</div><div class="kcard-sub">Since Jan 2025</div></div>
-      <div class="kcard"><div class="kcard-lbl">Active Pipeline</div><div class="kcard-val c-green">${f(openN)}</div><div class="kcard-sub">${p(openN,total)} of total</div></div>
-      <div class="kcard"><div class="kcard-lbl">Won / Ordered</div><div class="kcard-val c-amber">${f(wonN)}</div><div class="kcard-sub">${p(wonN,total)} conversion</div></div>
-      <div class="kcard"><div class="kcard-lbl">Cities Active</div><div class="kcard-val c-purple">${cities}</div><div class="kcard-sub">Across India</div></div>
-    </div>
-    <div class="twocol">
-      <div class="scard">
-        <div class="scard-hdr"><span class="scard-title">Stage breakdown</span><span class="scard-hint">Top 12 stages</span></div>
-        <div class="scard-body">${hdrRow}<div class="funnel-grid">${fRows}</div></div>
-      </div>
-      <div class="scard">
-        <div class="scard-hdr"><span class="scard-title">Top cities by volume</span></div>
-        <div class="scard-body">${hdrRow}<div class="funnel-grid">${cRows}</div></div>
-      </div>
-    </div>`;
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// CITY × STAGE MATRIX
-// ─────────────────────────────────────────────────────────────────────────────
-function bMatrix() {
-  setHdrFilters(`
-    <div class="fbar">
-      <span class="flabel">Status</span>${selHTML('mat-status', statusOpts())}
-      ${dateRangeHTML('mat-from','mat-to')}
-    </div>`);
-
-  $('p-matrix').innerHTML = `
-    <div class="scard">
-      <div class="scard-hdr">
-        <span class="scard-title">City × Stage pivot</span>
-        <span class="scard-hint">Heat = density · click header to sort</span>
-      </div>
-      <div class="scard-body" style="padding:0">
-        <div class="tw" id="matrix-tbl" style="max-height:calc(100vh - 200px);overflow:auto"></div>
-      </div>
-    </div>`;
-
-  function render() {
-    const dr  = getDateRange('mat-from','mat-to');
-    const recs = filterRecs({ status: $('mat-status')?.value, ...dr });
-
-    const ct = {}, st = {}, pv = {};
-    recs.forEach(r => {
-      const c = r.city, s = r.lead_stage, n = r.lead_count;
-      pv[c] = pv[c] || {};
-      pv[c][s] = (pv[c][s] || 0) + n;
-      ct[c]    = (ct[c] || 0) + n;
-      st[s]    = (st[s] || 0) + n;
-    });
-
-    const cities  = Object.keys(pv).sort((a,b) => ct[b]-ct[a]);
-    const stages  = sortStages(Object.keys(st));
-    const grand   = Object.values(st).reduce((a,b) => a+b, 0);
-    let   maxCell = 0;
-    cities.forEach(c => stages.forEach(s => { if ((pv[c][s]||0) > maxCell) maxCell = pv[c][s]||0; }));
-
-    let html = '<table><thead><tr><th>City</th>';
-    stages.forEach(s => html += `<th class="right" title="${s}">${s.length > 13 ? s.slice(0,12)+'…' : s}</th>`);
-    html += '<th class="right">Total</th></tr></thead><tbody>';
-
-    cities.forEach(c => {
-      html += `<tr><td class="td-city" title="${c}">${c}</td>`;
-      stages.forEach(s => {
-        const v = pv[c][s] || 0;
-        html += `<td class="td-r mono" style="${heatBg(v, maxCell)}" title="${c} · ${s}: ${f(v)}">${v || '·'}</td>`;
-      });
-      html += `<td class="td-total">${f(ct[c])}</td></tr>`;
-    });
-
-    html += '<tr style="background:var(--sur2)"><td class="td-city" style="font-weight:600">Total</td>';
-    stages.forEach(s => html += `<td class="td-r mono" style="font-weight:600">${f(st[s]||0)}</td>`);
-    html += `<td class="td-total">${f(grand)}</td></tr></tbody></table>`;
-
-    const wrap = $('matrix-tbl');
-    wrap.innerHTML = html;
-    autoSort(wrap);
-  }
-
-  // Wire events AFTER DOM is set
-  setTimeout(() => {
-    ['mat-status','mat-from','mat-to'].forEach(id => {
-      const el = $(id); if (el) el.addEventListener('change', render);
-    });
-    render();
-  }, 0);
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// STAGE FUNNEL
-// ─────────────────────────────────────────────────────────────────────────────
-function bFunnel() {
-  setHdrFilters(`
-    <div class="fbar">
-      <span class="flabel">City</span>${selHTML('fn-city', cityOpts())}
-      ${dateRangeHTML('fn-from','fn-to')}
-    </div>`);
-
-  $('p-funnel').innerHTML = `
-    <div class="scard">
-      <div class="scard-hdr"><span class="scard-title">Stage funnel</span><span class="scard-hint">All stages · ordered by funnel position</span></div>
-      <div class="scard-body" id="fn-body"></div>
-    </div>`;
-
-  function render() {
-    const dr   = getDateRange('fn-from','fn-to');
-    const recs = filterRecs({ city: $('fn-city')?.value, ...dr });
-    const total = sumLeads(recs);
-    const st    = pivotByStage(recs);
-    const stages = sortStages(Object.keys(st));
-    const maxN  = Math.max(...stages.map(s => st[s]), 1);
-
-    const hdrRow = `<div class="funnel-hdr">
-      <span style="text-align:right">Stage</span>
-      <span style="text-align:left;padding-left:7px">Proportion</span>
-      <span>%</span><span>Count</span>
-    </div>`;
-
-    const rows = stages.map((s, i) => {
-      const n = st[s], w = ((n / maxN) * 100).toFixed(1);
-      return `<div class="funnel-row">
-        <div class="funnel-lbl" title="${s}">${s}</div>
-        <div class="funnel-bg">
-          <div class="funnel-fill" style="width:${w}%;background:${PALETTE[i % PALETTE.length]}">
-            <span>${n > maxN * 0.09 ? f(n) : ''}</span>
+  $('p-v1').innerHTML=`
+  <div class="fb">
+    <div class="fr">
+      <div class="fg"><span class="flbl">Status</span>
+        <div class="ms-wrap" id="v1-ms-wrap">
+          <button class="ms-btn" id="v1-ms-btn" type="button">All Statuses</button>
+          <div class="ms-dd" id="v1-ms-dd">
+            <div class="ms-list">
+              <label class="ms-opt"><input type="checkbox" id="v1-ms-all" checked>&nbsp;All Statuses</label>
+              <div class="ms-sep"></div>
+              ${activeStatuses.map(s=>`<label class="ms-opt"><input type="checkbox" class="v1-ms-chk" value="${s}"><span class="ms-dot" style="background:${STATUS_COLORS[s]||'#94a3b8'}"></span>${s}</label>`).join('')}
+            </div>
+            <div class="ms-foot"><button class="ms-clear" id="v1-ms-clr">Clear</button><button class="ms-apply" id="v1-ms-apl">Apply</button></div>
           </div>
         </div>
-        <div class="funnel-pct">${total > 0 ? ((n/total)*100).toFixed(1) : 0}%</div>
-        <div class="funnel-n">${f(n)}</div>
-      </div>`;
-    }).join('');
-
-    const body = $('fn-body');
-    if (body) body.innerHTML = hdrRow + `<div class="funnel-grid">${rows}</div>`;
-  }
-
-  setTimeout(() => {
-    ['fn-city','fn-from','fn-to'].forEach(id => {
-      const el = $(id); if (el) el.addEventListener('change', render);
-    });
-    render();
-  }, 0);
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// COHORT VIEW  (creation-date range × stage pivot)
-// ─────────────────────────────────────────────────────────────────────────────
-function bCohort() {
-  setHdrFilters(`
-    <div class="fbar">
-      <span class="flabel">City</span>${selHTML('co-city', cityOpts())}
-      <span class="flabel">Status</span>${selHTML('co-status', statusOpts())}
-      ${dateRangeHTML('co-from','co-to')}
-    </div>`);
-
-  $('p-cohort').innerHTML = `
-    <div class="scard">
-      <div class="scard-hdr">
-        <span class="scard-title">Cohort × Stage</span>
-        <span class="scard-hint">Rows = creation-date week · columns = stage · click header to sort</span>
       </div>
-      <div class="scard-body" style="padding:0">
-        <div class="tw" id="cohort-tbl" style="max-height:calc(100vh - 200px);overflow:auto"></div>
+      <div class="fg"><span class="flbl">Period A <span class="sub">(lead creation date)</span></span>
+        <div class="frow">
+          <select class="fc" id="v1-pa">${presetOpts}</select>
+          <span class="fi">From</span><input type="date" class="fc" id="v1-fa">
+          <span class="fi">To</span><input type="date" class="fc" id="v1-ta">
+        </div>
       </div>
-    </div>`;
-
-  function render() {
-    const dr   = getDateRange('co-from','co-to');
-    const recs = filterRecs({ city: $('co-city')?.value, status: $('co-status')?.value, ...dr });
-
-    // collect all weeks present in the filtered set
-    const weekSet = new Set(recs.map(r => r.cohort_week).filter(w => w && w !== 'Unknown'));
-    const weeks   = [...weekSet].sort().reverse(); // newest first
-
-    const st = pivotByStage(recs);
-    const stages = sortStages(Object.keys(st)).slice(0, 15);
-
-    // build pivot: week → stage → count
-    const pv = {};
-    recs.forEach(r => {
-      if (!weekSet.has(r.cohort_week)) return;
-      pv[r.cohort_week] = pv[r.cohort_week] || {};
-      pv[r.cohort_week][r.lead_stage] = (pv[r.cohort_week][r.lead_stage] || 0) + r.lead_count;
-    });
-
-    const wkTotals = {};
-    weeks.forEach(w => { wkTotals[w] = stages.reduce((s, st) => s + (pv[w]?.[st] || 0), 0); });
-
-    if (!weeks.length) {
-      $('cohort-tbl').innerHTML = '<div style="padding:20px;color:var(--t3);font-size:12px">No data for selected filters and date range.</div>';
-      return;
-    }
-
-    let html = '<table><thead><tr><th>Week starting</th>';
-    stages.forEach(s => html += `<th class="right" title="${s}">${s.length > 12 ? s.slice(0,11)+'…' : s}</th>`);
-    html += '<th class="right">Total</th></tr></thead><tbody>';
-
-    weeks.forEach(w => {
-      const rowMax = Math.max(...stages.map(s => pv[w]?.[s] || 0), 1);
-      html += `<tr><td class="td-city mono" style="font-size:11px">${w}</td>`;
-      stages.forEach(s => {
-        const v = pv[w]?.[s] || 0;
-        html += `<td class="td-r mono" style="${heatBg(v, rowMax)}">${v || '·'}</td>`;
-      });
-      html += `<td class="td-total">${f(wkTotals[w])}</td></tr>`;
-    });
-    html += '</tbody></table>';
-
-    const wrap = $('cohort-tbl');
-    wrap.innerHTML = html;
-    autoSort(wrap);
-  }
-
-  setTimeout(() => {
-    ['co-city','co-status','co-from','co-to'].forEach(id => {
-      const el = $(id); if (el) el.addEventListener('change', render);
-    });
-    render();
-  }, 0);
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// STAGE CHART
-// ─────────────────────────────────────────────────────────────────────────────
-function bChart() {
-  setHdrFilters(`
-    <div class="fbar">
-      <span class="flabel">City</span>${selHTML('ch-city', cityOpts())}
-      <span class="flabel">Status</span>${selHTML('ch-status', statusOpts())}
-      ${dateRangeHTML('ch-from','ch-to')}
-    </div>`);
-
-  $('p-chart').innerHTML = `
-    <div class="scard">
-      <div class="scard-hdr"><span class="scard-title">Leads by stage</span></div>
-      <div class="scard-body"><div class="chart-wrap"><canvas id="stage-canvas"></canvas></div></div>
+      <div class="fg" style="margin-left:auto"><span class="flbl">Display</span>
+        <div class="frow" style="gap:8px">
+          <div class="tgl" id="v1-ptgl"><button class="tgl-b on" data-pct="0">Absolute</button><button class="tgl-b" data-pct="1">%</button></div>
+          <button class="comp-btn" id="v1-comp">+ Compare</button>
+        </div>
+      </div>
     </div>
-    <div class="scard">
-      <div class="scard-hdr"><span class="scard-title">City volume table</span><span class="scard-hint">Click header to sort</span></div>
-      <div class="scard-body" style="padding:0">
-        <div class="tw" id="city-tbl"></div>
-      </div>
-    </div>`;
+    <div class="fr" id="v1-brow" style="display:none">
+      <span class="ptag pa">A</span><span style="font-size:11px;color:var(--t2)">vs</span><span class="ptag pb">B</span>
+      <span style="font-size:10px;color:var(--t3);margin-left:4px">(lead creation date)</span>
+      <div class="fg"><div class="frow">
+        <select class="fc" id="v1-pb"><option value="lastmonth">Last month</option>${presetOpts}</select>
+        <span class="fi">From</span><input type="date" class="fc" id="v1-fb">
+        <span class="fi">To</span><input type="date" class="fc" id="v1-tb">
+      </div></div>
+    </div>
+  </div>
+  <div class="kgrid" id="v1-kpis"></div>
+  <div class="sc">
+    <div class="sc-h"><span class="sc-t" id="v1-chart-title">Stage breakdown by cluster</span><span class="sc-hi" id="v1-chart-sub">Stages coloured by parent status</span></div>
+    <div class="sc-b"><div class="cw"><canvas id="v1-cv"></canvas></div></div>
+  </div>
+  <div class="sc">
+    <div class="sc-h"><span class="sc-t">Cluster × Stage matrix</span><span class="sc-hi">Grouped by status · click header to sort</span></div>
+    <div style="overflow-x:auto;max-height:480px;overflow-y:auto"><div class="tw" id="v1-mx"></div></div>
+  </div>`;
 
-  function render() {
-    const dr    = getDateRange('ch-from','ch-to');
-    const recs  = filterRecs({ city: $('ch-city')?.value, status: $('ch-status')?.value, ...dr });
-    const total = sumLeads(recs);
+  setupMS('v1-ms-btn','v1-ms-dd','v1-ms-all','.v1-ms-chk','v1-ms-apl','v1-ms-clr',sel=>{V1.sel=sel;renderV1();});
+  ['v1-pa','v1-pb'].forEach(id=>$(id)?.addEventListener('change',e=>{if(e.target.value!=='custom')renderV1();}));
+  ['v1-fa','v1-ta'].forEach(id=>$(id)?.addEventListener('change',()=>{$('v1-pa').value='custom';renderV1();}));
+  ['v1-fb','v1-tb'].forEach(id=>$(id)?.addEventListener('change',()=>{$('v1-pb').value='custom';renderV1();}));
+  $('v1-ptgl')?.querySelectorAll('.tgl-b').forEach(btn=>
+    btn.addEventListener('click',()=>{
+      $('v1-ptgl').querySelectorAll('.tgl-b').forEach(b=>b.classList.remove('on'));
+      btn.classList.add('on');V1.pct=btn.dataset.pct==='1';renderV1();
+    }));
+  $('v1-comp')?.addEventListener('click',()=>{
+    V1.comp=!V1.comp;
+    const btn=$('v1-comp'),row=$('v1-brow');
+    btn.textContent=V1.comp?'× Remove Comparison':'+ Compare';
+    btn.classList.toggle('on',V1.comp);
+    row.style.display=V1.comp?'flex':'none';
+    renderV1();
+  });
+  setTimeout(renderV1,0);
+}
 
-    // Chart
-    const st     = pivotByStage(recs);
-    const stages = sortStages(Object.keys(st));
-    const counts = stages.map(s => st[s]);
-    const colors = stages.map((_, i) => PALETTE[i % PALETTE.length]);
+function renderV1(){
+  if(!DATA)return;
+  const{sel,comp,pct}=V1;
+  const drA=getDR('v1-pa','v1-fa','v1-ta');
+  let rA=filterDR(DATA.records,drA.from,drA.to);
+  if(sel.length>0)rA=rA.filter(r=>sel.includes(r.lead_status));
+  let rB=null;
+  if(comp){
+    const drB=getDR('v1-pb','v1-fb','v1-tb');
+    rB=filterDR(DATA.records,drB.from,drB.to);
+    if(sel.length>0)rB=rB.filter(r=>sel.includes(r.lead_status));
+  }
+  const aggA=aggPivot(rA,'lead_stage');
+  const aggB=rB?aggPivot(rB,'lead_stage'):null;
+  const allDims={...aggA.dimTotals,...(aggB?.dimTotals||{})};
+  const groups=stageGroups(allDims,sel);
+  const colors=buildColors(groups);
+  const stages=groups.flatMap(g=>g.stages);
+  const clusters=topClusters(aggA,aggB,20);
+  renderV1KPIs(rA,rB,comp);
+  renderV1Chart(aggA,aggB,stages,clusters,colors,groups,comp,pct);
+  renderV1Matrix(aggA,aggB,groups,stages,clusters,comp,pct);
+}
 
-    const ctx = $('stage-canvas');
-    if (ctx) {
-      if (charts.stage) charts.stage.destroy();
-      charts.stage = new Chart(ctx, {
-        type: 'bar',
-        data: { labels: stages, datasets: [{ data: counts, backgroundColor: colors, borderRadius: 4, borderSkipped: false }] },
-        options: {
-          responsive: true, maintainAspectRatio: false,
-          plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ` ${f(c.parsed.y)} leads` } } },
-          scales: {
-            x: { grid: { display: false }, ticks: { font: { size: 10, family: "'DM Sans'" }, maxRotation: 50 } },
-            y: { beginAtZero: true, grid: { color: '#f0f0f0' }, ticks: { font: { size: 11 }, callback: v => v.toLocaleString('en-IN') } }
-          }
+function renderV1KPIs(rA,rB,comp){
+  const tA=rA.reduce((s,r)=>s+r.lead_count,0);
+  const tB=rB?rB.reduce((s,r)=>s+r.lead_count,0):null;
+  const ss=(recs,st)=>recs.filter(r=>r.lead_status===st).reduce((s,r)=>s+r.lead_count,0);
+  const kpis=[
+    {l:'Total Leads',c:'cb',a:tA,b:tB},
+    {l:'Open',c:'cb',a:ss(rA,'Open'),b:rB?ss(rB,'Open'):null},
+    {l:'Meeting',c:'ca',a:ss(rA,'Meeting'),b:rB?ss(rB,'Meeting'):null},
+    {l:'Closed - Won',c:'cg',a:ss(rA,'Closed - Won'),b:rB?ss(rB,'Closed - Won'):null},
+    {l:'Closed - Lost',c:'cr',a:ss(rA,'Closed - Lost'),b:rB?ss(rB,'Closed - Lost'):null},
+  ];
+  $('v1-kpis').innerHTML=kpis.map(k=>{
+    if(!comp)return`<div class="kcard"><div class="kl">${k.l}</div><div class="kv ${k.c}">${f(k.a)}</div><div class="ks">${pct(k.a,tA)}</div></div>`;
+    const d=k.b!=null?k.b-k.a:null;
+    const dp=d!=null&&k.a>0?Math.round((d/k.a)*100):null;
+    return`<div class="kcard cmp"><div class="kl">${k.l}</div>
+      <div class="kcrow">
+        <span class="ka"><span class="ptag pa">A</span>${f(k.a)}</span>
+        <span class="kb"><span class="ptag pb">B</span>${f(k.b)}</span>
+      </div>${d!=null?`<div class="ks"><span class="kdelta ${d>0?'du':d<0?'dd':'dn'}">${d>0?'↑':d<0?'↓':'—'}${dp!=null?Math.abs(dp)+'%':''}</span></div>`:''}</div>`;
+  }).join('');
+}
+
+function renderV1Chart(aggA,aggB,stages,clusters,colors,groups,comp,pct){
+  const ctx=$('v1-cv');if(!ctx)return;
+  if(charts.v1){charts.v1.destroy();charts.v1=null;}
+  if(!clusters.length||!stages.length)return;
+  const datasets=[];
+  if(comp&&aggB){
+    stages.forEach(stage=>{
+      const col=colors[stage]||'#94a3b8';
+      datasets.push({label:`A: ${stage}`,
+        data:clusters.map(c=>{const v=aggA.pivot[c]?.[stage]||0;return pct?parseFloat(((v/(aggA.rowTotals[c]||1))*100).toFixed(1)):v;}),
+        backgroundColor:col,stack:'A',borderRadius:2});
+      datasets.push({label:`B: ${stage}`,
+        data:clusters.map(c=>{const v=aggB.pivot[c]?.[stage]||0;return pct?parseFloat(((v/(aggB.rowTotals[c]||1))*100).toFixed(1)):v;}),
+        backgroundColor:dimAlpha(col,0.55),stack:'B',borderRadius:2});
+    });
+  }else{
+    stages.forEach(stage=>{
+      datasets.push({label:stage,
+        data:clusters.map(c=>{const v=aggA.pivot[c]?.[stage]||0;return pct?parseFloat(((v/(aggA.rowTotals[c]||1))*100).toFixed(1)):v;}),
+        backgroundColor:colors[stage]||'#94a3b8',stack:'S',borderRadius:2});
+    });
+  }
+  const statusLabel=V1.sel.length===0?'All Statuses':V1.sel.length===1?V1.sel[0]:`${V1.sel.length} Statuses`;
+  const t1=$('v1-chart-title'),t2=$('v1-chart-sub');
+  if(t1)t1.textContent=comp?`Period A vs B — ${statusLabel}`:`${statusLabel} — stage breakdown by cluster`;
+  if(t2)t2.textContent=comp?'Solid = Period A · Faded = Period B':'Stages coloured by parent status';
+  charts.v1=new Chart(ctx,{
+    type:'bar',data:{labels:clusters,datasets},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom',labels:{font:{size:9,family:"'DM Sans'"},boxWidth:9,padding:6,
+        filter:item=>!comp||(item.datasetIndex%2===0)}},
+        tooltip:{callbacks:{label:c=>`${c.dataset.label.replace(/^[AB]: /,'')}: ${c.parsed.y}${pct?'%':' leads'}`}}},
+      scales:{x:{stacked:true,grid:{display:false},ticks:{font:{size:10,family:"'DM Sans'"},maxRotation:45}},
+        y:{stacked:true,beginAtZero:true,grid:{color:'#f0f0f0'},
+          ticks:{font:{size:10},callback:v=>pct?v+'%':v.toLocaleString('en-IN')}}}
+    }
+  });
+}
+
+function renderV1Matrix(aggA,aggB,groups,stages,clusters,comp,pct){
+  const wrap=$('v1-mx');if(!wrap)return;
+  if(!clusters.length||!stages.length){wrap.innerHTML='<div class="nd">No data for selected filters.</div>';return;}
+  const tA=Object.values(aggA.rowTotals).reduce((s,n)=>s+n,0);
+  const tB=aggB?Object.values(aggB.rowTotals).reduce((s,n)=>s+n,0):0;
+  const maxPerStage={};
+  stages.forEach(s=>{maxPerStage[s]=Math.max(...clusters.map(c=>Math.max(aggA.pivot[c]?.[s]||0,aggB?.pivot[c]?.[s]||0)),1);});
+
+  let html='<table><thead><tr><th rowspan="2">Cluster</th>';
+  groups.forEach(({status,stages:ss})=>{
+    const border=`border-left:3px solid ${STATUS_COLORS[status]||'#94a3b8'}`;
+    const span=comp?ss.length*3:ss.length;
+    html+=`<th colspan="${span}" style="${border};background:${STATUS_BG[status]||'#f8fafc'};color:${STATUS_COLORS[status]||'#374151'}">${status}</th>`;
+  });
+  html+=comp?'<th colspan="3" style="background:#eef2ff;color:#3730a3">Total</th>':'<th rowspan="2" style="background:#eef2ff;color:#3730a3">Total</th>';
+  html+='</tr><tr>';
+  groups.forEach(({status,stages:ss})=>{
+    ss.forEach((s,i)=>{
+      const border=i===0?`border-left:3px solid ${STATUS_COLORS[status]||'#94a3b8'}`:'';
+      if(comp){html+=`<th colspan="3" class="tdr" style="${border}" title="${s}">${s}</th>`;}
+      else{html+=`<th class="tdr" style="${border}" title="${s}">${s}</th>`;}
+    });
+  });
+  if(comp){html+='<th class="tdr" style="font-size:9px">A</th><th class="tdr" style="font-size:9px">B</th><th class="tdr" style="font-size:9px">Δ</th>';}
+  html+='</tr></thead><tbody>';
+  clusters.forEach(c=>{
+    html+=`<tr><td class="tdc" title="${c}">${c}</td>`;
+    groups.forEach(({status,stages:ss})=>{
+      ss.forEach((stage,i)=>{
+        const border=i===0?`border-left:3px solid ${STATUS_COLORS[status]||'#94a3b8'}`:'';
+        const va=aggA.pivot[c]?.[stage]||0;
+        const vb=aggB?.pivot[c]?.[stage]||0;
+        if(comp){
+          const da2=pct?((va/(aggA.rowTotals[c]||1))*100).toFixed(1)+'%':(va||'·');
+          const db2=pct?((vb/(aggB?.rowTotals[c]||1))*100).toFixed(1)+'%':(vb||'·');
+          html+=`<td class="tdr mono" style="${hBg(va,maxPerStage[stage])};${border}">${da2}</td>`;
+          html+=`<td class="tdr mono" style="${hBg(vb,maxPerStage[stage])};opacity:.8">${db2}</td>`;
+          html+=`<td class="tdr">${dHtml(va,vb)}</td>`;
+        }else{
+          const disp=pct?((va/(aggA.rowTotals[c]||1))*100).toFixed(1)+'%':(va||'·');
+          html+=`<td class="tdr mono" style="${hBg(va,maxPerStage[stage])};${border}">${disp}</td>`;
         }
       });
-    }
-
-    // City table
-    const ct = pivotByCity(recs.filter(r => r.city !== 'Unknown'));
-    const sorted = Object.entries(ct).sort((a,b) => b[1]-a[1]);
-    let html = '<table><thead><tr><th>City</th><th class="right">Leads</th><th class="right">%</th><th class="right">Volume</th></tr></thead><tbody>';
-    sorted.forEach(([c, n]) => {
-      const pct = total > 0 ? ((n/total)*100).toFixed(1) : 0;
-      const tag = n > 500 ? '<span class="badge bb">High</span>' : n > 100 ? '<span class="badge ba">Mid</span>' : '<span class="badge bx">Low</span>';
-      html += `<tr><td class="td-city">${c}</td><td class="td-r mono">${f(n)}</td><td class="td-r">${pct}%</td><td class="td-r">${tag}</td></tr>`;
     });
-    html += '</tbody></table>';
-    const wrap = $('city-tbl'); if (wrap) { wrap.innerHTML = html; autoSort(wrap); }
-  }
-
-  setTimeout(() => {
-    ['ch-city','ch-status','ch-from','ch-to'].forEach(id => {
-      const el = $(id); if (el) el.addEventListener('change', render);
+    const rA=aggA.rowTotals[c]||0,rB=aggB?.rowTotals[c]||0;
+    if(comp){
+      html+=`<td class="tdt">${pct?((rA/tA)*100).toFixed(1)+'%':f(rA)}</td>`;
+      html+=`<td class="tdb">${pct?((rB/tB)*100).toFixed(1)+'%':f(rB)}</td>`;
+      html+=`<td class="tdr">${dHtml(rA,rB)}</td>`;
+    }else{html+=`<td class="tdt">${pct?((rA/tA)*100).toFixed(1)+'%':f(rA)}</td>`;}
+    html+='</tr>';
+  });
+  html+='<tr style="background:var(--sur2)"><td class="tdc" style="font-weight:600">Total</td>';
+  groups.forEach(({status,stages:ss})=>{
+    ss.forEach((stage,i)=>{
+      const border=i===0?`border-left:3px solid ${STATUS_COLORS[status]||'#94a3b8'}`:'';
+      const ta=aggA.dimTotals[stage]||0,tb=aggB?.dimTotals[stage]||0;
+      if(comp){
+        html+=`<td class="tdr" style="font-weight:600;${border}">${f(ta)}</td>`;
+        html+=`<td class="tdr" style="font-weight:600">${f(tb)}</td>`;
+        html+=`<td class="tdr">${dHtml(ta,tb)}</td>`;
+      }else{html+=`<td class="tdr" style="font-weight:600;${border}">${f(ta)}</td>`;}
     });
-    render();
-  }, 0);
+  });
+  if(comp){html+=`<td class="tdt">${f(tA)}</td><td class="tdb">${f(tB)}</td><td class="tdr">${dHtml(tA,tB)}</td>`;}
+  else{html+=`<td class="tdt">${f(tA)}</td>`;}
+  html+='</tr></tbody></table>';
+  wrap.innerHTML=html;
+  autoSort(wrap);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// BOOT
-// ─────────────────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════════════════
+// CALL ATTEMPTS VIEW
+// ═══════════════════════════════════════════════════════════════════════════════
+async function bCalls(){
+  $('p-calls').innerHTML='<div class="stb"><div class="spin"></div>Loading call data…</div>';
+  try{
+    await loadCalls();
+  }catch(e){
+    $('p-calls').innerHTML=`<div class="err">⚠ Cannot load data/call_attempts.json — run <code>python etl.py</code> to generate it<br>${e.message}</div>`;
+    return;
+  }
+
+  const presentSt=new Set(CALLS.records.map(r=>r.lead_status).filter(Boolean));
+  const activeStatuses=[
+    ...STATUS_ORDER.filter(s=>presentSt.has(s)),
+    ...[...presentSt].filter(s=>s&&s!=='Unknown'&&!STATUS_ORDER.includes(s))
+  ];
+  // Default selection
+  if(CV.sel.length===0||!CV.sel.every(s=>activeStatuses.includes(s)))CV.sel=activeStatuses.length?[activeStatuses[0]]:[];
+
+  $('p-calls').innerHTML=`
+  <div class="fb">
+    <div class="fr">
+      <div class="fg"><span class="flbl">Status</span>
+        <div class="ms-wrap" id="cv-ms-wrap">
+          <button class="ms-btn" id="cv-ms-btn" type="button">${CV.sel.length===1?CV.sel[0]:CV.sel.length+' Statuses'}</button>
+          <div class="ms-dd" id="cv-ms-dd">
+            <div class="ms-list">
+              <label class="ms-opt"><input type="checkbox" id="cv-ms-all">&nbsp;All Statuses</label>
+              <div class="ms-sep"></div>
+              ${activeStatuses.map(s=>`<label class="ms-opt"><input type="checkbox" class="cv-ms-chk" value="${s}" ${CV.sel.includes(s)?'checked':''}><span class="ms-dot" style="background:${STATUS_COLORS[s]||'#94a3b8'}"></span>${s}</label>`).join('')}
+            </div>
+            <div class="ms-foot"><button class="ms-clear" id="cv-ms-clr">Clear</button><button class="ms-apply" id="cv-ms-apl">Apply</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="fg"><span class="flbl">Stage <span class="sub">(within selected statuses)</span></span>
+        <select class="fc" id="cv-stage" style="min-width:200px"><option value="all">All Stages</option></select>
+      </div>
+      <div class="fg" style="margin-left:auto;text-align:right">
+        <span class="flbl">As of</span>
+        <span style="font-size:12px;font-weight:600;color:var(--tx);font-family:'DM Mono',monospace">${fmtNice(CALLS.meta.as_of_date)}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="kgrid" id="cv-kpis"></div>
+
+  <div class="sc">
+    <div class="sc-h">
+      <span class="sc-t">Daily activity & overdue summary</span>
+      <span class="sc-hi">Counts as of ${fmtNice(CALLS.meta.as_of_date)} · click header to sort</span>
+    </div>
+    <div style="overflow-x:auto;max-height:420px;overflow-y:auto"><div class="tw" id="cv-tbl-daily"></div></div>
+  </div>
+
+  <div class="sc">
+    <div class="sc-h">
+      <span class="sc-t">Call attempt distribution</span>
+      <span class="sc-hi">Leads in each cluster grouped by call_attempts_lrm count</span>
+    </div>
+    <div style="overflow-x:auto;max-height:420px;overflow-y:auto"><div class="tw" id="cv-tbl-attempts"></div></div>
+  </div>`;
+
+  setupMS('cv-ms-btn','cv-ms-dd','cv-ms-all','.cv-ms-chk','cv-ms-apl','cv-ms-clr',sel=>{
+    CV.sel=sel.length===0?activeStatuses:sel;
+    CV.stageSel='all';
+    populateStageDropdown();
+    renderCalls();
+  });
+  $('cv-stage')?.addEventListener('change',e=>{CV.stageSel=e.target.value;renderCalls();});
+
+  populateStageDropdown();
+  renderCalls();
+}
+
+function populateStageDropdown(){
+  // Show stages that exist in selected statuses AND have data
+  const stages=new Set();
+  CALLS.records.forEach(r=>{
+    if(CV.sel.length>0 && !CV.sel.includes(r.lead_status))return;
+    if(r.total>0)stages.add(r.lead_stage);
+  });
+  // Order by status mapping
+  const orderedStages=[];
+  CV.sel.forEach(status=>{
+    (STATUS_STAGE_MAP[status]||[]).forEach(canon=>{
+      const match=[...stages].find(s=>s.toLowerCase().trim()===canon.toLowerCase().trim());
+      if(match&&!orderedStages.includes(match))orderedStages.push(match);
+    });
+  });
+  // Add unmapped stages
+  [...stages].forEach(s=>{if(!orderedStages.includes(s))orderedStages.push(s);});
+  
+  const sel=$('cv-stage');if(!sel)return;
+  const prev=CV.stageSel;
+  sel.innerHTML='<option value="all">All Stages</option>'+orderedStages.map(s=>`<option value="${s}">${s}</option>`).join('');
+  sel.value=orderedStages.includes(prev)?prev:'all';
+  CV.stageSel=sel.value;
+}
+
+function renderCalls(){
+  if(!CALLS)return;
+  let recs=CALLS.records.filter(r=>r.cluster!=='Unknown');
+  if(CV.sel.length>0)recs=recs.filter(r=>CV.sel.includes(r.lead_status));
+  if(CV.stageSel!=='all')recs=recs.filter(r=>r.lead_stage===CV.stageSel);
+
+  // Roll up by cluster
+  const byCluster={};
+  let maxAttempts=0;
+  recs.forEach(r=>{
+    const c=r.cluster;
+    if(!byCluster[c])byCluster[c]={total:0,updated_today:0,scheduled_today:0,overdue:0,by_attempts:{}};
+    byCluster[c].total+=r.total;
+    byCluster[c].updated_today+=r.updated_today;
+    byCluster[c].scheduled_today+=r.scheduled_today;
+    byCluster[c].overdue+=r.overdue;
+    Object.entries(r.by_attempts||{}).forEach(([k,v])=>{
+      const n=parseInt(k);byCluster[c].by_attempts[n]=(byCluster[c].by_attempts[n]||0)+v;
+      if(n>maxAttempts)maxAttempts=n;
+    });
+  });
+  const clusters=Object.keys(byCluster).filter(c=>byCluster[c].total>0).sort((a,b)=>byCluster[b].total-byCluster[a].total);
+
+  // KPIs
+  const T={total:0,updated:0,scheduled:0,overdue:0};
+  clusters.forEach(c=>{T.total+=byCluster[c].total;T.updated+=byCluster[c].updated_today;T.scheduled+=byCluster[c].scheduled_today;T.overdue+=byCluster[c].overdue;});
+  $('cv-kpis').innerHTML=`
+    <div class="kcard"><div class="kl">Total Leads in Bucket</div><div class="kv cb">${f(T.total)}</div><div class="ks">across ${clusters.length} clusters</div></div>
+    <div class="kcard"><div class="kl">Updated Today</div><div class="kv cg">${f(T.updated)}</div><div class="ks">${pct(T.updated,T.total)} touched</div></div>
+    <div class="kcard"><div class="kl">Scheduled Today</div><div class="kv ca">${f(T.scheduled)}</div><div class="ks">follow-ups due</div></div>
+    <div class="kcard"><div class="kl">Overdue</div><div class="kv cr">${f(T.overdue)}</div><div class="ks">${pct(T.overdue,T.total)} of bucket</div></div>
+    <div class="kcard"><div class="kl">Max Attempts</div><div class="kv cp">${maxAttempts}</div><div class="ks">in this bucket</div></div>`;
+
+  renderDailyTable(byCluster,clusters,T);
+  renderAttemptsTable(byCluster,clusters,maxAttempts);
+}
+
+function renderDailyTable(byCluster,clusters,T){
+  if(!clusters.length){$('cv-tbl-daily').innerHTML='<div class="nd">No data for selected filters.</div>';return;}
+  const maxOverdue=Math.max(...clusters.map(c=>byCluster[c].overdue),1);
+
+  let html='<table><thead class="single"><tr>';
+  html+='<th>Cluster</th>';
+  html+='<th class="tdr">Overall Lead Count in Bucket</th>';
+  html+='<th class="tdr">Leads Updated Today</th>';
+  html+='<th class="tdr">Leads with Follow-up Scheduled Today</th>';
+  html+='<th class="tdr">Leads Overdue on Follow-up</th>';
+  html+='<th class="tdr">Overdue %</th>';
+  html+='</tr></thead><tbody>';
+  clusters.forEach(c=>{
+    const b=byCluster[c];
+    const ovPct=b.total>0?(b.overdue/b.total*100):0;
+    const ovBgClass=ovPct>50?'cell-bad':ovPct>25?'cell-warn':'';
+    html+=`<tr><td class="tdc" title="${c}">${c}</td>`;
+    html+=`<td class="tdr mono">${f(b.total)}</td>`;
+    html+=`<td class="tdr mono ${b.updated_today>0?'cell-good':''}">${b.updated_today||'·'}</td>`;
+    html+=`<td class="tdr mono">${b.scheduled_today||'·'}</td>`;
+    html+=`<td class="tdr mono" style="${hBg(b.overdue,maxOverdue)}">${f(b.overdue)}</td>`;
+    html+=`<td class="tdr ${ovBgClass}">${ovPct.toFixed(1)}%</td>`;
+    html+='</tr>';
+  });
+  html+=`<tr style="background:var(--sur2);font-weight:600"><td>Total</td>`;
+  html+=`<td class="tdr mono">${f(T.total)}</td>`;
+  html+=`<td class="tdr mono">${f(T.updated)}</td>`;
+  html+=`<td class="tdr mono">${f(T.scheduled)}</td>`;
+  html+=`<td class="tdr mono">${f(T.overdue)}</td>`;
+  html+=`<td class="tdr">${T.total>0?(T.overdue/T.total*100).toFixed(1)+'%':'—'}</td>`;
+  html+='</tr></tbody></table>';
+  const wrap=$('cv-tbl-daily');wrap.innerHTML=html;autoSort(wrap);
+}
+
+function renderAttemptsTable(byCluster,clusters,maxAttempts){
+  if(!clusters.length){$('cv-tbl-attempts').innerHTML='<div class="nd">No data for selected filters.</div>';return;}
+  // Only show attempt counts that actually have data (non-zero)
+  const validAttempts=[];
+  for(let i=0;i<=Math.min(maxAttempts,20);i++){
+    const sum=clusters.reduce((s,c)=>s+(byCluster[c].by_attempts[i]||0),0);
+    if(sum>0)validAttempts.push(i);
+  }
+  if(maxAttempts>20){
+    // collapse >20 into one column
+    const sum=clusters.reduce((s,c)=>{
+      let total=0;
+      Object.entries(byCluster[c].by_attempts).forEach(([k,v])=>{if(parseInt(k)>20)total+=v;});
+      return s+total;
+    },0);
+    if(sum>0)validAttempts.push('20+');
+  }
+
+  if(!validAttempts.length){$('cv-tbl-attempts').innerHTML='<div class="nd">No attempt data.</div>';return;}
+
+  // Find global max for heat
+  let globalMax=0;
+  clusters.forEach(c=>validAttempts.forEach(a=>{
+    let v=0;
+    if(a==='20+'){Object.entries(byCluster[c].by_attempts).forEach(([k,vv])=>{if(parseInt(k)>20)v+=vv;});}
+    else{v=byCluster[c].by_attempts[a]||0;}
+    if(v>globalMax)globalMax=v;
+  }));
+
+  let html='<table><thead>';
+  html+=`<tr><th rowspan="2">Cluster</th><th colspan="${validAttempts.length}" style="background:#1e293b;color:#f1f5f9;text-align:center">Leads with N Call Attempts</th><th rowspan="2" class="tdr">Total</th></tr>`;
+  html+='<tr>';
+  validAttempts.forEach(a=>html+=`<th class="tdr">${a}</th>`);
+  html+='</tr></thead><tbody>';
+
+  clusters.forEach(c=>{
+    let rowTotal=0;
+    let row=`<tr><td class="tdc" title="${c}">${c}</td>`;
+    validAttempts.forEach(a=>{
+      let v=0;
+      if(a==='20+'){Object.entries(byCluster[c].by_attempts).forEach(([k,vv])=>{if(parseInt(k)>20)v+=vv;});}
+      else{v=byCluster[c].by_attempts[a]||0;}
+      rowTotal+=v;
+      row+=`<td class="tdr mono" style="${hBg(v,globalMax)}">${v||'·'}</td>`;
+    });
+    row+=`<td class="tdt">${f(rowTotal)}</td></tr>`;
+    html+=row;
+  });
+
+  // Totals row
+  html+='<tr style="background:var(--sur2);font-weight:600"><td>Total</td>';
+  let grand=0;
+  validAttempts.forEach(a=>{
+    let sum=0;
+    clusters.forEach(c=>{
+      if(a==='20+'){Object.entries(byCluster[c].by_attempts).forEach(([k,vv])=>{if(parseInt(k)>20)sum+=vv;});}
+      else{sum+=byCluster[c].by_attempts[a]||0;}
+    });
+    grand+=sum;
+    html+=`<td class="tdr mono">${f(sum)}</td>`;
+  });
+  html+=`<td class="tdt">${f(grand)}</td></tr></tbody></table>`;
+
+  const wrap=$('cv-tbl-attempts');wrap.innerHTML=html;autoSort(wrap);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// STAGE FUNNEL (now with status filter + grouping)
+// ═══════════════════════════════════════════════════════════════════════════════
+function bFunnel(){
+  const clusterSet=new Set();
+  DATA.records.forEach(r=>{if(r.cluster&&r.cluster!=='Unknown')clusterSet.add(r.cluster);});
+  const clusterList=[...clusterSet].sort();
+  const presentSt=new Set(DATA.records.map(r=>r.lead_status).filter(Boolean));
+  const activeStatuses=[
+    ...STATUS_ORDER.filter(s=>presentSt.has(s)),
+    ...[...presentSt].filter(s=>s&&s!=='Unknown'&&!STATUS_ORDER.includes(s))
+  ];
+
+  $('p-funnel').innerHTML=`
+  <div class="fb"><div class="fr">
+    <div class="fg"><span class="flbl">Cluster</span>
+      <select class="fc" id="fn-cl"><option value="all">All Clusters</option>
+        ${clusterList.map(c=>`<option value="${c}">${c}</option>`).join('')}
+      </select>
+    </div>
+    <div class="fg"><span class="flbl">Status</span>
+      <div class="ms-wrap" id="fn-ms-wrap">
+        <button class="ms-btn" id="fn-ms-btn" type="button">All Statuses</button>
+        <div class="ms-dd" id="fn-ms-dd">
+          <div class="ms-list">
+            <label class="ms-opt"><input type="checkbox" id="fn-ms-all" checked>&nbsp;All Statuses</label>
+            <div class="ms-sep"></div>
+            ${activeStatuses.map(s=>`<label class="ms-opt"><input type="checkbox" class="fn-ms-chk" value="${s}"><span class="ms-dot" style="background:${STATUS_COLORS[s]||'#94a3b8'}"></span>${s}</label>`).join('')}
+          </div>
+          <div class="ms-foot"><button class="ms-clear" id="fn-ms-clr">Clear</button><button class="ms-apply" id="fn-ms-apl">Apply</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="fg"><span class="flbl">Date range <span class="sub">(lead creation)</span></span>
+      <div class="frow">
+        <select class="fc" id="fn-pr">
+          <option value="last30">Last 30 days</option>
+          <option value="alltime">All time</option>
+          <option value="thismonth">This month</option>
+          <option value="lastmonth">Last month</option>
+          <option value="last3mo">Last 3 months</option>
+          <option value="custom">Custom</option>
+        </select>
+        <input type="date" class="fc" id="fn-fr">
+        <input type="date" class="fc" id="fn-to">
+      </div>
+    </div>
+  </div></div>
+  <div class="sc">
+    <div class="sc-h"><span class="sc-t" id="fn-title">Stage funnel</span><span class="sc-hi">Stages grouped by status</span></div>
+    <div class="sc-b" id="fn-body"></div>
+  </div>`;
+
+  setupMS('fn-ms-btn','fn-ms-dd','fn-ms-all','.fn-ms-chk','fn-ms-apl','fn-ms-clr',sel=>{FN.sel=sel;render();});
+
+  function render(){
+    const dr=getDR('fn-pr','fn-fr','fn-to');
+    let recs=filterDR(DATA.records,dr.from,dr.to);
+    const cl=$('fn-cl')?.value;
+    if(cl&&cl!=='all')recs=recs.filter(r=>r.cluster===cl);
+    if(FN.sel.length>0)recs=recs.filter(r=>FN.sel.includes(r.lead_status));
+    const total=recs.reduce((s,r)=>s+r.lead_count,0);
+    const dimT={};recs.forEach(r=>{dimT[r.lead_stage]=(dimT[r.lead_stage]||0)+r.lead_count;});
+    const groups=stageGroups(dimT,FN.sel);
+    const colors=buildColors(groups);
+    const body=$('fn-body');if(!body)return;
+
+    const title=$('fn-title');
+    if(title)title.textContent=FN.sel.length===0?'Stage funnel — all statuses':FN.sel.length===1?`Stage funnel — ${FN.sel[0]}`:`Stage funnel — ${FN.sel.length} statuses`;
+
+    if(!groups.length||!total){body.innerHTML='<div class="nd">No data for selected filters.</div>';return;}
+
+    // Group rendered with header per status
+    const maxN=Math.max(...groups.flatMap(g=>g.stages.map(s=>dimT[s]||0)),1);
+    body.innerHTML=groups.map(({status,stages})=>{
+      const statusTotal=stages.reduce((s,st)=>s+(dimT[st]||0),0);
+      const statusColor=STATUS_COLORS[status]||'#94a3b8';
+      const statusBg=STATUS_BG[status]||'#f8fafc';
+      const stageBars=stages.filter(s=>(dimT[s]||0)>0).map(s=>{
+        const n=dimT[s]||0,w=((n/maxN)*100).toFixed(1);
+        const col=colors[s]||statusColor;
+        return`<div style="display:grid;grid-template-columns:200px 1fr 44px 60px;align-items:center;gap:8px;margin-bottom:4px">
+          <div style="font-size:11px;color:var(--t2);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-right:6px" title="${s}">${s}</div>
+          <div style="background:var(--sur2);border-radius:4px;height:18px;overflow:hidden">
+            <div style="width:${w}%;height:100%;background:${col};border-radius:4px;display:flex;align-items:center;padding-left:7px">
+              <span style="font-size:10px;font-weight:600;color:#fff;white-space:nowrap">${n>maxN*.1?f(n):''}</span>
+            </div>
+          </div>
+          <div style="font-size:10px;color:var(--t3);text-align:right">${total>0?((n/total)*100).toFixed(1):0}%</div>
+          <div class="mono" style="font-size:11px;text-align:right">${f(n)}</div>
+        </div>`;
+      }).join('');
+      return`<div style="margin-bottom:14px">
+        <div style="display:flex;align-items:center;justify-content:space-between;background:${statusBg};color:${statusColor};padding:6px 10px;border-radius:6px;margin-bottom:6px;border-left:3px solid ${statusColor}">
+          <span style="font-size:11px;font-weight:600">${status}</span>
+          <span style="font-size:11px;font-family:'DM Mono',monospace">${f(statusTotal)} leads · ${total>0?((statusTotal/total)*100).toFixed(1):0}%</span>
+        </div>
+        ${stageBars}
+      </div>`;
+    }).join('');
+  }
+
+  ['fn-cl','fn-pr'].forEach(id=>$(id)?.addEventListener('change',render));
+  ['fn-fr','fn-to'].forEach(id=>$(id)?.addEventListener('change',()=>{$('fn-pr').value='custom';render();}));
+  setTimeout(render,0);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// COHORT VIEW
+// ═══════════════════════════════════════════════════════════════════════════════
+function bCohort(){
+  const clusterSet=new Set();
+  DATA.records.forEach(r=>{if(r.cluster&&r.cluster!=='Unknown')clusterSet.add(r.cluster);});
+  const clusterList=[...clusterSet].sort();
+  const presentSt=new Set(DATA.records.map(r=>r.lead_status).filter(Boolean));
+  const activeStatuses=STATUS_ORDER.filter(s=>presentSt.has(s));
+
+  $('p-cohort').innerHTML=`
+  <div class="fb"><div class="fr">
+    <div class="fg"><span class="flbl">Cluster</span>
+      <select class="fc" id="co-cl"><option value="all">All Clusters</option>${clusterList.map(c=>`<option>${c}</option>`).join('')}</select>
+    </div>
+    <div class="fg"><span class="flbl">Status</span>
+      <select class="fc" id="co-st"><option value="all">All Statuses</option>${activeStatuses.map(s=>`<option value="${s}">${s}</option>`).join('')}</select>
+    </div>
+    <div class="fg"><span class="flbl">Date range <span class="sub">(lead creation)</span></span>
+      <div class="frow">
+        <select class="fc" id="co-pr">
+          <option value="last3mo">Last 3 months</option>
+          <option value="last30">Last 30 days</option>
+          <option value="thisyear">This year</option>
+          <option value="alltime">All time</option>
+          <option value="custom">Custom</option>
+        </select>
+        <input type="date" class="fc" id="co-fr"><input type="date" class="fc" id="co-to">
+      </div>
+    </div>
+  </div></div>
+  <div class="sc">
+    <div class="sc-h"><span class="sc-t">Cohort week × Stage</span><span class="sc-hi">Rows = creation week · top 12 stages</span></div>
+    <div style="overflow-x:auto;max-height:440px;overflow-y:auto"><div class="tw" id="co-tbl"></div></div>
+  </div>`;
+
+  function render(){
+    const dr=getDR('co-pr','co-fr','co-to');
+    let recs=filterDR(DATA.records,dr.from,dr.to);
+    const cl=$('co-cl')?.value,st=$('co-st')?.value;
+    if(cl&&cl!=='all')recs=recs.filter(r=>r.cluster===cl);
+    if(st&&st!=='all')recs=recs.filter(r=>r.lead_status===st);
+    const weeks=[...new Set(recs.map(r=>r.cohort_week).filter(w=>w&&w!=='Unknown'))].sort().reverse();
+    const dimT={};recs.forEach(r=>{dimT[r.lead_stage]=(dimT[r.lead_stage]||0)+r.lead_count;});
+    const groups=stageGroups(dimT,st&&st!=='all'?[st]:[]);
+    const topStages=groups.flatMap(g=>g.stages).slice(0,12);
+    if(!weeks.length){$('co-tbl').innerHTML='<div class="nd">No data for selected filters.</div>';return;}
+    const pv={};
+    recs.forEach(r=>{
+      if(!weeks.includes(r.cohort_week))return;
+      pv[r.cohort_week]=pv[r.cohort_week]||{};
+      pv[r.cohort_week][r.lead_stage]=(pv[r.cohort_week][r.lead_stage]||0)+r.lead_count;
+    });
+    let html='<table><thead class="single"><tr><th>Week of (creation)</th>';
+    topStages.forEach(s=>html+=`<th class="tdr" title="${s}">${s}</th>`);
+    html+='<th class="tdr">Total</th></tr></thead><tbody>';
+    weeks.forEach(w=>{
+      const wt=topStages.reduce((s,st2)=>s+(pv[w]?.[st2]||0),0);
+      const wmax=Math.max(...topStages.map(s=>pv[w]?.[s]||0),1);
+      html+=`<tr><td class="mono tdc" style="font-size:11px">${fmtNice(w)}</td>`;
+      topStages.forEach(s=>{const v=pv[w]?.[s]||0;html+=`<td class="tdr mono" style="${hBg(v,wmax)}">${v||'·'}</td>`;});
+      html+=`<td class="tdt">${f(wt)}</td></tr>`;
+    });
+    html+='</tbody></table>';
+    const wrap=$('co-tbl');wrap.innerHTML=html;autoSort(wrap);
+  }
+
+  ['co-cl','co-st','co-pr'].forEach(id=>$(id)?.addEventListener('change',render));
+  ['co-fr','co-to'].forEach(id=>$(id)?.addEventListener('change',()=>{$('co-pr').value='custom';render();}));
+  setTimeout(render,0);
+}
+
+// ── BOOT ─────────────────────────────────────────────────────────────────────
 loadData();
 </script>
 </body>
