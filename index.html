@@ -24,18 +24,20 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-
 .logo-div{color:rgba(255,255,255,.2);margin:0 3px}
 .logo-sub{font-weight:300;color:rgba(255,255,255,.4);font-size:11px}
 .topbar-r{display:flex;align-items:center;gap:8px;flex-shrink:0}
-#upd-lbl{font-size:10px;color:rgba(255,255,255,.3);font-family:'DM Mono',monospace;white-space:nowrap}
+#upd-lbl{font-size:10px;color:rgba(255,255,255,.3);font-family:'DM Mono',monospace}
 .data-pill{background:rgba(245,158,11,.15);color:#f59e0b;font-size:10px;font-weight:500;padding:3px 9px;border-radius:20px;font-family:'DM Mono',monospace}
 .rbtn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.7);padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-family:'DM Sans',sans-serif}
 .rbtn:hover{background:rgba(255,255,255,.16)}
 
 .shell{display:flex;height:calc(100vh - 50px);overflow:hidden}
-.sidebar{width:186px;background:var(--sur);border-right:1px solid var(--bd);padding:10px 0;flex-shrink:0;overflow-y:auto}
+.sidebar{width:196px;background:var(--sur);border-right:1px solid var(--bd);padding:10px 0;flex-shrink:0;overflow-y:auto}
 .sh{font-size:9px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--t3);padding:12px 14px 4px}
 .ni{display:flex;align-items:center;gap:8px;padding:8px 14px;cursor:pointer;font-size:12px;color:var(--t2);border-left:2px solid transparent;transition:all .1s}
 .ni:hover{background:var(--sur2);color:var(--tx)}
 .ni.active{background:#eef2ff;color:var(--bl);border-left-color:var(--bl);font-weight:500}
 .ni .ico{font-size:11px;opacity:.55;width:13px;text-align:center;flex-shrink:0}
+.ni.preview{opacity:.55}
+.ni.preview::after{content:'preview';margin-left:auto;font-size:8px;background:#fef3c7;color:#92400e;padding:1px 5px;border-radius:6px}
 .mob-nav{display:none;background:var(--sur);border-bottom:1px solid var(--bd);padding:0 10px;overflow-x:auto;white-space:nowrap;scrollbar-width:none;flex-shrink:0}
 .mob-nav::-webkit-scrollbar{display:none}
 .mob-tab{display:inline-block;padding:9px 11px;font-size:12px;color:var(--t2);cursor:pointer;border-bottom:2px solid transparent;font-weight:500}
@@ -47,7 +49,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-
 .panel{display:none;padding:16px}
 .panel.active{display:block}
 
-/* FILTER BLOCK */
 .fb{background:var(--sur);border:1px solid var(--bd);border-radius:var(--rl);padding:12px 14px;margin-bottom:12px}
 .fr{display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap}
 .fr+.fr{margin-top:10px;padding-top:10px;border-top:1px dashed var(--bd)}
@@ -57,16 +58,16 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-
 .frow{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 select.fc,input.fc{font-size:12px;padding:5px 8px;border:1px solid var(--bd2);border-radius:6px;background:var(--sur);color:var(--tx);font-family:'DM Sans',sans-serif;cursor:pointer}
 select.fc:focus,input.fc:focus{outline:2px solid var(--bl);outline-offset:-1px}
-input[type=date].fc{padding:4px 7px;min-width:126px}
+input[type=date].fc{padding:4px 7px;min-width:124px}
+input[type=number].fc{width:80px}
 .fi{font-size:11px;color:var(--t3);white-space:nowrap}
 
-/* MULTI-SELECT */
 .ms-wrap{position:relative;min-width:155px}
 .ms-btn{width:100%;padding:5px 26px 5px 9px;border:1px solid var(--bd2);border-radius:6px;background:var(--sur);color:var(--tx);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;text-align:left;position:relative;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ms-btn::after{content:'▾';position:absolute;right:8px;top:50%;transform:translateY(-50%);color:var(--t3);font-size:10px}
-.ms-dd{display:none;position:absolute;top:calc(100% + 4px);left:0;min-width:210px;background:var(--sur);border:1px solid var(--bd2);border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.12);z-index:600}
+.ms-dd{display:none;position:absolute;top:calc(100% + 4px);left:0;min-width:230px;background:var(--sur);border:1px solid var(--bd2);border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.12);z-index:600}
 .ms-dd.open{display:flex;flex-direction:column}
-.ms-list{max-height:230px;overflow-y:auto;padding:6px 0}
+.ms-list{max-height:240px;overflow-y:auto;padding:6px 0}
 .ms-opt{display:flex;align-items:center;gap:8px;padding:6px 12px;font-size:12px;cursor:pointer;color:var(--tx)}
 .ms-opt:hover{background:var(--sur2)}
 .ms-opt input[type=checkbox]{accent-color:var(--bl);width:13px;height:13px;flex-shrink:0;cursor:pointer}
@@ -77,7 +78,6 @@ input[type=date].fc{padding:4px 7px;min-width:126px}
 .ms-apply:hover{background:var(--bld)}
 .ms-clear{padding:5px 10px;background:transparent;color:var(--t2);border:1px solid var(--bd2);border-radius:6px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif}
 
-/* TOGGLES */
 .tgl{display:flex;border:1px solid var(--bd2);border-radius:6px;overflow:hidden;flex-shrink:0}
 .tgl-b{padding:5px 12px;font-size:11px;font-weight:500;background:var(--sur);color:var(--t2);border:none;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
 .tgl-b+.tgl-b{border-left:1px solid var(--bd2)}
@@ -87,8 +87,8 @@ input[type=date].fc{padding:4px 7px;min-width:126px}
 .ptag{display:inline-flex;align-items:center;padding:1px 7px;border-radius:20px;font-size:10px;font-weight:600;margin-right:3px}
 .pa{background:#dbeafe;color:#1e40af}.pb{background:#ede9fe;color:#5b21b6}
 
-/* KPI */
 .kgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px}
+.kgrid.k4{grid-template-columns:repeat(4,1fr)}
 .kcard{background:var(--sur);border:1px solid var(--bd);border-radius:var(--rl);padding:12px 14px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
 .kcard.cmp{border-top:3px solid #8b5cf6}
 .kl{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--t3);margin-bottom:5px}
@@ -101,7 +101,6 @@ input[type=date].fc{padding:4px 7px;min-width:126px}
 .du{background:var(--gnl);color:var(--gn)}.dd{background:var(--rdl);color:var(--rd)}.dn{background:var(--sur2);color:var(--t2)}
 .cb{color:var(--bl)}.cg{color:var(--gn)}.ca{color:var(--am)}.cr{color:var(--rd)}.cp{color:#7c3aed}
 
-/* SECTION CARDS */
 .sc{background:var(--sur);border:1px solid var(--bd);border-radius:var(--rl);box-shadow:0 1px 3px rgba(0,0,0,.05);margin-bottom:12px;overflow:hidden}
 .sc-h{padding:11px 15px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
 .sc-t{font-size:12px;font-weight:600}
@@ -109,33 +108,19 @@ input[type=date].fc{padding:4px 7px;min-width:126px}
 .sc-b{padding:14px 15px}
 .cw{height:310px;position:relative}
 
-/* TABLES — WRAPPED HEADERS */
 .tw{overflow-x:auto}
 .tw table{width:100%;border-collapse:collapse;font-size:11px}
-.tw thead tr:first-child th{
-  background:#1e293b;color:#f1f5f9;padding:6px 8px;font-size:10px;font-weight:600;
-  text-align:center;border-right:1px solid #334155;
-  white-space:normal;line-height:1.25;word-wrap:break-word
-}
-.tw thead tr:first-child th:first-child{background:#eef2ff;color:#3730a3;text-align:left}
-.tw thead tr:last-child th{
-  background:#eef2ff;color:#3730a3;padding:6px 8px;font-weight:700;font-size:9px;
-  text-transform:uppercase;letter-spacing:.3px;border-bottom:2px solid #c7d2fe;
-  white-space:normal;line-height:1.25;text-align:right;position:sticky;top:0;z-index:1;
-  vertical-align:bottom;word-wrap:break-word;min-width:60px;max-width:120px;
-}
-.tw thead tr:last-child th:first-child{text-align:left;min-width:90px;max-width:150px}
-.tw thead.single tr th{
-  background:#eef2ff;color:#3730a3;padding:6px 8px;font-weight:700;font-size:9px;
-  text-transform:uppercase;letter-spacing:.3px;border-bottom:2px solid #c7d2fe;
-  white-space:normal;line-height:1.25;text-align:right;position:sticky;top:0;z-index:1;
-  vertical-align:bottom;word-wrap:break-word;min-width:60px;max-width:140px;
-}
-.tw thead.single tr th:first-child{text-align:left;min-width:100px;max-width:160px}
+.tw thead tr:first-child th{background:#1e293b;color:#f1f5f9;padding:6px 8px;font-size:10px;font-weight:600;text-align:center;border-right:1px solid #334155;white-space:normal;line-height:1.25;word-wrap:break-word}
+.tw thead tr:first-child th:first-child,.tw thead tr:first-child th.row-hdr{background:#eef2ff;color:#3730a3;text-align:left}
+.tw thead tr:last-child th{background:#eef2ff;color:#3730a3;padding:6px 8px;font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:.3px;border-bottom:2px solid #c7d2fe;white-space:normal;line-height:1.25;text-align:right;position:sticky;top:0;z-index:1;vertical-align:bottom;word-wrap:break-word;min-width:60px;max-width:120px}
+.tw thead tr:last-child th:first-child,.tw thead tr:last-child th.row-hdr{text-align:left;min-width:90px;max-width:160px}
+.tw thead.single tr th{background:#eef2ff;color:#3730a3;padding:6px 8px;font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:.3px;border-bottom:2px solid #c7d2fe;white-space:normal;line-height:1.25;text-align:right;position:sticky;top:0;z-index:1;vertical-align:bottom;word-wrap:break-word;min-width:60px;max-width:160px}
+.tw thead.single tr th:first-child{text-align:left;min-width:100px;max-width:200px}
 .tw tbody td{padding:5px 8px;border-bottom:1px solid var(--bd);vertical-align:middle;white-space:nowrap}
 .tw tbody tr:last-child td{border-bottom:none}
 .tw tbody tr:hover td{background:var(--sur2)}
-.tdc{font-weight:500;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tdc{font-weight:500;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.td-lrm{font-size:10px;color:var(--t2);padding-left:18px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tdr{text-align:right}
 .tdt{text-align:right;font-weight:600;background:var(--bll);color:var(--bl)}
 .tdb{text-align:right;font-weight:600;background:#ede9fe;color:#5b21b6}
@@ -145,8 +130,6 @@ input[type=date].fc{padding:4px 7px;min-width:126px}
 .tw thead th.sortable:hover{filter:brightness(.95)}
 .tw thead th.sort-asc::after{content:' ↑'}
 .tw thead th.sort-desc::after{content:' ↓'}
-
-/* Special cell colors for call attempts view */
 .cell-warn{background:#fef3c7;color:#92400e;font-weight:600}
 .cell-bad{background:#fee2e2;color:#991b1b;font-weight:600}
 .cell-good{background:#dcfce7;color:#166534;font-weight:600}
@@ -157,20 +140,29 @@ input[type=date].fc{padding:4px 7px;min-width:126px}
 .err{background:var(--rdl);border:1px solid #fca5a5;border-radius:var(--r);padding:14px;color:var(--rd);font-size:12px;line-height:1.7}
 .nd{padding:24px;text-align:center;color:var(--t3);font-size:12px}
 
-@media(max-width:960px){.kgrid{grid-template-columns:repeat(3,1fr)}}
+/* PREVIEW SKELETON */
+.preview-banner{background:linear-gradient(90deg,#fef3c7,#fde68a);border:1px solid #f59e0b;border-radius:var(--rl);padding:14px 18px;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.preview-banner .icon{font-size:18px}
+.preview-banner b{color:#92400e;font-size:13px}
+.preview-banner p{font-size:11px;color:#78350f;margin:2px 0 0 0}
+.skeleton-card{background:var(--sur);border:1px dashed var(--bd2);border-radius:var(--rl);padding:18px;margin-bottom:12px}
+.skeleton-row{height:14px;background:linear-gradient(90deg,#e2e8f0,#f1f5f9,#e2e8f0);background-size:200% 100%;border-radius:4px;margin-bottom:8px;animation:shimmer 1.4s linear infinite}
+.skeleton-row.w-50{width:50%}.skeleton-row.w-70{width:70%}.skeleton-row.w-90{width:90%}.skeleton-row.w-30{width:30%}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+@media(max-width:960px){.kgrid,.kgrid.k4{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:720px){
   .sidebar{display:none}.mob-nav{display:block}
-  .kgrid{grid-template-columns:repeat(2,1fr)}
+  .kgrid,.kgrid.k4{grid-template-columns:repeat(2,1fr)}
   .panel{padding:10px}.topbar-r .data-pill{display:none}
-  input[type=date].fc{min-width:110px}
 }
-@media(max-width:420px){.kgrid{grid-template-columns:1fr 1fr}}
+@media(max-width:420px){.kgrid,.kgrid.k4{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <div class="logo"><div class="logo-mark">SS</div>SolarSquare <span class="logo-div">|</span><span class="logo-sub">Pre-Sales</span></div>
+  <div class="logo"><div class="logo-mark">SS</div>SolarSquare<span class="logo-div">|</span><span class="logo-sub">Pre-Sales</span></div>
   <div class="topbar-r">
     <div class="data-pill" id="data-pill">—</div>
     <div id="upd-lbl">—</div>
@@ -180,27 +172,41 @@ input[type=date].fc{padding:4px 7px;min-width:126px}
 
 <div class="shell">
   <nav class="sidebar">
-    <div class="sh">Views</div>
+    <div class="sh">Lead state</div>
     <div class="ni active" data-tab="v1"><span class="ico">⊞</span>Cluster × Stage</div>
     <div class="ni" data-tab="calls"><span class="ico">☎</span>Call Attempts</div>
+    <div class="sh">Movement</div>
+    <div class="ni" data-tab="movement"><span class="ico">⇄</span>Daily Movement</div>
+    <div class="ni" data-tab="lrm"><span class="ico">◐</span>LRM Performance</div>
+    <div class="ni" data-tab="tat"><span class="ico">⌛</span>TAT</div>
     <div class="sh">Analytics</div>
     <div class="ni" data-tab="funnel"><span class="ico">▽</span>Stage Funnel</div>
     <div class="ni" data-tab="cohort"><span class="ico">⊟</span>Cohort</div>
+    <div class="sh">Coming soon</div>
+    <div class="ni preview" data-tab="quality"><span class="ico">⚑</span>Quality Check</div>
   </nav>
 
   <div class="main">
     <div class="mob-nav">
-      <span class="mob-tab active" data-tab="v1">Cluster × Stage</span>
-      <span class="mob-tab" data-tab="calls">Call Attempts</span>
+      <span class="mob-tab active" data-tab="v1">Cluster×Stage</span>
+      <span class="mob-tab" data-tab="calls">Calls</span>
+      <span class="mob-tab" data-tab="movement">Movement</span>
+      <span class="mob-tab" data-tab="lrm">LRM</span>
+      <span class="mob-tab" data-tab="tat">TAT</span>
       <span class="mob-tab" data-tab="funnel">Funnel</span>
       <span class="mob-tab" data-tab="cohort">Cohort</span>
+      <span class="mob-tab" data-tab="quality">Quality</span>
     </div>
     <div class="sticky-hdr"><span class="tab-name" id="tab-name">Cluster × Stage</span></div>
     <div class="scroll-area" id="scroll-area">
-      <div id="p-v1"     class="panel active"><div class="stb"><div class="spin"></div>Loading…</div></div>
-      <div id="p-calls"  class="panel"></div>
-      <div id="p-funnel" class="panel"></div>
-      <div id="p-cohort" class="panel"></div>
+      <div id="p-v1"       class="panel active"><div class="stb"><div class="spin"></div>Loading…</div></div>
+      <div id="p-calls"    class="panel"></div>
+      <div id="p-movement" class="panel"></div>
+      <div id="p-lrm"      class="panel"></div>
+      <div id="p-tat"      class="panel"></div>
+      <div id="p-funnel"   class="panel"></div>
+      <div id="p-cohort"   class="panel"></div>
+      <div id="p-quality"  class="panel"></div>
     </div>
   </div>
 </div>
@@ -208,131 +214,49 @@ input[type=date].fc{padding:4px 7px;min-width:126px}
 <script>
 'use strict';
 
-// ── STATUS → STAGE HIERARCHY ─────────────────────────────────────────────────
+// ── STATUS HIERARCHY ─────────────────────────────────────────────────────────
 const STATUS_STAGE_MAP = {
-  'Open':            ['Call Later','Assigned','Meeting Scheduled (BD)','Call Not Connected',
-                      'New Opportunity','Qualification in Progress','Open-Assigned','Presales',
-                      'Language Issue','Call Later (Under Construction)','Call Later (Interested)',
-                      'Open-Call Not Connected','Duplicate Opportunity','Already Spoken',
-                      'Meet Later (Qualified)','Language Barrier','Need Payment Details',
-                      'Qualification in progress'],
-  'Connected':       ['Meeting Confirmed - Customer Home','Speed Order','DEV Scheduled',
-                      'DEV Done','Design Created','Meeting Postponed','DEV Postponed'],
-  'Booked':          ['Booking Processing','Booking Pending by ZSM','Booking Pending by Cx',
-                      'Verification Rejected','Pending Verification',
-                      'Booking Rejected by ZSM','Booking Rejected by Cx'],
-  'Closed - Lost':   ['Lead - Not Qualified','Lead - Not Interested','Meeting - Not Qualified',
-                      'Meeting - Not Interested','Meeting - Not Inteterested',
-                      'Lost to Competitor','Meeting Done - Customer Not Reachable','Assigned'],
+  'Open':            ['Call Later','Assigned','Meeting Scheduled (BD)','Call Not Connected','New Opportunity','Qualification in Progress','Open-Assigned','Presales','Language Issue','Call Later (Under Construction)','Call Later (Interested)','Open-Call Not Connected','Duplicate Opportunity','Already Spoken','Meet Later (Qualified)','Language Barrier','Need Payment Details','Qualification in progress'],
+  'Connected':       ['Meeting Confirmed - Customer Home','Speed Order','DEV Scheduled','DEV Done','Design Created','Meeting Postponed','DEV Postponed'],
+  'Booked':          ['Booking Processing','Booking Pending by ZSM','Booking Pending by Cx','Verification Rejected','Pending Verification','Booking Rejected by ZSM','Booking Rejected by Cx'],
+  'Closed - Lost':   ['Lead - Not Qualified','Lead - Not Interested','Meeting - Not Qualified','Meeting - Not Interested','Meeting - Not Inteterested','Lost to Competitor','Meeting Done - Customer Not Reachable','Assigned'],
   'Closed - Cold':   ['Future Followup Required','Lead - Not Interested','Inactive Lead','Assigned'],
-  'Meeting':         ['Meeting Done - Hot','Meeting Done - Moderate','Followup On Call',
-                      'Meeting Done - Customer Not Reachable','On-Hold',
-                      'Followup At Home','Followup Rescheduled'],
-  'Prequalification':['Qualification In Progress','Lost In Qualification','Qualification Remaining',
-                      'Assigned','New Lead','Language Issue'],
+  'Meeting':         ['Meeting Done - Hot','Meeting Done - Moderate','Followup On Call','Meeting Done - Customer Not Reachable','On-Hold','Followup At Home','Followup Rescheduled'],
+  'Prequalification':['Qualification In Progress','Lost In Qualification','Qualification Remaining','Assigned','New Lead','Language Issue'],
   'Closed - Won':    ['Order Confirmed'],
-  'Lost':            ['SIQ - Opportunity Remaining','SIQ - Opportunity Exhausted',
-                      'Not Interested in Solar','Lost to Competitor',
-                      'Non Qualified - Roof Area Insufficient','Not Serviceable - SSE not in location',
-                      'Wrong Number','Number Does Not Exist','Duplicate Opportunity',
-                      'Not Serviceable - Offgrid Enquiry','Not Interested',
-                      'Non Qualified - Bill Amount Insufficient','Cold',
-                      'Non Qualified - No Roof Ownership','Not Solar Enquiry - Vendor / Franchisee',
-                      'SIQ - Remaining','lost to competitor','Non Qualified - Not Govt Meter',
-                      'Housing Society Enquiry','Not Solar Enquiry - SolarPro Enquiry',
-                      'Commercial Lead','Non Qualified - Roof Not Fit for Solar',
-                      'Meter Connection Not Yet Available','DNC Lead: Outreach Stopped']
+  'Lost':            ['SIQ - Opportunity Remaining','SIQ - Opportunity Exhausted','Not Interested in Solar','Lost to Competitor','Non Qualified - Roof Area Insufficient','Not Serviceable - SSE not in location','Wrong Number','Number Does Not Exist','Duplicate Opportunity','Not Serviceable - Offgrid Enquiry','Not Interested','Non Qualified - Bill Amount Insufficient','Cold','Non Qualified - No Roof Ownership','Not Solar Enquiry - Vendor / Franchisee','SIQ - Remaining','lost to competitor','Non Qualified - Not Govt Meter','Housing Society Enquiry','Not Solar Enquiry - SolarPro Enquiry','Commercial Lead','Non Qualified - Roof Not Fit for Solar','Meter Connection Not Yet Available','DNC Lead: Outreach Stopped']
 };
-
-const STATUS_ORDER = ['Open','Connected','Booked','Closed - Lost','Closed - Cold',
-                      'Meeting','Prequalification','Closed - Won','Lost'];
-
-const STATUS_COLORS = {
-  'Open':'#3b82f6','Connected':'#10b981','Prequalification':'#6366f1',
-  'Meeting':'#f59e0b','Booked':'#8b5cf6','Closed - Won':'#22c55e',
-  'Closed - Lost':'#ef4444','Closed - Cold':'#94a3b8','Lost':'#f97316','Unknown':'#64748b'
-};
-const STATUS_BG = {
-  'Open':'#eff6ff','Connected':'#f0fdf4','Prequalification':'#eef2ff',
-  'Meeting':'#fffbeb','Booked':'#f5f3ff','Closed - Won':'#f0fdf4',
-  'Closed - Lost':'#fef2f2','Closed - Cold':'#f8fafc','Lost':'#fff7ed','Unknown':'#f8fafc'
-};
+const STATUS_ORDER = ['Open','Connected','Booked','Closed - Lost','Closed - Cold','Meeting','Prequalification','Closed - Won','Lost'];
+const STATUS_COLORS = {'Open':'#3b82f6','Connected':'#10b981','Prequalification':'#6366f1','Meeting':'#f59e0b','Booked':'#8b5cf6','Closed - Won':'#22c55e','Closed - Lost':'#ef4444','Closed - Cold':'#94a3b8','Lost':'#f97316','Unknown':'#64748b'};
+const STATUS_BG = {'Open':'#eff6ff','Connected':'#f0fdf4','Prequalification':'#eef2ff','Meeting':'#fffbeb','Booked':'#f5f3ff','Closed - Won':'#f0fdf4','Closed - Lost':'#fef2f2','Closed - Cold':'#f8fafc','Lost':'#fff7ed','Unknown':'#f8fafc'};
 
 // ── STATE ────────────────────────────────────────────────────────────────────
-let DATA=null, CALLS=null, curTab='v1', rendered={}, charts={};
+let DATA=null, CALLS=null, MOVE=null, EOD=null, LRM_DATA=null, TAT_DATA=null;
+let curTab='v1', rendered={}, charts={};
 let V1={sel:[],comp:false,pct:false};
 let CV={sel:['Open'],stageSel:'all'};
 let FN={sel:[]};
+let MV={mode:'transitions',level:'stage',preset:'yesterday',cluster:'all',lrm:'all',fromStage:'all',toStage:'all'};
+let LRMV={preset:'last7',cluster:'all',lrm:'all'};
+let TATV={metric:'tat_first_call',percentile:50,cluster:'all',lrm:'all',preset:'last30'};
 
-// ── DOM HELPERS ──────────────────────────────────────────────────────────────
+// ── HELPERS ──────────────────────────────────────────────────────────────────
 const $=id=>document.getElementById(id);
 const f=n=>(n==null||isNaN(n))?'—':Math.round(n).toLocaleString('en-IN');
+const fdec=(n,d=1)=>(n==null||isNaN(n))?'—':Number(n).toFixed(d);
 const pct=(a,b)=>b?((a/b)*100).toFixed(1)+'%':'—';
 
-// Format YYYY-MM-DD → "21-May-2026"
 const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 function fmtNice(yyyymmdd){
-  if(!yyyymmdd) return '—';
-  const m = String(yyyymmdd).match(/^(\d{4})-(\d{2})-(\d{2})/);
-  if(!m) return yyyymmdd;
-  return `${m[3]}-${MONTHS[parseInt(m[2])-1]}-${m[1]}`;
+  if(!yyyymmdd)return'—';
+  const m=String(yyyymmdd).match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if(!m)return yyyymmdd;
+  return`${m[3]}-${MONTHS[parseInt(m[2])-1]}-${m[1]}`;
 }
-function fmtNiceDate(d){
-  if(!d) return '—';
-  return `${String(d.getDate()).padStart(2,'0')}-${MONTHS[d.getMonth()]}-${d.getFullYear()}`;
-}
-
-// ── TAB SWITCHING ────────────────────────────────────────────────────────────
-document.querySelectorAll('.ni,.mob-tab').forEach(el=>
-  el.addEventListener('click',()=>sw(el.dataset.tab)));
-
-function sw(tab){
-  if(curTab===tab)return;
-  document.querySelectorAll('.ni,.mob-tab').forEach(e=>e.classList.toggle('active',e.dataset.tab===tab));
-  $('p-'+curTab).classList.remove('active');
-  $('p-'+tab).classList.add('active');
-  curTab=tab;
-  $('tab-name').textContent={v1:'Cluster × Stage',calls:'Call Attempts & Overdue',funnel:'Stage Funnel',cohort:'Cohort View'}[tab]||tab;
-  $('scroll-area').scrollTop=0;
-  if(!rendered[tab])buildTab(tab);
-}
-function buildTab(t){
-  if(!DATA)return;
-  ({v1:bV1,calls:bCalls,funnel:bFunnel,cohort:bCohort}[t]||Function)();
-  rendered[t]=true;
-}
-
-// ── LOAD DATA ────────────────────────────────────────────────────────────────
-async function loadData(){
-  $('upd-lbl').textContent='Loading…';
-  try{
-    const res=await fetch('./data/city_stage.json?t='+Date.now());
-    if(!res.ok)throw new Error('HTTP '+res.status);
-    DATA=await res.json();
-    rendered={};
-    $('data-pill').textContent=(DATA.meta.total_leads||0).toLocaleString('en-IN')+' leads';
-    $('upd-lbl').textContent='Updated '+new Date(DATA.meta.generated_at)
-      .toLocaleString('en-IN',{timeZone:'Asia/Kolkata',day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit',hour12:false});
-    buildTab(curTab);
-  }catch(e){
-    $('upd-lbl').textContent='Error';
-    $('p-'+curTab).innerHTML=`<div class="err">⚠ Cannot load data/city_stage.json<br>${e.message}</div>`;
-  }
-}
-
-async function loadCalls(){
-  if(CALLS) return CALLS;
-  const res = await fetch('./data/call_attempts.json?t='+Date.now());
-  if(!res.ok) throw new Error('HTTP '+res.status);
-  CALLS = await res.json();
-  return CALLS;
-}
-
-// ── DATE UTILS ──────────────────────────────────────────────────────────────
+function fmtD(d){return d?d.toISOString().slice(0,10):'';}
 const sd=d=>{const r=new Date(d);r.setHours(0,0,0,0);return r;};
 const ed=d=>{const r=new Date(d);r.setHours(23,59,59,999);return r;};
 const da=n=>{const d=new Date();d.setDate(d.getDate()-n);return d;};
-const fmtD=d=>d?d.toISOString().slice(0,10):'';
 
 function presetRange(p){
   const now=new Date();
@@ -344,14 +268,7 @@ function presetRange(p){
   const lms=new Date(now.getFullYear(),now.getMonth()-1,1);
   const lme=new Date(now.getFullYear(),now.getMonth(),0);
   const ys=new Date(now.getFullYear(),0,1);
-  const map={
-    today:[sd(now),ed(now)],yesterday:[sd(da(1)),ed(da(1))],
-    last7:[sd(da(6)),ed(now)],last30:[sd(da(29)),ed(now)],
-    thisweek:[sd(ws),ed(now)],lastweek:[sd(lws),ed(lwe)],
-    thismonth:[sd(ms),ed(now)],lastmonth:[sd(lms),ed(lme)],
-    last3mo:[sd(da(89)),ed(now)],thisyear:[sd(ys),ed(now)],
-    alltime:[new Date('2025-01-01'),ed(now)]
-  };
+  const map={today:[sd(now),ed(now)],yesterday:[sd(da(1)),ed(da(1))],last7:[sd(da(6)),ed(now)],last30:[sd(da(29)),ed(now)],thisweek:[sd(ws),ed(now)],lastweek:[sd(lws),ed(lwe)],thismonth:[sd(ms),ed(now)],lastmonth:[sd(lms),ed(lme)],last3mo:[sd(da(89)),ed(now)],thisyear:[sd(ys),ed(now)],alltime:[new Date('2025-01-01'),ed(now)]};
   return map[p]||[sd(da(29)),ed(now)];
 }
 
@@ -373,21 +290,30 @@ function filterDR(recs,from,to){
     if(!r.cohort_week||r.cohort_week==='Unknown')return false;
     const ws=new Date(r.cohort_week+'T00:00:00');
     const we=new Date(ws);we.setDate(we.getDate()+6);we.setHours(23,59,59,999);
-    if(from&&we<from)return false;
-    if(to&&ws>to)return false;
+    if(from&&we<from)return false;if(to&&ws>to)return false;
     return true;
   });
 }
 
-// ── AGGREGATION ──────────────────────────────────────────────────────────────
+// Filter audit-derived records by date (records have a "date" field as YYYY-MM-DD)
+function filterByDate(recs,from,to){
+  if(!from&&!to)return recs;
+  return recs.filter(r=>{
+    const d=new Date(r.date+'T00:00:00');
+    if(from&&d<from)return false;
+    if(to&&d>to)return false;
+    return true;
+  });
+}
+
+// ── COMMON DATA HELPERS ──────────────────────────────────────────────────────
 function aggPivot(records,dimField){
   const pivot={},rowTotals={},dimTotals={};
   records.forEach(r=>{
     const row=r.cluster||'Unknown';
     const dim=r[dimField]||'Unknown';
     const n=r.lead_count||0;
-    pivot[row]=pivot[row]||{};
-    pivot[row][dim]=(pivot[row][dim]||0)+n;
+    pivot[row]=pivot[row]||{};pivot[row][dim]=(pivot[row][dim]||0)+n;
     rowTotals[row]=(rowTotals[row]||0)+n;
     dimTotals[dim]=(dimTotals[dim]||0)+n;
   });
@@ -398,9 +324,9 @@ function topClusters(aggA,aggB,n=20){
   s.delete('Unknown');
   return[...s].sort((a,b)=>(aggA.rowTotals[b]||0)-(aggA.rowTotals[a]||0)).slice(0,n);
 }
-function stageGroups(allDimTotals, selStatuses){
-  const statusList = selStatuses?.length>0 ? selStatuses : STATUS_ORDER;
-  const groups=[], assigned=new Set();
+function stageGroups(allDimTotals,selStatuses){
+  const statusList=selStatuses?.length>0?selStatuses:STATUS_ORDER;
+  const groups=[],assigned=new Set();
   statusList.forEach(status=>{
     const canonical=STATUS_STAGE_MAP[status]||[];
     const matched=[];
@@ -418,7 +344,7 @@ function buildColors(groups){
   const colors={};
   groups.forEach(({status,stages})=>{
     const hex=STATUS_COLORS[status]||'#94a3b8';
-    const [r,g,b]=hexRgb(hex);
+    const[r,g,b]=hexRgb(hex);
     const n=stages.length;
     stages.forEach((stage,i)=>{
       const a=n<=1?0.88:0.92-(i/Math.max(n-1,1))*0.48;
@@ -428,12 +354,8 @@ function buildColors(groups){
   return colors;
 }
 function hexRgb(hex){const h=hex.replace('#','');return[parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];}
-function dimAlpha(rgba,factor=0.55){
-  return rgba.replace(/rgba\((\d+),(\d+),(\d+),([\d.]+)\)/,(_,r,g,b,a)=>
-    `rgba(${r},${g},${b},${(parseFloat(a)*factor).toFixed(2)})`);
-}
-
-// ── DELTA + HEAT ─────────────────────────────────────────────────────────────
+function dimAlpha(rgba,factor=0.55){return rgba.replace(/rgba\((\d+),(\d+),(\d+),([\d.]+)\)/,(_,r,g,b,a)=>`rgba(${r},${g},${b},${(parseFloat(a)*factor).toFixed(2)})`);}
+function hBg(v,max){if(!v||!max)return'';return`background:rgba(59,130,246,${((v/max)*0.38+0.05).toFixed(2)})`;}
 function dHtml(a,b){
   if(b==null)return'';
   const d=b-a,p=a>0?Math.round((d/a)*100):null;
@@ -441,18 +363,13 @@ function dHtml(a,b){
   const cls=d>0?'du':'dd',arr=d>0?'↑':'↓';
   return`<span class="${cls}">${arr}${p!=null?Math.abs(p)+'%':''}</span>`;
 }
-function hBg(v,max){
-  if(!v||!max)return'';
-  return`background:rgba(59,130,246,${((v/max)*0.38+0.05).toFixed(2)})`;
-}
 
-// ── SORTABLE ─────────────────────────────────────────────────────────────────
+// Sortable table — uses last-row of thead as header
 function makeSortable(tbl){
-  if(!tbl||tbl.dataset.s)return;
-  tbl.dataset.s='1';
-  const thead=tbl.querySelector('thead');
-  const lastRow=thead.querySelectorAll('tr');
-  const headers=lastRow[lastRow.length-1].querySelectorAll('th');
+  if(!tbl||tbl.dataset.s)return;tbl.dataset.s='1';
+  const thead=tbl.querySelector('thead');if(!thead)return;
+  const rows=thead.querySelectorAll('tr');
+  const headers=rows[rows.length-1].querySelectorAll('th');
   headers.forEach((th,ci)=>{
     th.classList.add('sortable');
     th.addEventListener('click',()=>{
@@ -469,711 +386,825 @@ function makeSortable(tbl){
     });
   });
 }
-function cn(row,ci){
-  const td=row.querySelectorAll('td')[ci];if(!td)return 0;
-  const t=td.textContent.replace(/[,%+↑↓·—%]/g,'').trim();
-  const n=parseFloat(t);return isNaN(n)?t:n;
-}
+function cn(row,ci){const td=row.querySelectorAll('td')[ci];if(!td)return 0;const t=td.textContent.replace(/[,%+↑↓·—%]/g,'').trim();const n=parseFloat(t);return isNaN(n)?t:n;}
 function autoSort(el){el?.querySelectorAll('table').forEach(makeSortable);}
 
-// ── MULTI-SELECT WIDGET (reusable) ──────────────────────────────────────────
+// Multi-select setup (reusable per call)
 function setupMS(btnId,ddId,allId,chkClass,applyId,clearId,onApply){
   const btn=$(btnId),dd=$(ddId);if(!btn||!dd)return;
   const wrap=btn.closest('.ms-wrap');
   btn.addEventListener('click',e=>{e.stopPropagation();dd.classList.toggle('open');});
-  document.addEventListener('click',e=>{
-    if(wrap&&!wrap.contains(e.target))dd.classList.remove('open');
-  });
+  document.addEventListener('click',e=>{if(wrap&&!wrap.contains(e.target))dd.classList.remove('open');});
   dd.addEventListener('click',e=>e.stopPropagation());
   const allChk=$(allId);
   const chks=()=>[...document.querySelectorAll(chkClass)];
-  allChk?.addEventListener('change',()=>{
-    if(allChk.checked)chks().forEach(c=>c.checked=false);
-  });
-  document.querySelectorAll(chkClass).forEach(c=>
-    c.addEventListener('change',()=>{
-      if(allChk)allChk.checked=chks().every(c2=>!c2.checked);
-    }));
-  $(clearId)?.addEventListener('click',()=>{
-    chks().forEach(c=>c.checked=false);
-    if(allChk)allChk.checked=true;
-  });
+  allChk?.addEventListener('change',()=>{if(allChk.checked)chks().forEach(c=>c.checked=false);});
+  document.querySelectorAll(chkClass).forEach(c=>c.addEventListener('change',()=>{if(allChk)allChk.checked=chks().every(c2=>!c2.checked);}));
+  $(clearId)?.addEventListener('click',()=>{chks().forEach(c=>c.checked=false);if(allChk)allChk.checked=true;});
   $(applyId)?.addEventListener('click',()=>{
     const sel=chks().filter(c=>c.checked).map(c=>c.value);
-    btn.textContent=sel.length===0?'All Statuses':sel.length===1?sel[0]:`${sel.length} Statuses`;
+    btn.textContent=sel.length===0?'All':sel.length===1?sel[0]:`${sel.length} selected`;
     dd.classList.remove('open');
     onApply(sel);
   });
 }
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// VIEW 1 — CLUSTER × STAGE
-// ═══════════════════════════════════════════════════════════════════════════════
+// Percentile from sorted array
+function percentile(sortedArr,p){
+  if(!sortedArr.length)return null;
+  const idx=(p/100)*(sortedArr.length-1);
+  const lo=Math.floor(idx),hi=Math.ceil(idx);
+  if(lo===hi)return sortedArr[lo];
+  return sortedArr[lo]+(sortedArr[hi]-sortedArr[lo])*(idx-lo);
+}
+function avg(arr){if(!arr.length)return null;return arr.reduce((s,n)=>s+n,0)/arr.length;}
+
+// ── TAB SWITCHING ────────────────────────────────────────────────────────────
+document.querySelectorAll('.ni,.mob-tab').forEach(el=>el.addEventListener('click',()=>sw(el.dataset.tab)));
+function sw(tab){
+  if(curTab===tab)return;
+  document.querySelectorAll('.ni,.mob-tab').forEach(e=>e.classList.toggle('active',e.dataset.tab===tab));
+  $('p-'+curTab).classList.remove('active');
+  $('p-'+tab).classList.add('active');
+  curTab=tab;
+  const names={v1:'Cluster × Stage',calls:'Call Attempts & Overdue',movement:'Daily Movement',lrm:'LRM Performance',tat:'TAT Analysis',funnel:'Stage Funnel',cohort:'Cohort View',quality:'Quality Check (Preview)'};
+  $('tab-name').textContent=names[tab]||tab;
+  $('scroll-area').scrollTop=0;
+  if(!rendered[tab])buildTab(tab);
+}
+function buildTab(t){
+  if(!DATA&&t!=='quality')return;
+  ({v1:bV1,calls:bCalls,movement:bMovement,lrm:bLRM,tat:bTAT,funnel:bFunnel,cohort:bCohort,quality:bQuality}[t]||Function)();
+  rendered[t]=true;
+}
+
+// ── LOAD DATA ────────────────────────────────────────────────────────────────
+async function loadData(){
+  $('upd-lbl').textContent='Loading…';
+  try{
+    const res=await fetch('./data/city_stage.json?t='+Date.now());
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    DATA=await res.json();
+    rendered={};
+    $('data-pill').textContent=(DATA.meta.total_leads||0).toLocaleString('en-IN')+' leads';
+    $('upd-lbl').textContent='Updated '+new Date(DATA.meta.generated_at).toLocaleString('en-IN',{timeZone:'Asia/Kolkata',day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit',hour12:false});
+    buildTab(curTab);
+  }catch(e){
+    $('upd-lbl').textContent='Error';
+    $('p-'+curTab).innerHTML=`<div class="err">⚠ Cannot load data/city_stage.json<br>${e.message}</div>`;
+  }
+}
+async function loadJSON(name,varName){
+  if(window[varName])return window[varName];
+  const res=await fetch(`./data/${name}.json?t=`+Date.now());
+  if(!res.ok)throw new Error('HTTP '+res.status);
+  window[varName]=await res.json();
+  return window[varName];
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// VIEW 1 — CLUSTER × STAGE  (unchanged from prior version, included for completeness)
+// ════════════════════════════════════════════════════════════════════════════
 function bV1(){
   const presentSt=new Set(DATA.records.map(r=>r.lead_status).filter(Boolean));
-  const activeStatuses=[
-    ...STATUS_ORDER.filter(s=>presentSt.has(s)),
-    ...[...presentSt].filter(s=>s&&s!=='Unknown'&&!STATUS_ORDER.includes(s))
-  ];
-  const presetOpts=`
-    <option value="last30">Last 30 days</option>
-    <option value="last7">Last 7 days</option>
-    <option value="today">Today</option>
-    <option value="yesterday">Yesterday</option>
-    <option value="thisweek">This week</option>
-    <option value="lastweek">Last week</option>
-    <option value="thismonth">This month</option>
-    <option value="lastmonth">Last month</option>
-    <option value="last3mo">Last 3 months</option>
-    <option value="thisyear">This year</option>
-    <option value="alltime">All time</option>
-    <option value="custom">Custom</option>`;
+  const activeStatuses=[...STATUS_ORDER.filter(s=>presentSt.has(s)),...[...presentSt].filter(s=>s&&s!=='Unknown'&&!STATUS_ORDER.includes(s))];
+  const presetOpts=`<option value="last30">Last 30 days</option><option value="last7">Last 7 days</option><option value="today">Today</option><option value="yesterday">Yesterday</option><option value="thisweek">This week</option><option value="lastweek">Last week</option><option value="thismonth">This month</option><option value="lastmonth">Last month</option><option value="last3mo">Last 3 months</option><option value="thisyear">This year</option><option value="alltime">All time</option><option value="custom">Custom</option>`;
 
-  $('p-v1').innerHTML=`
-  <div class="fb">
-    <div class="fr">
-      <div class="fg"><span class="flbl">Status</span>
-        <div class="ms-wrap" id="v1-ms-wrap">
-          <button class="ms-btn" id="v1-ms-btn" type="button">All Statuses</button>
-          <div class="ms-dd" id="v1-ms-dd">
-            <div class="ms-list">
-              <label class="ms-opt"><input type="checkbox" id="v1-ms-all" checked>&nbsp;All Statuses</label>
-              <div class="ms-sep"></div>
-              ${activeStatuses.map(s=>`<label class="ms-opt"><input type="checkbox" class="v1-ms-chk" value="${s}"><span class="ms-dot" style="background:${STATUS_COLORS[s]||'#94a3b8'}"></span>${s}</label>`).join('')}
-            </div>
-            <div class="ms-foot"><button class="ms-clear" id="v1-ms-clr">Clear</button><button class="ms-apply" id="v1-ms-apl">Apply</button></div>
-          </div>
-        </div>
-      </div>
-      <div class="fg"><span class="flbl">Period A <span class="sub">(lead creation date)</span></span>
-        <div class="frow">
-          <select class="fc" id="v1-pa">${presetOpts}</select>
-          <span class="fi">From</span><input type="date" class="fc" id="v1-fa">
-          <span class="fi">To</span><input type="date" class="fc" id="v1-ta">
-        </div>
-      </div>
-      <div class="fg" style="margin-left:auto"><span class="flbl">Display</span>
-        <div class="frow" style="gap:8px">
-          <div class="tgl" id="v1-ptgl"><button class="tgl-b on" data-pct="0">Absolute</button><button class="tgl-b" data-pct="1">%</button></div>
-          <button class="comp-btn" id="v1-comp">+ Compare</button>
-        </div>
-      </div>
-    </div>
+  $('p-v1').innerHTML=`<div class="fb"><div class="fr">
+    <div class="fg"><span class="flbl">Status</span>
+      <div class="ms-wrap" id="v1-ms-wrap"><button class="ms-btn" id="v1-ms-btn">All Statuses</button>
+        <div class="ms-dd" id="v1-ms-dd"><div class="ms-list">
+          <label class="ms-opt"><input type="checkbox" id="v1-ms-all" checked>&nbsp;All Statuses</label><div class="ms-sep"></div>
+          ${activeStatuses.map(s=>`<label class="ms-opt"><input type="checkbox" class="v1-ms-chk" value="${s}"><span class="ms-dot" style="background:${STATUS_COLORS[s]||'#94a3b8'}"></span>${s}</label>`).join('')}
+        </div><div class="ms-foot"><button class="ms-clear" id="v1-ms-clr">Clear</button><button class="ms-apply" id="v1-ms-apl">Apply</button></div></div>
+      </div></div>
+    <div class="fg"><span class="flbl">Period A <span class="sub">(lead creation date)</span></span>
+      <div class="frow"><select class="fc" id="v1-pa">${presetOpts}</select>
+        <span class="fi">From</span><input type="date" class="fc" id="v1-fa">
+        <span class="fi">To</span><input type="date" class="fc" id="v1-ta"></div></div>
+    <div class="fg" style="margin-left:auto"><span class="flbl">Display</span>
+      <div class="frow" style="gap:8px">
+        <div class="tgl" id="v1-ptgl"><button class="tgl-b on" data-pct="0">Absolute</button><button class="tgl-b" data-pct="1">%</button></div>
+        <button class="comp-btn" id="v1-comp">+ Compare</button></div></div></div>
     <div class="fr" id="v1-brow" style="display:none">
       <span class="ptag pa">A</span><span style="font-size:11px;color:var(--t2)">vs</span><span class="ptag pb">B</span>
       <span style="font-size:10px;color:var(--t3);margin-left:4px">(lead creation date)</span>
       <div class="fg"><div class="frow">
         <select class="fc" id="v1-pb"><option value="lastmonth">Last month</option>${presetOpts}</select>
         <span class="fi">From</span><input type="date" class="fc" id="v1-fb">
-        <span class="fi">To</span><input type="date" class="fc" id="v1-tb">
-      </div></div>
-    </div>
-  </div>
-  <div class="kgrid" id="v1-kpis"></div>
-  <div class="sc">
-    <div class="sc-h"><span class="sc-t" id="v1-chart-title">Stage breakdown by cluster</span><span class="sc-hi" id="v1-chart-sub">Stages coloured by parent status</span></div>
-    <div class="sc-b"><div class="cw"><canvas id="v1-cv"></canvas></div></div>
-  </div>
-  <div class="sc">
-    <div class="sc-h"><span class="sc-t">Cluster × Stage matrix</span><span class="sc-hi">Grouped by status · click header to sort</span></div>
-    <div style="overflow-x:auto;max-height:480px;overflow-y:auto"><div class="tw" id="v1-mx"></div></div>
-  </div>`;
-
+        <span class="fi">To</span><input type="date" class="fc" id="v1-tb"></div></div></div></div>
+    <div class="kgrid" id="v1-kpis"></div>
+    <div class="sc"><div class="sc-h"><span class="sc-t" id="v1-chart-title">Stage breakdown by cluster</span><span class="sc-hi" id="v1-chart-sub">Stages coloured by parent status</span></div>
+      <div class="sc-b"><div class="cw"><canvas id="v1-cv"></canvas></div></div></div>
+    <div class="sc"><div class="sc-h"><span class="sc-t">Cluster × Stage matrix</span><span class="sc-hi">Grouped by status · click header to sort</span></div>
+      <div style="overflow-x:auto;max-height:480px;overflow-y:auto"><div class="tw" id="v1-mx"></div></div></div>`;
   setupMS('v1-ms-btn','v1-ms-dd','v1-ms-all','.v1-ms-chk','v1-ms-apl','v1-ms-clr',sel=>{V1.sel=sel;renderV1();});
   ['v1-pa','v1-pb'].forEach(id=>$(id)?.addEventListener('change',e=>{if(e.target.value!=='custom')renderV1();}));
   ['v1-fa','v1-ta'].forEach(id=>$(id)?.addEventListener('change',()=>{$('v1-pa').value='custom';renderV1();}));
   ['v1-fb','v1-tb'].forEach(id=>$(id)?.addEventListener('change',()=>{$('v1-pb').value='custom';renderV1();}));
-  $('v1-ptgl')?.querySelectorAll('.tgl-b').forEach(btn=>
-    btn.addEventListener('click',()=>{
-      $('v1-ptgl').querySelectorAll('.tgl-b').forEach(b=>b.classList.remove('on'));
-      btn.classList.add('on');V1.pct=btn.dataset.pct==='1';renderV1();
-    }));
-  $('v1-comp')?.addEventListener('click',()=>{
-    V1.comp=!V1.comp;
-    const btn=$('v1-comp'),row=$('v1-brow');
-    btn.textContent=V1.comp?'× Remove Comparison':'+ Compare';
-    btn.classList.toggle('on',V1.comp);
-    row.style.display=V1.comp?'flex':'none';
-    renderV1();
-  });
+  $('v1-ptgl')?.querySelectorAll('.tgl-b').forEach(btn=>btn.addEventListener('click',()=>{$('v1-ptgl').querySelectorAll('.tgl-b').forEach(b=>b.classList.remove('on'));btn.classList.add('on');V1.pct=btn.dataset.pct==='1';renderV1();}));
+  $('v1-comp')?.addEventListener('click',()=>{V1.comp=!V1.comp;const btn=$('v1-comp'),row=$('v1-brow');btn.textContent=V1.comp?'× Remove Comparison':'+ Compare';btn.classList.toggle('on',V1.comp);row.style.display=V1.comp?'flex':'none';renderV1();});
   setTimeout(renderV1,0);
 }
 
 function renderV1(){
-  if(!DATA)return;
-  const{sel,comp,pct}=V1;
-  const drA=getDR('v1-pa','v1-fa','v1-ta');
-  let rA=filterDR(DATA.records,drA.from,drA.to);
+  if(!DATA)return;const{sel,comp,pct:pctM}=V1;
+  const drA=getDR('v1-pa','v1-fa','v1-ta');let rA=filterDR(DATA.records,drA.from,drA.to);
   if(sel.length>0)rA=rA.filter(r=>sel.includes(r.lead_status));
   let rB=null;
-  if(comp){
-    const drB=getDR('v1-pb','v1-fb','v1-tb');
-    rB=filterDR(DATA.records,drB.from,drB.to);
-    if(sel.length>0)rB=rB.filter(r=>sel.includes(r.lead_status));
-  }
-  const aggA=aggPivot(rA,'lead_stage');
-  const aggB=rB?aggPivot(rB,'lead_stage'):null;
+  if(comp){const drB=getDR('v1-pb','v1-fb','v1-tb');rB=filterDR(DATA.records,drB.from,drB.to);if(sel.length>0)rB=rB.filter(r=>sel.includes(r.lead_status));}
+  const aggA=aggPivot(rA,'lead_stage');const aggB=rB?aggPivot(rB,'lead_stage'):null;
   const allDims={...aggA.dimTotals,...(aggB?.dimTotals||{})};
-  const groups=stageGroups(allDims,sel);
-  const colors=buildColors(groups);
-  const stages=groups.flatMap(g=>g.stages);
-  const clusters=topClusters(aggA,aggB,20);
-  renderV1KPIs(rA,rB,comp);
-  renderV1Chart(aggA,aggB,stages,clusters,colors,groups,comp,pct);
-  renderV1Matrix(aggA,aggB,groups,stages,clusters,comp,pct);
+  const groups=stageGroups(allDims,sel);const colors=buildColors(groups);
+  const stages=groups.flatMap(g=>g.stages);const clusters=topClusters(aggA,aggB,20);
+  renderV1KPIs(rA,rB,comp);renderV1Chart(aggA,aggB,stages,clusters,colors,groups,comp,pctM);renderV1Matrix(aggA,aggB,groups,stages,clusters,comp,pctM);
 }
-
 function renderV1KPIs(rA,rB,comp){
-  const tA=rA.reduce((s,r)=>s+r.lead_count,0);
-  const tB=rB?rB.reduce((s,r)=>s+r.lead_count,0):null;
+  const tA=rA.reduce((s,r)=>s+r.lead_count,0);const tB=rB?rB.reduce((s,r)=>s+r.lead_count,0):null;
   const ss=(recs,st)=>recs.filter(r=>r.lead_status===st).reduce((s,r)=>s+r.lead_count,0);
-  const kpis=[
-    {l:'Total Leads',c:'cb',a:tA,b:tB},
-    {l:'Open',c:'cb',a:ss(rA,'Open'),b:rB?ss(rB,'Open'):null},
-    {l:'Meeting',c:'ca',a:ss(rA,'Meeting'),b:rB?ss(rB,'Meeting'):null},
-    {l:'Closed - Won',c:'cg',a:ss(rA,'Closed - Won'),b:rB?ss(rB,'Closed - Won'):null},
-    {l:'Closed - Lost',c:'cr',a:ss(rA,'Closed - Lost'),b:rB?ss(rB,'Closed - Lost'):null},
-  ];
+  const kpis=[{l:'Total Leads',c:'cb',a:tA,b:tB},{l:'Open',c:'cb',a:ss(rA,'Open'),b:rB?ss(rB,'Open'):null},{l:'Meeting',c:'ca',a:ss(rA,'Meeting'),b:rB?ss(rB,'Meeting'):null},{l:'Closed - Won',c:'cg',a:ss(rA,'Closed - Won'),b:rB?ss(rB,'Closed - Won'):null},{l:'Closed - Lost',c:'cr',a:ss(rA,'Closed - Lost'),b:rB?ss(rB,'Closed - Lost'):null}];
   $('v1-kpis').innerHTML=kpis.map(k=>{
     if(!comp)return`<div class="kcard"><div class="kl">${k.l}</div><div class="kv ${k.c}">${f(k.a)}</div><div class="ks">${pct(k.a,tA)}</div></div>`;
-    const d=k.b!=null?k.b-k.a:null;
-    const dp=d!=null&&k.a>0?Math.round((d/k.a)*100):null;
-    return`<div class="kcard cmp"><div class="kl">${k.l}</div>
-      <div class="kcrow">
-        <span class="ka"><span class="ptag pa">A</span>${f(k.a)}</span>
-        <span class="kb"><span class="ptag pb">B</span>${f(k.b)}</span>
-      </div>${d!=null?`<div class="ks"><span class="kdelta ${d>0?'du':d<0?'dd':'dn'}">${d>0?'↑':d<0?'↓':'—'}${dp!=null?Math.abs(dp)+'%':''}</span></div>`:''}</div>`;
+    const d=k.b!=null?k.b-k.a:null;const dp=d!=null&&k.a>0?Math.round((d/k.a)*100):null;
+    return`<div class="kcard cmp"><div class="kl">${k.l}</div><div class="kcrow"><span class="ka"><span class="ptag pa">A</span>${f(k.a)}</span><span class="kb"><span class="ptag pb">B</span>${f(k.b)}</span></div>${d!=null?`<div class="ks"><span class="kdelta ${d>0?'du':d<0?'dd':'dn'}">${d>0?'↑':d<0?'↓':'—'}${dp!=null?Math.abs(dp)+'%':''}</span></div>`:''}</div>`;
   }).join('');
 }
-
-function renderV1Chart(aggA,aggB,stages,clusters,colors,groups,comp,pct){
-  const ctx=$('v1-cv');if(!ctx)return;
-  if(charts.v1){charts.v1.destroy();charts.v1=null;}
-  if(!clusters.length||!stages.length)return;
+function renderV1Chart(aggA,aggB,stages,clusters,colors,groups,comp,pctM){
+  const ctx=$('v1-cv');if(!ctx)return;if(charts.v1){charts.v1.destroy();charts.v1=null;}if(!clusters.length||!stages.length)return;
   const datasets=[];
   if(comp&&aggB){
-    stages.forEach(stage=>{
-      const col=colors[stage]||'#94a3b8';
-      datasets.push({label:`A: ${stage}`,
-        data:clusters.map(c=>{const v=aggA.pivot[c]?.[stage]||0;return pct?parseFloat(((v/(aggA.rowTotals[c]||1))*100).toFixed(1)):v;}),
-        backgroundColor:col,stack:'A',borderRadius:2});
-      datasets.push({label:`B: ${stage}`,
-        data:clusters.map(c=>{const v=aggB.pivot[c]?.[stage]||0;return pct?parseFloat(((v/(aggB.rowTotals[c]||1))*100).toFixed(1)):v;}),
-        backgroundColor:dimAlpha(col,0.55),stack:'B',borderRadius:2});
-    });
-  }else{
-    stages.forEach(stage=>{
-      datasets.push({label:stage,
-        data:clusters.map(c=>{const v=aggA.pivot[c]?.[stage]||0;return pct?parseFloat(((v/(aggA.rowTotals[c]||1))*100).toFixed(1)):v;}),
-        backgroundColor:colors[stage]||'#94a3b8',stack:'S',borderRadius:2});
-    });
-  }
+    stages.forEach(stage=>{const col=colors[stage]||'#94a3b8';
+      datasets.push({label:`A: ${stage}`,data:clusters.map(c=>{const v=aggA.pivot[c]?.[stage]||0;return pctM?parseFloat(((v/(aggA.rowTotals[c]||1))*100).toFixed(1)):v;}),backgroundColor:col,stack:'A',borderRadius:2});
+      datasets.push({label:`B: ${stage}`,data:clusters.map(c=>{const v=aggB.pivot[c]?.[stage]||0;return pctM?parseFloat(((v/(aggB.rowTotals[c]||1))*100).toFixed(1)):v;}),backgroundColor:dimAlpha(col,0.55),stack:'B',borderRadius:2});});
+  }else{stages.forEach(stage=>{datasets.push({label:stage,data:clusters.map(c=>{const v=aggA.pivot[c]?.[stage]||0;return pctM?parseFloat(((v/(aggA.rowTotals[c]||1))*100).toFixed(1)):v;}),backgroundColor:colors[stage]||'#94a3b8',stack:'S',borderRadius:2});});}
   const statusLabel=V1.sel.length===0?'All Statuses':V1.sel.length===1?V1.sel[0]:`${V1.sel.length} Statuses`;
   const t1=$('v1-chart-title'),t2=$('v1-chart-sub');
   if(t1)t1.textContent=comp?`Period A vs B — ${statusLabel}`:`${statusLabel} — stage breakdown by cluster`;
   if(t2)t2.textContent=comp?'Solid = Period A · Faded = Period B':'Stages coloured by parent status';
-  charts.v1=new Chart(ctx,{
-    type:'bar',data:{labels:clusters,datasets},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{position:'bottom',labels:{font:{size:9,family:"'DM Sans'"},boxWidth:9,padding:6,
-        filter:item=>!comp||(item.datasetIndex%2===0)}},
-        tooltip:{callbacks:{label:c=>`${c.dataset.label.replace(/^[AB]: /,'')}: ${c.parsed.y}${pct?'%':' leads'}`}}},
-      scales:{x:{stacked:true,grid:{display:false},ticks:{font:{size:10,family:"'DM Sans'"},maxRotation:45}},
-        y:{stacked:true,beginAtZero:true,grid:{color:'#f0f0f0'},
-          ticks:{font:{size:10},callback:v=>pct?v+'%':v.toLocaleString('en-IN')}}}
-    }
-  });
+  charts.v1=new Chart(ctx,{type:'bar',data:{labels:clusters,datasets},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:9,family:"'DM Sans'"},boxWidth:9,padding:6,filter:item=>!comp||(item.datasetIndex%2===0)}},tooltip:{callbacks:{label:c=>`${c.dataset.label.replace(/^[AB]: /,'')}: ${c.parsed.y}${pctM?'%':' leads'}`}}},scales:{x:{stacked:true,grid:{display:false},ticks:{font:{size:10,family:"'DM Sans'"},maxRotation:45}},y:{stacked:true,beginAtZero:true,grid:{color:'#f0f0f0'},ticks:{font:{size:10},callback:v=>pctM?v+'%':v.toLocaleString('en-IN')}}}}});
 }
-
-function renderV1Matrix(aggA,aggB,groups,stages,clusters,comp,pct){
+function renderV1Matrix(aggA,aggB,groups,stages,clusters,comp,pctM){
   const wrap=$('v1-mx');if(!wrap)return;
   if(!clusters.length||!stages.length){wrap.innerHTML='<div class="nd">No data for selected filters.</div>';return;}
-  const tA=Object.values(aggA.rowTotals).reduce((s,n)=>s+n,0);
-  const tB=aggB?Object.values(aggB.rowTotals).reduce((s,n)=>s+n,0):0;
-  const maxPerStage={};
-  stages.forEach(s=>{maxPerStage[s]=Math.max(...clusters.map(c=>Math.max(aggA.pivot[c]?.[s]||0,aggB?.pivot[c]?.[s]||0)),1);});
-
+  const tA=Object.values(aggA.rowTotals).reduce((s,n)=>s+n,0);const tB=aggB?Object.values(aggB.rowTotals).reduce((s,n)=>s+n,0):0;
+  const maxPerStage={};stages.forEach(s=>{maxPerStage[s]=Math.max(...clusters.map(c=>Math.max(aggA.pivot[c]?.[s]||0,aggB?.pivot[c]?.[s]||0)),1);});
   let html='<table><thead><tr><th rowspan="2">Cluster</th>';
-  groups.forEach(({status,stages:ss})=>{
-    const border=`border-left:3px solid ${STATUS_COLORS[status]||'#94a3b8'}`;
-    const span=comp?ss.length*3:ss.length;
-    html+=`<th colspan="${span}" style="${border};background:${STATUS_BG[status]||'#f8fafc'};color:${STATUS_COLORS[status]||'#374151'}">${status}</th>`;
-  });
+  groups.forEach(({status,stages:ss})=>{const border=`border-left:3px solid ${STATUS_COLORS[status]||'#94a3b8'}`;const span=comp?ss.length*3:ss.length;html+=`<th colspan="${span}" style="${border};background:${STATUS_BG[status]||'#f8fafc'};color:${STATUS_COLORS[status]||'#374151'}">${status}</th>`;});
   html+=comp?'<th colspan="3" style="background:#eef2ff;color:#3730a3">Total</th>':'<th rowspan="2" style="background:#eef2ff;color:#3730a3">Total</th>';
   html+='</tr><tr>';
-  groups.forEach(({status,stages:ss})=>{
-    ss.forEach((s,i)=>{
-      const border=i===0?`border-left:3px solid ${STATUS_COLORS[status]||'#94a3b8'}`:'';
-      if(comp){html+=`<th colspan="3" class="tdr" style="${border}" title="${s}">${s}</th>`;}
-      else{html+=`<th class="tdr" style="${border}" title="${s}">${s}</th>`;}
-    });
-  });
+  groups.forEach(({status,stages:ss})=>{ss.forEach((s,i)=>{const border=i===0?`border-left:3px solid ${STATUS_COLORS[status]||'#94a3b8'}`:'';if(comp){html+=`<th colspan="3" class="tdr" style="${border}" title="${s}">${s}</th>`;}else{html+=`<th class="tdr" style="${border}" title="${s}">${s}</th>`;}});});
   if(comp){html+='<th class="tdr" style="font-size:9px">A</th><th class="tdr" style="font-size:9px">B</th><th class="tdr" style="font-size:9px">Δ</th>';}
   html+='</tr></thead><tbody>';
   clusters.forEach(c=>{
     html+=`<tr><td class="tdc" title="${c}">${c}</td>`;
-    groups.forEach(({status,stages:ss})=>{
-      ss.forEach((stage,i)=>{
-        const border=i===0?`border-left:3px solid ${STATUS_COLORS[status]||'#94a3b8'}`:'';
-        const va=aggA.pivot[c]?.[stage]||0;
-        const vb=aggB?.pivot[c]?.[stage]||0;
-        if(comp){
-          const da2=pct?((va/(aggA.rowTotals[c]||1))*100).toFixed(1)+'%':(va||'·');
-          const db2=pct?((vb/(aggB?.rowTotals[c]||1))*100).toFixed(1)+'%':(vb||'·');
-          html+=`<td class="tdr mono" style="${hBg(va,maxPerStage[stage])};${border}">${da2}</td>`;
-          html+=`<td class="tdr mono" style="${hBg(vb,maxPerStage[stage])};opacity:.8">${db2}</td>`;
-          html+=`<td class="tdr">${dHtml(va,vb)}</td>`;
-        }else{
-          const disp=pct?((va/(aggA.rowTotals[c]||1))*100).toFixed(1)+'%':(va||'·');
-          html+=`<td class="tdr mono" style="${hBg(va,maxPerStage[stage])};${border}">${disp}</td>`;
-        }
-      });
-    });
+    groups.forEach(({status,stages:ss})=>{ss.forEach((stage,i)=>{const border=i===0?`border-left:3px solid ${STATUS_COLORS[status]||'#94a3b8'}`:'';const va=aggA.pivot[c]?.[stage]||0;const vb=aggB?.pivot[c]?.[stage]||0;
+      if(comp){const da2=pctM?((va/(aggA.rowTotals[c]||1))*100).toFixed(1)+'%':(va||'·');const db2=pctM?((vb/(aggB?.rowTotals[c]||1))*100).toFixed(1)+'%':(vb||'·');
+        html+=`<td class="tdr mono" style="${hBg(va,maxPerStage[stage])};${border}">${da2}</td><td class="tdr mono" style="${hBg(vb,maxPerStage[stage])};opacity:.8">${db2}</td><td class="tdr">${dHtml(va,vb)}</td>`;
+      }else{const disp=pctM?((va/(aggA.rowTotals[c]||1))*100).toFixed(1)+'%':(va||'·');html+=`<td class="tdr mono" style="${hBg(va,maxPerStage[stage])};${border}">${disp}</td>`;}});});
     const rA=aggA.rowTotals[c]||0,rB=aggB?.rowTotals[c]||0;
-    if(comp){
-      html+=`<td class="tdt">${pct?((rA/tA)*100).toFixed(1)+'%':f(rA)}</td>`;
-      html+=`<td class="tdb">${pct?((rB/tB)*100).toFixed(1)+'%':f(rB)}</td>`;
-      html+=`<td class="tdr">${dHtml(rA,rB)}</td>`;
-    }else{html+=`<td class="tdt">${pct?((rA/tA)*100).toFixed(1)+'%':f(rA)}</td>`;}
+    if(comp){html+=`<td class="tdt">${pctM?((rA/tA)*100).toFixed(1)+'%':f(rA)}</td><td class="tdb">${pctM?((rB/tB)*100).toFixed(1)+'%':f(rB)}</td><td class="tdr">${dHtml(rA,rB)}</td>`;}
+    else{html+=`<td class="tdt">${pctM?((rA/tA)*100).toFixed(1)+'%':f(rA)}</td>`;}
     html+='</tr>';
   });
   html+='<tr style="background:var(--sur2)"><td class="tdc" style="font-weight:600">Total</td>';
-  groups.forEach(({status,stages:ss})=>{
-    ss.forEach((stage,i)=>{
-      const border=i===0?`border-left:3px solid ${STATUS_COLORS[status]||'#94a3b8'}`:'';
-      const ta=aggA.dimTotals[stage]||0,tb=aggB?.dimTotals[stage]||0;
-      if(comp){
-        html+=`<td class="tdr" style="font-weight:600;${border}">${f(ta)}</td>`;
-        html+=`<td class="tdr" style="font-weight:600">${f(tb)}</td>`;
-        html+=`<td class="tdr">${dHtml(ta,tb)}</td>`;
-      }else{html+=`<td class="tdr" style="font-weight:600;${border}">${f(ta)}</td>`;}
-    });
-  });
-  if(comp){html+=`<td class="tdt">${f(tA)}</td><td class="tdb">${f(tB)}</td><td class="tdr">${dHtml(tA,tB)}</td>`;}
-  else{html+=`<td class="tdt">${f(tA)}</td>`;}
-  html+='</tr></tbody></table>';
-  wrap.innerHTML=html;
-  autoSort(wrap);
+  groups.forEach(({status,stages:ss})=>{ss.forEach((stage,i)=>{const border=i===0?`border-left:3px solid ${STATUS_COLORS[status]||'#94a3b8'}`:'';const ta=aggA.dimTotals[stage]||0,tb=aggB?.dimTotals[stage]||0;
+    if(comp){html+=`<td class="tdr" style="font-weight:600;${border}">${f(ta)}</td><td class="tdr" style="font-weight:600">${f(tb)}</td><td class="tdr">${dHtml(ta,tb)}</td>`;}
+    else{html+=`<td class="tdr" style="font-weight:600;${border}">${f(ta)}</td>`;}});});
+  if(comp){html+=`<td class="tdt">${f(tA)}</td><td class="tdb">${f(tB)}</td><td class="tdr">${dHtml(tA,tB)}</td>`;}else{html+=`<td class="tdt">${f(tA)}</td>`;}
+  html+='</tr></tbody></table>';wrap.innerHTML=html;autoSort(wrap);
 }
 
-// ═══════════════════════════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════════════════
 // CALL ATTEMPTS VIEW
-// ═══════════════════════════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════════════════
 async function bCalls(){
   $('p-calls').innerHTML='<div class="stb"><div class="spin"></div>Loading call data…</div>';
-  try{
-    await loadCalls();
-  }catch(e){
-    $('p-calls').innerHTML=`<div class="err">⚠ Cannot load data/call_attempts.json — run <code>python etl.py</code> to generate it<br>${e.message}</div>`;
-    return;
-  }
-
+  try{CALLS=await loadJSON('call_attempts','CALLS');}catch(e){$('p-calls').innerHTML=`<div class="err">⚠ Cannot load data/call_attempts.json — run <code>python etl.py</code> first<br>${e.message}</div>`;return;}
   const presentSt=new Set(CALLS.records.map(r=>r.lead_status).filter(Boolean));
-  const activeStatuses=[
-    ...STATUS_ORDER.filter(s=>presentSt.has(s)),
-    ...[...presentSt].filter(s=>s&&s!=='Unknown'&&!STATUS_ORDER.includes(s))
-  ];
-  // Default selection
+  const activeStatuses=[...STATUS_ORDER.filter(s=>presentSt.has(s)),...[...presentSt].filter(s=>s&&s!=='Unknown'&&!STATUS_ORDER.includes(s))];
   if(CV.sel.length===0||!CV.sel.every(s=>activeStatuses.includes(s)))CV.sel=activeStatuses.length?[activeStatuses[0]]:[];
-
-  $('p-calls').innerHTML=`
-  <div class="fb">
-    <div class="fr">
-      <div class="fg"><span class="flbl">Status</span>
-        <div class="ms-wrap" id="cv-ms-wrap">
-          <button class="ms-btn" id="cv-ms-btn" type="button">${CV.sel.length===1?CV.sel[0]:CV.sel.length+' Statuses'}</button>
-          <div class="ms-dd" id="cv-ms-dd">
-            <div class="ms-list">
-              <label class="ms-opt"><input type="checkbox" id="cv-ms-all">&nbsp;All Statuses</label>
-              <div class="ms-sep"></div>
-              ${activeStatuses.map(s=>`<label class="ms-opt"><input type="checkbox" class="cv-ms-chk" value="${s}" ${CV.sel.includes(s)?'checked':''}><span class="ms-dot" style="background:${STATUS_COLORS[s]||'#94a3b8'}"></span>${s}</label>`).join('')}
-            </div>
-            <div class="ms-foot"><button class="ms-clear" id="cv-ms-clr">Clear</button><button class="ms-apply" id="cv-ms-apl">Apply</button></div>
-          </div>
-        </div>
-      </div>
-      <div class="fg"><span class="flbl">Stage <span class="sub">(within selected statuses)</span></span>
-        <select class="fc" id="cv-stage" style="min-width:200px"><option value="all">All Stages</option></select>
-      </div>
-      <div class="fg" style="margin-left:auto;text-align:right">
-        <span class="flbl">As of</span>
-        <span style="font-size:12px;font-weight:600;color:var(--tx);font-family:'DM Mono',monospace">${fmtNice(CALLS.meta.as_of_date)}</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="kgrid" id="cv-kpis"></div>
-
-  <div class="sc">
-    <div class="sc-h">
-      <span class="sc-t">Daily activity & overdue summary</span>
-      <span class="sc-hi">Counts as of ${fmtNice(CALLS.meta.as_of_date)} · click header to sort</span>
-    </div>
-    <div style="overflow-x:auto;max-height:420px;overflow-y:auto"><div class="tw" id="cv-tbl-daily"></div></div>
-  </div>
-
-  <div class="sc">
-    <div class="sc-h">
-      <span class="sc-t">Call attempt distribution</span>
-      <span class="sc-hi">Leads in each cluster grouped by call_attempts_lrm count</span>
-    </div>
-    <div style="overflow-x:auto;max-height:420px;overflow-y:auto"><div class="tw" id="cv-tbl-attempts"></div></div>
-  </div>`;
-
-  setupMS('cv-ms-btn','cv-ms-dd','cv-ms-all','.cv-ms-chk','cv-ms-apl','cv-ms-clr',sel=>{
-    CV.sel=sel.length===0?activeStatuses:sel;
-    CV.stageSel='all';
-    populateStageDropdown();
-    renderCalls();
-  });
+  $('p-calls').innerHTML=`<div class="fb"><div class="fr">
+    <div class="fg"><span class="flbl">Status</span>
+      <div class="ms-wrap" id="cv-ms-wrap"><button class="ms-btn" id="cv-ms-btn">${CV.sel.length===1?CV.sel[0]:CV.sel.length+' Statuses'}</button>
+        <div class="ms-dd" id="cv-ms-dd"><div class="ms-list">
+          <label class="ms-opt"><input type="checkbox" id="cv-ms-all">&nbsp;All Statuses</label><div class="ms-sep"></div>
+          ${activeStatuses.map(s=>`<label class="ms-opt"><input type="checkbox" class="cv-ms-chk" value="${s}" ${CV.sel.includes(s)?'checked':''}><span class="ms-dot" style="background:${STATUS_COLORS[s]||'#94a3b8'}"></span>${s}</label>`).join('')}
+        </div><div class="ms-foot"><button class="ms-clear" id="cv-ms-clr">Clear</button><button class="ms-apply" id="cv-ms-apl">Apply</button></div></div></div></div>
+    <div class="fg"><span class="flbl">Stage</span><select class="fc" id="cv-stage" style="min-width:200px"><option value="all">All Stages</option></select></div>
+    <div class="fg" style="margin-left:auto;text-align:right"><span class="flbl">As of</span>
+      <span style="font-size:12px;font-weight:600;color:var(--tx);font-family:'DM Mono',monospace">${fmtNice(CALLS.meta.as_of_date)}</span></div></div></div>
+    <div class="kgrid" id="cv-kpis"></div>
+    <div class="sc"><div class="sc-h"><span class="sc-t">Daily activity & overdue summary</span><span class="sc-hi">Counts as of ${fmtNice(CALLS.meta.as_of_date)}</span></div>
+      <div style="overflow-x:auto;max-height:420px;overflow-y:auto"><div class="tw" id="cv-tbl-daily"></div></div></div>
+    <div class="sc"><div class="sc-h"><span class="sc-t">Call attempt distribution</span><span class="sc-hi">Leads grouped by call_attempts_lrm</span></div>
+      <div style="overflow-x:auto;max-height:420px;overflow-y:auto"><div class="tw" id="cv-tbl-attempts"></div></div></div>`;
+  setupMS('cv-ms-btn','cv-ms-dd','cv-ms-all','.cv-ms-chk','cv-ms-apl','cv-ms-clr',sel=>{CV.sel=sel.length===0?activeStatuses:sel;CV.stageSel='all';populateCVStage();renderCalls();});
   $('cv-stage')?.addEventListener('change',e=>{CV.stageSel=e.target.value;renderCalls();});
-
-  populateStageDropdown();
-  renderCalls();
+  populateCVStage();renderCalls();
 }
-
-function populateStageDropdown(){
-  // Show stages that exist in selected statuses AND have data
-  const stages=new Set();
-  CALLS.records.forEach(r=>{
-    if(CV.sel.length>0 && !CV.sel.includes(r.lead_status))return;
-    if(r.total>0)stages.add(r.lead_stage);
-  });
-  // Order by status mapping
-  const orderedStages=[];
-  CV.sel.forEach(status=>{
-    (STATUS_STAGE_MAP[status]||[]).forEach(canon=>{
-      const match=[...stages].find(s=>s.toLowerCase().trim()===canon.toLowerCase().trim());
-      if(match&&!orderedStages.includes(match))orderedStages.push(match);
-    });
-  });
-  // Add unmapped stages
+function populateCVStage(){
+  const stages=new Set();CALLS.records.forEach(r=>{if(CV.sel.length>0&&!CV.sel.includes(r.lead_status))return;if(r.total>0)stages.add(r.lead_stage);});
+  const orderedStages=[];CV.sel.forEach(status=>{(STATUS_STAGE_MAP[status]||[]).forEach(canon=>{const match=[...stages].find(s=>s.toLowerCase().trim()===canon.toLowerCase().trim());if(match&&!orderedStages.includes(match))orderedStages.push(match);});});
   [...stages].forEach(s=>{if(!orderedStages.includes(s))orderedStages.push(s);});
-  
-  const sel=$('cv-stage');if(!sel)return;
-  const prev=CV.stageSel;
+  const sel=$('cv-stage');if(!sel)return;const prev=CV.stageSel;
   sel.innerHTML='<option value="all">All Stages</option>'+orderedStages.map(s=>`<option value="${s}">${s}</option>`).join('');
-  sel.value=orderedStages.includes(prev)?prev:'all';
-  CV.stageSel=sel.value;
+  sel.value=orderedStages.includes(prev)?prev:'all';CV.stageSel=sel.value;
 }
-
 function renderCalls(){
-  if(!CALLS)return;
-  let recs=CALLS.records.filter(r=>r.cluster!=='Unknown');
+  if(!CALLS)return;let recs=CALLS.records.filter(r=>r.cluster!=='Unknown');
   if(CV.sel.length>0)recs=recs.filter(r=>CV.sel.includes(r.lead_status));
   if(CV.stageSel!=='all')recs=recs.filter(r=>r.lead_stage===CV.stageSel);
-
-  // Roll up by cluster
-  const byCluster={};
-  let maxAttempts=0;
-  recs.forEach(r=>{
-    const c=r.cluster;
-    if(!byCluster[c])byCluster[c]={total:0,updated_today:0,scheduled_today:0,overdue:0,by_attempts:{}};
-    byCluster[c].total+=r.total;
-    byCluster[c].updated_today+=r.updated_today;
-    byCluster[c].scheduled_today+=r.scheduled_today;
-    byCluster[c].overdue+=r.overdue;
-    Object.entries(r.by_attempts||{}).forEach(([k,v])=>{
-      const n=parseInt(k);byCluster[c].by_attempts[n]=(byCluster[c].by_attempts[n]||0)+v;
-      if(n>maxAttempts)maxAttempts=n;
-    });
-  });
+  const byCluster={};let maxAttempts=0;
+  recs.forEach(r=>{const c=r.cluster;if(!byCluster[c])byCluster[c]={total:0,updated_today:0,scheduled_today:0,overdue:0,by_attempts:{}};
+    byCluster[c].total+=r.total;byCluster[c].updated_today+=r.updated_today;byCluster[c].scheduled_today+=r.scheduled_today;byCluster[c].overdue+=r.overdue;
+    Object.entries(r.by_attempts||{}).forEach(([k,v])=>{const n=parseInt(k);byCluster[c].by_attempts[n]=(byCluster[c].by_attempts[n]||0)+v;if(n>maxAttempts)maxAttempts=n;});});
   const clusters=Object.keys(byCluster).filter(c=>byCluster[c].total>0).sort((a,b)=>byCluster[b].total-byCluster[a].total);
-
-  // KPIs
   const T={total:0,updated:0,scheduled:0,overdue:0};
   clusters.forEach(c=>{T.total+=byCluster[c].total;T.updated+=byCluster[c].updated_today;T.scheduled+=byCluster[c].scheduled_today;T.overdue+=byCluster[c].overdue;});
-  $('cv-kpis').innerHTML=`
-    <div class="kcard"><div class="kl">Total Leads in Bucket</div><div class="kv cb">${f(T.total)}</div><div class="ks">across ${clusters.length} clusters</div></div>
+  $('cv-kpis').innerHTML=`<div class="kcard"><div class="kl">Total in bucket</div><div class="kv cb">${f(T.total)}</div><div class="ks">across ${clusters.length} clusters</div></div>
     <div class="kcard"><div class="kl">Updated Today</div><div class="kv cg">${f(T.updated)}</div><div class="ks">${pct(T.updated,T.total)} touched</div></div>
     <div class="kcard"><div class="kl">Scheduled Today</div><div class="kv ca">${f(T.scheduled)}</div><div class="ks">follow-ups due</div></div>
     <div class="kcard"><div class="kl">Overdue</div><div class="kv cr">${f(T.overdue)}</div><div class="ks">${pct(T.overdue,T.total)} of bucket</div></div>
     <div class="kcard"><div class="kl">Max Attempts</div><div class="kv cp">${maxAttempts}</div><div class="ks">in this bucket</div></div>`;
-
-  renderDailyTable(byCluster,clusters,T);
-  renderAttemptsTable(byCluster,clusters,maxAttempts);
+  renderDailyTbl(byCluster,clusters,T);renderAttemptsTbl(byCluster,clusters,maxAttempts);
 }
-
-function renderDailyTable(byCluster,clusters,T){
-  if(!clusters.length){$('cv-tbl-daily').innerHTML='<div class="nd">No data for selected filters.</div>';return;}
+function renderDailyTbl(byCluster,clusters,T){
+  if(!clusters.length){$('cv-tbl-daily').innerHTML='<div class="nd">No data.</div>';return;}
   const maxOverdue=Math.max(...clusters.map(c=>byCluster[c].overdue),1);
-
-  let html='<table><thead class="single"><tr>';
-  html+='<th>Cluster</th>';
-  html+='<th class="tdr">Overall Lead Count in Bucket</th>';
-  html+='<th class="tdr">Leads Updated Today</th>';
-  html+='<th class="tdr">Leads with Follow-up Scheduled Today</th>';
-  html+='<th class="tdr">Leads Overdue on Follow-up</th>';
-  html+='<th class="tdr">Overdue %</th>';
-  html+='</tr></thead><tbody>';
-  clusters.forEach(c=>{
-    const b=byCluster[c];
-    const ovPct=b.total>0?(b.overdue/b.total*100):0;
-    const ovBgClass=ovPct>50?'cell-bad':ovPct>25?'cell-warn':'';
-    html+=`<tr><td class="tdc" title="${c}">${c}</td>`;
-    html+=`<td class="tdr mono">${f(b.total)}</td>`;
-    html+=`<td class="tdr mono ${b.updated_today>0?'cell-good':''}">${b.updated_today||'·'}</td>`;
-    html+=`<td class="tdr mono">${b.scheduled_today||'·'}</td>`;
-    html+=`<td class="tdr mono" style="${hBg(b.overdue,maxOverdue)}">${f(b.overdue)}</td>`;
-    html+=`<td class="tdr ${ovBgClass}">${ovPct.toFixed(1)}%</td>`;
-    html+='</tr>';
-  });
-  html+=`<tr style="background:var(--sur2);font-weight:600"><td>Total</td>`;
-  html+=`<td class="tdr mono">${f(T.total)}</td>`;
-  html+=`<td class="tdr mono">${f(T.updated)}</td>`;
-  html+=`<td class="tdr mono">${f(T.scheduled)}</td>`;
-  html+=`<td class="tdr mono">${f(T.overdue)}</td>`;
-  html+=`<td class="tdr">${T.total>0?(T.overdue/T.total*100).toFixed(1)+'%':'—'}</td>`;
-  html+='</tr></tbody></table>';
+  let html='<table><thead class="single"><tr><th>Cluster</th><th class="tdr">Overall Lead Count in Bucket</th><th class="tdr">Leads Updated Today</th><th class="tdr">Leads with Follow-up Scheduled Today</th><th class="tdr">Leads Overdue on Follow-up</th><th class="tdr">Overdue %</th></tr></thead><tbody>';
+  clusters.forEach(c=>{const b=byCluster[c];const ovPct=b.total>0?(b.overdue/b.total*100):0;const ovCls=ovPct>50?'cell-bad':ovPct>25?'cell-warn':'';
+    html+=`<tr><td class="tdc" title="${c}">${c}</td><td class="tdr mono">${f(b.total)}</td><td class="tdr mono ${b.updated_today>0?'cell-good':''}">${b.updated_today||'·'}</td><td class="tdr mono">${b.scheduled_today||'·'}</td><td class="tdr mono" style="${hBg(b.overdue,maxOverdue)}">${f(b.overdue)}</td><td class="tdr ${ovCls}">${ovPct.toFixed(1)}%</td></tr>`;});
+  html+=`<tr style="background:var(--sur2);font-weight:600"><td>Total</td><td class="tdr mono">${f(T.total)}</td><td class="tdr mono">${f(T.updated)}</td><td class="tdr mono">${f(T.scheduled)}</td><td class="tdr mono">${f(T.overdue)}</td><td class="tdr">${T.total>0?(T.overdue/T.total*100).toFixed(1)+'%':'—'}</td></tr></tbody></table>`;
   const wrap=$('cv-tbl-daily');wrap.innerHTML=html;autoSort(wrap);
 }
-
-function renderAttemptsTable(byCluster,clusters,maxAttempts){
-  if(!clusters.length){$('cv-tbl-attempts').innerHTML='<div class="nd">No data for selected filters.</div>';return;}
-  // Only show attempt counts that actually have data (non-zero)
-  const validAttempts=[];
-  for(let i=0;i<=Math.min(maxAttempts,20);i++){
-    const sum=clusters.reduce((s,c)=>s+(byCluster[c].by_attempts[i]||0),0);
-    if(sum>0)validAttempts.push(i);
-  }
-  if(maxAttempts>20){
-    // collapse >20 into one column
-    const sum=clusters.reduce((s,c)=>{
-      let total=0;
-      Object.entries(byCluster[c].by_attempts).forEach(([k,v])=>{if(parseInt(k)>20)total+=v;});
-      return s+total;
-    },0);
-    if(sum>0)validAttempts.push('20+');
-  }
-
-  if(!validAttempts.length){$('cv-tbl-attempts').innerHTML='<div class="nd">No attempt data.</div>';return;}
-
-  // Find global max for heat
-  let globalMax=0;
-  clusters.forEach(c=>validAttempts.forEach(a=>{
-    let v=0;
-    if(a==='20+'){Object.entries(byCluster[c].by_attempts).forEach(([k,vv])=>{if(parseInt(k)>20)v+=vv;});}
-    else{v=byCluster[c].by_attempts[a]||0;}
-    if(v>globalMax)globalMax=v;
-  }));
-
-  let html='<table><thead>';
-  html+=`<tr><th rowspan="2">Cluster</th><th colspan="${validAttempts.length}" style="background:#1e293b;color:#f1f5f9;text-align:center">Leads with N Call Attempts</th><th rowspan="2" class="tdr">Total</th></tr>`;
-  html+='<tr>';
-  validAttempts.forEach(a=>html+=`<th class="tdr">${a}</th>`);
-  html+='</tr></thead><tbody>';
-
-  clusters.forEach(c=>{
-    let rowTotal=0;
-    let row=`<tr><td class="tdc" title="${c}">${c}</td>`;
-    validAttempts.forEach(a=>{
-      let v=0;
-      if(a==='20+'){Object.entries(byCluster[c].by_attempts).forEach(([k,vv])=>{if(parseInt(k)>20)v+=vv;});}
-      else{v=byCluster[c].by_attempts[a]||0;}
-      rowTotal+=v;
-      row+=`<td class="tdr mono" style="${hBg(v,globalMax)}">${v||'·'}</td>`;
-    });
-    row+=`<td class="tdt">${f(rowTotal)}</td></tr>`;
-    html+=row;
-  });
-
-  // Totals row
-  html+='<tr style="background:var(--sur2);font-weight:600"><td>Total</td>';
-  let grand=0;
-  validAttempts.forEach(a=>{
-    let sum=0;
-    clusters.forEach(c=>{
-      if(a==='20+'){Object.entries(byCluster[c].by_attempts).forEach(([k,vv])=>{if(parseInt(k)>20)sum+=vv;});}
-      else{sum+=byCluster[c].by_attempts[a]||0;}
-    });
-    grand+=sum;
-    html+=`<td class="tdr mono">${f(sum)}</td>`;
-  });
-  html+=`<td class="tdt">${f(grand)}</td></tr></tbody></table>`;
-
+function renderAttemptsTbl(byCluster,clusters,maxAttempts){
+  if(!clusters.length){$('cv-tbl-attempts').innerHTML='<div class="nd">No data.</div>';return;}
+  const valid=[];for(let i=0;i<=Math.min(maxAttempts,20);i++){const sum=clusters.reduce((s,c)=>s+(byCluster[c].by_attempts[i]||0),0);if(sum>0)valid.push(i);}
+  if(maxAttempts>20){const sum=clusters.reduce((s,c)=>{let t=0;Object.entries(byCluster[c].by_attempts).forEach(([k,v])=>{if(parseInt(k)>20)t+=v;});return s+t;},0);if(sum>0)valid.push('20+');}
+  if(!valid.length){$('cv-tbl-attempts').innerHTML='<div class="nd">No attempt data.</div>';return;}
+  let gMax=0;clusters.forEach(c=>valid.forEach(a=>{let v=0;if(a==='20+'){Object.entries(byCluster[c].by_attempts).forEach(([k,vv])=>{if(parseInt(k)>20)v+=vv;});}else{v=byCluster[c].by_attempts[a]||0;}if(v>gMax)gMax=v;}));
+  let html=`<table><thead><tr><th rowspan="2">Cluster</th><th colspan="${valid.length}" style="background:#1e293b;color:#f1f5f9;text-align:center">Leads with N Call Attempts</th><th rowspan="2" class="tdr">Total</th></tr><tr>`;
+  valid.forEach(a=>html+=`<th class="tdr">${a}</th>`);html+='</tr></thead><tbody>';
+  clusters.forEach(c=>{let rt=0;let row=`<tr><td class="tdc" title="${c}">${c}</td>`;
+    valid.forEach(a=>{let v=0;if(a==='20+'){Object.entries(byCluster[c].by_attempts).forEach(([k,vv])=>{if(parseInt(k)>20)v+=vv;});}else{v=byCluster[c].by_attempts[a]||0;}rt+=v;row+=`<td class="tdr mono" style="${hBg(v,gMax)}">${v||'·'}</td>`;});
+    row+=`<td class="tdt">${f(rt)}</td></tr>`;html+=row;});
+  html+='<tr style="background:var(--sur2);font-weight:600"><td>Total</td>';let gt=0;
+  valid.forEach(a=>{let sum=0;clusters.forEach(c=>{if(a==='20+'){Object.entries(byCluster[c].by_attempts).forEach(([k,vv])=>{if(parseInt(k)>20)sum+=vv;});}else{sum+=byCluster[c].by_attempts[a]||0;}});gt+=sum;html+=`<td class="tdr mono">${f(sum)}</td>`;});
+  html+=`<td class="tdt">${f(gt)}</td></tr></tbody></table>`;
   const wrap=$('cv-tbl-attempts');wrap.innerHTML=html;autoSort(wrap);
 }
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// STAGE FUNNEL (now with status filter + grouping)
-// ═══════════════════════════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════════════════
+// DAILY MOVEMENT VIEW
+// ════════════════════════════════════════════════════════════════════════════
+async function bMovement(){
+  $('p-movement').innerHTML='<div class="stb"><div class="spin"></div>Loading movement data…</div>';
+  try{
+    MOVE=await loadJSON('daily_movement','MOVE');
+    EOD =await loadJSON('eod_position','EOD');
+  }catch(e){$('p-movement').innerHTML=`<div class="err">⚠ Cannot load movement data — run <code>python etl.py</code> first<br>${e.message}</div>`;return;}
+
+  // Build cluster + lrm lists from both files
+  const clusters=new Set(),lrms=new Set();
+  MOVE.stage.forEach(r=>{if(r.cluster&&r.cluster!=='Unknown')clusters.add(r.cluster);if(r.lrm&&r.lrm!=='Unknown')lrms.add(r.lrm);});
+  EOD.records.forEach(r=>{if(r.cluster&&r.cluster!=='Unknown')clusters.add(r.cluster);if(r.lrm&&r.lrm!=='Unknown')lrms.add(r.lrm);});
+  const clusterList=[...clusters].sort();
+  const lrmList=[...lrms].sort();
+
+  $('p-movement').innerHTML=`<div class="fb"><div class="fr">
+    <div class="fg"><span class="flbl">View Mode</span>
+      <div class="tgl" id="mv-mode"><button class="tgl-b on" data-v="transitions">All Transitions</button><button class="tgl-b" data-v="eod">EOD Position</button></div></div>
+    <div class="fg"><span class="flbl">Level</span>
+      <div class="tgl" id="mv-level"><button class="tgl-b on" data-v="stage">Stage</button><button class="tgl-b" data-v="status">Status</button></div></div>
+    <div class="fg"><span class="flbl">Date range <span class="sub">(event date)</span></span>
+      <div class="frow"><select class="fc" id="mv-pr">
+        <option value="yesterday">Yesterday</option><option value="today">Today</option>
+        <option value="last7">Last 7 days</option><option value="thisweek">This week</option>
+        <option value="lastweek">Last week</option><option value="last30">Last 30 days</option>
+        <option value="custom">Custom</option></select>
+        <input type="date" class="fc" id="mv-fr"><input type="date" class="fc" id="mv-to"></div></div>
+    <div class="fg"><span class="flbl">Cluster</span><select class="fc" id="mv-cl"><option value="all">All</option>${clusterList.map(c=>`<option value="${c}">${c}</option>`).join('')}</select></div>
+    <div class="fg"><span class="flbl">LRM</span><select class="fc" id="mv-lrm"><option value="all">All</option>${lrmList.map(l=>`<option value="${l}">${l}</option>`).join('')}</select></div>
+  </div>
+  <div class="fr" id="mv-stage-filter"><div class="fg"><span class="flbl">From Stage</span><select class="fc" id="mv-from" style="min-width:200px"><option value="all">All</option></select></div>
+    <div class="fg"><span class="flbl">To Stage</span><select class="fc" id="mv-toS" style="min-width:200px"><option value="all">All</option></select></div></div></div>
+  <div class="kgrid k4" id="mv-kpis"></div>
+  <div class="sc"><div class="sc-h"><span class="sc-t" id="mv-tbl-title">Stage transitions</span><span class="sc-hi" id="mv-tbl-sub">From → To by cluster × LRM</span></div>
+    <div style="overflow-x:auto;max-height:520px;overflow-y:auto"><div class="tw" id="mv-tbl"></div></div></div>`;
+
+  $('mv-mode')?.querySelectorAll('.tgl-b').forEach(b=>b.addEventListener('click',()=>{$('mv-mode').querySelectorAll('.tgl-b').forEach(x=>x.classList.remove('on'));b.classList.add('on');MV.mode=b.dataset.v;$('mv-stage-filter').style.display=MV.mode==='transitions'?'flex':'none';renderMovement();}));
+  $('mv-level')?.querySelectorAll('.tgl-b').forEach(b=>b.addEventListener('click',()=>{$('mv-level').querySelectorAll('.tgl-b').forEach(x=>x.classList.remove('on'));b.classList.add('on');MV.level=b.dataset.v;populateMVStageFilter();renderMovement();}));
+  ['mv-pr','mv-cl','mv-lrm','mv-from','mv-toS'].forEach(id=>$(id)?.addEventListener('change',renderMovement));
+  ['mv-fr','mv-to'].forEach(id=>$(id)?.addEventListener('change',()=>{$('mv-pr').value='custom';renderMovement();}));
+
+  populateMVStageFilter();
+  renderMovement();
+}
+
+function populateMVStageFilter(){
+  if(!MOVE)return;
+  const recs=MV.level==='stage'?MOVE.stage:MOVE.status;
+  const fromField=MV.level==='stage'?'from_stage':'from_status';
+  const toField  =MV.level==='stage'?'to_stage':'to_status';
+  const fromSet=new Set(recs.map(r=>r[fromField]).filter(Boolean));
+  const toSet  =new Set(recs.map(r=>r[toField]).filter(Boolean));
+  const sortFn=MV.level==='stage'
+    ? (a,b)=>{const orderAll=STATUS_ORDER.flatMap(s=>STATUS_STAGE_MAP[s]||[]);const ia=orderAll.findIndex(x=>x.toLowerCase()===a.toLowerCase());const ib=orderAll.findIndex(x=>x.toLowerCase()===b.toLowerCase());if(ia<0&&ib<0)return a.localeCompare(b);if(ia<0)return 1;if(ib<0)return -1;return ia-ib;}
+    : (a,b)=>{const ia=STATUS_ORDER.indexOf(a),ib=STATUS_ORDER.indexOf(b);if(ia<0&&ib<0)return a.localeCompare(b);if(ia<0)return 1;if(ib<0)return -1;return ia-ib;};
+  const fromList=[...fromSet].sort(sortFn);const toList=[...toSet].sort(sortFn);
+  const fromSel=$('mv-from'),toSel=$('mv-toS');if(!fromSel||!toSel)return;
+  fromSel.innerHTML='<option value="all">All</option>'+fromList.map(s=>`<option value="${s}">${s}</option>`).join('');
+  toSel.innerHTML  ='<option value="all">All</option>'+toList.map(s=>`<option value="${s}">${s}</option>`).join('');
+}
+
+function renderMovement(){
+  if(!MOVE||!EOD)return;
+  const dr=getDR('mv-pr','mv-fr','mv-to');
+  const cl=$('mv-cl')?.value,lrm=$('mv-lrm')?.value;
+
+  if(MV.mode==='transitions'){
+    renderTransitions(dr,cl,lrm);
+  }else{
+    renderEOD(dr,cl,lrm);
+  }
+}
+
+function renderTransitions(dr,cl,lrm){
+  const fromField=MV.level==='stage'?'from_stage':'from_status';
+  const toField  =MV.level==='stage'?'to_stage':'to_status';
+  const fromSel=$('mv-from')?.value||'all',toSel=$('mv-toS')?.value||'all';
+  const allRecs=MV.level==='stage'?MOVE.stage:MOVE.status;
+  let recs=filterByDate(allRecs,dr.from,dr.to);
+  if(cl!=='all')recs=recs.filter(r=>r.cluster===cl);
+  if(lrm!=='all')recs=recs.filter(r=>r.lrm===lrm);
+  if(fromSel!=='all')recs=recs.filter(r=>r[fromField]===fromSel);
+  if(toSel!=='all')recs=recs.filter(r=>r[toField]===toSel);
+
+  const titleEl=$('mv-tbl-title'),subEl=$('mv-tbl-sub');
+  if(titleEl)titleEl.textContent=`${MV.level==='stage'?'Stage':'Status'} transitions`;
+  if(subEl)subEl.textContent='From → To · rows = Cluster × LRM · cells = transition count';
+
+  // Pivot: rows = (cluster, lrm), cols = (from, to) combos
+  const fromToPairs=new Set();const rowSet=new Set();const pivot={};
+  recs.forEach(r=>{
+    const ft=r[fromField]+'→'+r[toField];fromToPairs.add(ft);
+    const rk=r.cluster+'|'+(r.lrm||'Unknown');rowSet.add(rk);
+    pivot[rk]=pivot[rk]||{};pivot[rk][ft]=(pivot[rk][ft]||0)+r.count;
+  });
+
+  const T={transitions:0,unique_leads:'—',pairs:fromToPairs.size,clusters:new Set(),lrms:new Set()};
+  recs.forEach(r=>{T.transitions+=r.count;T.clusters.add(r.cluster);if(r.lrm)T.lrms.add(r.lrm);});
+  $('mv-kpis').innerHTML=`<div class="kcard"><div class="kl">Total Transitions</div><div class="kv cb">${f(T.transitions)}</div><div class="ks">${MV.level} level</div></div>
+    <div class="kcard"><div class="kl">Unique From→To Pairs</div><div class="kv cp">${T.pairs}</div><div class="ks">in selected range</div></div>
+    <div class="kcard"><div class="kl">Clusters</div><div class="kv ca">${T.clusters.size}</div><div class="ks">active</div></div>
+    <div class="kcard"><div class="kl">LRMs</div><div class="kv cg">${T.lrms.size}</div><div class="ks">active</div></div>`;
+
+  if(!recs.length){$('mv-tbl').innerHTML='<div class="nd">No transitions in selected range. Try widening filters or check that audit data exists.</div>';return;}
+
+  // Build From→To pivot
+  const pairs=[...fromToPairs];
+  // group pairs by From
+  const byFrom={};pairs.forEach(p=>{const[f,t]=p.split('→');byFrom[f]=byFrom[f]||[];byFrom[f].push(t);});
+  const fromList=Object.keys(byFrom).sort();fromList.forEach(f=>byFrom[f].sort());
+  // Roll up cluster rows: rows = cluster, then sub-rows per lrm
+  const byCluster={};rowSet.forEach(rk=>{const[c,l]=rk.split('|');byCluster[c]=byCluster[c]||{};byCluster[c][l]=pivot[rk];});
+  const clusters=Object.keys(byCluster).sort();
+
+  // Max for heat
+  const max=Math.max(...Object.values(pivot).flatMap(o=>Object.values(o)),1);
+
+  let html='<table><thead>';
+  // Row 1: From-stage headers spanning to-stages
+  html+='<tr><th class="row-hdr" rowspan="2">Cluster / LRM</th>';
+  fromList.forEach(f=>{html+=`<th colspan="${byFrom[f].length}" style="background:#1e293b;color:#f1f5f9">From: ${f}</th>`;});
+  html+='<th class="row-hdr tdr" rowspan="2">Total</th></tr>';
+  // Row 2: To-stage headers
+  html+='<tr>';
+  fromList.forEach(f=>byFrom[f].forEach(t=>{html+=`<th class="tdr" title="From ${f} → To ${t}">→ ${t}</th>`;}));
+  html+='</tr></thead><tbody>';
+
+  clusters.forEach(c=>{
+    const lrmsInCluster=Object.keys(byCluster[c]).sort();
+    const clusterTotals={};let clusterGrand=0;
+    lrmsInCluster.forEach(l=>Object.entries(byCluster[c][l]).forEach(([p,v])=>{clusterTotals[p]=(clusterTotals[p]||0)+v;clusterGrand+=v;}));
+    // Cluster header row
+    html+=`<tr style="background:#f1f5f9;font-weight:600"><td class="tdc">${c}</td>`;
+    fromList.forEach(fr=>byFrom[fr].forEach(t=>{const p=fr+'→'+t;const v=clusterTotals[p]||0;html+=`<td class="tdr mono">${v||'·'}</td>`;}));
+    html+=`<td class="tdt">${f(clusterGrand)}</td></tr>`;
+    // LRM sub-rows
+    lrmsInCluster.forEach(l=>{
+      const row=byCluster[c][l];let rt=0;
+      html+=`<tr><td class="td-lrm" title="${l}">${l}</td>`;
+      fromList.forEach(fr=>byFrom[fr].forEach(t=>{const p=fr+'→'+t;const v=row[p]||0;rt+=v;html+=`<td class="tdr mono" style="${hBg(v,max)}">${v||'·'}</td>`;}));
+      html+=`<td class="tdr" style="font-weight:600">${f(rt)}</td></tr>`;
+    });
+  });
+  html+='</tbody></table>';
+  $('mv-tbl').innerHTML=html;autoSort($('mv-tbl'));
+}
+
+function renderEOD(dr,cl,lrm){
+  // EOD position: pick stage or status field
+  const dimField=MV.level==='stage'?'stage':'status';
+  let recs=filterByDate(EOD.records,dr.from,dr.to);
+  if(cl!=='all')recs=recs.filter(r=>r.cluster===cl);
+  if(lrm!=='all')recs=recs.filter(r=>r.lrm===lrm);
+
+  const titleEl=$('mv-tbl-title'),subEl=$('mv-tbl-sub');
+  if(titleEl)titleEl.textContent=`End-of-day position`;
+  if(subEl)subEl.textContent=`Each lead's last ${MV.level} on selected day · one record per lead per day`;
+
+  // KPIs
+  const total=recs.reduce((s,r)=>s+r.count,0);
+  const dates=new Set(recs.map(r=>r.date));
+  const clusters=new Set(recs.map(r=>r.cluster));
+  const lrms=new Set(recs.map(r=>r.lrm).filter(l=>l&&l!=='Unknown'));
+  $('mv-kpis').innerHTML=`<div class="kcard"><div class="kl">Total Lead-Days</div><div class="kv cb">${f(total)}</div><div class="ks">across ${dates.size} day(s)</div></div>
+    <div class="kcard"><div class="kl">Days Covered</div><div class="kv cp">${dates.size}</div><div class="ks">in selected range</div></div>
+    <div class="kcard"><div class="kl">Clusters</div><div class="kv ca">${clusters.size}</div></div>
+    <div class="kcard"><div class="kl">LRMs</div><div class="kv cg">${lrms.size}</div></div>`;
+
+  if(!recs.length){$('mv-tbl').innerHTML='<div class="nd">No EOD data in selected range.</div>';return;}
+
+  // Pivot: rows = (cluster, lrm), cols = dim values
+  const dimSet=new Set();const rowSet=new Set();const pivot={};
+  recs.forEach(r=>{const v=r[dimField]||'Unknown';dimSet.add(v);const rk=r.cluster+'|'+(r.lrm||'Unknown');rowSet.add(rk);
+    pivot[rk]=pivot[rk]||{};pivot[rk][v]=(pivot[rk][v]||0)+r.count;});
+  // Sort dims: stage uses status order, status uses STATUS_ORDER
+  const dimList=[...dimSet];
+  if(MV.level==='stage'){const orderAll=STATUS_ORDER.flatMap(s=>STATUS_STAGE_MAP[s]||[]);dimList.sort((a,b)=>{const ia=orderAll.findIndex(x=>x.toLowerCase()===a.toLowerCase());const ib=orderAll.findIndex(x=>x.toLowerCase()===b.toLowerCase());if(ia<0&&ib<0)return a.localeCompare(b);if(ia<0)return 1;if(ib<0)return -1;return ia-ib;});}
+  else{dimList.sort((a,b)=>{const ia=STATUS_ORDER.indexOf(a),ib=STATUS_ORDER.indexOf(b);if(ia<0&&ib<0)return a.localeCompare(b);if(ia<0)return 1;if(ib<0)return -1;return ia-ib;});}
+
+  const byCluster={};rowSet.forEach(rk=>{const[c,l]=rk.split('|');byCluster[c]=byCluster[c]||{};byCluster[c][l]=pivot[rk];});
+  const clustersArr=Object.keys(byCluster).sort();
+  const max=Math.max(...Object.values(pivot).flatMap(o=>Object.values(o)),1);
+
+  let html='<table><thead class="single"><tr><th>Cluster / LRM</th>';
+  dimList.forEach(d=>html+=`<th class="tdr" title="${d}">${d}</th>`);
+  html+='<th class="tdr">Total</th></tr></thead><tbody>';
+  clustersArr.forEach(c=>{
+    const lrmsHere=Object.keys(byCluster[c]).sort();
+    const clusterTotals={};let cg=0;
+    lrmsHere.forEach(l=>Object.entries(byCluster[c][l]).forEach(([d,v])=>{clusterTotals[d]=(clusterTotals[d]||0)+v;cg+=v;}));
+    html+=`<tr style="background:#f1f5f9;font-weight:600"><td class="tdc">${c}</td>`;
+    dimList.forEach(d=>{const v=clusterTotals[d]||0;html+=`<td class="tdr mono">${v||'·'}</td>`;});
+    html+=`<td class="tdt">${f(cg)}</td></tr>`;
+    lrmsHere.forEach(l=>{const row=byCluster[c][l];let rt=0;
+      html+=`<tr><td class="td-lrm" title="${l}">${l}</td>`;
+      dimList.forEach(d=>{const v=row[d]||0;rt+=v;html+=`<td class="tdr mono" style="${hBg(v,max)}">${v||'·'}</td>`;});
+      html+=`<td class="tdr" style="font-weight:600">${f(rt)}</td></tr>`;
+    });
+  });
+  html+='</tbody></table>';
+  $('mv-tbl').innerHTML=html;autoSort($('mv-tbl'));
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// LRM PERFORMANCE VIEW
+// ════════════════════════════════════════════════════════════════════════════
+async function bLRM(){
+  $('p-lrm').innerHTML='<div class="stb"><div class="spin"></div>Loading LRM data…</div>';
+  try{LRM_DATA=await loadJSON('lrm_performance','LRM_DATA');}
+  catch(e){$('p-lrm').innerHTML=`<div class="err">⚠ Cannot load data/lrm_performance.json — run <code>python etl.py</code> first<br>${e.message}</div>`;return;}
+
+  const clusterSet=new Set();LRM_DATA.records.forEach(r=>{if(r.cluster&&r.cluster!=='Unknown')clusterSet.add(r.cluster);});
+  const clusterList=[...clusterSet].sort();
+
+  $('p-lrm').innerHTML=`<div class="fb"><div class="fr">
+    <div class="fg"><span class="flbl">Date range <span class="sub">(event date)</span></span>
+      <div class="frow"><select class="fc" id="lr-pr">
+        <option value="today">Today</option><option value="yesterday">Yesterday</option>
+        <option value="last7" selected>Last 7 days</option><option value="thisweek">This week</option>
+        <option value="lastweek">Last week</option><option value="last30">Last 30 days</option>
+        <option value="thismonth">This month</option><option value="lastmonth">Last month</option>
+        <option value="custom">Custom</option></select>
+        <input type="date" class="fc" id="lr-fr"><input type="date" class="fc" id="lr-to"></div></div>
+    <div class="fg"><span class="flbl">Cluster</span><select class="fc" id="lr-cl"><option value="all">All</option>${clusterList.map(c=>`<option value="${c}">${c}</option>`).join('')}</select></div>
+  </div></div>
+  <div class="kgrid k4" id="lr-kpis"></div>
+  <div class="sc"><div class="sc-h"><span class="sc-t">Cluster summary</span><span class="sc-hi">Roll-up across LRMs in each cluster</span></div>
+    <div style="overflow-x:auto;max-height:340px;overflow-y:auto"><div class="tw" id="lr-cluster-tbl"></div></div></div>
+  <div class="sc"><div class="sc-h"><span class="sc-t">LRM-level metrics</span><span class="sc-hi">Click header to sort · grouped by cluster</span></div>
+    <div style="overflow-x:auto;max-height:520px;overflow-y:auto"><div class="tw" id="lr-lrm-tbl"></div></div></div>`;
+
+  ['lr-pr','lr-cl'].forEach(id=>$(id)?.addEventListener('change',renderLRM));
+  ['lr-fr','lr-to'].forEach(id=>$(id)?.addEventListener('change',()=>{$('lr-pr').value='custom';renderLRM();}));
+  renderLRM();
+}
+
+function renderLRM(){
+  if(!LRM_DATA)return;
+  const dr=getDR('lr-pr','lr-fr','lr-to');const cl=$('lr-cl')?.value;
+  let recs=filterByDate(LRM_DATA.records,dr.from,dr.to);
+  if(cl!=='all')recs=recs.filter(r=>r.cluster===cl);
+
+  // Roll up: per LRM and per Cluster
+  const byLRM={};const byCluster={};const T={calls:0,leads:0,stage:0,status:0};
+  recs.forEach(r=>{
+    const lk=r.cluster+'|'+r.lrm;
+    if(!byLRM[lk])byLRM[lk]={cluster:r.cluster,lrm:r.lrm,calls:0,leads_touched:0,stage_movements:0,status_movements:0};
+    byLRM[lk].calls+=r.calls;byLRM[lk].leads_touched+=r.leads_touched;
+    byLRM[lk].stage_movements+=r.stage_movements;byLRM[lk].status_movements+=r.status_movements;
+    if(!byCluster[r.cluster])byCluster[r.cluster]={calls:0,leads:0,stage:0,status:0,lrms:new Set()};
+    byCluster[r.cluster].calls+=r.calls;byCluster[r.cluster].leads+=r.leads_touched;
+    byCluster[r.cluster].stage+=r.stage_movements;byCluster[r.cluster].status+=r.status_movements;
+    byCluster[r.cluster].lrms.add(r.lrm);
+    T.calls+=r.calls;T.leads+=r.leads_touched;T.stage+=r.stage_movements;T.status+=r.status_movements;
+  });
+
+  $('lr-kpis').innerHTML=`<div class="kcard"><div class="kl">Total Calls</div><div class="kv cb">${f(T.calls)}</div><div class="ks">attempts logged</div></div>
+    <div class="kcard"><div class="kl">Leads Touched</div><div class="kv cg">${f(T.leads)}</div><div class="ks">distinct leads</div></div>
+    <div class="kcard"><div class="kl">Stage Movements</div><div class="kv ca">${f(T.stage)}</div><div class="ks">${T.calls>0?(T.stage/T.calls*100).toFixed(1):0}% of calls</div></div>
+    <div class="kcard"><div class="kl">Status Movements</div><div class="kv cp">${f(T.status)}</div><div class="ks">${T.calls>0?(T.status/T.calls*100).toFixed(1):0}% of calls</div></div>`;
+
+  // Cluster summary table
+  const clusters=Object.keys(byCluster).sort((a,b)=>byCluster[b].calls-byCluster[a].calls);
+  if(!clusters.length){$('lr-cluster-tbl').innerHTML='<div class="nd">No data.</div>';$('lr-lrm-tbl').innerHTML='';return;}
+  const maxC=Math.max(...clusters.map(c=>byCluster[c].calls),1);
+  let html='<table><thead class="single"><tr><th>Cluster</th><th class="tdr">LRMs Active</th><th class="tdr">Calls</th><th class="tdr">Leads Touched</th><th class="tdr">Avg Calls / LRM</th><th class="tdr">Stage Movements</th><th class="tdr">Status Movements</th></tr></thead><tbody>';
+  clusters.forEach(c=>{const b=byCluster[c];const avg=b.lrms.size>0?b.calls/b.lrms.size:0;
+    html+=`<tr><td class="tdc">${c}</td><td class="tdr mono">${b.lrms.size}</td><td class="tdr mono" style="${hBg(b.calls,maxC)}">${f(b.calls)}</td><td class="tdr mono">${f(b.leads)}</td><td class="tdr mono">${fdec(avg,1)}</td><td class="tdr mono">${f(b.stage)}</td><td class="tdr mono">${f(b.status)}</td></tr>`;});
+  html+=`<tr style="background:var(--sur2);font-weight:600"><td>Total</td><td class="tdr mono">${[...new Set(recs.map(r=>r.lrm))].filter(l=>l&&l!=='Unknown').length}</td><td class="tdr mono">${f(T.calls)}</td><td class="tdr mono">${f(T.leads)}</td><td class="tdr mono">—</td><td class="tdr mono">${f(T.stage)}</td><td class="tdr mono">${f(T.status)}</td></tr></tbody></table>`;
+  $('lr-cluster-tbl').innerHTML=html;autoSort($('lr-cluster-tbl'));
+
+  // Per-LRM table grouped by cluster
+  const lrmList=Object.values(byLRM).sort((a,b)=>{const cc=a.cluster.localeCompare(b.cluster);return cc!==0?cc:b.calls-a.calls;});
+  const maxL=Math.max(...lrmList.map(r=>r.calls),1);
+  let h2='<table><thead class="single"><tr><th>Cluster</th><th>LRM</th><th class="tdr">Calls</th><th class="tdr">Leads Touched</th><th class="tdr">Stage Movements</th><th class="tdr">Status Movements</th><th class="tdr">Calls / Lead</th></tr></thead><tbody>';
+  let curC=null;
+  lrmList.forEach(r=>{
+    const cpl=r.leads_touched>0?r.calls/r.leads_touched:0;
+    const clusterCell=r.cluster!==curC?`<td class="tdc" style="font-weight:600;background:#f1f5f9">${r.cluster}</td>`:'<td style="background:#fafafa"></td>';
+    curC=r.cluster;
+    h2+=`<tr>${clusterCell}<td class="td-lrm" style="padding-left:8px" title="${r.lrm}">${r.lrm}</td><td class="tdr mono" style="${hBg(r.calls,maxL)}">${f(r.calls)}</td><td class="tdr mono">${f(r.leads_touched)}</td><td class="tdr mono">${f(r.stage_movements)}</td><td class="tdr mono">${f(r.status_movements)}</td><td class="tdr mono">${fdec(cpl,1)}</td></tr>`;
+  });
+  h2+='</tbody></table>';
+  $('lr-lrm-tbl').innerHTML=h2;autoSort($('lr-lrm-tbl'));
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// TAT VIEW
+// ════════════════════════════════════════════════════════════════════════════
+async function bTAT(){
+  $('p-tat').innerHTML='<div class="stb"><div class="spin"></div>Loading TAT data…</div>';
+  try{TAT_DATA=await loadJSON('tat_stats','TAT_DATA');}
+  catch(e){$('p-tat').innerHTML=`<div class="err">⚠ Cannot load data/tat_stats.json — run <code>python etl.py</code> first<br>${e.message}</div>`;return;}
+
+  const clusterSet=new Set(),lrmSet=new Set();
+  TAT_DATA.records.forEach(r=>{if(r.cluster&&r.cluster!=='Unknown')clusterSet.add(r.cluster);if(r.lrm&&r.lrm!=='Unknown')lrmSet.add(r.lrm);});
+  const clusters=[...clusterSet].sort(),lrms=[...lrmSet].sort();
+
+  $('p-tat').innerHTML=`<div class="fb"><div class="fr">
+    <div class="fg"><span class="flbl">Metric</span>
+      <select class="fc" id="tat-metric" style="min-width:240px">
+        <option value="tat_first_call">Lead Creation → First Call</option>
+        <option value="tat_gaps">Gap Between Consecutive Calls</option>
+        <option value="tat_to_meeting">Lead Creation → First Meeting</option>
+        <option value="tat_to_booked">Lead Creation → First Booking</option>
+        <option value="tat_to_won">Lead Creation → Order Confirmed</option>
+      </select></div>
+    <div class="fg"><span class="flbl">Date range <span class="sub">(lead creation date)</span></span>
+      <div class="frow"><select class="fc" id="tat-pr">
+        <option value="last30" selected>Last 30 days</option><option value="last7">Last 7 days</option>
+        <option value="thismonth">This month</option><option value="lastmonth">Last month</option>
+        <option value="last3mo">Last 3 months</option><option value="alltime">All time</option>
+        <option value="custom">Custom</option></select>
+        <input type="date" class="fc" id="tat-fr"><input type="date" class="fc" id="tat-to"></div></div>
+    <div class="fg"><span class="flbl">Cluster</span><select class="fc" id="tat-cl"><option value="all">All</option>${clusters.map(c=>`<option>${c}</option>`).join('')}</select></div>
+    <div class="fg"><span class="flbl">Show by LRM</span>
+      <div class="tgl" id="tat-bylrm-tgl"><button class="tgl-b" data-v="0">Hide</button><button class="tgl-b on" data-v="1">Show</button></div></div>
+  </div>
+  <div class="fr">
+    <div class="fg"><span class="flbl">Custom Percentile</span>
+      <div class="frow"><select class="fc" id="tat-pctile">
+        <option value="50">P50 (Median)</option><option value="75">P75</option><option value="90">P90</option>
+        <option value="custom">Custom</option></select>
+        <input type="number" class="fc" id="tat-pctile-custom" min="1" max="99" value="80" style="display:none">
+      </div></div>
+  </div></div>
+  <div class="kgrid k4" id="tat-kpis"></div>
+  <div class="sc"><div class="sc-h"><span class="sc-t" id="tat-tbl-title">TAT by cluster</span><span class="sc-hi" id="tat-tbl-sub">Calendar days · click header to sort</span></div>
+    <div style="overflow-x:auto;max-height:520px;overflow-y:auto"><div class="tw" id="tat-tbl"></div></div></div>`;
+
+  $('tat-pctile')?.addEventListener('change',e=>{$('tat-pctile-custom').style.display=e.target.value==='custom'?'inline-block':'none';renderTAT();});
+  $('tat-bylrm-tgl')?.querySelectorAll('.tgl-b').forEach(b=>b.addEventListener('click',()=>{$('tat-bylrm-tgl').querySelectorAll('.tgl-b').forEach(x=>x.classList.remove('on'));b.classList.add('on');renderTAT();}));
+  ['tat-metric','tat-pr','tat-cl','tat-pctile-custom'].forEach(id=>$(id)?.addEventListener('change',renderTAT));
+  ['tat-fr','tat-to'].forEach(id=>$(id)?.addEventListener('change',()=>{$('tat-pr').value='custom';renderTAT();}));
+
+  renderTAT();
+}
+
+function renderTAT(){
+  if(!TAT_DATA)return;
+  const metric=$('tat-metric').value;
+  const dr=getDR('tat-pr','tat-fr','tat-to');
+  const cl=$('tat-cl').value;
+  const byLRM=$('tat-bylrm-tgl')?.querySelector('.tgl-b.on')?.dataset.v==='1';
+  const pcSel=$('tat-pctile').value;
+  const pcVal=pcSel==='custom'?parseInt($('tat-pctile-custom').value)||80:parseInt(pcSel);
+
+  // Filter records
+  let recs=TAT_DATA.records;
+  if(cl!=='all')recs=recs.filter(r=>r.cluster===cl);
+  if(dr.from||dr.to){
+    recs=recs.filter(r=>{if(!r.creation_date)return false;const cd=new Date(r.creation_date+'T00:00:00');if(dr.from&&cd<dr.from)return false;if(dr.to&&cd>dr.to)return false;return true;});
+  }
+
+  // Extract values for the chosen metric
+  function getValues(records){
+    if(metric==='tat_gaps'){const all=[];records.forEach(r=>{(r.tat_gaps||[]).forEach(g=>all.push(g));});return all;}
+    return records.map(r=>r[metric]).filter(v=>v!=null&&!isNaN(v));
+  }
+
+  const allVals=getValues(recs).sort((a,b)=>a-b);
+  const N=allVals.length;
+  const avgAll=avg(allVals);
+  const p50=percentile(allVals,50);
+  const pcCust=percentile(allVals,pcVal);
+
+  $('tat-kpis').innerHTML=`<div class="kcard"><div class="kl">Sample Size</div><div class="kv cb">${f(N)}</div><div class="ks">data points</div></div>
+    <div class="kcard"><div class="kl">Average</div><div class="kv ca">${avgAll!=null?fdec(avgAll,1)+'d':'—'}</div><div class="ks">${metric==='tat_gaps'?'gap':'TAT'} days</div></div>
+    <div class="kcard"><div class="kl">P50 (Median)</div><div class="kv cg">${p50!=null?fdec(p50,1)+'d':'—'}</div><div class="ks">50th percentile</div></div>
+    <div class="kcard"><div class="kl">P${pcVal}</div><div class="kv cp">${pcCust!=null?fdec(pcCust,1)+'d':'—'}</div><div class="ks">${pcVal}th percentile</div></div>`;
+
+  // Group by cluster (and optionally LRM)
+  const groupKey=byLRM?(r=>r.cluster+'|'+(r.lrm||'Unknown')):(r=>r.cluster);
+  const groups={};
+  recs.forEach(r=>{const k=groupKey(r);if(!groups[k])groups[k]={key:k,records:[]};groups[k].records.push(r);});
+
+  const titleEl=$('tat-tbl-title'),subEl=$('tat-tbl-sub');
+  const metricLabel={'tat_first_call':'Creation → First Call','tat_gaps':'Between consecutive calls','tat_to_meeting':'Creation → First Meeting','tat_to_booked':'Creation → First Booking','tat_to_won':'Creation → Order Confirmed'}[metric];
+  if(titleEl)titleEl.textContent=`TAT: ${metricLabel}`;
+  if(subEl)subEl.textContent=`Calendar days · P${pcVal} custom percentile · ${byLRM?'by Cluster × LRM':'by Cluster'}`;
+
+  if(!recs.length||!N){$('tat-tbl').innerHTML='<div class="nd">No data for selected filters & metric.</div>';return;}
+
+  // Build rows
+  const rows=Object.values(groups).map(g=>{
+    const vals=getValues(g.records).sort((a,b)=>a-b);
+    return {
+      key: g.key,
+      n:   vals.length,
+      avg: avg(vals),
+      p50: percentile(vals,50),
+      p75: percentile(vals,75),
+      p90: percentile(vals,90),
+      pc:  percentile(vals,pcVal),
+    };
+  }).filter(r=>r.n>0).sort((a,b)=>b.n-a.n);
+
+  let html='<table><thead class="single"><tr>';
+  if(byLRM){html+='<th>Cluster</th><th>LRM</th>';}else{html+='<th>Cluster</th>';}
+  html+=`<th class="tdr">Sample N</th><th class="tdr">Avg (days)</th><th class="tdr">P50</th><th class="tdr">P75</th><th class="tdr">P90</th><th class="tdr">P${pcVal} (custom)</th></tr></thead><tbody>`;
+  rows.forEach(r=>{
+    const[c,l]=r.key.split('|');
+    if(byLRM){html+=`<tr><td class="tdc" title="${c}">${c}</td><td class="td-lrm" style="padding-left:8px" title="${l}">${l}</td>`;}
+    else{html+=`<tr><td class="tdc" title="${r.key}">${r.key}</td>`;}
+    html+=`<td class="tdr mono">${f(r.n)}</td><td class="tdr mono">${fdec(r.avg,1)}</td><td class="tdr mono">${fdec(r.p50,1)}</td><td class="tdr mono">${fdec(r.p75,1)}</td><td class="tdr mono">${fdec(r.p90,1)}</td><td class="tdr mono" style="font-weight:600;background:#fef3c7">${fdec(r.pc,1)}</td></tr>`;
+  });
+  // Overall row
+  html+=`<tr style="background:var(--sur2);font-weight:600">${byLRM?'<td colspan="2">Overall</td>':'<td>Overall</td>'}<td class="tdr mono">${f(N)}</td><td class="tdr mono">${fdec(avgAll,1)}</td><td class="tdr mono">${fdec(p50,1)}</td><td class="tdr mono">${fdec(percentile(allVals,75),1)}</td><td class="tdr mono">${fdec(percentile(allVals,90),1)}</td><td class="tdr mono">${fdec(pcCust,1)}</td></tr>`;
+  html+='</tbody></table>';
+  $('tat-tbl').innerHTML=html;autoSort($('tat-tbl'));
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// QUALITY CHECK — STATIC PREVIEW SKELETON
+// ════════════════════════════════════════════════════════════════════════════
+function bQuality(){
+  $('p-quality').innerHTML=`
+  <div class="preview-banner">
+    <span class="icon">⚠</span>
+    <div><b>Quality Check — Preview / Skeleton</b>
+    <p>This view is a placeholder. The flagging logic is intentionally not wired up yet — definitions are still under discussion with the team. The layout below illustrates the planned structure once criteria are finalised.</p></div>
+  </div>
+
+  <div class="kgrid k4">
+    <div class="kcard"><div class="kl">Flagged: Same-Day Closures</div><div class="kv cr">—</div><div class="ks">closed within 24h of creation</div></div>
+    <div class="kcard"><div class="kl">Flagged: Zero-Attempt Closures</div><div class="kv ca">—</div><div class="ks">closed without any call</div></div>
+    <div class="kcard"><div class="kl">Flagged: Rapid NI/NQ</div><div class="kv cp">—</div><div class="ks">marked unqualified suspiciously fast</div></div>
+    <div class="kcard"><div class="kl">Audit Coverage</div><div class="kv cg">—</div><div class="ks">% of leads checked</div></div>
+  </div>
+
+  <div class="skeleton-card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <span style="font-size:12px;font-weight:600;color:var(--t2)">Cluster summary · flagged lead counts</span>
+      <span style="font-size:10px;color:var(--t3)">awaiting definitions</span>
+    </div>
+    <div class="skeleton-row w-90"></div>
+    <div class="skeleton-row w-70"></div>
+    <div class="skeleton-row w-90"></div>
+    <div class="skeleton-row w-50"></div>
+    <div class="skeleton-row w-70"></div>
+  </div>
+
+  <div class="skeleton-card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <span style="font-size:12px;font-weight:600;color:var(--t2)">Flagged leads list · review queue</span>
+      <span style="font-size:10px;color:var(--t3)">awaiting definitions</span>
+    </div>
+    <div class="skeleton-row w-90"></div>
+    <div class="skeleton-row w-30"></div>
+    <div class="skeleton-row w-70"></div>
+    <div class="skeleton-row w-90"></div>
+    <div class="skeleton-row w-30"></div>
+    <div class="skeleton-row w-50"></div>
+  </div>
+
+  <div class="sc">
+    <div class="sc-h"><span class="sc-t">Planned flagging criteria</span></div>
+    <div class="sc-b" style="font-size:12px;line-height:1.8;color:var(--t2)">
+      <strong style="color:var(--tx)">Definitions being discussed:</strong>
+      <ul style="margin:8px 0 8px 22px">
+        <li><strong>Same-day closures</strong> — lead created and closed on the same calendar day; threshold (hours) TBD.</li>
+        <li><strong>Zero-attempt closures</strong> — leads moved to terminal status without any logged call attempt.</li>
+        <li><strong>Rapid disqualification</strong> — leads marked NI/NQ within N minutes of first contact.</li>
+        <li><strong>Consecutive CNC</strong> — Call Not Connected logged on N consecutive attempts.</li>
+        <li><strong>Delayed first contact</strong> — first call attempt &gt; X days after lead creation.</li>
+      </ul>
+      <em>Final scope and thresholds to be confirmed before activation.</em>
+    </div>
+  </div>`;
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// FUNNEL + COHORT (existing, kept as-is)
+// ════════════════════════════════════════════════════════════════════════════
 function bFunnel(){
-  const clusterSet=new Set();
-  DATA.records.forEach(r=>{if(r.cluster&&r.cluster!=='Unknown')clusterSet.add(r.cluster);});
+  const clusterSet=new Set();DATA.records.forEach(r=>{if(r.cluster&&r.cluster!=='Unknown')clusterSet.add(r.cluster);});
   const clusterList=[...clusterSet].sort();
   const presentSt=new Set(DATA.records.map(r=>r.lead_status).filter(Boolean));
-  const activeStatuses=[
-    ...STATUS_ORDER.filter(s=>presentSt.has(s)),
-    ...[...presentSt].filter(s=>s&&s!=='Unknown'&&!STATUS_ORDER.includes(s))
-  ];
-
-  $('p-funnel').innerHTML=`
-  <div class="fb"><div class="fr">
-    <div class="fg"><span class="flbl">Cluster</span>
-      <select class="fc" id="fn-cl"><option value="all">All Clusters</option>
-        ${clusterList.map(c=>`<option value="${c}">${c}</option>`).join('')}
-      </select>
-    </div>
+  const activeStatuses=[...STATUS_ORDER.filter(s=>presentSt.has(s)),...[...presentSt].filter(s=>s&&s!=='Unknown'&&!STATUS_ORDER.includes(s))];
+  $('p-funnel').innerHTML=`<div class="fb"><div class="fr">
+    <div class="fg"><span class="flbl">Cluster</span><select class="fc" id="fn-cl"><option value="all">All Clusters</option>${clusterList.map(c=>`<option value="${c}">${c}</option>`).join('')}</select></div>
     <div class="fg"><span class="flbl">Status</span>
-      <div class="ms-wrap" id="fn-ms-wrap">
-        <button class="ms-btn" id="fn-ms-btn" type="button">All Statuses</button>
-        <div class="ms-dd" id="fn-ms-dd">
-          <div class="ms-list">
-            <label class="ms-opt"><input type="checkbox" id="fn-ms-all" checked>&nbsp;All Statuses</label>
-            <div class="ms-sep"></div>
-            ${activeStatuses.map(s=>`<label class="ms-opt"><input type="checkbox" class="fn-ms-chk" value="${s}"><span class="ms-dot" style="background:${STATUS_COLORS[s]||'#94a3b8'}"></span>${s}</label>`).join('')}
-          </div>
-          <div class="ms-foot"><button class="ms-clear" id="fn-ms-clr">Clear</button><button class="ms-apply" id="fn-ms-apl">Apply</button></div>
-        </div>
-      </div>
-    </div>
+      <div class="ms-wrap" id="fn-ms-wrap"><button class="ms-btn" id="fn-ms-btn">All Statuses</button>
+        <div class="ms-dd" id="fn-ms-dd"><div class="ms-list"><label class="ms-opt"><input type="checkbox" id="fn-ms-all" checked>&nbsp;All Statuses</label><div class="ms-sep"></div>
+          ${activeStatuses.map(s=>`<label class="ms-opt"><input type="checkbox" class="fn-ms-chk" value="${s}"><span class="ms-dot" style="background:${STATUS_COLORS[s]||'#94a3b8'}"></span>${s}</label>`).join('')}
+        </div><div class="ms-foot"><button class="ms-clear" id="fn-ms-clr">Clear</button><button class="ms-apply" id="fn-ms-apl">Apply</button></div></div></div></div>
     <div class="fg"><span class="flbl">Date range <span class="sub">(lead creation)</span></span>
-      <div class="frow">
-        <select class="fc" id="fn-pr">
-          <option value="last30">Last 30 days</option>
-          <option value="alltime">All time</option>
-          <option value="thismonth">This month</option>
-          <option value="lastmonth">Last month</option>
-          <option value="last3mo">Last 3 months</option>
-          <option value="custom">Custom</option>
-        </select>
-        <input type="date" class="fc" id="fn-fr">
-        <input type="date" class="fc" id="fn-to">
-      </div>
-    </div>
+      <div class="frow"><select class="fc" id="fn-pr"><option value="last30">Last 30 days</option><option value="alltime">All time</option><option value="thismonth">This month</option><option value="lastmonth">Last month</option><option value="last3mo">Last 3 months</option><option value="custom">Custom</option></select><input type="date" class="fc" id="fn-fr"><input type="date" class="fc" id="fn-to"></div></div>
   </div></div>
-  <div class="sc">
-    <div class="sc-h"><span class="sc-t" id="fn-title">Stage funnel</span><span class="sc-hi">Stages grouped by status</span></div>
-    <div class="sc-b" id="fn-body"></div>
-  </div>`;
-
+  <div class="sc"><div class="sc-h"><span class="sc-t" id="fn-title">Stage funnel</span><span class="sc-hi">Stages grouped by status</span></div><div class="sc-b" id="fn-body"></div></div>`;
   setupMS('fn-ms-btn','fn-ms-dd','fn-ms-all','.fn-ms-chk','fn-ms-apl','fn-ms-clr',sel=>{FN.sel=sel;render();});
-
   function render(){
-    const dr=getDR('fn-pr','fn-fr','fn-to');
-    let recs=filterDR(DATA.records,dr.from,dr.to);
-    const cl=$('fn-cl')?.value;
-    if(cl&&cl!=='all')recs=recs.filter(r=>r.cluster===cl);
+    const dr=getDR('fn-pr','fn-fr','fn-to');let recs=filterDR(DATA.records,dr.from,dr.to);
+    const cl=$('fn-cl')?.value;if(cl&&cl!=='all')recs=recs.filter(r=>r.cluster===cl);
     if(FN.sel.length>0)recs=recs.filter(r=>FN.sel.includes(r.lead_status));
     const total=recs.reduce((s,r)=>s+r.lead_count,0);
     const dimT={};recs.forEach(r=>{dimT[r.lead_stage]=(dimT[r.lead_stage]||0)+r.lead_count;});
-    const groups=stageGroups(dimT,FN.sel);
-    const colors=buildColors(groups);
+    const groups=stageGroups(dimT,FN.sel);const colors=buildColors(groups);
     const body=$('fn-body');if(!body)return;
-
-    const title=$('fn-title');
-    if(title)title.textContent=FN.sel.length===0?'Stage funnel — all statuses':FN.sel.length===1?`Stage funnel — ${FN.sel[0]}`:`Stage funnel — ${FN.sel.length} statuses`;
-
+    const title=$('fn-title');if(title)title.textContent=FN.sel.length===0?'Stage funnel — all statuses':FN.sel.length===1?`Stage funnel — ${FN.sel[0]}`:`Stage funnel — ${FN.sel.length} statuses`;
     if(!groups.length||!total){body.innerHTML='<div class="nd">No data for selected filters.</div>';return;}
-
-    // Group rendered with header per status
     const maxN=Math.max(...groups.flatMap(g=>g.stages.map(s=>dimT[s]||0)),1);
     body.innerHTML=groups.map(({status,stages})=>{
-      const statusTotal=stages.reduce((s,st)=>s+(dimT[st]||0),0);
-      const statusColor=STATUS_COLORS[status]||'#94a3b8';
-      const statusBg=STATUS_BG[status]||'#f8fafc';
-      const stageBars=stages.filter(s=>(dimT[s]||0)>0).map(s=>{
-        const n=dimT[s]||0,w=((n/maxN)*100).toFixed(1);
-        const col=colors[s]||statusColor;
+      const sTot=stages.reduce((s,st)=>s+(dimT[st]||0),0);const sCol=STATUS_COLORS[status]||'#94a3b8';const sBg=STATUS_BG[status]||'#f8fafc';
+      const bars=stages.filter(s=>(dimT[s]||0)>0).map(s=>{const n=dimT[s]||0,w=((n/maxN)*100).toFixed(1);const col=colors[s]||sCol;
         return`<div style="display:grid;grid-template-columns:200px 1fr 44px 60px;align-items:center;gap:8px;margin-bottom:4px">
           <div style="font-size:11px;color:var(--t2);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-right:6px" title="${s}">${s}</div>
-          <div style="background:var(--sur2);border-radius:4px;height:18px;overflow:hidden">
-            <div style="width:${w}%;height:100%;background:${col};border-radius:4px;display:flex;align-items:center;padding-left:7px">
-              <span style="font-size:10px;font-weight:600;color:#fff;white-space:nowrap">${n>maxN*.1?f(n):''}</span>
-            </div>
-          </div>
+          <div style="background:var(--sur2);border-radius:4px;height:18px;overflow:hidden"><div style="width:${w}%;height:100%;background:${col};border-radius:4px;display:flex;align-items:center;padding-left:7px"><span style="font-size:10px;font-weight:600;color:#fff;white-space:nowrap">${n>maxN*.1?f(n):''}</span></div></div>
           <div style="font-size:10px;color:var(--t3);text-align:right">${total>0?((n/total)*100).toFixed(1):0}%</div>
-          <div class="mono" style="font-size:11px;text-align:right">${f(n)}</div>
-        </div>`;
-      }).join('');
-      return`<div style="margin-bottom:14px">
-        <div style="display:flex;align-items:center;justify-content:space-between;background:${statusBg};color:${statusColor};padding:6px 10px;border-radius:6px;margin-bottom:6px;border-left:3px solid ${statusColor}">
-          <span style="font-size:11px;font-weight:600">${status}</span>
-          <span style="font-size:11px;font-family:'DM Mono',monospace">${f(statusTotal)} leads · ${total>0?((statusTotal/total)*100).toFixed(1):0}%</span>
-        </div>
-        ${stageBars}
-      </div>`;
+          <div class="mono" style="font-size:11px;text-align:right">${f(n)}</div></div>`;}).join('');
+      return`<div style="margin-bottom:14px"><div style="display:flex;align-items:center;justify-content:space-between;background:${sBg};color:${sCol};padding:6px 10px;border-radius:6px;margin-bottom:6px;border-left:3px solid ${sCol}"><span style="font-size:11px;font-weight:600">${status}</span><span style="font-size:11px;font-family:'DM Mono',monospace">${f(sTot)} leads · ${total>0?((sTot/total)*100).toFixed(1):0}%</span></div>${bars}</div>`;
     }).join('');
   }
-
   ['fn-cl','fn-pr'].forEach(id=>$(id)?.addEventListener('change',render));
   ['fn-fr','fn-to'].forEach(id=>$(id)?.addEventListener('change',()=>{$('fn-pr').value='custom';render();}));
   setTimeout(render,0);
 }
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// COHORT VIEW
-// ═══════════════════════════════════════════════════════════════════════════════
 function bCohort(){
-  const clusterSet=new Set();
-  DATA.records.forEach(r=>{if(r.cluster&&r.cluster!=='Unknown')clusterSet.add(r.cluster);});
+  const clusterSet=new Set();DATA.records.forEach(r=>{if(r.cluster&&r.cluster!=='Unknown')clusterSet.add(r.cluster);});
   const clusterList=[...clusterSet].sort();
   const presentSt=new Set(DATA.records.map(r=>r.lead_status).filter(Boolean));
   const activeStatuses=STATUS_ORDER.filter(s=>presentSt.has(s));
-
-  $('p-cohort').innerHTML=`
-  <div class="fb"><div class="fr">
-    <div class="fg"><span class="flbl">Cluster</span>
-      <select class="fc" id="co-cl"><option value="all">All Clusters</option>${clusterList.map(c=>`<option>${c}</option>`).join('')}</select>
-    </div>
-    <div class="fg"><span class="flbl">Status</span>
-      <select class="fc" id="co-st"><option value="all">All Statuses</option>${activeStatuses.map(s=>`<option value="${s}">${s}</option>`).join('')}</select>
-    </div>
-    <div class="fg"><span class="flbl">Date range <span class="sub">(lead creation)</span></span>
-      <div class="frow">
-        <select class="fc" id="co-pr">
-          <option value="last3mo">Last 3 months</option>
-          <option value="last30">Last 30 days</option>
-          <option value="thisyear">This year</option>
-          <option value="alltime">All time</option>
-          <option value="custom">Custom</option>
-        </select>
-        <input type="date" class="fc" id="co-fr"><input type="date" class="fc" id="co-to">
-      </div>
-    </div>
+  $('p-cohort').innerHTML=`<div class="fb"><div class="fr">
+    <div class="fg"><span class="flbl">Cluster</span><select class="fc" id="co-cl"><option value="all">All Clusters</option>${clusterList.map(c=>`<option>${c}</option>`).join('')}</select></div>
+    <div class="fg"><span class="flbl">Status</span><select class="fc" id="co-st"><option value="all">All Statuses</option>${activeStatuses.map(s=>`<option value="${s}">${s}</option>`).join('')}</select></div>
+    <div class="fg"><span class="flbl">Date range <span class="sub">(lead creation)</span></span><div class="frow"><select class="fc" id="co-pr"><option value="last3mo">Last 3 months</option><option value="last30">Last 30 days</option><option value="thisyear">This year</option><option value="alltime">All time</option><option value="custom">Custom</option></select><input type="date" class="fc" id="co-fr"><input type="date" class="fc" id="co-to"></div></div>
   </div></div>
-  <div class="sc">
-    <div class="sc-h"><span class="sc-t">Cohort week × Stage</span><span class="sc-hi">Rows = creation week · top 12 stages</span></div>
-    <div style="overflow-x:auto;max-height:440px;overflow-y:auto"><div class="tw" id="co-tbl"></div></div>
-  </div>`;
-
+  <div class="sc"><div class="sc-h"><span class="sc-t">Cohort week × Stage</span><span class="sc-hi">Rows = creation week · top 12 stages</span></div><div style="overflow-x:auto;max-height:440px;overflow-y:auto"><div class="tw" id="co-tbl"></div></div></div>`;
   function render(){
-    const dr=getDR('co-pr','co-fr','co-to');
-    let recs=filterDR(DATA.records,dr.from,dr.to);
+    const dr=getDR('co-pr','co-fr','co-to');let recs=filterDR(DATA.records,dr.from,dr.to);
     const cl=$('co-cl')?.value,st=$('co-st')?.value;
-    if(cl&&cl!=='all')recs=recs.filter(r=>r.cluster===cl);
-    if(st&&st!=='all')recs=recs.filter(r=>r.lead_status===st);
+    if(cl&&cl!=='all')recs=recs.filter(r=>r.cluster===cl);if(st&&st!=='all')recs=recs.filter(r=>r.lead_status===st);
     const weeks=[...new Set(recs.map(r=>r.cohort_week).filter(w=>w&&w!=='Unknown'))].sort().reverse();
     const dimT={};recs.forEach(r=>{dimT[r.lead_stage]=(dimT[r.lead_stage]||0)+r.lead_count;});
     const groups=stageGroups(dimT,st&&st!=='all'?[st]:[]);
     const topStages=groups.flatMap(g=>g.stages).slice(0,12);
     if(!weeks.length){$('co-tbl').innerHTML='<div class="nd">No data for selected filters.</div>';return;}
-    const pv={};
-    recs.forEach(r=>{
-      if(!weeks.includes(r.cohort_week))return;
-      pv[r.cohort_week]=pv[r.cohort_week]||{};
-      pv[r.cohort_week][r.lead_stage]=(pv[r.cohort_week][r.lead_stage]||0)+r.lead_count;
-    });
-    let html='<table><thead class="single"><tr><th>Week of (creation)</th>';
-    topStages.forEach(s=>html+=`<th class="tdr" title="${s}">${s}</th>`);
-    html+='<th class="tdr">Total</th></tr></thead><tbody>';
-    weeks.forEach(w=>{
-      const wt=topStages.reduce((s,st2)=>s+(pv[w]?.[st2]||0),0);
-      const wmax=Math.max(...topStages.map(s=>pv[w]?.[s]||0),1);
-      html+=`<tr><td class="mono tdc" style="font-size:11px">${fmtNice(w)}</td>`;
-      topStages.forEach(s=>{const v=pv[w]?.[s]||0;html+=`<td class="tdr mono" style="${hBg(v,wmax)}">${v||'·'}</td>`;});
-      html+=`<td class="tdt">${f(wt)}</td></tr>`;
-    });
-    html+='</tbody></table>';
-    const wrap=$('co-tbl');wrap.innerHTML=html;autoSort(wrap);
+    const pv={};recs.forEach(r=>{if(!weeks.includes(r.cohort_week))return;pv[r.cohort_week]=pv[r.cohort_week]||{};pv[r.cohort_week][r.lead_stage]=(pv[r.cohort_week][r.lead_stage]||0)+r.lead_count;});
+    let html='<table><thead class="single"><tr><th>Week of (creation)</th>';topStages.forEach(s=>html+=`<th class="tdr" title="${s}">${s}</th>`);html+='<th class="tdr">Total</th></tr></thead><tbody>';
+    weeks.forEach(w=>{const wt=topStages.reduce((s,st2)=>s+(pv[w]?.[st2]||0),0);const wmax=Math.max(...topStages.map(s=>pv[w]?.[s]||0),1);
+      html+=`<tr><td class="mono tdc" style="font-size:11px">${fmtNice(w)}</td>`;topStages.forEach(s=>{const v=pv[w]?.[s]||0;html+=`<td class="tdr mono" style="${hBg(v,wmax)}">${v||'·'}</td>`;});html+=`<td class="tdt">${f(wt)}</td></tr>`;});
+    html+='</tbody></table>';const wrap=$('co-tbl');wrap.innerHTML=html;autoSort(wrap);
   }
-
   ['co-cl','co-st','co-pr'].forEach(id=>$(id)?.addEventListener('change',render));
   ['co-fr','co-to'].forEach(id=>$(id)?.addEventListener('change',()=>{$('co-pr').value='custom';render();}));
   setTimeout(render,0);
 }
 
-// ── BOOT ─────────────────────────────────────────────────────────────────────
 loadData();
 </script>
 </body>

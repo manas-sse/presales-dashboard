@@ -23,10 +23,11 @@ jobs:
 
       - name: Run ETL
         env:
-          METABASE_URL:      ${{ secrets.METABASE_URL }}
-          METABASE_USERNAME: ${{ secrets.METABASE_USERNAME }}
-          METABASE_PASSWORD: ${{ secrets.METABASE_PASSWORD }}
-          METABASE_CARD_ID:  2557
+          METABASE_URL:           ${{ secrets.METABASE_URL }}
+          METABASE_USERNAME:      ${{ secrets.METABASE_USERNAME }}
+          METABASE_PASSWORD:      ${{ secrets.METABASE_PASSWORD }}
+          METABASE_CARD_ID:       2557
+          METABASE_AUDIT_CARD_ID: 3227
         run: python etl.py
 
       - name: Commit data if changed
