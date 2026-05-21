@@ -116,13 +116,26 @@ def parse_date_any(raw):
 
 
 def parse_dt_iso(raw):
-    """Parse ISO timestamp '2025-12-21T12:06:30.74Z' → datetime."""
+    """Parse audit createdAt timestamp → datetime (UTC, naive).
+    Handles:
+      - ISO:           2026-05-21T11:07:48Z  (new standardised format)
+      - ISO w/ micros: 2025-12-21T12:06:30.74Z
+      - Metabase UI:   December 21, 2025, 3:03 PM  (old format, kept as fallback)
+    """
     if not raw: return None
+    s = str(raw).strip()
+    # ISO variants
     try:
-        s = str(raw).replace("Z", "+00:00")
-        return datetime.fromisoformat(s)
-    except Exception:
-        return None
+        return datetime.fromisoformat(s.replace("Z", "+00:00")).replace(tzinfo=None)
+    except ValueError:
+        pass
+    # Metabase human-readable: "December 21, 2025, 3:03 PM"
+    for fmt in ("%B %d, %Y, %I:%M %p", "%B %d, %Y, %I:%M:%S %p"):
+        try:
+            return datetime.strptime(s, fmt)
+        except ValueError:
+            continue
+    return None
 
 
 def today_ist():
