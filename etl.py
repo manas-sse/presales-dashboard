@@ -362,7 +362,9 @@ def build_lrm_performance(audit_sorted: list) -> dict:
             lrm = ev["lrm"] or "Unknown"
             cluster = ev["cluster"]
             k = (d, cluster, lrm)
-            bucket[k]["leads"].add(lid)
+            # leads_touched = unique leads updated BY the LRM (not system/SC updates)
+            if ev["updated_by"] == "LRM":
+                bucket[k]["leads"].add(lid)
             if prev is not None and ev["n_attempts"] > prev["n_attempts"]:
                 bucket[k]["calls"] += 1
             if prev is not None:
@@ -490,6 +492,59 @@ def build_tat_stats(audit_sorted: list, lead_creation: dict) -> dict:
         "records": records,
     }
 
+def build_lrm_conversion(audit_sorted: list) -> dict:
+    """
+    Per (lead_id, lrm): dates when this LRM made a call + first meeting date for the lead.
+    Dashboard uses this to compute: of leads called by LRM X in period [A,B],
+    how many also had a meeting scheduled in [A,B]?
+    Meeting stages: Meeting Scheduled (BD), Meeting Confirmed - Customer Home
+    """
+    MEETING_STAGES = {"Meeting Scheduled (BD)", "Meeting Confirmed - Customer Home"}
+
+    by_lead = defaultdict(list)
+    for r in audit_sorted:
+        by_lead[r["lead_id"]].append(r)
+
+    records = []
+    for lid, events in by_lead.items():
+        # Find first meeting date for this lead (IST)
+        meeting_date = None
+        for ev in events:
+            if ev["stage"] in MEETING_STAGES:
+                meeting_date = (ev["ts"] + timedelta(hours=5, minutes=30)).date().strftime("%Y-%m-%d")
+                break
+
+        # Collect call events grouped by LRM (call = n_attempts incremented)
+        by_lrm: dict = defaultdict(lambda: {"cluster": "Invalid", "call_dates": set()})
+        prev = None
+        for ev in events:
+            if prev is not None and ev["n_attempts"] > prev["n_attempts"]:
+                lrm = ev["lrm"] or "Unknown"
+                d_ist = (ev["ts"] + timedelta(hours=5, minutes=30)).date().strftime("%Y-%m-%d")
+                by_lrm[lrm]["call_dates"].add(d_ist)
+                by_lrm[lrm]["cluster"] = ev["cluster"]
+            prev = ev
+
+        for lrm, v in by_lrm.items():
+            if not v["call_dates"]:
+                continue
+            records.append({
+                "lead_id":      lid,
+                "lrm":          lrm,
+                "cluster":      v["cluster"],
+                "call_dates":   sorted(v["call_dates"]),
+                "meeting_date": meeting_date,
+            })
+
+    return {
+        "meta": {
+            "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "total_records": len(records),
+            "note": "One record per (lead, LRM). call_dates = IST dates of call attempts. meeting_date = first meeting-stage date for the lead.",
+        },
+        "records": records,
+    }
+
 
 # ════════════════════════════════════════════════════════════════════════════
 # MAIN
@@ -553,6 +608,11 @@ def main():
     with open("data/tat_stats.json", "w") as f:
         json.dump(tat, f, indent=2, default=str)
     print(f"      tat_stats.json — {tat['meta']['total_leads']:,} lead-level TAT records")
+
+    conv = build_lrm_conversion(audit_sorted)
+    with open("data/lrm_conversion.json", "w") as f:
+        json.dump(conv, f, indent=2, default=str)
+    print(f"      lrm_conversion.json — {conv['meta']['total_records']:,} lead-LRM records")
 
     print("\n  All done.")
 
