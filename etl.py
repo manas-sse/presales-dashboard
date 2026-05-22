@@ -237,6 +237,13 @@ def normalise_audit_rows(audit_raw: list) -> list:
         if not ts: continue
         try:    n_attempts = int(r.get("call_attempts_lrm") or 0)
         except: n_attempts = 0
+        # meeting_schedule_first_time: Metabase UI format = IST naive datetime.
+        # Subtract 5:30 to convert to UTC naive so it's comparable with ts (createdAt UTC).
+        raw_mtg = r.get("meeting_schedule_first_time")
+        meeting_ts = parse_dt_iso(raw_mtg)
+        if meeting_ts:
+            meeting_ts = meeting_ts - timedelta(hours=5, minutes=30)
+
         cleaned.append({
             "lead_id":    lid,
             "ts":         ts,
@@ -248,6 +255,7 @@ def normalise_audit_rows(audit_raw: list) -> list:
             "cluster":    normalise_cluster(r.get("site_address_cluster") or ""),
             "updated_by": r.get("status_stage_updated_by") or "",
             "n_attempts": n_attempts,
+            "meeting_ts": meeting_ts,   # UTC naive datetime or None
         })
     cleaned.sort(key=lambda x: (x["lead_id"], x["ts"]))
     return cleaned
@@ -402,92 +410,126 @@ def build_lrm_performance(audit_sorted: list) -> dict:
 
 def build_tat_stats(audit_sorted: list, lead_creation: dict) -> dict:
     """
-    Computes TAT (in CALENDAR days) for three measures per lead:
-      - tat_creation_to_first_call
-      - tat_between_calls   (list of gaps, one per consecutive pair)
-      - tat_creation_to_stages  (creation → first time at meeting/booked/won)
+    Computes TAT in fractional HOURS for each measure per lead:
+      - tat_first_call : lead creation datetime → createdAt of first call audit event
+      - tat_gaps       : list of hour-gaps between each consecutive pair of call events
+      - tat_to_meeting : lead creation datetime → meeting_schedule_first_time (from card 3227)
+      - tat_to_won     : lead creation datetime → createdAt of first "Order Confirmed" event
 
-    Output: a per-lead row + meta with available percentile dimensions.
-    Front-end computes avg / P50 / P75 / P90 / custom from this list.
+    lead_creation values: UTC naive datetimes (card 2557 Creation Date, ISO UTC).
+    ev["ts"]            : UTC naive datetimes (card 3227 createdAt, ISO UTC).
+    ev["meeting_ts"]    : UTC naive datetimes (meeting_schedule_first_time, IST → UTC adjusted).
+
+    Call detection: n_attempts increments between consecutive events for the same lead.
+    prev_n starts at 0 — pre-audit calls (n_attempts already > 0 on first event) are excluded.
+
+    UI displays: < 1h → minutes, 1–24h → hours, > 24h → days.
     """
     by_lead = defaultdict(list)
     for r in audit_sorted:
         by_lead[r["lead_id"]].append(r)
 
-    # Key stage targets for "creation to stage"
-    STAGE_TARGETS = {
-        "first_meeting": ["Meeting Scheduled (BD)", "Meeting Confirmed - Customer Home"],
-        "first_booked":  ["Booking Processing", "Booking Pending by Cx", "Booking Pending by ZSM"],
-        "first_won":     ["Order Confirmed"],
-    }
-
     records = []
     for lid, events in by_lead.items():
         if not events: continue
 
-        # Lead creation date
-        cdate = lead_creation.get(lid)
-        # Cluster & LRM: use first event
-        first_ev = events[0]
-        cluster  = first_ev["cluster"]
+        # Lead creation datetime (UTC naive)
+        cdate_dt = lead_creation.get(lid)
+        # IST date string for filtering on the dashboard (display only)
+        cdate_ist_str = (
+            (cdate_dt + timedelta(hours=5, minutes=30)).date().strftime("%Y-%m-%d")
+            if cdate_dt else None
+        )
 
-        # Call attempt timestamps (where n_attempts incremented)
-        call_times = []
-        prev_n = -1
-        for ev in events:
-            if ev["n_attempts"] > prev_n and ev["n_attempts"] > 0:
-                call_times.append(ev["ts"])
-                prev_n = ev["n_attempts"]
+        # Cluster: most recent non-Invalid value, fallback to first event's cluster
+        cluster = next(
+            (ev["cluster"] for ev in reversed(events) if ev["cluster"] != "Invalid"),
+            events[0]["cluster"]
+        )
 
-        # TAT 1: creation → first call (calendar days)
-        tat_first_call = None
-        if cdate and call_times:
-            tat_first_call = (call_times[0].date() - cdate).days
-
-        # TAT 2: gaps between consecutive calls (calendar days)
-        tat_gaps = []
-        for i in range(1, len(call_times)):
-            gap = (call_times[i].date() - call_times[i-1].date()).days
-            if 0 <= gap <= 365:
-                tat_gaps.append(gap)
-
-        # TAT 3: creation → first time hitting a target stage
-        tat_to_targets = {}
-        if cdate:
-            for label, target_stages in STAGE_TARGETS.items():
-                hit = None
-                for ev in events:
-                    if ev["stage"] in target_stages:
-                        hit = ev["ts"].date()
-                        break
-                if hit:
-                    tat_to_targets[label] = (hit - cdate).days
-
-        # LRM mode: most common LRM email on this lead
+        # LRM: most common LRM email across all audit events for this lead
         lrm_counter = defaultdict(int)
         for ev in events:
             if ev["lrm"]: lrm_counter[ev["lrm"]] += 1
         lrm = max(lrm_counter, key=lrm_counter.get) if lrm_counter else "Unknown"
 
+        # ── TAT 1 & 2: call attempt events ───────────────────────────────────
+        # A call event = audit row where call_attempts_lrm increments.
+        # prev_n = 0: first event with n_attempts already > 0 is NOT a new call.
+        call_times = []   # UTC naive datetimes of each call event
+        prev_n = 0
+        for ev in events:
+            if ev["n_attempts"] > prev_n and ev["n_attempts"] > 0:
+                call_times.append(ev["ts"])
+                prev_n = ev["n_attempts"]
+
+        # TAT 1: creation datetime → createdAt of first call event (hours)
+        tat_first_call = None
+        if cdate_dt and call_times:
+            tat_first_call = round(
+                (call_times[0] - cdate_dt).total_seconds() / 3600, 2
+            )
+
+        # TAT 2: gap between each consecutive pair of call events (hours)
+        # Gap = createdAt of call[i] − createdAt of call[i-1]
+        tat_gaps = []
+        for i in range(1, len(call_times)):
+            gap_h = (call_times[i] - call_times[i - 1]).total_seconds() / 3600
+            if 0 <= gap_h <= 365 * 24:   # exclude data errors > 1 year
+                tat_gaps.append(round(gap_h, 2))
+
+        # ── TAT 3: creation → first meeting scheduled (hours) ────────────────
+        # Uses meeting_schedule_first_time column (already UTC-adjusted in normalise_audit_rows).
+        # All rows for the same lead carry the same value; take the first non-None.
+        tat_to_meeting = None
+        if cdate_dt:
+            meeting_ts = next(
+                (ev["meeting_ts"] for ev in events if ev.get("meeting_ts") is not None),
+                None
+            )
+            if meeting_ts:
+                tat_to_meeting = round(
+                    (meeting_ts - cdate_dt).total_seconds() / 3600, 2
+                )
+
+        # ── TAT 4: creation → Order Confirmed (hours) ────────────────────────
+        # First audit event where stage == "Order Confirmed".
+        tat_to_won = None
+        if cdate_dt:
+            for ev in events:
+                if ev["stage"] == "Order Confirmed":
+                    tat_to_won = round(
+                        (ev["ts"] - cdate_dt).total_seconds() / 3600, 2
+                    )
+                    break
+
+        # first_call_date in IST (display only)
+        first_call_ist = (
+            (call_times[0] + timedelta(hours=5, minutes=30)).date().strftime("%Y-%m-%d")
+            if call_times else None
+        )
+
         records.append({
             "lead_id":         lid,
             "cluster":         cluster,
             "lrm":             lrm,
-            "creation_date":   cdate.strftime("%Y-%m-%d") if cdate else None,
-            "first_call_date": call_times[0].date().strftime("%Y-%m-%d") if call_times else None,
+            "creation_date":   cdate_ist_str,
+            "first_call_date": first_call_ist,
             "total_calls":     len(call_times),
             "tat_first_call":  tat_first_call,
             "tat_gaps":        tat_gaps,
-            "tat_to_meeting":  tat_to_targets.get("first_meeting"),
-            "tat_to_booked":   tat_to_targets.get("first_booked"),
-            "tat_to_won":      tat_to_targets.get("first_won"),
+            "tat_to_meeting":  tat_to_meeting,
+            "tat_to_won":      tat_to_won,
         })
 
     return {
         "meta": {
             "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "total_leads":  len(records),
-            "note":         "TAT in calendar days. UI computes avg/percentiles from records.",
+            "note": (
+                "TAT in fractional hours. "
+                "UI displays: < 1h as minutes, < 24h as hours, >= 24h as days."
+            ),
         },
         "records": records,
     }
@@ -563,13 +605,15 @@ def main():
     audit_raw = fetch_card(token, AUDIT_CARD_ID)
     print(f"      {len(audit_raw):,} rows")
 
-    # Build lead_id → creation_date map (from card 2557)
+    # Build lead_id → creation datetime map (UTC naive, from card 2557 Creation Date).
+    # Creation Date is now ISO UTC (2026-05-22T08:10:05Z), so parse as full datetime.
+    # Stored as datetime so build_tat_stats can compute exact hour-level TAT.
     lead_creation = {}
     for r in leads_raw:
         lid = r.get("Lead Id")
         if not lid: continue
-        cd = parse_date_any(r.get("Creation Date"))
-        if cd: lead_creation[lid] = cd
+        cd_dt = parse_dt_iso(r.get("Creation Date"))   # UTC naive datetime
+        if cd_dt: lead_creation[lid] = cd_dt
 
     print("[4/7] Aggregating lead snapshot...")
     city_stage = build_city_stage_output(aggregate_city_stage(leads_raw))

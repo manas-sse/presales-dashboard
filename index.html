@@ -112,9 +112,9 @@ input[type=number].fc{width:80px}
 .tw table{width:100%;border-collapse:collapse;font-size:11px}
 .tw thead tr:first-child th{background:#1e293b;color:#f1f5f9;padding:6px 8px;font-size:10px;font-weight:600;text-align:center;border-right:1px solid #334155;white-space:normal;line-height:1.25;word-wrap:break-word}
 .tw thead tr:first-child th:first-child,.tw thead tr:first-child th.row-hdr{background:#eef2ff;color:#3730a3;text-align:left}
-.tw thead tr:last-child th{background:#eef2ff;color:#3730a3;padding:6px 8px;font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:.3px;border-bottom:2px solid #c7d2fe;white-space:normal;line-height:1.25;text-align:right;position:sticky;top:0;z-index:1;vertical-align:bottom;word-wrap:break-word;min-width:60px;max-width:120px}
+.tw thead tr:last-child th{background:#eef2ff;color:#3730a3;padding:6px 8px;font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:.3px;border-bottom:2px solid #c7d2fe;white-space:normal;line-height:1.25;text-align:center;position:sticky;top:0;z-index:1;vertical-align:bottom;word-wrap:break-word;min-width:60px;max-width:120px}
 .tw thead tr:last-child th:first-child,.tw thead tr:last-child th.row-hdr{text-align:left;min-width:90px;max-width:160px}
-.tw thead.single tr th{background:#eef2ff;color:#3730a3;padding:6px 8px;font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:.3px;border-bottom:2px solid #c7d2fe;white-space:normal;line-height:1.25;text-align:right;position:sticky;top:0;z-index:1;vertical-align:bottom;word-wrap:break-word;min-width:60px;max-width:160px}
+.tw thead.single tr th{background:#eef2ff;color:#3730a3;padding:6px 8px;font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:.3px;border-bottom:2px solid #c7d2fe;white-space:normal;line-height:1.25;text-align:center;position:sticky;top:0;z-index:1;vertical-align:bottom;word-wrap:break-word;min-width:60px;max-width:160px}
 .tw thead.single tr th:first-child{text-align:left;min-width:100px;max-width:200px}
 .tw tbody td{padding:5px 8px;border-bottom:1px solid var(--bd);vertical-align:middle;white-space:nowrap}
 .tw tbody tr:last-child td{border-bottom:none}
@@ -244,6 +244,8 @@ let TATV={metric:'tat_first_call',percentile:50,cluster:'all',lrm:'all',preset:'
 const $=id=>document.getElementById(id);
 const f=n=>(n==null||isNaN(n))?'—':Math.round(n).toLocaleString('en-IN');
 const fdec=(n,d=1)=>(n==null||isNaN(n))?'—':Number(n).toFixed(d);
+// TAT: fractional hours → mixed units  (<1h → Xm, <24h → X.Xh, >=24h → X.Xd)
+const fmtTAT=h=>{if(h==null||isNaN(h))return'—';if(h<1)return Math.round(h*60)+'m';if(h<24)return h.toFixed(1)+'h';return(h/24).toFixed(1)+'d';};
 const pct=(a,b)=>b?((a/b)*100).toFixed(1)+'%':'—';
 
 const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -1089,7 +1091,6 @@ async function bTAT(){
         <option value="tat_first_call">Lead Creation → First Call</option>
         <option value="tat_gaps">Gap Between Consecutive Calls</option>
         <option value="tat_to_meeting">Lead Creation → First Meeting</option>
-        <option value="tat_to_booked">Lead Creation → First Booking</option>
         <option value="tat_to_won">Lead Creation → Order Confirmed</option>
       </select></div>
     <div class="fg"><span class="flbl">Date range <span class="sub">(lead creation date)</span></span>
@@ -1112,7 +1113,7 @@ async function bTAT(){
       </div></div>
   </div></div>
   <div class="kgrid k4" id="tat-kpis"></div>
-  <div class="sc"><div class="sc-h"><span class="sc-t" id="tat-tbl-title">TAT by cluster</span><span class="sc-hi" id="tat-tbl-sub">Calendar days · click header to sort</span></div>
+  <div class="sc"><div class="sc-h"><span class="sc-t" id="tat-tbl-title">TAT by cluster</span><span class="sc-hi" id="tat-tbl-sub">h/d mixed units · click header to sort</span></div>
     <div style="overflow-x:auto;max-height:520px;overflow-y:auto"><div class="tw" id="tat-tbl"></div></div></div>`;
 
   $('tat-pctile')?.addEventListener('change',e=>{$('tat-pctile-custom').style.display=e.target.value==='custom'?'inline-block':'none';renderTAT();});
@@ -1152,9 +1153,9 @@ function renderTAT(){
   const pcCust=percentile(allVals,pcVal);
 
   $('tat-kpis').innerHTML=`<div class="kcard"><div class="kl">Sample Size</div><div class="kv cb">${f(N)}</div><div class="ks">data points</div></div>
-    <div class="kcard"><div class="kl">Average</div><div class="kv ca">${avgAll!=null?fdec(avgAll,1)+'d':'—'}</div><div class="ks">${metric==='tat_gaps'?'gap':'TAT'} days</div></div>
-    <div class="kcard"><div class="kl">P50 (Median)</div><div class="kv cg">${p50!=null?fdec(p50,1)+'d':'—'}</div><div class="ks">50th percentile</div></div>
-    <div class="kcard"><div class="kl">P${pcVal}</div><div class="kv cp">${pcCust!=null?fdec(pcCust,1)+'d':'—'}</div><div class="ks">${pcVal}th percentile</div></div>`;
+    <div class="kcard"><div class="kl">Average</div><div class="kv ca">${fmtTAT(avgAll)}</div><div class="ks">${metric==='tat_gaps'?'gap':'TAT'}</div></div>
+    <div class="kcard"><div class="kl">P50 (Median)</div><div class="kv cg">${fmtTAT(p50)}</div><div class="ks">50th percentile</div></div>
+    <div class="kcard"><div class="kl">P${pcVal}</div><div class="kv cp">${fmtTAT(pcCust)}</div><div class="ks">${pcVal}th percentile</div></div>`;
 
   // Group by cluster (and optionally LRM)
   const groupKey=byLRM?(r=>r.cluster+'|'+(r.lrm||'Unknown')):(r=>r.cluster);
@@ -1162,9 +1163,9 @@ function renderTAT(){
   recs.forEach(r=>{const k=groupKey(r);if(!groups[k])groups[k]={key:k,records:[]};groups[k].records.push(r);});
 
   const titleEl=$('tat-tbl-title'),subEl=$('tat-tbl-sub');
-  const metricLabel={'tat_first_call':'Creation → First Call','tat_gaps':'Between consecutive calls','tat_to_meeting':'Creation → First Meeting','tat_to_booked':'Creation → First Booking','tat_to_won':'Creation → Order Confirmed'}[metric];
+  const metricLabel={'tat_first_call':'Creation → First Call','tat_gaps':'Between consecutive calls','tat_to_meeting':'Creation → First Meeting','tat_to_won':'Creation → Order Confirmed'}[metric];
   if(titleEl)titleEl.textContent=`TAT: ${metricLabel}`;
-  if(subEl)subEl.textContent=`Calendar days · P${pcVal} custom percentile · ${byLRM?'by Cluster × LRM':'by Cluster'}`;
+  if(subEl)subEl.textContent=`h/d mixed units (< 1h = min) · P${pcVal} · ${byLRM?'by Cluster × LRM':'by Cluster'}`;
 
   if(!recs.length||!N){$('tat-tbl').innerHTML='<div class="nd">No data for selected filters & metric.</div>';return;}
 
@@ -1184,7 +1185,7 @@ function renderTAT(){
 
   const maxP90=Math.max(...rows.map(r=>r.p90||0),1);
   function tatBar(p50,p75,p90){
-    if(!p50)return'<span style="font-size:10px;color:#ccc">—</span>';
+    if(p50==null||isNaN(p50))return'<span style="font-size:10px;color:#ccc">—</span>';
     const W=90,s=v=>Math.min((v/maxP90)*W,W).toFixed(1);
     return`<svg width="${W}" height="14" style="vertical-align:middle;display:block"><rect x="0" y="4" width="${W}" height="6" rx="2" fill="#f1f5f9"/>
       <rect x="0" y="4" width="${s(p50)}" height="6" rx="2" fill="#93c5fd"/>
@@ -1202,10 +1203,10 @@ function renderTAT(){
     const rowStyle=lowN?' style="opacity:0.45" title="Small sample (N < 20) — interpret with caution"':'';
     if(byLRM){html+=`<tr${rowStyle}><td class="tdc" title="${c}">${c}${lowN?' <span style="font-size:9px;color:#f59e0b">⚠</span>':''}</td><td class="td-lrm" style="padding-left:8px" title="${l}">${l}</td>`;}
     else{html+=`<tr${rowStyle}><td class="tdc" title="${r.key}">${r.key}${lowN?' <span style="font-size:9px;color:#f59e0b">⚠</span>':''}</td>`;}
-    html+=`<td class="tdr mono">${f(r.n)}</td><td class="tdr mono">${fdec(r.avg,1)}</td><td class="tdr mono">${fdec(r.p50,1)}</td><td class="tdr mono">${fdec(r.p75,1)}</td><td class="tdr mono">${fdec(r.p90,1)}</td><td class="tdr mono" style="font-weight:600;background:#fef3c7">${fdec(r.pc,1)}</td><td style="padding:4px 8px">${tatBar(r.p50,r.p75,r.p90)}</td></tr>`;
+    html+=`<td class="tdr mono">${f(r.n)}</td><td class="tdr mono">${fmtTAT(r.avg)}</td><td class="tdr mono">${fmtTAT(r.p50)}</td><td class="tdr mono">${fmtTAT(r.p75)}</td><td class="tdr mono">${fmtTAT(r.p90)}</td><td class="tdr mono" style="font-weight:600;background:#fef3c7">${fmtTAT(r.pc)}</td><td style="padding:4px 8px">${tatBar(r.p50,r.p75,r.p90)}</td></tr>`;
   });
   const p75All=percentile(allVals,75),p90All=percentile(allVals,90);
-  html+=`<tr style="background:var(--sur2);font-weight:600">${byLRM?'<td colspan="2">Overall</td>':'<td>Overall</td>'}<td class="tdr mono">${f(N)}</td><td class="tdr mono">${fdec(avgAll,1)}</td><td class="tdr mono">${fdec(p50,1)}</td><td class="tdr mono">${fdec(p75All,1)}</td><td class="tdr mono">${fdec(p90All,1)}</td><td class="tdr mono">${fdec(pcCust,1)}</td><td style="padding:4px 8px">${tatBar(p50,p75All,p90All)}</td></tr>`;
+  html+=`<tr style="background:var(--sur2);font-weight:600">${byLRM?'<td colspan="2">Overall</td>':'<td>Overall</td>'}<td class="tdr mono">${f(N)}</td><td class="tdr mono">${fmtTAT(avgAll)}</td><td class="tdr mono">${fmtTAT(p50)}</td><td class="tdr mono">${fmtTAT(p75All)}</td><td class="tdr mono">${fmtTAT(p90All)}</td><td class="tdr mono">${fmtTAT(pcCust)}</td><td style="padding:4px 8px">${tatBar(p50,p75All,p90All)}</td></tr>`;
   html+='</tbody></table>';
   $('tat-tbl').innerHTML=html;autoSort($('tat-tbl'));
 }
