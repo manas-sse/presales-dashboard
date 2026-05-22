@@ -78,6 +78,7 @@ input[type=number].fc{width:80px}
 .ms-apply:hover{background:var(--bld)}
 .ms-clear{padding:5px 10px;background:transparent;color:var(--t2);border:1px solid var(--bd2);border-radius:6px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif}
 
+.stab-bar{display:flex;border-bottom:2px solid var(--bd2);margin-bottom:16px;gap:0}.stab-btn{padding:8px 18px;font-size:12px;font-weight:600;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;color:var(--t2);font-family:'DM Sans',sans-serif;white-space:nowrap}.stab-btn.on{color:var(--bl);border-bottom-color:var(--bl)}.stab-panel{display:none}.stab-panel.on{display:block}
 .tgl{display:flex;border:1px solid var(--bd2);border-radius:6px;overflow:hidden;flex-shrink:0}
 .tgl-b{padding:5px 12px;font-size:11px;font-weight:500;background:var(--sur);color:var(--t2);border:none;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
 .tgl-b+.tgl-b{border-left:1px solid var(--bd2)}
@@ -88,7 +89,7 @@ input[type=number].fc{width:80px}
 .pa{background:#dbeafe;color:#1e40af}.pb{background:#ede9fe;color:#5b21b6}
 
 .kgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px}
-.kgrid.k4{grid-template-columns:repeat(4,1fr)}
+.kgrid.k4{grid-template-columns:repeat(4,1fr)}.kgrid.k6{grid-template-columns:repeat(6,1fr)}
 .kcard{background:var(--sur);border:1px solid var(--bd);border-radius:var(--rl);padding:12px 14px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
 .kcard.cmp{border-top:3px solid #8b5cf6}
 .kl{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--t3);margin-bottom:5px}
@@ -112,9 +113,9 @@ input[type=number].fc{width:80px}
 .tw table{width:100%;border-collapse:collapse;font-size:11px}
 .tw thead tr:first-child th{background:#1e293b;color:#f1f5f9;padding:6px 8px;font-size:10px;font-weight:600;text-align:center;border-right:1px solid #334155;white-space:normal;line-height:1.25;word-wrap:break-word}
 .tw thead tr:first-child th:first-child,.tw thead tr:first-child th.row-hdr{background:#eef2ff;color:#3730a3;text-align:left}
-.tw thead tr:last-child th{background:#eef2ff;color:#3730a3;padding:6px 8px;font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:.3px;border-bottom:2px solid #c7d2fe;white-space:normal;line-height:1.25;text-align:center;position:sticky;top:0;z-index:1;vertical-align:bottom;word-wrap:break-word;min-width:60px;max-width:120px}
+.tw thead tr:last-child th{background:#eef2ff;color:#3730a3;padding:6px 8px;font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:.3px;border-bottom:2px solid #c7d2fe;white-space:normal;line-height:1.25;text-align:right;position:sticky;top:0;z-index:1;vertical-align:bottom;word-wrap:break-word;min-width:60px;max-width:120px}
 .tw thead tr:last-child th:first-child,.tw thead tr:last-child th.row-hdr{text-align:left;min-width:90px;max-width:160px}
-.tw thead.single tr th{background:#eef2ff;color:#3730a3;padding:6px 8px;font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:.3px;border-bottom:2px solid #c7d2fe;white-space:normal;line-height:1.25;text-align:center;position:sticky;top:0;z-index:1;vertical-align:bottom;word-wrap:break-word;min-width:60px;max-width:160px}
+.tw thead.single tr th{background:#eef2ff;color:#3730a3;padding:6px 8px;font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:.3px;border-bottom:2px solid #c7d2fe;white-space:normal;line-height:1.25;text-align:right;position:sticky;top:0;z-index:1;vertical-align:bottom;word-wrap:break-word;min-width:60px;max-width:160px}
 .tw thead.single tr th:first-child{text-align:left;min-width:100px;max-width:200px}
 .tw tbody td{padding:5px 8px;border-bottom:1px solid var(--bd);vertical-align:middle;white-space:nowrap}
 .tw tbody tr:last-child td{border-bottom:none}
@@ -231,7 +232,7 @@ const STATUS_COLORS = {'Open':'#3b82f6','Connected':'#10b981','Prequalification'
 const STATUS_BG = {'Open':'#eff6ff','Connected':'#f0fdf4','Prequalification':'#eef2ff','Meeting':'#fffbeb','Booked':'#f5f3ff','Closed - Won':'#f0fdf4','Closed - Lost':'#fef2f2','Closed - Cold':'#f8fafc','Lost':'#fff7ed','Unknown':'#f8fafc'};
 
 // ── STATE ────────────────────────────────────────────────────────────────────
-let DATA=null, CALLS=null, MOVE=null, EOD=null, LRM_DATA=null, LRM_CONV=null, TAT_DATA=null;
+let DATA=null, CALLS=null, MOVE=null, EOD=null, LRM_DATA=null, LRM_CONV=null, TAT_DATA=null, LRM_SNAP=null;
 let curTab='v1', rendered={}, charts={};
 let V1={sel:[],comp:false,pct:false,sortBy:'A'};
 let CV={sel:['Open'],stageSel:'all'};
@@ -244,7 +245,7 @@ let TATV={metric:'tat_first_call',percentile:50,cluster:'all',lrm:'all',preset:'
 const $=id=>document.getElementById(id);
 const f=n=>(n==null||isNaN(n))?'—':Math.round(n).toLocaleString('en-IN');
 const fdec=(n,d=1)=>(n==null||isNaN(n))?'—':Number(n).toFixed(d);
-// TAT: fractional hours → mixed units  (<1h → Xm, <24h → X.Xh, >=24h → X.Xd)
+// TAT fractional hours → mixed units: <1h → Xm, <24h → X.Xh, >=24h → X.Xd
 const fmtTAT=h=>{if(h==null||isNaN(h))return'—';if(h<1)return Math.round(h*60)+'m';if(h<24)return h.toFixed(1)+'h';return(h/24).toFixed(1)+'d';};
 const pct=(a,b)=>b?((a/b)*100).toFixed(1)+'%':'—';
 
@@ -963,28 +964,203 @@ async function bLRM(){
   const clusterSet=new Set();LRM_DATA.records.forEach(r=>{if(r.cluster&&r.cluster!=='Unknown')clusterSet.add(r.cluster);});
   const clusterList=[...clusterSet].sort();
 
-  $('p-lrm').innerHTML=`<div class="fb"><div class="fr">
-    <div class="fg"><span class="flbl">Date range <span class="sub">(event date)</span></span>
-      <div class="frow"><select class="fc" id="lr-pr">
-        <option value="today">Today</option><option value="yesterday">Yesterday</option>
-        <option value="last7" selected>Last 7 days</option><option value="thisweek">This week</option>
-        <option value="lastweek">Last week</option><option value="last30">Last 30 days</option>
-        <option value="thismonth">This month</option><option value="lastmonth">Last month</option>
-        <option value="custom">Custom</option></select>
-        <input type="date" class="fc" id="lr-fr"><input type="date" class="fc" id="lr-to"></div></div>
-    <div class="fg"><span class="flbl">Cluster</span><select class="fc" id="lr-cl"><option value="all">All</option>${clusterList.map(c=>`<option value="${c}">${c}</option>`).join('')}</select></div>
-  </div></div>
-  <div class="kgrid k4" id="lr-kpis"></div>
-  <div class="sc"><div class="sc-h"><span class="sc-t">LRM ranking</span><div style="display:flex;align-items:center;gap:8px;flex-shrink:0"><span style="font-size:10px;color:var(--t3)">Sort by</span><select class="fc" id="lr-rank-metric" style="font-size:11px;padding:3px 7px"><option value="calls">Calls made</option><option value="leads_touched">Leads touched</option><option value="meetings_scheduled">Meetings scheduled</option><option value="conversion_pct">Conversion %</option></select></div></div>
-    <div style="padding:14px 15px;height:320px"><canvas id="lr-rank-cv"></canvas></div></div>
-  <div class="sc"><div class="sc-h"><span class="sc-t">Cluster summary</span><span class="sc-hi">Roll-up across LRMs · calls, touches, meetings</span></div>
-    <div style="overflow-x:auto;max-height:340px;overflow-y:auto"><div class="tw" id="lr-cluster-tbl"></div></div></div>
-  <div class="sc"><div class="sc-h"><span class="sc-t">LRM-level metrics</span><span class="sc-hi">Leads touched = unique leads updated by LRM · click header to sort</span></div>
-    <div style="overflow-x:auto;max-height:520px;overflow-y:auto"><div class="tw" id="lr-lrm-tbl"></div></div></div>`;
+  $('p-lrm').innerHTML=`
+  <div class="stab-bar">
+    <button class="stab-btn on" data-stab="lrm-perf">LRM Performance</button>
+    <button class="stab-btn" data-stab="lrm-snap">Leads × LRM</button>
+  </div>
+  <!-- Sub-tab: LRM Performance -->
+  <div id="stab-lrm-perf" class="stab-panel on">
+    <div class="fb"><div class="fr">
+      <div class="fg"><span class="flbl">Date range <span class="sub">(event date)</span></span>
+        <div class="frow"><select class="fc" id="lr-pr">
+          <option value="today">Today</option><option value="yesterday">Yesterday</option>
+          <option value="last7" selected>Last 7 days</option><option value="thisweek">This week</option>
+          <option value="lastweek">Last week</option><option value="last30">Last 30 days</option>
+          <option value="thismonth">This month</option><option value="lastmonth">Last month</option>
+          <option value="custom">Custom</option></select>
+          <input type="date" class="fc" id="lr-fr"><input type="date" class="fc" id="lr-to"></div></div>
+      <div class="fg"><span class="flbl">Cluster</span><select class="fc" id="lr-cl"><option value="all">All</option>${clusterList.map(c=>`<option value="${c}">${c}</option>`).join('')}</select></div>
+    </div></div>
+    <div class="kgrid k4" id="lr-kpis"></div>
+    <div class="sc"><div class="sc-h"><span class="sc-t">LRM ranking</span><div style="display:flex;align-items:center;gap:8px;flex-shrink:0"><span style="font-size:10px;color:var(--t3)">Sort by</span><select class="fc" id="lr-rank-metric" style="font-size:11px;padding:3px 7px"><option value="calls">Calls made</option><option value="leads_touched">Leads touched</option><option value="meetings_scheduled">Meetings scheduled</option><option value="conversion_pct">Conversion %</option></select></div></div>
+      <div style="padding:14px 15px;height:320px"><canvas id="lr-rank-cv"></canvas></div></div>
+    <div class="sc"><div class="sc-h"><span class="sc-t">Cluster summary</span><span class="sc-hi">Roll-up across LRMs · calls, touches, meetings</span></div>
+      <div style="overflow-x:auto;max-height:340px;overflow-y:auto"><div class="tw" id="lr-cluster-tbl"></div></div></div>
+    <div class="sc"><div class="sc-h"><span class="sc-t">LRM-level metrics</span><span class="sc-hi">Leads touched = unique leads updated by LRM · click header to sort</span></div>
+      <div style="overflow-x:auto;max-height:520px;overflow-y:auto"><div class="tw" id="lr-lrm-tbl"></div></div></div>
+  </div>
+  <!-- Sub-tab: Leads × LRM -->
+  <div id="stab-lrm-snap" class="stab-panel">
+    <div id="snap-loading" class="stb"><div class="spin"></div>Loading snapshot data…</div>
+    <div id="snap-content" style="display:none">
+      <div class="fb"><div class="fr">
+        <div class="fg"><span class="flbl">Date range <span class="sub">(lead creation date)</span></span>
+          <div class="frow"><select class="fc" id="snap-pr">
+            <option value="last30" selected>Last 30 days</option><option value="last7">Last 7 days</option>
+            <option value="thismonth">This month</option><option value="lastmonth">Last month</option>
+            <option value="last3mo">Last 3 months</option><option value="alltime">All time</option>
+            <option value="custom">Custom</option></select>
+            <input type="date" class="fc" id="snap-fr"><input type="date" class="fc" id="snap-to"></div></div>
+        <div class="fg"><span class="flbl">Cluster</span><select class="fc" id="snap-cl"><option value="all">All</option></select></div>
+        <div class="fg"><span class="flbl">Group by Cluster</span>
+          <div class="tgl" id="snap-grp-tgl">
+            <button class="tgl-b" data-v="0">LRM only</button>
+            <button class="tgl-b on" data-v="1">LRM × Cluster</button>
+          </div></div>
+      </div></div>
+      <div class="kgrid k6" id="snap-kpis"></div>
+      <div class="sc"><div class="sc-h"><span class="sc-t" id="snap-tbl-title">Leads × LRM</span>
+        <span class="sc-hi">Attribution from card 2557 LRM Email · TAT in mixed units</span></div>
+        <div style="overflow-x:auto;max-height:560px;overflow-y:auto"><div class="tw" id="snap-tbl"></div></div>
+      </div>
+    </div>
+  </div>`;
+
+  // Sub-tab switching
+  $('p-lrm').querySelectorAll('.stab-btn').forEach(btn=>btn.addEventListener('click',()=>{
+    $('p-lrm').querySelectorAll('.stab-btn').forEach(b=>b.classList.remove('on'));
+    $('p-lrm').querySelectorAll('.stab-panel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');
+    $('stab-'+btn.dataset.stab).classList.add('on');
+    if(btn.dataset.stab==='lrm-snap') initSnap();
+  }));
 
   ['lr-pr','lr-cl','lr-rank-metric'].forEach(id=>$(id)?.addEventListener('change',renderLRM));
   ['lr-fr','lr-to'].forEach(id=>$(id)?.addEventListener('change',()=>{$('lr-pr').value='custom';renderLRM();}));
   renderLRM();
+}
+
+async function initSnap(){
+  if(LRM_SNAP){renderSnap();return;}
+  try{
+    LRM_SNAP=await loadJSON('lrm_snapshot','LRM_SNAP');
+    // Populate cluster filter
+    const cs=new Set();LRM_SNAP.records.forEach(r=>{if(r.cluster&&r.cluster!=='Unknown')cs.add(r.cluster);});
+    const snapCl=$('snap-cl');
+    [...cs].sort().forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;snapCl.appendChild(o);});
+    $('snap-loading').style.display='none';
+    $('snap-content').style.display='block';
+    ['snap-pr','snap-cl'].forEach(id=>$(id)?.addEventListener('change',renderSnap));
+    ['snap-fr','snap-to'].forEach(id=>$(id)?.addEventListener('change',()=>{$('snap-pr').value='custom';renderSnap();}));
+    $('snap-grp-tgl').querySelectorAll('.tgl-b').forEach(b=>b.addEventListener('click',()=>{
+      $('snap-grp-tgl').querySelectorAll('.tgl-b').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on');renderSnap();
+    }));
+    renderSnap();
+  }catch(e){
+    $('snap-loading').innerHTML=`<div class="err">⚠ Cannot load data/lrm_snapshot.json — run <code>python etl.py</code> first<br>${e.message}</div>`;
+  }
+}
+
+function renderSnap(){
+  if(!LRM_SNAP)return;
+  const dr=getDR('snap-pr','snap-fr','snap-to');
+  const cl=$('snap-cl')?.value||'all';
+  const byCluster=$('snap-grp-tgl')?.querySelector('.tgl-b.on')?.dataset.v==='1';
+
+  // Filter by date range (creation date) and cluster
+  let recs=LRM_SNAP.records;
+  if(cl!=='all') recs=recs.filter(r=>r.cluster===cl);
+  if(dr.from||dr.to){
+    const fmtS=d=>d?[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-'):null;
+    const fromS=fmtS(dr.from),toS=fmtS(dr.to);
+    recs=recs.filter(r=>{
+      if(!r.date)return false;
+      if(fromS&&r.date<fromS)return false;
+      if(toS&&r.date>toS)return false;
+      return true;
+    });
+  }
+
+  // Group by (lrm) or (lrm, cluster)
+  const groups={};
+  recs.forEach(r=>{
+    const k=byCluster?r.lrm+'|'+r.cluster:r.lrm;
+    if(!groups[k])groups[k]={lrm:r.lrm,cluster:byCluster?r.cluster:'All',
+      assigned:0,active:0,ms:0,md:0,fc:[],gaps:[],tms:[],tmd:[]};
+    const g=groups[k];
+    g.assigned+=r.assigned; g.active+=r.active; g.ms+=r.ms; g.md+=r.md;
+    g.fc.push(...r.tat_first_call);
+    g.gaps.push(...r.tat_gaps);
+    g.tms.push(...r.tat_to_ms);
+    g.tmd.push(...r.tat_to_md);
+  });
+  const rows=Object.values(groups).sort((a,b)=>b.assigned-a.assigned);
+
+  // KPI totals
+  let tA=0,tAc=0,tMS=0,tMD=0;
+  rows.forEach(r=>{tA+=r.assigned;tAc+=r.active;tMS+=r.ms;tMD+=r.md;});
+  $('snap-kpis').innerHTML=`
+    <div class="kcard"><div class="kl">Leads Assigned</div><div class="kv cb">${f(tA)}</div><div class="ks">total leads under LRM</div></div>
+    <div class="kcard"><div class="kl">Active Leads</div><div class="kv cg">${f(tAc)}</div><div class="ks">${tA>0?((tAc/tA)*100).toFixed(1)+'% of assigned':''}</div></div>
+    <div class="kcard"><div class="kl">MS</div><div class="kv ca">${f(tMS)}</div><div class="ks">${tA>0?((tMS/tA)*100).toFixed(1)+'% lead→MS':''}</div></div>
+    <div class="kcard"><div class="kl">MD</div><div class="kv cp">${f(tMD)}</div><div class="ks">${tA>0?((tMD/tA)*100).toFixed(1)+'% lead→MD':''}</div></div>
+    <div class="kcard"><div class="kl">Lead → MS %</div><div class="kv ca">${tA>0?((tMS/tA)*100).toFixed(1)+'%':'—'}</div><div class="ks">meeting scheduled / assigned</div></div>
+    <div class="kcard"><div class="kl">Lead → MD %</div><div class="kv cp">${tA>0?((tMD/tA)*100).toFixed(1)+'%':'—'}</div><div class="ks">meeting done / assigned</div></div>`;
+
+  // TAT helper
+  function tatCells(arr){
+    const s=[...arr].sort((a,b)=>a-b);
+    return`<td class="tdr mono">${fmtTAT(avg(s))}</td><td class="tdr mono">${fmtTAT(percentile(s,50))}</td><td class="tdr mono">${fmtTAT(percentile(s,90))}</td>`;
+  }
+
+  // Table
+  let html=`<table><thead>
+    <tr>
+      <th rowspan="2" style="text-align:left">LRM</th>
+      ${byCluster?'<th rowspan="2" style="text-align:left">Cluster</th>':''}
+      <th rowspan="2">Assigned</th><th rowspan="2">Active</th>
+      <th rowspan="2">MS</th><th rowspan="2">MD</th>
+      <th rowspan="2">Lead→MS%</th><th rowspan="2">Lead→MD%</th>
+      <th colspan="3" style="border-left:2px solid #c7d2fe">First Call TAT</th>
+      <th colspan="3" style="border-left:1px solid #c7d2fe">Call Gap TAT</th>
+      <th colspan="3" style="border-left:1px solid #c7d2fe">Creation→MS TAT</th>
+      <th colspan="3" style="border-left:1px solid #c7d2fe">Creation→MD TAT</th>
+    </tr>
+    <tr>
+      <th style="border-left:2px solid #c7d2fe">Avg</th><th>P50</th><th>P90</th>
+      <th style="border-left:1px solid #c7d2fe">Avg</th><th>P50</th><th>P90</th>
+      <th style="border-left:1px solid #c7d2fe">Avg</th><th>P50</th><th>P90</th>
+      <th style="border-left:1px solid #c7d2fe">Avg</th><th>P50</th><th>P90</th>
+    </tr>
+  </thead><tbody>`;
+
+  rows.forEach(r=>{
+    const msP=r.assigned>0?((r.ms/r.assigned)*100).toFixed(1)+'%':'—';
+    const mdP=r.assigned>0?((r.md/r.assigned)*100).toFixed(1)+'%':'—';
+    html+=`<tr>
+      <td class="tdc" style="text-align:left;max-width:180px;overflow:hidden;text-overflow:ellipsis" title="${r.lrm}">${r.lrm}</td>
+      ${byCluster?`<td class="tdc" style="text-align:left">${r.cluster}</td>`:''}
+      <td class="tdr mono">${f(r.assigned)}</td>
+      <td class="tdr mono">${f(r.active)}</td>
+      <td class="tdr mono">${f(r.ms)}</td>
+      <td class="tdr mono">${f(r.md)}</td>
+      <td class="tdr mono" style="font-weight:600">${msP}</td>
+      <td class="tdr mono" style="font-weight:600">${mdP}</td>
+      ${tatCells(r.fc)}
+      ${tatCells(r.gaps)}
+      ${tatCells(r.tms)}
+      ${tatCells(r.tmd)}
+    </tr>`;
+  });
+
+  // Overall row
+  const allFc=[],allGaps=[],allTms=[],allTmd=[];
+  rows.forEach(r=>{allFc.push(...r.fc);allGaps.push(...r.gaps);allTms.push(...r.tms);allTmd.push(...r.tmd);});
+  const msP=tA>0?((tMS/tA)*100).toFixed(1)+'%':'—';
+  const mdP=tA>0?((tMD/tA)*100).toFixed(1)+'%':'—';
+  html+=`<tr style="background:var(--sur2);font-weight:600">
+    <td ${byCluster?'colspan="2"':''} style="text-align:left">Overall</td>
+    <td class="tdr mono">${f(tA)}</td><td class="tdr mono">${f(tAc)}</td>
+    <td class="tdr mono">${f(tMS)}</td><td class="tdr mono">${f(tMD)}</td>
+    <td class="tdr mono">${msP}</td><td class="tdr mono">${mdP}</td>
+    ${tatCells(allFc)}${tatCells(allGaps)}${tatCells(allTms)}${tatCells(allTmd)}
+  </tr>`;
+  html+='</tbody></table>';
+  $('snap-tbl').innerHTML=html;
+  autoSort($('snap-tbl'));
+  $('snap-tbl-title').textContent=`Leads × LRM${byCluster?' (by Cluster)':''}`;
 }
 
 function renderLRM(){
@@ -1091,6 +1267,7 @@ async function bTAT(){
         <option value="tat_first_call">Lead Creation → First Call</option>
         <option value="tat_gaps">Gap Between Consecutive Calls</option>
         <option value="tat_to_meeting">Lead Creation → First Meeting</option>
+        <option value="tat_to_booked">Lead Creation → First Booking</option>
         <option value="tat_to_won">Lead Creation → Order Confirmed</option>
       </select></div>
     <div class="fg"><span class="flbl">Date range <span class="sub">(lead creation date)</span></span>
@@ -1113,7 +1290,7 @@ async function bTAT(){
       </div></div>
   </div></div>
   <div class="kgrid k4" id="tat-kpis"></div>
-  <div class="sc"><div class="sc-h"><span class="sc-t" id="tat-tbl-title">TAT by cluster</span><span class="sc-hi" id="tat-tbl-sub">h/d mixed units · click header to sort</span></div>
+  <div class="sc"><div class="sc-h"><span class="sc-t" id="tat-tbl-title">TAT by cluster</span><span class="sc-hi" id="tat-tbl-sub">h/d mixed units (< 1h = min) · click header to sort</span></div>
     <div style="overflow-x:auto;max-height:520px;overflow-y:auto"><div class="tw" id="tat-tbl"></div></div></div>`;
 
   $('tat-pctile')?.addEventListener('change',e=>{$('tat-pctile-custom').style.display=e.target.value==='custom'?'inline-block':'none';renderTAT();});
@@ -1163,7 +1340,7 @@ function renderTAT(){
   recs.forEach(r=>{const k=groupKey(r);if(!groups[k])groups[k]={key:k,records:[]};groups[k].records.push(r);});
 
   const titleEl=$('tat-tbl-title'),subEl=$('tat-tbl-sub');
-  const metricLabel={'tat_first_call':'Creation → First Call','tat_gaps':'Between consecutive calls','tat_to_meeting':'Creation → First Meeting','tat_to_won':'Creation → Order Confirmed'}[metric];
+  const metricLabel={'tat_first_call':'Creation → First Call','tat_gaps':'Between consecutive calls','tat_to_meeting':'Creation → First Meeting','tat_to_booked':'Creation → First Booking','tat_to_won':'Creation → Order Confirmed'}[metric];
   if(titleEl)titleEl.textContent=`TAT: ${metricLabel}`;
   if(subEl)subEl.textContent=`h/d mixed units (< 1h = min) · P${pcVal} · ${byLRM?'by Cluster × LRM':'by Cluster'}`;
 
