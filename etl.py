@@ -153,16 +153,18 @@ def aggregate_city_stage(records: list) -> list:
         lead_stage  = (r.get("Lead stage")  or "Unknown").strip()
         cluster     = normalise_cluster(r.get("Cluster") or "")
         created_raw = r.get("Creation Date") or ""
-        cohort_week, cohort_month = "Unknown", "Unknown"
+        cohort_week, cohort_month, creation_date = "Unknown", "Unknown", "Unknown"
         d = parse_date_any(created_raw)
         if d:
             iso = d.isocalendar()
-            cohort_week  = date.fromisocalendar(iso[0], iso[1], 1).strftime("%Y-%m-%d")
-            cohort_month = d.strftime("%Y-%m-01")
-        buckets[(city, lead_status, lead_stage, cluster, cohort_week, cohort_month)] += 1
+            cohort_week    = date.fromisocalendar(iso[0], iso[1], 1).strftime("%Y-%m-%d")
+            cohort_month   = d.strftime("%Y-%m-01")
+            creation_date  = d.strftime("%Y-%m-%d")
+        buckets[(city, lead_status, lead_stage, cluster, cohort_week, cohort_month, creation_date)] += 1
     return [
         {"city": k[0], "lead_status": k[1], "lead_stage": k[2],
-         "cluster": k[3], "cohort_week": k[4], "cohort_month": k[5], "lead_count": v}
+         "cluster": k[3], "cohort_week": k[4], "cohort_month": k[5],
+         "creation_date": k[6], "lead_count": v}
         for k, v in buckets.items()
     ]
 

@@ -253,7 +253,7 @@ function fmtNice(yyyymmdd){
   if(!m)return yyyymmdd;
   return`${m[3]}-${MONTHS[parseInt(m[2])-1]}-${m[1]}`;
 }
-function fmtD(d){return d?d.toISOString().slice(0,10):'';}
+function fmtD(d){if(!d)return'';return[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');}
 const sd=d=>{const r=new Date(d);r.setHours(0,0,0,0);return r;};
 const ed=d=>{const r=new Date(d);r.setHours(23,59,59,999);return r;};
 const da=n=>{const d=new Date();d.setDate(d.getDate()-n);return d;};
@@ -286,11 +286,16 @@ function getDR(presetId,fromId,toId){
 
 function filterDR(recs,from,to){
   if(!from&&!to)return recs;
+  // Use local-time date strings to avoid UTC offset issues (IST = +5:30)
+  const lStr=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
+  const fromS=from?lStr(from):null;
+  const toS=to?lStr(to):null;
   return recs.filter(r=>{
-    if(!r.cohort_week||r.cohort_week==='Unknown')return false;
-    const ws=new Date(r.cohort_week+'T00:00:00');
-    const we=new Date(ws);we.setDate(we.getDate()+6);we.setHours(23,59,59,999);
-    if(from&&we<from)return false;if(to&&ws>to)return false;
+    // Prefer exact creation_date; fall back to cohort_week for backwards compat
+    const ds=r.creation_date&&r.creation_date!=='Unknown'?r.creation_date:r.cohort_week;
+    if(!ds||ds==='Unknown')return false;
+    if(fromS&&ds<fromS)return false;
+    if(toS&&ds>toS)return false;
     return true;
   });
 }
@@ -358,7 +363,7 @@ function dimAlpha(rgba,factor=0.55){return rgba.replace(/rgba\((\d+),(\d+),(\d+)
 function hBg(v,max){if(!v||!max)return'';return`background:rgba(59,130,246,${((v/max)*0.38+0.05).toFixed(2)})`;}
 function dHtml(a,b){
   if(b==null)return'';
-  const d=b-a,p=a>0?Math.round((d/a)*100):null;
+  const d=a-b,p=b>0?Math.round((d/b)*100):null; // A−B: positive = current(A) > baseline(B) = good
   if(d===0)return'<span class="dn">—</span>';
   const cls=d>0?'du':'dd',arr=d>0?'↑':'↓';
   return`<span class="${cls}">${arr}${p!=null?Math.abs(p)+'%':''}</span>`;
@@ -525,7 +530,7 @@ function renderV1KPIs(rA,rB,comp){
   const kpis=[{l:'Total Leads',c:'cb',a:tA,b:tB},{l:'Open',c:'cb',a:ss(rA,'Open'),b:rB?ss(rB,'Open'):null},{l:'Meeting',c:'ca',a:ss(rA,'Meeting'),b:rB?ss(rB,'Meeting'):null},{l:'Closed - Won',c:'cg',a:ss(rA,'Closed - Won'),b:rB?ss(rB,'Closed - Won'):null},{l:'Closed - Lost',c:'cr',a:ss(rA,'Closed - Lost'),b:rB?ss(rB,'Closed - Lost'):null}];
   $('v1-kpis').innerHTML=kpis.map(k=>{
     if(!comp)return`<div class="kcard"><div class="kl">${k.l}</div><div class="kv ${k.c}">${f(k.a)}</div><div class="ks">${pct(k.a,tA)}</div></div>`;
-    const d=k.b!=null?k.b-k.a:null;const dp=d!=null&&k.a>0?Math.round((d/k.a)*100):null;
+    const d=k.b!=null?k.a-k.b:null;const dp=d!=null&&k.b>0?Math.round((d/k.b)*100):null;
     return`<div class="kcard cmp"><div class="kl">${k.l}</div><div class="kcrow"><span class="ka"><span class="ptag pa">A</span>${f(k.a)}</span><span class="kb"><span class="ptag pb">B</span>${f(k.b)}</span></div>${d!=null?`<div class="ks"><span class="kdelta ${d>0?'du':d<0?'dd':'dn'}">${d>0?'↑':d<0?'↓':'—'}${dp!=null?Math.abs(dp)+'%':''}</span></div>`:''}</div>`;
   }).join('');
 }
@@ -534,14 +539,14 @@ function renderV1Chart(aggA,aggB,stages,clusters,colors,groups,comp,pctM){
   const datasets=[];
   if(comp&&aggB){
     stages.forEach(stage=>{const col=colors[stage]||'#94a3b8';
-      datasets.push({label:`A: ${stage}`,data:clusters.map(c=>{const v=aggA.pivot[c]?.[stage]||0;return pctM?parseFloat(((v/(aggA.rowTotals[c]||1))*100).toFixed(1)):v;}),backgroundColor:col,stack:'A',borderRadius:2});
-      datasets.push({label:`B: ${stage}`,data:clusters.map(c=>{const v=aggB.pivot[c]?.[stage]||0;return pctM?parseFloat(((v/(aggB.rowTotals[c]||1))*100).toFixed(1)):v;}),backgroundColor:dimAlpha(col,0.55),stack:'B',borderRadius:2});});
+      datasets.push({label:stage,data:clusters.map(c=>{const v=aggA.pivot[c]?.[stage]||0;return pctM?parseFloat(((v/(aggA.rowTotals[c]||1))*100).toFixed(1)):v;}),backgroundColor:col,stack:'A',borderRadius:2});
+      datasets.push({label:`(B) ${stage}`,data:clusters.map(c=>{const v=aggB.pivot[c]?.[stage]||0;return pctM?parseFloat(((v/(aggB.rowTotals[c]||1))*100).toFixed(1)):v;}),backgroundColor:dimAlpha(col,0.55),stack:'B',borderRadius:2});});
   }else{stages.forEach(stage=>{datasets.push({label:stage,data:clusters.map(c=>{const v=aggA.pivot[c]?.[stage]||0;return pctM?parseFloat(((v/(aggA.rowTotals[c]||1))*100).toFixed(1)):v;}),backgroundColor:colors[stage]||'#94a3b8',stack:'S',borderRadius:2});});}
   const statusLabel=V1.sel.length===0?'All Statuses':V1.sel.length===1?V1.sel[0]:`${V1.sel.length} Statuses`;
   const t1=$('v1-chart-title'),t2=$('v1-chart-sub');
   if(t1)t1.textContent=comp?`Period A vs B — ${statusLabel}`:`${statusLabel} — stage breakdown by cluster`;
   if(t2)t2.textContent=comp?'Solid = Period A · Faded = Period B':'Stages coloured by parent status';
-  charts.v1=new Chart(ctx,{type:'bar',data:{labels:clusters,datasets},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:9,family:"'DM Sans'"},boxWidth:9,padding:6,filter:item=>!comp||(item.datasetIndex%2===0)}},tooltip:{callbacks:{label:c=>`${c.dataset.label.replace(/^[AB]: /,'')}: ${c.parsed.y}${pctM?'%':' leads'}`}}},scales:{x:{stacked:true,grid:{display:false},ticks:{font:{size:10,family:"'DM Sans'"},maxRotation:45}},y:{stacked:true,beginAtZero:true,grid:{color:'#f0f0f0'},ticks:{font:{size:10},callback:v=>pctM?v+'%':v.toLocaleString('en-IN')}}}}});
+  charts.v1=new Chart(ctx,{type:'bar',data:{labels:clusters,datasets},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:9,family:"'DM Sans'"},boxWidth:9,padding:6,filter:item=>!comp||!item.text.startsWith('(B) ')}},tooltip:{callbacks:{label:c=>{const isB=c.dataset.label.startsWith('(B) ');const name=c.dataset.label.replace('(B) ','');return`${isB?'B':'A'} · ${name}: ${c.parsed.y}${pctM?'%':' leads'}`;  }}}},scales:{x:{stacked:true,grid:{display:false},ticks:{font:{size:10,family:"'DM Sans'"},maxRotation:45}},y:{stacked:true,beginAtZero:true,grid:{color:'#f0f0f0'},ticks:{font:{size:10},callback:v=>pctM?v+'%':v.toLocaleString('en-IN')}}}}});
 }
 function renderV1Matrix(aggA,aggB,groups,stages,clusters,comp,pctM){
   const wrap=$('v1-mx');if(!wrap)return;
@@ -568,8 +573,8 @@ function renderV1Matrix(aggA,aggB,groups,stages,clusters,comp,pctM){
   });
   html+='<tr style="background:var(--sur2)"><td class="tdc" style="font-weight:600">Total</td>';
   groups.forEach(({status,stages:ss})=>{ss.forEach((stage,i)=>{const border=i===0?`border-left:3px solid ${STATUS_COLORS[status]||'#94a3b8'}`:'';const ta=aggA.dimTotals[stage]||0,tb=aggB?.dimTotals[stage]||0;
-    if(comp){html+=`<td class="tdr" style="font-weight:600;${border}">${f(ta)}</td><td class="tdr" style="font-weight:600">${f(tb)}</td><td class="tdr">${dHtml(ta,tb)}</td>`;}
-    else{html+=`<td class="tdr" style="font-weight:600;${border}">${f(ta)}</td>`;}});});
+    if(comp){html+=`<td class="tdr" style="font-weight:600;${border}">${pctM?((ta/(tA||1))*100).toFixed(1)+'%':f(ta)}</td><td class="tdr" style="font-weight:600">${pctM?((tb/(tB||1))*100).toFixed(1)+'%':f(tb)}</td><td class="tdr">${dHtml(ta,tb)}</td>`;}
+    else{html+=`<td class="tdr" style="font-weight:600;${border}">${pctM?((ta/(tA||1))*100).toFixed(1)+'%':f(ta)}</td>`;}});});
   if(comp){html+=`<td class="tdt">${f(tA)}</td><td class="tdb">${f(tB)}</td><td class="tdr">${dHtml(tA,tB)}</td>`;}else{html+=`<td class="tdt">${f(tA)}</td>`;}
   html+='</tr></tbody></table>';wrap.innerHTML=html;autoSort(wrap);
 }
