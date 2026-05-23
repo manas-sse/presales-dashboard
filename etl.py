@@ -652,17 +652,22 @@ def build_lrm_snapshot(leads_raw: list, audit_sorted: list, lead_creation: dict)
         # IST creation date string — display/filter use only
         cdate_ist = ist_date_str(cdate_dt)
 
+        # MS / MD timestamps — must be parsed before is_active check
+        ms_dt = parse_dt(r.get("Meeting Schedule Date"))   # UTC naive datetime
+        md_dt = parse_dt(r.get("Meeting Done Date"))         # UTC naive datetime
+
         key = (lrm, cluster, cdate_ist)
         b = buckets[key]
         b["assigned"] += 1
 
-        is_active = (status not in INACTIVE_STATUSES) and (stage not in INACTIVE_STAGES)
+        # Active: exclude closed/lost statuses, inactive stages, AND leads with MS
+        is_active = (
+            status not in INACTIVE_STATUSES
+            and stage not in INACTIVE_STAGES
+            and ms_dt is None   # meeting scheduled → no longer pre-sales active
+        )
         if is_active:
             b["active"] += 1
-
-        # MS / MD timestamps (ISO UTC from card 2557)
-        ms_dt = parse_dt(r.get("Meeting Schedule Date"))   # UTC naive datetime
-        md_dt = parse_dt(r.get("Meeting Done Date"))         # UTC naive datetime
 
         if ms_dt:
             b["ms"] += 1

@@ -79,6 +79,7 @@ input[type=number].fc{width:80px}
 .ms-clear{padding:5px 10px;background:transparent;color:var(--t2);border:1px solid var(--bd2);border-radius:6px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif}
 
 .stab-bar{display:flex;border-bottom:2px solid var(--bd2);margin-bottom:16px;gap:0}.stab-btn{padding:8px 18px;font-size:12px;font-weight:600;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;color:var(--t2);font-family:'DM Sans',sans-serif;white-space:nowrap}.stab-btn.on{color:var(--bl);border-bottom-color:var(--bl)}.stab-panel{display:none}.stab-panel.on{display:block}
+.drill-cell{cursor:pointer;transition:outline .1s}.drill-cell:hover{outline:2px solid #3b82f6;outline-offset:-2px}
 .tgl{display:flex;border:1px solid var(--bd2);border-radius:6px;overflow:hidden;flex-shrink:0}
 .tgl-b{padding:5px 12px;font-size:11px;font-weight:500;background:var(--sur);color:var(--t2);border:none;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
 .tgl-b+.tgl-b{border-left:1px solid var(--bd2)}
@@ -113,9 +114,9 @@ input[type=number].fc{width:80px}
 .tw table{width:100%;border-collapse:collapse;font-size:11px}
 .tw thead tr:first-child th{background:#1e293b;color:#f1f5f9;padding:6px 8px;font-size:10px;font-weight:600;text-align:center;border-right:1px solid #334155;white-space:normal;line-height:1.25;word-wrap:break-word}
 .tw thead tr:first-child th:first-child,.tw thead tr:first-child th.row-hdr{background:#eef2ff;color:#3730a3;text-align:left}
-.tw thead tr:last-child th{background:#eef2ff;color:#3730a3;padding:6px 8px;font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:.3px;border-bottom:2px solid #c7d2fe;white-space:normal;line-height:1.25;text-align:right;position:sticky;top:0;z-index:1;vertical-align:bottom;word-wrap:break-word;min-width:60px;max-width:120px}
+.tw thead tr:last-child th{background:#eef2ff;color:#3730a3;padding:6px 8px;font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:.3px;border-bottom:2px solid #c7d2fe;white-space:normal;line-height:1.25;text-align:center;position:sticky;top:0;z-index:1;vertical-align:bottom;word-wrap:break-word;min-width:60px;max-width:120px}
 .tw thead tr:last-child th:first-child,.tw thead tr:last-child th.row-hdr{text-align:left;min-width:90px;max-width:160px}
-.tw thead.single tr th{background:#eef2ff;color:#3730a3;padding:6px 8px;font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:.3px;border-bottom:2px solid #c7d2fe;white-space:normal;line-height:1.25;text-align:right;position:sticky;top:0;z-index:1;vertical-align:bottom;word-wrap:break-word;min-width:60px;max-width:160px}
+.tw thead.single tr th{background:#eef2ff;color:#3730a3;padding:6px 8px;font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:.3px;border-bottom:2px solid #c7d2fe;white-space:normal;line-height:1.25;text-align:center;position:sticky;top:0;z-index:1;vertical-align:bottom;word-wrap:break-word;min-width:60px;max-width:160px}
 .tw thead.single tr th:first-child{text-align:left;min-width:100px;max-width:200px}
 .tw tbody td{padding:5px 8px;border-bottom:1px solid var(--bd);vertical-align:middle;white-space:nowrap}
 .tw tbody tr:last-child td{border-bottom:none}
@@ -165,6 +166,7 @@ input[type=number].fc{width:80px}
 <div class="topbar">
   <div class="logo"><div class="logo-mark">SS</div>SolarSquare<span class="logo-div">|</span><span class="logo-sub">Pre-Sales</span></div>
   <div class="topbar-r">
+      <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:4px 10px"><span style="font-size:10px;font-weight:600;color:rgba(255,255,255,.7);white-space:nowrap">🔍 Drill-through</span><button id="dt-toggle" onclick="toggleDrillThrough()" style="padding:4px 12px;border-radius:6px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.12);color:#fff;font-size:11px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap" title="Load lead-level data for double-click drill-through">⬜ Off</button><span id="dt-status" style="font-size:10px;color:rgba(255,255,255,.4);max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span></div>
     <div class="data-pill" id="data-pill">—</div>
     <div id="upd-lbl">—</div>
     <button class="rbtn" onclick="loadData()">↺ Refresh</button>
@@ -183,6 +185,8 @@ input[type=number].fc{width:80px}
     <div class="sh">Analytics</div>
     <div class="ni" data-tab="funnel"><span class="ico">▽</span>Stage Funnel</div>
     <div class="ni" data-tab="cohort"><span class="ico">⊟</span>Cohort</div>
+    <div class="sh">Lead Data</div>
+    <div class="ni" data-tab="leads"><span class="ico">☰</span>Lead Data</div>
     <div class="sh">Coming soon</div>
     <div class="ni preview" data-tab="quality"><span class="ico">⚑</span>Quality Check</div>
   </nav>
@@ -196,6 +200,7 @@ input[type=number].fc{width:80px}
       <span class="mob-tab" data-tab="tat">TAT</span>
       <span class="mob-tab" data-tab="funnel">Funnel</span>
       <span class="mob-tab" data-tab="cohort">Cohort</span>
+      <span class="mob-tab" data-tab="leads">Leads</span>
       <span class="mob-tab" data-tab="quality">Quality</span>
     </div>
     <div class="sticky-hdr"><span class="tab-name" id="tab-name">Cluster × Stage</span></div>
@@ -208,6 +213,7 @@ input[type=number].fc{width:80px}
       <div id="p-funnel"   class="panel"></div>
       <div id="p-cohort"   class="panel"></div>
       <div id="p-quality"  class="panel"></div>
+      <div id="p-leads"    class="panel"></div>
     </div>
   </div>
 </div>
@@ -232,7 +238,8 @@ const STATUS_COLORS = {'Open':'#3b82f6','Connected':'#10b981','Prequalification'
 const STATUS_BG = {'Open':'#eff6ff','Connected':'#f0fdf4','Prequalification':'#eef2ff','Meeting':'#fffbeb','Booked':'#f5f3ff','Closed - Won':'#f0fdf4','Closed - Lost':'#fef2f2','Closed - Cold':'#f8fafc','Lost':'#fff7ed','Unknown':'#f8fafc'};
 
 // ── STATE ────────────────────────────────────────────────────────────────────
-let DATA=null, CALLS=null, MOVE=null, EOD=null, LRM_DATA=null, LRM_CONV=null, TAT_DATA=null, LRM_SNAP=null;
+let DATA=null, CALLS=null, MOVE=null, EOD=null, LRM_DATA=null, LRM_CONV=null, TAT_DATA=null, LRM_SNAP=null, LEADS_FULL=null;
+let LEADSV={cluster:'all',status:'all',stage:'all',lrm:'',lead_id:'',_fromS:null,_toS:null,has_ms:false,has_md:false,attempts_bucket:null};
 let curTab='v1', rendered={}, charts={};
 let V1={sel:[],comp:false,pct:false,sortBy:'A'};
 let CV={sel:['Open'],stageSel:'all'};
@@ -441,15 +448,260 @@ function sw(tab){
   $('p-'+curTab).classList.remove('active');
   $('p-'+tab).classList.add('active');
   curTab=tab;
-  const names={v1:'Cluster × Stage',calls:'Call Attempts & Overdue',movement:'Daily Movement',lrm:'LRM Performance',tat:'TAT Analysis',funnel:'Stage Funnel',cohort:'Cohort View',quality:'Quality Check (Preview)'};
+  const names={v1:'Cluster × Stage',calls:'Call Attempts & Overdue',movement:'Daily Movement',lrm:'LRM Performance',tat:'TAT Analysis',funnel:'Stage Funnel',cohort:'Cohort View',quality:'Quality Check (Preview)',leads:'Lead Data'};
   $('tab-name').textContent=names[tab]||tab;
   $('scroll-area').scrollTop=0;
+  if(tab==='leads')delete rendered['leads'];  // always re-render lead data (stale drill-through fix)
   if(!rendered[tab])buildTab(tab);
 }
 function buildTab(t){
   if(!DATA&&t!=='quality')return;
-  ({v1:bV1,calls:bCalls,movement:bMovement,lrm:bLRM,tat:bTAT,funnel:bFunnel,cohort:bCohort,quality:bQuality}[t]||Function)();
+  ({v1:bV1,calls:bCalls,movement:bMovement,lrm:bLRM,tat:bTAT,funnel:bFunnel,cohort:bCohort,quality:bQuality,leads:bLeads}[t]||Function)();
   rendered[t]=true;
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// DRILL-THROUGH
+// ════════════════════════════════════════════════════════════════════════════
+const LIGHTHOUSE_BASE='https://lighthouse.solarsquare.in/#/menu/lead/details/';
+
+async function toggleDrillThrough(){
+  const btn=$('dt-toggle'),st=$('dt-status');
+  if(LEADS_FULL){
+    LEADS_FULL=null;
+    btn.textContent='⬜ Off';
+    btn.style.background='rgba(255,255,255,.12)';
+    st.textContent='';
+    return;
+  }
+  btn.textContent='⏳ Loading…';btn.disabled=true;st.textContent='';
+  try{
+    const res=await fetch('./data/leads_full.json?t='+Date.now());
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    LEADS_FULL=await res.json();
+    btn.textContent='✅ On';btn.disabled=false;
+    btn.style.background='rgba(34,197,94,.35)';
+    st.textContent=(LEADS_FULL.meta.total_leads||0).toLocaleString('en-IN')+' leads loaded';
+  }catch(e){
+    LEADS_FULL=null;btn.textContent='⬜ Off';btn.disabled=false;
+    btn.style.background='rgba(255,255,255,.12)';
+    st.textContent='⚠ leads_full.json not found — run ETL first';
+  }
+}
+
+function drillTo(filters){
+  if(!LEADS_FULL){alert('Enable drill-through first using the toggle in the top bar.');return;}
+  LEADSV.cluster        = filters.cluster||'all';
+  LEADSV.status         = filters.status||'all';
+  LEADSV.stage          = filters.stage||'all';
+  LEADSV.lrm            = filters.lrm||'';
+  LEADSV.lead_id        = '';
+  LEADSV.has_ms         = filters.has_ms||false;
+  LEADSV.has_md         = filters.has_md||false;
+  LEADSV.attempts_bucket= filters.attempts_bucket||null;
+  LEADSV._fromS         = filters.fromS||null;
+  LEADSV._toS           = filters.toS||null;
+  sw('leads');
+}
+
+function addDrillDblClick(el,filters){
+  if(!el)return;
+  el.classList.add('drill-cell');
+  el.addEventListener('dblclick',e=>{e.stopPropagation();drillTo(filters);});
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// LEAD DATA TAB
+// ════════════════════════════════════════════════════════════════════════════
+function bLeads(){
+  const p=$('p-leads');
+  p.innerHTML=`
+  <div class="fb"><div class="fr" style="flex-wrap:wrap;gap:10px">
+    <div class="fg"><span class="flbl">Lead ID</span>
+      <input type="text" class="fc" id="ld-lid" placeholder="e.g. RAP0008" style="min-width:130px"></div>
+    <div class="fg"><span class="flbl">Cluster</span>
+      <select class="fc" id="ld-cl"><option value="all">All</option></select></div>
+    <div class="fg"><span class="flbl">Status</span>
+      <select class="fc" id="ld-st"><option value="all">All Statuses</option>
+        ${STATUS_ORDER.map(s=>`<option value="${s}">${s}</option>`).join('')}
+      </select></div>
+    <div class="fg"><span class="flbl">Stage</span>
+      <select class="fc" id="ld-sg" style="min-width:180px"><option value="all">All Stages</option></select></div>
+    <div class="fg"><span class="flbl">LRM Email</span>
+      <input type="text" class="fc" id="ld-lrm" placeholder="partial match" style="min-width:160px"></div>
+    <div class="fg"><span class="flbl">Creation Date</span>
+      <div class="frow"><select class="fc" id="ld-pr">
+        <option value="alltime">All time</option>
+        <option value="last7">Last 7 days</option>
+        <option value="last30" selected>Last 30 days</option>
+        <option value="thismonth">This month</option>
+        <option value="lastmonth">Last month</option>
+        <option value="custom">Custom</option></select>
+        <input type="date" class="fc" id="ld-fr">
+        <input type="date" class="fc" id="ld-to"></div></div>
+    <div class="fg" style="justify-content:flex-end;margin-top:auto">
+      <button class="ms-apply" onclick="renderLeads()">Apply</button></div>
+  </div></div>
+  <div id="ld-drill-info" style="display:none;background:#eff6ff;border:1px solid #bfdbfe;
+    border-radius:8px;padding:8px 12px;margin-bottom:10px;font-size:11px;color:#1e40af;
+    align-items:center;gap:8px">
+    <span>🔍 Drill-through results — filters pre-applied from source view</span>
+    <button onclick="clearDrill()" style="margin-left:auto;background:none;border:1px solid #93c5fd;
+      border-radius:5px;padding:2px 8px;font-size:11px;cursor:pointer;color:#1e40af">✕ Clear</button>
+  </div>
+  <div class="sc"><div class="sc-h">
+    <span class="sc-t" id="ld-tbl-title">Lead Data</span>
+    <span class="sc-hi">Double-click any count cell in other views to drill through · enable toggle first</span>
+  </div>
+  <div style="overflow-x:auto;max-height:600px;overflow-y:auto">
+    <div class="tw" id="ld-tbl"></div>
+  </div></div>`;
+
+  if(LEADS_FULL){
+    const clSet=new Set();
+    LEADS_FULL.records.forEach(r=>{if(r.cluster&&r.cluster!=='Invalid')clSet.add(r.cluster);});
+    const ldCl=$('ld-cl');
+    [...clSet].sort().forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;ldCl.appendChild(o);});
+  }
+
+  // Restore drill-through state into UI
+  if(LEADSV.cluster&&LEADSV.cluster!=='all'){const e=$('ld-cl');if(e)e.value=LEADSV.cluster;}
+  $('ld-st').value=LEADSV.status||'all';
+  populateLdStage();
+  $('ld-sg').value=LEADSV.stage||'all';
+  $('ld-lrm').value=LEADSV.lrm||'';
+  $('ld-lid').value=LEADSV.lead_id||'';
+
+  const isDrill=LEADSV._fromS||LEADSV._toS||LEADSV.status!=='all'||LEADSV.stage!=='all'||
+                LEADSV.cluster!=='all'||LEADSV.lrm||LEADSV.has_ms||LEADSV.has_md||LEADSV.attempts_bucket!=null;
+  if(isDrill){
+    $('ld-drill-info').style.display='flex';
+    if(LEADSV._fromS||LEADSV._toS){
+      $('ld-pr').value='custom';
+      $('ld-fr').value=LEADSV._fromS||'';
+      $('ld-to').value=LEADSV._toS||'';
+    }
+  }
+
+  $('ld-st').addEventListener('change',populateLdStage);
+  ['ld-fr','ld-to'].forEach(id=>$(id)?.addEventListener('change',()=>{$('ld-pr').value='custom';}));
+
+  if(!LEADS_FULL){
+    $('ld-tbl').innerHTML='<div class="nd" style="padding:32px;text-align:center">'
+      +'Enable drill-through using the <b>🔍 Drill-through</b> toggle in the top bar to load lead-level data.</div>';
+    return;
+  }
+  renderLeads();
+}
+
+function populateLdStage(){
+  const status=$('ld-st')?.value||'all';
+  const sel=$('ld-sg');if(!sel)return;
+  const stages=status==='all'
+    ?[...new Set(Object.values(STATUS_STAGE_MAP).flat())]
+    :(STATUS_STAGE_MAP[status]||[]);
+  sel.innerHTML='<option value="all">All Stages</option>'
+    +stages.map(s=>`<option value="${s}">${s}</option>`).join('');
+}
+
+function clearDrill(){
+  LEADSV={cluster:'all',status:'all',stage:'all',lrm:'',lead_id:'',
+          _fromS:null,_toS:null,has_ms:false,has_md:false,attempts_bucket:null};
+  const e=$('ld-cl');if(e)e.value='all';
+  const st=$('ld-st');if(st){st.value='all';populateLdStage();}
+  const sg=$('ld-sg');if(sg)sg.value='all';
+  const lr=$('ld-lrm');if(lr)lr.value='';
+  const li=$('ld-lid');if(li)li.value='';
+  const pr=$('ld-pr');if(pr)pr.value='alltime';
+  const di=$('ld-drill-info');if(di)di.style.display='none';
+  renderLeads();
+}
+
+function renderLeads(){
+  if(!LEADS_FULL)return;
+  const cl  = $('ld-cl')?.value||'all';
+  const st  = $('ld-st')?.value||'all';
+  const sg  = $('ld-sg')?.value||'all';
+  const lrm = ($('ld-lrm')?.value||'').trim().toLowerCase();
+  const lid = ($('ld-lid')?.value||'').trim().toUpperCase();
+
+  let fromS=LEADSV._fromS, toS=LEADSV._toS;
+  if(!fromS&&!toS){
+    const dr=getDR('ld-pr','ld-fr','ld-to');
+    const fmt=d=>d?[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),
+                    String(d.getDate()).padStart(2,'0')].join('-'):null;
+    fromS=fmt(dr.from); toS=fmt(dr.to);
+  }
+
+  let recs=LEADS_FULL.records;
+  if(cl!=='all')           recs=recs.filter(r=>r.cluster===cl);
+  if(st!=='all')           recs=recs.filter(r=>r.status===st);
+  if(sg!=='all')           recs=recs.filter(r=>r.stage===sg);
+  if(lrm)                  recs=recs.filter(r=>(r.lrm||'').toLowerCase().includes(lrm));
+  if(lid)                  recs=recs.filter(r=>(r.lead_id||'').toUpperCase().includes(lid));
+  if(fromS)                recs=recs.filter(r=>r.creation_date&&r.creation_date>=fromS);
+  if(toS)                  recs=recs.filter(r=>r.creation_date&&r.creation_date<=toS);
+  if(LEADSV.has_ms)        recs=recs.filter(r=>r.has_ms);
+  if(LEADSV.has_md)        recs=recs.filter(r=>r.has_md);
+  if(LEADSV.attempts_bucket!=null){
+    const b=String(LEADSV.attempts_bucket);
+    if(b==='0')        recs=recs.filter(r=>r.call_attempts===0);
+    else if(b==='1')   recs=recs.filter(r=>r.call_attempts===1);
+    else if(b==='2')   recs=recs.filter(r=>r.call_attempts===2);
+    else if(b==='3')   recs=recs.filter(r=>r.call_attempts===3);
+    else if(b==='4')   recs=recs.filter(r=>r.call_attempts===4);
+    else if(b==='5-9') recs=recs.filter(r=>r.call_attempts>=5&&r.call_attempts<=9);
+    else if(b==='10+') recs=recs.filter(r=>r.call_attempts>=10);
+  }
+
+  const total=recs.length;
+  const tbl=$('ld-tbl-title');if(tbl)tbl.textContent=`Lead Data — ${total.toLocaleString('en-IN')} leads`;
+  if(!total){$('ld-tbl').innerHTML='<div class="nd">No leads match the selected filters.</div>';return;}
+
+  const display=recs.slice(0,2000);
+  const capped=total>2000;
+
+  let html=`<table><thead class="single"><tr>
+    <th style="text-align:left">Lead ID</th>
+    <th style="text-align:left">Status</th>
+    <th style="text-align:left">Stage</th>
+    <th style="text-align:left">Cluster</th>
+    <th style="text-align:left">LRM Email</th>
+    <th>Creation Date</th>
+    <th>Updated At</th>
+    <th style="text-align:left">Updated By</th>
+    <th>Action</th>
+  </tr></thead><tbody>`;
+
+  display.forEach(r=>{
+    const link=r._id
+      ?`<a href="${LIGHTHOUSE_BASE}${r._id}/" target="_blank" rel="noopener"
+          style="display:inline-flex;align-items:center;gap:4px;padding:3px 8px;
+                 background:#eff6ff;border:1px solid #bfdbfe;border-radius:5px;
+                 color:#1d4ed8;font-size:10px;font-weight:600;text-decoration:none;
+                 white-space:nowrap">↗ Open</a>`
+      :`<span style="font-size:10px;color:var(--t3);font-style:italic">Link Not Available</span>`;
+    html+=`<tr>
+      <td class="tdc" style="font-family:'DM Mono',monospace;font-size:11px">${r.lead_id||'—'}</td>
+      <td class="tdc"><span class="ptag"
+        style="background:${STATUS_BG[r.status]||'#f8fafc'};color:${STATUS_COLORS[r.status]||'#374151'}"
+        >${r.status}</span></td>
+      <td class="tdc" style="max-width:160px;overflow:hidden;text-overflow:ellipsis"
+        title="${r.stage}">${r.stage}</td>
+      <td class="tdc">${r.cluster||'—'}</td>
+      <td class="tdc" style="max-width:170px;overflow:hidden;text-overflow:ellipsis;font-size:11px"
+        title="${r.lrm||''}">${r.lrm||'—'}</td>
+      <td class="tdr mono" style="font-size:11px">${r.creation_date||'—'}</td>
+      <td class="tdr mono" style="font-size:11px">${r.updated_at||'—'}</td>
+      <td class="tdc" style="font-size:11px">${r.updated_by||'—'}</td>
+      <td style="padding:4px 8px;text-align:center">${link}</td>
+    </tr>`;
+  });
+  if(capped)html+=`<tr><td colspan="9" style="text-align:center;padding:10px;font-size:11px;
+    color:var(--t3)">Showing first 2,000 of ${total.toLocaleString('en-IN')} — refine filters to see more.</td></tr>`;
+  html+='</tbody></table>';
+  $('ld-tbl').innerHTML=html;
+  autoSort($('ld-tbl'));
 }
 
 // ── LOAD DATA ────────────────────────────────────────────────────────────────
@@ -624,6 +876,20 @@ function renderV1Matrix(aggA,aggB,groups,stages,clusters,comp,pctM){
     else{html+=`<td class="tdr" style="font-weight:600;${border}">${pctM?((ta/(tA||1))*100).toFixed(1)+'%':f(ta)}</td>`;}});});
   if(comp){html+=`<td class="tdt">${f(tA)}</td><td class="tdb">${f(tB)}</td><td class="tdr">${dHtml(tA,tB)}</td>`;}else{html+=`<td class="tdt">${f(tA)}</td>`;}
   html+='</tr></tbody></table>';wrap.innerHTML=html;autoSort(wrap);
+  if(!comp){
+    const _dr=getDR('v1-pr','v1-fr','v1-to');
+    const _f=d=>d?[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-'):null;
+    const _from=_f(_dr.from),_to=_f(_dr.to);
+    const _sm=groups.flatMap(g=>g.stages.map(s=>({status:g.status,stage:s})));
+    wrap.querySelectorAll('tbody tr').forEach(tr=>{
+      const _cn=tr.querySelector('td.tdc')?.textContent?.trim();
+      if(!_cn||_cn==='Total')return;
+      tr.querySelectorAll('td.tdr.mono').forEach((td,i)=>{
+        if(i>=_sm.length)return;
+        addDrillDblClick(td,{cluster:_cn,status:_sm[i].status,stage:_sm[i].stage,fromS:_from,toS:_to});
+      });
+    });
+  }
 }
 
 // ════════════════════════════════════════════════════════════════════════════
@@ -688,6 +954,16 @@ function renderDailyTbl(byCluster,clusters,T){
     html+=`<tr><td class="tdc" title="${c}">${c}</td><td class="tdr mono">${f(b.total)}</td><td class="tdr mono ${b.updated_today>0?'cell-good':''}">${b.updated_today||'·'}</td><td class="tdr mono">${b.scheduled_today||'·'}</td><td class="tdr mono" style="${hBg(b.overdue,maxOverdue)}">${f(b.overdue)}</td><td class="tdr ${ovCls}">${ovPct.toFixed(1)}%</td></tr>`;});
   html+=`<tr style="background:var(--sur2);font-weight:600"><td>Total</td><td class="tdr mono">${f(T.total)}</td><td class="tdr mono">${f(T.updated)}</td><td class="tdr mono">${f(T.scheduled)}</td><td class="tdr mono">${f(T.overdue)}</td><td class="tdr">${T.total>0?(T.overdue/T.total*100).toFixed(1)+'%':'—'}</td></tr></tbody></table>`;
   const wrap=$('cv-tbl-daily');wrap.innerHTML=html;autoSort(wrap);
+  wrap.querySelectorAll('tbody tr').forEach(tr=>{
+    const _cn=tr.querySelector('td.tdc')?.textContent?.trim();
+    if(!_cn||_cn==='Total')return;
+    const _tds=[...tr.querySelectorAll('td')];
+    if(_tds[4])addDrillDblClick(_tds[4],{
+      cluster:_cn,
+      status:CV.sel.length===1?CV.sel[0]:'all',
+      stage:CV.stageSel!=='all'?CV.stageSel:'all',
+    });
+  });
 }
 function renderAttemptsTbl(byCluster,clusters,maxAttempts){
   if(!clusters.length){$('cv-tbl-attempts').innerHTML='<div class="nd">No data.</div>';return;}
@@ -1161,6 +1437,21 @@ function renderSnap(){
   $('snap-tbl').innerHTML=html;
   autoSort($('snap-tbl'));
   $('snap-tbl-title').textContent=`Leads × LRM${byCluster?' (by Cluster)':''}`;
+  const _drSn=getDR('snap-pr','snap-fr','snap-to');
+  const _fSn=d=>d?[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-'):null;
+  const _fromSn=_fSn(_drSn.from),_toSn=_fSn(_drSn.to);
+  $('snap-tbl').querySelectorAll('tbody tr').forEach(tr=>{
+    const _cs=[...tr.querySelectorAll('td')];
+    const _lv=_cs[0]?.getAttribute('title')||_cs[0]?.textContent?.trim()||'';
+    if(_lv==='Overall')return;
+    const _clV=byCluster?(_cs[1]?.textContent?.trim()||'all'):'all';
+    const _off=byCluster?1:0;
+    const _base={lrm:_lv,cluster:_clV,fromS:_fromSn,toS:_toSn};
+    if(_cs[1+_off])addDrillDblClick(_cs[1+_off],{..._base});
+    if(_cs[2+_off])addDrillDblClick(_cs[2+_off],{..._base,status_active:true});
+    if(_cs[3+_off])addDrillDblClick(_cs[3+_off],{..._base,has_ms:true});
+    if(_cs[4+_off])addDrillDblClick(_cs[4+_off],{..._base,has_md:true});
+  });
 }
 
 function renderLRM(){
@@ -1509,15 +1800,43 @@ function bCohort(){
     const dr=getDR('co-pr','co-fr','co-to');let recs=filterDR(DATA.records,dr.from,dr.to);
     const cl=$('co-cl')?.value,st=$('co-st')?.value;
     if(cl&&cl!=='all')recs=recs.filter(r=>r.cluster===cl);if(st&&st!=='all')recs=recs.filter(r=>r.lead_status===st);
-    const weeks=[...new Set(recs.map(r=>r.cohort_week).filter(w=>w&&w!=='Unknown'))].sort().reverse();
+    // Map each record to a month-relative week key and label
+    // Week 1=1-7, Week 2=8-14, Week 3=15-21, Week 4=22-28, Week 5=29+
+    function weekKey(dateStr){
+      if(!dateStr||dateStr==='Unknown')return null;
+      const d=new Date(dateStr+'T00:00:00');
+      if(isNaN(d))return null;
+      const day=d.getDate();
+      const wn=day<=7?1:day<=14?2:day<=21?3:day<=28?4:5;
+      const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0');
+      return{key:`${y}-${m}-W${wn}`,label:`Week ${wn}  (${d.toLocaleString('default',{month:'short'})} ${y})`};
+    }
+    const wkMap={};  // key → label
+    recs.forEach(r=>{
+      const ds=r.creation_date&&r.creation_date!=='Unknown'?r.creation_date:r.cohort_week;
+      const w=weekKey(ds);if(!w)return;
+      wkMap[w.key]=w.label;
+    });
+    const weeks=Object.keys(wkMap).sort().reverse();
     const dimT={};recs.forEach(r=>{dimT[r.lead_stage]=(dimT[r.lead_stage]||0)+r.lead_count;});
     const groups=stageGroups(dimT,st&&st!=='all'?[st]:[]);
     const topStages=groups.flatMap(g=>g.stages).slice(0,12);
     if(!weeks.length){$('co-tbl').innerHTML='<div class="nd">No data for selected filters.</div>';return;}
-    const pv={};recs.forEach(r=>{if(!weeks.includes(r.cohort_week))return;pv[r.cohort_week]=pv[r.cohort_week]||{};pv[r.cohort_week][r.lead_stage]=(pv[r.cohort_week][r.lead_stage]||0)+r.lead_count;});
-    let html='<table><thead class="single"><tr><th>Week of (creation)</th>';topStages.forEach(s=>html+=`<th class="tdr" title="${s}">${s}</th>`);html+='<th class="tdr">Total</th></tr></thead><tbody>';
-    weeks.forEach(w=>{const wt=topStages.reduce((s,st2)=>s+(pv[w]?.[st2]||0),0);const wmax=Math.max(...topStages.map(s=>pv[w]?.[s]||0),1);
-      html+=`<tr><td class="mono tdc" style="font-size:11px">${fmtNice(w)}</td>`;topStages.forEach(s=>{const v=pv[w]?.[s]||0;html+=`<td class="tdr mono" style="${hBg(v,wmax)}">${v||'·'}</td>`;});html+=`<td class="tdt">${f(wt)}</td></tr>`;});
+    const pv={};
+    recs.forEach(r=>{
+      const ds=r.creation_date&&r.creation_date!=='Unknown'?r.creation_date:r.cohort_week;
+      const w=weekKey(ds);if(!w||!weeks.includes(w.key))return;
+      pv[w.key]=pv[w.key]||{};
+      pv[w.key][r.lead_stage]=(pv[w.key][r.lead_stage]||0)+r.lead_count;
+    });
+    let html='<table><thead class="single"><tr><th>Week (creation)</th>';topStages.forEach(s=>html+=`<th class="tdr" title="${s}">${s}</th>`);html+='<th class="tdr">Total</th></tr></thead><tbody>';
+    weeks.forEach(wk=>{
+      const wt=topStages.reduce((s,st2)=>s+(pv[wk]?.[st2]||0),0);
+      const wmax=Math.max(...topStages.map(s=>pv[wk]?.[s]||0),1);
+      html+=`<tr><td class="tdc" style="font-size:11px;white-space:nowrap">${wkMap[wk]}</td>`;
+      topStages.forEach(s=>{const v=pv[wk]?.[s]||0;html+=`<td class="tdr mono" style="${hBg(v,wmax)}">${v||'·'}</td>`;});
+      html+=`<td class="tdt">${f(wt)}</td></tr>`;
+    });
     html+='</tbody></table>';const wrap=$('co-tbl');wrap.innerHTML=html;autoSort(wrap);
   }
   ['co-cl','co-st','co-pr'].forEach(id=>$(id)?.addEventListener('change',render));
