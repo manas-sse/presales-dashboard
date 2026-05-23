@@ -239,7 +239,7 @@ const STATUS_BG = {'Open':'#eff6ff','Connected':'#f0fdf4','Prequalification':'#e
 
 // ── STATE ────────────────────────────────────────────────────────────────────
 let DATA=null, CALLS=null, MOVE=null, EOD=null, LRM_DATA=null, LRM_CONV=null, TAT_DATA=null, LRM_SNAP=null, LEADS_FULL=null;
-let LEADSV={cluster:'all',status:'all',stage:'all',lrm:'',lead_id:'',_fromS:null,_toS:null,has_ms:false,has_md:false,attempts_bucket:null};
+let LEADSV={cluster:'all',status:'all',stage:'all',lrm:'',lead_id:'',_fromS:null,_toS:null,has_ms:false,has_md:false,active_only:false,attempts_bucket:null};
 let curTab='v1', rendered={}, charts={};
 let V1={sel:[],comp:false,pct:false,sortBy:'A'};
 let CV={sel:['Open'],stageSel:'all'};
@@ -498,6 +498,7 @@ function drillTo(filters){
   LEADSV.lead_id        = '';
   LEADSV.has_ms         = filters.has_ms||false;
   LEADSV.has_md         = filters.has_md||false;
+  LEADSV.active_only    = filters.active_only||filters.status_active||false;
   LEADSV.attempts_bucket= filters.attempts_bucket||null;
   LEADSV._fromS         = filters.fromS||null;
   LEADSV._toS           = filters.toS||null;
@@ -573,7 +574,7 @@ function bLeads(){
   $('ld-lid').value=LEADSV.lead_id||'';
 
   const isDrill=LEADSV._fromS||LEADSV._toS||LEADSV.status!=='all'||LEADSV.stage!=='all'||
-                LEADSV.cluster!=='all'||LEADSV.lrm||LEADSV.has_ms||LEADSV.has_md||LEADSV.attempts_bucket!=null;
+                LEADSV.cluster!=='all'||LEADSV.lrm||LEADSV.has_ms||LEADSV.has_md||LEADSV.active_only||LEADSV.attempts_bucket!=null;
   if(isDrill){
     $('ld-drill-info').style.display='flex';
     if(LEADSV._fromS||LEADSV._toS){
@@ -606,7 +607,7 @@ function populateLdStage(){
 
 function clearDrill(){
   LEADSV={cluster:'all',status:'all',stage:'all',lrm:'',lead_id:'',
-          _fromS:null,_toS:null,has_ms:false,has_md:false,attempts_bucket:null};
+          _fromS:null,_toS:null,has_ms:false,has_md:false,active_only:false,attempts_bucket:null};
   const e=$('ld-cl');if(e)e.value='all';
   const st=$('ld-st');if(st){st.value='all';populateLdStage();}
   const sg=$('ld-sg');if(sg)sg.value='all';
@@ -643,6 +644,11 @@ function renderLeads(){
   if(toS)                  recs=recs.filter(r=>r.creation_date&&r.creation_date<=toS);
   if(LEADSV.has_ms)        recs=recs.filter(r=>r.has_ms);
   if(LEADSV.has_md)        recs=recs.filter(r=>r.has_md);
+  if(LEADSV.active_only){
+    const INACT_ST=new Set(['Closed - Lost','Closed - Cold','Closed - Won','Lost']);
+    const INACT_SG=new Set(['Lost in Qualification']);
+    recs=recs.filter(r=>!INACT_ST.has(r.status)&&!INACT_SG.has(r.stage)&&!r.has_ms);
+  }
   if(LEADSV.attempts_bucket!=null){
     const b=String(LEADSV.attempts_bucket);
     if(b==='0')        recs=recs.filter(r=>r.call_attempts===0);
@@ -1448,7 +1454,7 @@ function renderSnap(){
     const _off=byCluster?1:0;
     const _base={lrm:_lv,cluster:_clV,fromS:_fromSn,toS:_toSn};
     if(_cs[1+_off])addDrillDblClick(_cs[1+_off],{..._base});
-    if(_cs[2+_off])addDrillDblClick(_cs[2+_off],{..._base,status_active:true});
+    if(_cs[2+_off])addDrillDblClick(_cs[2+_off],{..._base,active_only:true});
     if(_cs[3+_off])addDrillDblClick(_cs[3+_off],{..._base,has_ms:true});
     if(_cs[4+_off])addDrillDblClick(_cs[4+_off],{..._base,has_md:true});
   });

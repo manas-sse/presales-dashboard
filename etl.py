@@ -718,6 +718,65 @@ def build_lrm_snapshot(leads_raw: list, audit_sorted: list, lead_creation: dict)
     }
 
 
+
+# ════════════════════════════════════════════════════════════════════════════
+# CARD 2557 — LEADS FULL (drill-through)
+# ════════════════════════════════════════════════════════════════════════════
+def build_leads_full(leads_raw: list) -> dict:
+    """
+    Per-lead flat snapshot for dashboard drill-through (leads_full.json).
+    Lazy-loaded only when the user enables the drill-through master toggle.
+
+    Display columns : lead_id, status, stage, cluster, lrm,
+                      creation_date, updated_at, updated_by, _id
+      updated_by    : status_stage_updated_by (role: LRM / Solar Consultant / System)
+    Filter-only cols: call_attempts, has_ms, has_md
+
+    Standards: cluster via normalise_cluster(); dates via ist_date_str() (IST).
+    """
+    records = []
+    for r in leads_raw:
+        _id     = (r.get("_id") or "").strip() or None
+        lead_id = (r.get("Lead Id") or "").strip() or None
+        cluster = normalise_cluster(r.get("Cluster") or "")
+
+        creation_dt = parse_dt(r.get("Creation Date"))
+        updated_dt  = parse_dt(r.get("Updated At"))
+        ms_dt       = parse_dt(r.get("Meeting Schedule Date"))
+        md_dt       = parse_dt(r.get("Meeting Done Date"))
+
+        try:    call_attempts = int(r.get("call_attempts_lrm") or 0)
+        except: call_attempts = 0
+
+        records.append({
+            "lead_id":       lead_id,
+            "status":        (r.get("Lead status") or "Unknown").strip(),
+            "stage":         (r.get("Lead stage")  or "Unknown").strip(),
+            "cluster":       cluster,
+            "lrm":           (r.get("LRM Email") or "").strip() or None,
+            "creation_date": ist_date_str(creation_dt) if creation_dt else None,
+            "updated_at":    ist_date_str(updated_dt)  if updated_dt  else None,
+            "updated_by":    (r.get("status_stage_updated_by") or "").strip() or None,
+            "_id":           _id,
+            "call_attempts": call_attempts,
+            "has_ms":        ms_dt is not None,
+            "has_md":        md_dt is not None,
+        })
+
+    return {
+        "meta": {
+            "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "total_leads":  len(records),
+            "note": (
+                "Per-lead snapshot for drill-through. Lazy-loaded on demand. "
+                "cluster via normalise_cluster(). Dates in IST. "
+                "updated_by = status_stage_updated_by (role). "
+                "_id nullable — deep link shows placeholder when None."
+            ),
+        },
+        "records": records,
+    }
+
 # ════════════════════════════════════════════════════════════════════════════
 # MAIN
 # ════════════════════════════════════════════════════════════════════════════
@@ -792,6 +851,11 @@ def main():
     with open("data/lrm_snapshot.json", "w") as f:
         json.dump(snap, f, separators=(',', ':'), default=str)   # compact — no indent, ~40% smaller
     print(f"      lrm_snapshot.json — {snap['meta']['total_records']:,} (lrm × cluster × date) rows")
+
+    leads_full = build_leads_full(leads_raw)
+    with open("data/leads_full.json", "w") as f:
+        json.dump(leads_full, f, separators=(',', ':'), default=str)
+    print(f"      leads_full.json — {leads_full['meta']['total_leads']:,} leads")
 
     print("\n  All done.")
 
