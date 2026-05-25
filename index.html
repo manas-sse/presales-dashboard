@@ -136,6 +136,14 @@ input[type=number].fc{width:80px}
 .cell-bad{background:#fee2e2;color:#991b1b;font-weight:600}
 .cell-good{background:#dcfce7;color:#166534;font-weight:600}
 
+/* ── STICKY FIRST COLUMN ─────────────────────────────────────────────────── */
+/* Freeze the first column of all data tables for horizontal scroll usability */
+.tw table tbody td:first-child{position:sticky;left:0;z-index:2;background:var(--sur);box-shadow:1px 0 0 var(--bd2)}
+.tw table tbody tr:hover td:first-child{background:var(--sur2)}
+/* Corner cell: first-child th in any sticky header row */
+.tw thead.single tr th:first-child,
+.tw thead tr:last-child th:first-child{left:0;z-index:4!important;box-shadow:1px 0 0 var(--bd2)}
+
 .stb{display:flex;flex-direction:column;align-items:center;justify-content:center;height:180px;gap:10px;color:var(--t2);font-size:12px}
 .spin{width:20px;height:20px;border:2px solid var(--bd2);border-top-color:var(--bl);border-radius:50%;animation:sp .6s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
@@ -626,15 +634,14 @@ function renderLeads(){
   const lrm = ($('ld-lrm')?.value||'').trim().toLowerCase();
   const lid = ($('ld-lid')?.value||'').trim().toUpperCase();
 
-  let fromS=LEADSV._fromS, toS=LEADSV._toS;
-  if(!fromS&&!toS){
-    const dr=getDR('ld-pr','ld-fr','ld-to');
-    const fmt=d=>d?[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),
-                    String(d.getDate()).padStart(2,'0')].join('-'):null;
-    fromS=fmt(dr.from); toS=fmt(dr.to);
-  }
-
   let recs=LEADS_FULL.records;
+  // Always derive date range from the UI pickers.
+  // bLeads() seeds ld-pr/ld-fr/ld-to from LEADSV._fromS/_toS on drill-through,
+  // so using getDR here is always correct and means filter changes always apply.
+  const dr=getDR('ld-pr','ld-fr','ld-to');
+  const fmt=d=>d?[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),
+                  String(d.getDate()).padStart(2,'0')].join('-'):null;
+  const fromS=fmt(dr.from); const toS=fmt(dr.to);
   if(cl!=='all')           recs=recs.filter(r=>r.cluster===cl);
   if(st!=='all')           recs=recs.filter(r=>r.status===st);
   if(sg!=='all')           recs=recs.filter(r=>r.stage===sg);
@@ -1031,7 +1038,7 @@ async function bMovement(){
 
   $('p-movement').innerHTML=`<div class="fb"><div class="fr">
     <div class="fg"><span class="flbl">View Mode</span>
-      <div class="tgl" id="mv-mode"><button class="tgl-b on" data-v="transitions">All Transitions</button><button class="tgl-b" data-v="eod">EOD Position</button></div></div>
+      <div class="tgl" id="mv-mode"><button class="tgl-b on" data-v="transitions">All Transitions</button><button class="tgl-b" data-v="touches">Touches</button><button class="tgl-b" data-v="eod">EOD Position</button></div></div>
     <div class="fg"><span class="flbl">Level</span>
       <div class="tgl" id="mv-level"><button class="tgl-b on" data-v="stage">Stage</button><button class="tgl-b" data-v="status">Status</button></div></div>
     <div class="fg"><span class="flbl">Date range <span class="sub">(event date)</span></span>
@@ -1082,6 +1089,8 @@ function renderMovement(){
 
   if(MV.mode==='transitions'){
     renderTransitions(dr,cl,lrm);
+  }else if(MV.mode==='touches'){
+    renderTouches(dr,cl,lrm);
   }else{
     renderEOD(dr,cl,lrm);
   }
@@ -1161,18 +1170,71 @@ function renderTransitions(dr,cl,lrm){
   $('mv-tbl').innerHTML=html;autoSort($('mv-tbl'));
 }
 
+function renderTouches(dr,cl,lrm){
+  const titleEl=$('mv-tbl-title'),subEl=$('mv-tbl-sub');
+  if(titleEl)titleEl.textContent='Touches without stage/status change';
+  if(subEl)subEl.textContent='Calls attempted or leads updated with no state transition — visible only in this mode';
+
+  if(!MOVE.touches){
+    $('mv-kpis').innerHTML='';
+    $('mv-tbl').innerHTML='<div class="nd">No touch data found. Re-run the ETL to generate this data.</div>';
+    return;
+  }
+  let recs=filterByDate(MOVE.touches,dr.from,dr.to);
+  if(cl!=='all')recs=recs.filter(r=>r.cluster===cl);
+  if(lrm!=='all')recs=recs.filter(r=>r.lrm===lrm);
+
+  const totalCalls=recs.reduce((s,r)=>s+r.calls_no_transition,0);
+  const totalUpd  =recs.reduce((s,r)=>s+r.updates_no_transition,0);
+  const dates=new Set(recs.map(r=>r.date));
+  const clSet=new Set(recs.map(r=>r.cluster));
+  $('mv-kpis').innerHTML=`
+    <div class="kcard"><div class="kl">Total Touches</div><div class="kv cb">${f(totalCalls+totalUpd)}</div><div class="ks">across ${dates.size} day(s)</div></div>
+    <div class="kcard"><div class="kl">Calls (No Transition)</div><div class="kv ca">${f(totalCalls)}</div><div class="ks">call attempted, status/stage unchanged</div></div>
+    <div class="kcard"><div class="kl">Updates (No Transition)</div><div class="kv cp">${f(totalUpd)}</div><div class="ks">updated_at changed, no state change</div></div>
+    <div class="kcard"><div class="kl">Clusters</div><div class="kv cg">${clSet.size}</div></div>`;
+
+  if(!recs.length){$('mv-tbl').innerHTML='<div class="nd">No touch data for selected filters.</div>';return;}
+
+  // Aggregate by (cluster, lrm)
+  const byCluster={};
+  recs.forEach(r=>{
+    if(!byCluster[r.cluster])byCluster[r.cluster]={};
+    const lk=r.lrm||'Unknown';
+    if(!byCluster[r.cluster][lk])byCluster[r.cluster][lk]={calls:0,updates:0};
+    byCluster[r.cluster][lk].calls  +=r.calls_no_transition;
+    byCluster[r.cluster][lk].updates+=r.updates_no_transition;
+  });
+  const clusterArr=Object.keys(byCluster).sort();
+  const maxCalls=Math.max(...Object.values(byCluster).flatMap(lrms=>Object.values(lrms).map(v=>v.calls)),1);
+
+  let html='<table><thead class="single"><tr><th>Cluster / LRM</th><th class="tdr">Calls (No Transition)</th><th class="tdr">Updates (No Transition)</th><th class="tdr">Total Touches</th></tr></thead><tbody>';
+  clusterArr.forEach(c=>{
+    const lrmsHere=byCluster[c];
+    const cCalls=Object.values(lrmsHere).reduce((s,v)=>s+v.calls,0);
+    const cUpd  =Object.values(lrmsHere).reduce((s,v)=>s+v.updates,0);
+    html+=`<tr style="background:#f1f5f9;font-weight:600"><td class="tdc">${c}</td><td class="tdr mono">${f(cCalls)}</td><td class="tdr mono">${f(cUpd)}</td><td class="tdt">${f(cCalls+cUpd)}</td></tr>`;
+    Object.entries(lrmsHere).sort((a,b)=>(b[1].calls+b[1].updates)-(a[1].calls+a[1].updates)).forEach(([l,v])=>{
+      html+=`<tr><td class="td-lrm" title="${l}">${l}</td><td class="tdr mono" style="${hBg(v.calls,maxCalls)}">${v.calls||'·'}</td><td class="tdr mono">${v.updates||'·'}</td><td class="tdr" style="font-weight:600">${f(v.calls+v.updates)}</td></tr>`;
+    });
+  });
+  html+='</tbody></table>';
+  $('mv-tbl').innerHTML=html;autoSort($('mv-tbl'));
+}
+
 function renderEOD(dr,cl,lrm){
-  // EOD position: pick stage or status field
-  const dimField=MV.level==='stage'?'stage':'status';
+  // EOD Position: show from→to transitions per lead per day.
+  // Data format: {date,cluster,lrm,from_stage,to_stage,from_status,to_status,count}
+  const fromField=MV.level==='stage'?'from_stage':'from_status';
+  const toField  =MV.level==='stage'?'to_stage'  :'to_status';
   let recs=filterByDate(EOD.records,dr.from,dr.to);
   if(cl!=='all')recs=recs.filter(r=>r.cluster===cl);
   if(lrm!=='all')recs=recs.filter(r=>r.lrm===lrm);
 
   const titleEl=$('mv-tbl-title'),subEl=$('mv-tbl-sub');
-  if(titleEl)titleEl.textContent=`End-of-day position`;
-  if(subEl)subEl.textContent=`Each lead's last ${MV.level} on selected day · one record per lead per day`;
+  if(titleEl)titleEl.textContent='End-of-day position (from → to)';
+  if(subEl)subEl.textContent=`Each lead's ${MV.level} at start-of-day vs end-of-day · from = previous day EOD state`;
 
-  // KPIs
   const total=recs.reduce((s,r)=>s+r.count,0);
   const dates=new Set(recs.map(r=>r.date));
   const clusters=new Set(recs.map(r=>r.cluster));
@@ -1184,32 +1246,39 @@ function renderEOD(dr,cl,lrm){
 
   if(!recs.length){$('mv-tbl').innerHTML='<div class="nd">No EOD data in selected range.</div>';return;}
 
-  // Pivot: rows = (cluster, lrm), cols = dim values
-  const dimSet=new Set();const rowSet=new Set();const pivot={};
-  recs.forEach(r=>{const v=r[dimField]||'Unknown';dimSet.add(v);const rk=r.cluster+'|'+(r.lrm||'Unknown');rowSet.add(rk);
-    pivot[rk]=pivot[rk]||{};pivot[rk][v]=(pivot[rk][v]||0)+r.count;});
-  // Sort dims: stage uses status order, status uses STATUS_ORDER
-  const dimList=[...dimSet];
-  if(MV.level==='stage'){const orderAll=STATUS_ORDER.flatMap(s=>STATUS_STAGE_MAP[s]||[]);dimList.sort((a,b)=>{const ia=orderAll.findIndex(x=>x.toLowerCase()===a.toLowerCase());const ib=orderAll.findIndex(x=>x.toLowerCase()===b.toLowerCase());if(ia<0&&ib<0)return a.localeCompare(b);if(ia<0)return 1;if(ib<0)return -1;return ia-ib;});}
-  else{dimList.sort((a,b)=>{const ia=STATUS_ORDER.indexOf(a),ib=STATUS_ORDER.indexOf(b);if(ia<0&&ib<0)return a.localeCompare(b);if(ia<0)return 1;if(ib<0)return -1;return ia-ib;});}
+  // Pivot: rows=(cluster,lrm), cols=from→to pairs (mirrors transitions table structure)
+  const fromToPairs=new Set();const rowSet=new Set();const pivot={};
+  recs.forEach(r=>{
+    const ft=(r[fromField]||'Unknown')+'→'+(r[toField]||'Unknown');
+    fromToPairs.add(ft);
+    const rk=r.cluster+'|'+(r.lrm||'Unknown');rowSet.add(rk);
+    pivot[rk]=pivot[rk]||{};pivot[rk][ft]=(pivot[rk][ft]||0)+r.count;
+  });
+  // Group pairs by From value
+  const byFrom={};
+  fromToPairs.forEach(p=>{const sep=p.indexOf('→');const fr=p.slice(0,sep),t=p.slice(sep+1);byFrom[fr]=byFrom[fr]||[];if(!byFrom[fr].includes(t))byFrom[fr].push(t);});
+  const fromList=Object.keys(byFrom).sort();fromList.forEach(fr=>byFrom[fr].sort());
 
   const byCluster={};rowSet.forEach(rk=>{const[c,l]=rk.split('|');byCluster[c]=byCluster[c]||{};byCluster[c][l]=pivot[rk];});
-  const clustersArr=Object.keys(byCluster).sort();
+  const clusterArr=Object.keys(byCluster).sort();
   const max=Math.max(...Object.values(pivot).flatMap(o=>Object.values(o)),1);
 
-  let html='<table><thead class="single"><tr><th>Cluster / LRM</th>';
-  dimList.forEach(d=>html+=`<th class="tdr" title="${d}">${d}</th>`);
-  html+='<th class="tdr">Total</th></tr></thead><tbody>';
-  clustersArr.forEach(c=>{
+  let html='<table><thead>';
+  html+='<tr><th class="row-hdr" rowspan="2">Cluster / LRM</th>';
+  fromList.forEach(fr=>{html+=`<th colspan="${byFrom[fr].length}" style="background:#1e293b;color:#f1f5f9">From: ${fr}</th>`;});
+  html+='<th class="row-hdr tdr" rowspan="2">Total</th></tr><tr>';
+  fromList.forEach(fr=>byFrom[fr].forEach(t=>{html+=`<th class="tdr" title="From ${fr} → To ${t}">→ ${t}</th>`;}));
+  html+='</tr></thead><tbody>';
+  clusterArr.forEach(c=>{
     const lrmsHere=Object.keys(byCluster[c]).sort();
     const clusterTotals={};let cg=0;
-    lrmsHere.forEach(l=>Object.entries(byCluster[c][l]).forEach(([d,v])=>{clusterTotals[d]=(clusterTotals[d]||0)+v;cg+=v;}));
+    lrmsHere.forEach(l=>Object.entries(byCluster[c][l]).forEach(([p,v])=>{clusterTotals[p]=(clusterTotals[p]||0)+v;cg+=v;}));
     html+=`<tr style="background:#f1f5f9;font-weight:600"><td class="tdc">${c}</td>`;
-    dimList.forEach(d=>{const v=clusterTotals[d]||0;html+=`<td class="tdr mono">${v||'·'}</td>`;});
+    fromList.forEach(fr=>byFrom[fr].forEach(t=>{const p=fr+'→'+t;const v=clusterTotals[p]||0;html+=`<td class="tdr mono">${v||'·'}</td>`;}));
     html+=`<td class="tdt">${f(cg)}</td></tr>`;
     lrmsHere.forEach(l=>{const row=byCluster[c][l];let rt=0;
       html+=`<tr><td class="td-lrm" title="${l}">${l}</td>`;
-      dimList.forEach(d=>{const v=row[d]||0;rt+=v;html+=`<td class="tdr mono" style="${hBg(v,max)}">${v||'·'}</td>`;});
+      fromList.forEach(fr=>byFrom[fr].forEach(t=>{const p=fr+'→'+t;const v=row[p]||0;rt+=v;html+=`<td class="tdr mono" style="${hBg(v,max)}">${v||'·'}</td>`;}));
       html+=`<td class="tdr" style="font-weight:600">${f(rt)}</td></tr>`;
     });
   });
@@ -1564,7 +1633,6 @@ async function bTAT(){
         <option value="tat_first_call">Lead Creation → First Call</option>
         <option value="tat_gaps">Gap Between Consecutive Calls</option>
         <option value="tat_to_meeting">Lead Creation → First Meeting</option>
-        <option value="tat_to_booked">Lead Creation → First Booking</option>
         <option value="tat_to_won">Lead Creation → Order Confirmed</option>
       </select></div>
     <div class="fg"><span class="flbl">Date range <span class="sub">(lead creation date)</span></span>
@@ -1637,7 +1705,7 @@ function renderTAT(){
   recs.forEach(r=>{const k=groupKey(r);if(!groups[k])groups[k]={key:k,records:[]};groups[k].records.push(r);});
 
   const titleEl=$('tat-tbl-title'),subEl=$('tat-tbl-sub');
-  const metricLabel={'tat_first_call':'Creation → First Call','tat_gaps':'Between consecutive calls','tat_to_meeting':'Creation → First Meeting','tat_to_booked':'Creation → First Booking','tat_to_won':'Creation → Order Confirmed'}[metric];
+  const metricLabel={'tat_first_call':'Creation → First Call','tat_gaps':'Between consecutive calls','tat_to_meeting':'Creation → First Meeting','tat_to_won':'Creation → Order Confirmed'}[metric];
   if(titleEl)titleEl.textContent=`TAT: ${metricLabel}`;
   if(subEl)subEl.textContent=`h/d mixed units (< 1h = min) · P${pcVal} · ${byLRM?'by Cluster × LRM':'by Cluster'}`;
 
@@ -1801,7 +1869,7 @@ function bCohort(){
     <div class="fg"><span class="flbl">Status</span><select class="fc" id="co-st"><option value="all">All Statuses</option>${activeStatuses.map(s=>`<option value="${s}">${s}</option>`).join('')}</select></div>
     <div class="fg"><span class="flbl">Date range <span class="sub">(lead creation)</span></span><div class="frow"><select class="fc" id="co-pr"><option value="last3mo">Last 3 months</option><option value="last30">Last 30 days</option><option value="thisyear">This year</option><option value="alltime">All time</option><option value="custom">Custom</option></select><input type="date" class="fc" id="co-fr"><input type="date" class="fc" id="co-to"></div></div>
   </div></div>
-  <div class="sc"><div class="sc-h"><span class="sc-t">Cohort week × Stage</span><span class="sc-hi">Rows = creation week · top 12 stages</span></div><div style="overflow-x:auto;max-height:440px;overflow-y:auto"><div class="tw" id="co-tbl"></div></div></div>`;
+  <div class="sc"><div class="sc-h"><span class="sc-t">Cohort week × Stage</span><span class="sc-hi">Rows = creation week · top 12 stages · double-click cell to drill through</span></div><div style="overflow-x:auto;max-height:440px;overflow-y:auto"><div class="tw" id="co-tbl"></div></div></div>`;
   function render(){
     const dr=getDR('co-pr','co-fr','co-to');let recs=filterDR(DATA.records,dr.from,dr.to);
     const cl=$('co-cl')?.value,st=$('co-st')?.value;
@@ -1844,6 +1912,35 @@ function bCohort(){
       html+=`<td class="tdt">${f(wt)}</td></tr>`;
     });
     html+='</tbody></table>';const wrap=$('co-tbl');wrap.innerHTML=html;autoSort(wrap);
+    // ── Drill-through: double-click any data cell to jump to Lead Data ─────
+    if(LEADS_FULL){
+      // Helper: given week key "YYYY-MM-WN", compute IST date range for that week
+      function weekDateRange(wk){
+        const m=wk.match(/^(\d{4})-(\d{2})-W(\d)$/);if(!m)return{from:null,to:null};
+        const y=parseInt(m[1]),mo=parseInt(m[2]),wn=parseInt(m[3]);
+        const dayStart=wn===1?1:wn===2?8:wn===3?15:wn===4?22:29;
+        const lastDay=new Date(y,mo,0).getDate();
+        const dayEnd=Math.min(dayStart+6,lastDay);
+        const pad=n=>String(n).padStart(2,'0');
+        return{from:`${y}-${pad(mo)}-${pad(dayStart)}`,to:`${y}-${pad(mo)}-${pad(dayEnd)}`};
+      }
+      const clVal=$('co-cl')?.value||'all';
+      const stVal=$('co-st')?.value||'all';
+      wrap.querySelectorAll('tbody tr').forEach((tr,wi)=>{
+        const wk=weeks[wi];if(!wk)return;
+        const{from:wkFrom,to:wkTo}=weekDateRange(wk);
+        tr.querySelectorAll('td.tdr.mono').forEach((td,si)=>{
+          if(si>=topStages.length)return;
+          const stage=topStages[si];
+          addDrillDblClick(td,{
+            cluster:clVal!=='all'?clVal:'all',
+            status: stVal!=='all'?stVal:'all',
+            stage,
+            fromS:wkFrom,toS:wkTo,
+          });
+        });
+      });
+    }
   }
   ['co-cl','co-st','co-pr'].forEach(id=>$(id)?.addEventListener('change',render));
   ['co-fr','co-to'].forEach(id=>$(id)?.addEventListener('change',()=>{$('co-pr').value='custom';render();}));

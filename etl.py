@@ -274,10 +274,14 @@ def build_daily_movement(audit_sorted: list, lead_creation: dict) -> dict:
     Per (date, cluster, lrm, from_stage, to_stage):
       - count of transitions
     Also tracks status-level transitions (from_status -> to_status).
+    Also tracks "touches" — audit events where stage AND status did NOT change
+    (call attempted with no transition, or updated_at changed with no transition).
     Date is IST (audit createdAt + 5:30 hrs).
     """
     transitions_stage  = defaultdict(int)
     transitions_status = defaultdict(int)
+    # touches: (date, cluster, lrm) → {calls, updates}
+    touches = defaultdict(lambda: {"calls": 0, "updates": 0})
 
     by_lead = defaultdict(list)
     for r in audit_sorted:
@@ -290,12 +294,22 @@ def build_daily_movement(audit_sorted: list, lead_creation: dict) -> dict:
             cluster = ev["cluster"]
             lrm     = ev["lrm"] or "Unknown"
             if prev is not None:
-                if prev["stage"] != ev["stage"]:
+                stage_changed  = prev["stage"]  != ev["stage"]
+                status_changed = prev["status"] != ev["status"]
+                call_made      = ev["n_attempts"] > prev["n_attempts"]
+                if stage_changed:
                     transitions_stage[(ev_date, cluster, lrm,
                                        prev["stage"], ev["stage"])] += 1
-                if prev["status"] != ev["status"]:
+                if status_changed:
                     transitions_status[(ev_date, cluster, lrm,
                                         prev["status"], ev["status"])] += 1
+                if not stage_changed and not status_changed:
+                    # A touch with no transition — call attempt or silent update
+                    key = (ev_date, cluster, lrm)
+                    if call_made:
+                        touches[key]["calls"]   += 1
+                    else:
+                        touches[key]["updates"] += 1
             prev = ev
 
     stage_records = [
@@ -308,40 +322,86 @@ def build_daily_movement(audit_sorted: list, lead_creation: dict) -> dict:
          "from_status": k[3], "to_status": k[4], "count": v}
         for k, v in transitions_status.items()
     ]
+    touch_records = [
+        {"date": k[0], "cluster": k[1], "lrm": k[2],
+         "calls_no_transition": v["calls"],
+         "updates_no_transition": v["updates"]}
+        for k, v in touches.items()
+    ]
     stage_records.sort(key=lambda x: (x["date"], x["cluster"]), reverse=True)
     status_records.sort(key=lambda x: (x["date"], x["cluster"]), reverse=True)
+    touch_records.sort(key=lambda x: (x["date"], x["cluster"]), reverse=True)
 
     return {
         "meta": {
             "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "total_stage_transitions":  sum(r["count"] for r in stage_records),
             "total_status_transitions": sum(r["count"] for r in status_records),
+            "total_touches":            sum(r["calls_no_transition"] + r["updates_no_transition"]
+                                           for r in touch_records),
+            "note": (
+                "stage/status: stage/status-level transitions. "
+                "touches: events with no stage/status change — calls_no_transition = "
+                "call attempted (n_attempts incremented); "
+                "updates_no_transition = any other audit event with no state change."
+            ),
         },
-        "stage":  stage_records,
-        "status": status_records,
+        "stage":   stage_records,
+        "status":  status_records,
+        "touches": touch_records,
     }
 
 
 def build_eod_position(audit_sorted: list) -> dict:
     """
-    For each (date, lead_id) find the LAST event of that day → that's the
-    end-of-day position. Then aggregate to (date, cluster, lrm, stage, status).
+    For each (date, lead_id) find:
+      - from_stage/from_status: position at START of that day
+        (= previous day's last event, or first event of the day if no prior data)
+      - to_stage/to_status: position at END of that day (last event)
+    Then aggregate to (date, cluster, lrm, from_stage, to_stage, from_status, to_status).
     """
-    by_lead_day = {}   # (lead_id, date) → last event
+    by_lead: dict = defaultdict(list)
     for r in audit_sorted:
-        d = (r["ts"] + timedelta(hours=5, minutes=30)).date().strftime("%Y-%m-%d")
-        key = (r["lead_id"], d)
-        if key not in by_lead_day or r["ts"] > by_lead_day[key]["ts"]:
-            by_lead_day[key] = r
+        by_lead[r["lead_id"]].append(r)
 
     buckets = defaultdict(int)
-    for (lid, d), ev in by_lead_day.items():
-        buckets[(d, ev["cluster"], ev["lrm"] or "Unknown",
-                 ev["stage"], ev["status"])] += 1
+
+    for lid, events in by_lead.items():
+        # Group events by IST date
+        by_day: dict = defaultdict(list)
+        for ev in events:
+            d = (ev["ts"] + timedelta(hours=5, minutes=30)).date().strftime("%Y-%m-%d")
+            by_day[d].append(ev)
+
+        sorted_days = sorted(by_day.keys())
+        prev_last_ev = None
+
+        for d in sorted_days:
+            day_evs = sorted(by_day[d], key=lambda x: x["ts"])
+            last_ev  = day_evs[-1]
+
+            # from = previous day's end-of-day state; if first day seen, use first
+            # event of today (no movement = from == to for that lead)
+            if prev_last_ev is not None:
+                from_stage  = prev_last_ev["stage"]
+                from_status = prev_last_ev["status"]
+            else:
+                from_stage  = day_evs[0]["stage"]
+                from_status = day_evs[0]["status"]
+
+            cluster = last_ev["cluster"]
+            lrm     = last_ev["lrm"] or "Unknown"
+
+            buckets[(d, cluster, lrm,
+                     from_stage,  last_ev["stage"],
+                     from_status, last_ev["status"])] += 1
+
+            prev_last_ev = last_ev
 
     records = [
         {"date": k[0], "cluster": k[1], "lrm": k[2],
-         "stage": k[3], "status": k[4], "count": v}
+         "from_stage":  k[3], "to_stage":  k[4],
+         "from_status": k[5], "to_status": k[6], "count": v}
         for k, v in buckets.items()
     ]
     records.sort(key=lambda x: x["date"], reverse=True)
@@ -349,7 +409,12 @@ def build_eod_position(audit_sorted: list) -> dict:
     return {
         "meta": {
             "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-            "note": "End-of-day position: last audit event per lead per day",
+            "note": (
+                "End-of-day position per lead per day. "
+                "from_* = start-of-day state (previous day's last event). "
+                "to_* = end-of-day state (last event of that day). "
+                "When from == to, the lead did not change state that day."
+            ),
             "total_records": len(records),
         },
         "records": records,
@@ -416,7 +481,7 @@ def build_lrm_performance(audit_sorted: list) -> dict:
     }
 
 
-def build_tat_stats(audit_sorted: list, lead_creation: dict) -> dict:
+def build_tat_stats(audit_sorted: list, lead_creation: dict, lead_ms_dates: dict = None) -> dict:
     """
     Computes TAT in fractional HOURS for each measure per lead.
     lead_creation values are UTC naive datetimes; ev["ts"] are UTC naive datetimes.
@@ -426,19 +491,21 @@ def build_tat_stats(audit_sorted: list, lead_creation: dict) -> dict:
     Metrics:
       tat_first_call : creation → createdAt of first call event (hours)
       tat_gaps       : list of hours between each consecutive pair of call events
-      tat_to_meeting : creation → createdAt of first meeting-stage event (hours)
+      tat_to_meeting : creation → Meeting Schedule Date from card 2557 (hours)
       tat_to_booked  : creation → createdAt of first booked-stage event (hours)
       tat_to_won     : creation → createdAt of first Order Confirmed event (hours)
 
     Call detection: n_attempts increments between consecutive events.
     prev_n starts at the first event's n_attempts (pre-audit calls are excluded).
+
+    lead_ms_dates: dict of lead_id → Meeting Schedule Date UTC naive datetime
+    (from card 2557 — more reliable than audit stage detection for this metric).
     """
     by_lead = defaultdict(list)
     for r in audit_sorted:
         by_lead[r["lead_id"]].append(r)
 
     STAGE_TARGETS = {
-        "first_meeting": {"Meeting Scheduled (BD)", "Meeting Confirmed - Customer Home"},
         "first_booked":  {"Booking Processing", "Booking Pending by Cx", "Booking Pending by ZSM"},
         "first_won":     {"Order Confirmed"},
     }
@@ -483,7 +550,16 @@ def build_tat_stats(audit_sorted: list, lead_creation: dict) -> dict:
             if 0 <= gap_h <= 365 * 24:
                 tat_gaps.append(round(gap_h, 2))
 
-        # TAT 3–5: creation → first event at each target stage (hours)
+        # TAT 3: creation → Meeting Schedule Date (from card 2557)
+        tat_to_meeting = None
+        if cdate_dt and lead_ms_dates:
+            ms_dt_from_lead = lead_ms_dates.get(lid)
+            if ms_dt_from_lead:
+                tat_to_meeting = round(
+                    (ms_dt_from_lead - cdate_dt).total_seconds() / 3600, 2
+                )
+
+        # TAT 4–5: creation → first event at each target stage (hours) — from audit
         tat_to_targets = {}
         if cdate_dt:
             for label, target_stages in STAGE_TARGETS.items():
@@ -507,7 +583,7 @@ def build_tat_stats(audit_sorted: list, lead_creation: dict) -> dict:
             "total_calls":     len(call_times),
             "tat_first_call":  tat_first_call,
             "tat_gaps":        tat_gaps,
-            "tat_to_meeting":  tat_to_targets.get("first_meeting"),
+            "tat_to_meeting":  tat_to_meeting,
             "tat_to_booked":   tat_to_targets.get("first_booked"),
             "tat_to_won":      tat_to_targets.get("first_won"),
         })
@@ -518,7 +594,8 @@ def build_tat_stats(audit_sorted: list, lead_creation: dict) -> dict:
             "total_leads":  len(records),
             "note": (
                 "TAT in fractional hours. "
-                "UI displays: <1h as minutes, 1–24h as hours, >=24h as days."
+                "UI displays: <1h as minutes, 1–24h as hours, >=24h as days. "
+                "tat_to_meeting uses Meeting Schedule Date from card 2557 (not audit stage events)."
             ),
         },
         "records": records,
@@ -798,11 +875,14 @@ def main():
     # Values are UTC naive datetimes. All TAT calculations use these directly.
     # IST date strings are derived at output time only via ist_date_str().
     lead_creation = {}
+    lead_ms_dates = {}   # lead_id → Meeting Schedule Date UTC naive datetime
     for r in leads_raw:
         lid = r.get("Lead Id")
         if not lid: continue
         cd_dt = parse_dt(r.get("Creation Date"))   # UTC naive datetime
         if cd_dt: lead_creation[lid] = cd_dt
+        ms_dt = parse_dt(r.get("Meeting Schedule Date"))
+        if ms_dt: lead_ms_dates[lid] = ms_dt
 
     print("[4/7] Aggregating lead snapshot...")
     city_stage = build_city_stage_output(aggregate_city_stage(leads_raw))
@@ -824,12 +904,13 @@ def main():
     with open("data/daily_movement.json", "w") as f:
         json.dump(dm, f, indent=2, default=str)
     print(f"      daily_movement.json — {dm['meta']['total_stage_transitions']:,} stage, "
-          f"{dm['meta']['total_status_transitions']:,} status transitions")
+          f"{dm['meta']['total_status_transitions']:,} status transitions, "
+          f"{dm['meta']['total_touches']:,} touches")
 
     eod = build_eod_position(audit_sorted)
     with open("data/eod_position.json", "w") as f:
         json.dump(eod, f, indent=2, default=str)
-    print(f"      eod_position.json — {eod['meta']['total_records']:,} rows")
+    print(f"      eod_position.json — {eod['meta']['total_records']:,} rows (from→to format)")
 
     print("[7/7] Building LRM performance + TAT...")
     lrm = build_lrm_performance(audit_sorted)
@@ -837,7 +918,7 @@ def main():
         json.dump(lrm, f, indent=2, default=str)
     print(f"      lrm_performance.json — {lrm['meta']['lrm_count']} LRMs · {len(lrm['records']):,} rows")
 
-    tat = build_tat_stats(audit_sorted, lead_creation)
+    tat = build_tat_stats(audit_sorted, lead_creation, lead_ms_dates)
     with open("data/tat_stats.json", "w") as f:
         json.dump(tat, f, indent=2, default=str)
     print(f"      tat_stats.json — {tat['meta']['total_leads']:,} lead-level TAT records")
