@@ -807,10 +807,11 @@ def build_leads_full(leads_raw: list) -> dict:
     Display columns : lead_id, status, stage, cluster, lrm,
                       creation_date, updated_at, updated_by, _id
       updated_by    : status_stage_updated_by (role: LRM / Solar Consultant / System)
-    Filter-only cols: call_attempts, has_ms, has_md
+    Filter-only cols: call_attempts, has_ms, has_md, is_overdue
 
     Standards: cluster via normalise_cluster(); dates via ist_date_str() (IST).
     """
+    today = today_ist()
     records = []
     for r in leads_raw:
         _id     = (r.get("_id") or "").strip() or None
@@ -821,6 +822,10 @@ def build_leads_full(leads_raw: list) -> dict:
         updated_dt  = parse_dt(r.get("Updated At"))
         ms_dt       = parse_dt(r.get("Meeting Schedule Date"))
         md_dt       = parse_dt(r.get("Meeting Done Date"))
+
+        _rs         = parse_dt(r.get("Reshedule Date"))
+        rs_date     = (_rs + _IST).date() if _rs else None
+        is_overdue  = (rs_date < today) if rs_date else False
 
         try:    call_attempts = int(r.get("call_attempts_lrm") or 0)
         except: call_attempts = 0
@@ -838,6 +843,7 @@ def build_leads_full(leads_raw: list) -> dict:
             "call_attempts": call_attempts,
             "has_ms":        ms_dt is not None,
             "has_md":        md_dt is not None,
+            "is_overdue":    is_overdue,
         })
 
     return {

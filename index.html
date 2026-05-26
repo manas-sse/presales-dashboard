@@ -137,10 +137,8 @@ input[type=number].fc{width:80px}
 .cell-good{background:#dcfce7;color:#166534;font-weight:600}
 
 /* ── STICKY FIRST COLUMN ─────────────────────────────────────────────────── */
-/* Freeze the first column of all data tables for horizontal scroll usability */
 .tw table tbody td:first-child{position:sticky;left:0;z-index:2;background:var(--sur);box-shadow:1px 0 0 var(--bd2)}
 .tw table tbody tr:hover td:first-child{background:var(--sur2)}
-/* Corner cell: first-child th in any sticky header row */
 .tw thead.single tr th:first-child,
 .tw thead tr:last-child th:first-child{left:0;z-index:4!important;box-shadow:1px 0 0 var(--bd2)}
 
@@ -247,7 +245,7 @@ const STATUS_BG = {'Open':'#eff6ff','Connected':'#f0fdf4','Prequalification':'#e
 
 // ── STATE ────────────────────────────────────────────────────────────────────
 let DATA=null, CALLS=null, MOVE=null, EOD=null, LRM_DATA=null, LRM_CONV=null, TAT_DATA=null, LRM_SNAP=null, LEADS_FULL=null;
-let LEADSV={cluster:'all',status:'all',stage:'all',lrm:'',lead_id:'',_fromS:null,_toS:null,has_ms:false,has_md:false,active_only:false,attempts_bucket:null};
+let LEADSV={cluster:'all',status:'all',stage:'all',lrm:'',lead_id:'',_fromS:null,_toS:null,has_ms:false,has_md:false,active_only:false,attempts_bucket:null,is_overdue:false};
 let curTab='v1', rendered={}, charts={};
 let V1={sel:[],comp:false,pct:false,sortBy:'A'};
 let CV={sel:['Open'],stageSel:'all'};
@@ -415,7 +413,16 @@ function makeSortable(tbl){
     });
   });
 }
-function cn(row,ci){const td=row.querySelectorAll('td')[ci];if(!td)return 0;const t=td.textContent.replace(/[,%+↑↓·—%]/g,'').trim();const n=parseFloat(t);return isNaN(n)?t:n;}
+function cn(row,ci){
+  const td=row.querySelectorAll('td')[ci];if(!td)return 0;
+  const t=td.textContent.replace(/[,%+↑↓·—]/g,'').trim();
+  const m=t.match(/^([\d.]+)(d|h|m)$/);
+  if(m){
+    const val=parseFloat(m[1]);
+    return m[2]==='d'?val*24:m[2]==='m'?val/60:val;
+  }
+  const n=parseFloat(t);return isNaN(n)?t:n;
+}
 function autoSort(el){el?.querySelectorAll('table').forEach(makeSortable);}
 
 // Multi-select setup (reusable per call)
@@ -508,6 +515,7 @@ function drillTo(filters){
   LEADSV.has_md         = filters.has_md||false;
   LEADSV.active_only    = filters.active_only||filters.status_active||false;
   LEADSV.attempts_bucket= filters.attempts_bucket||null;
+  LEADSV.is_overdue     = filters.is_overdue||false;
   LEADSV._fromS         = filters.fromS||null;
   LEADSV._toS           = filters.toS||null;
   sw('leads');
@@ -568,21 +576,30 @@ function bLeads(){
 
   if(LEADS_FULL){
     const clSet=new Set();
-    LEADS_FULL.records.forEach(r=>{if(r.cluster&&r.cluster!=='Invalid')clSet.add(r.cluster);});
+    LEADS_FULL.records.forEach(r=>{if(r.cluster)clSet.add(r.cluster);});
     const ldCl=$('ld-cl');
     [...clSet].sort().forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;ldCl.appendChild(o);});
   }
 
   // Restore drill-through state into UI
   if(LEADSV.cluster&&LEADSV.cluster!=='all'){const e=$('ld-cl');if(e)e.value=LEADSV.cluster;}
+  
+  // Inject "Multiple Statuses" if active via drill
+  if (LEADSV.status && LEADSV.status !== 'all' && LEADSV.status.includes(',')) {
+    const opt = document.createElement('option');
+    opt.value = LEADSV.status;
+    opt.textContent = 'Multiple Statuses';
+    $('ld-st').appendChild(opt);
+  }
   $('ld-st').value=LEADSV.status||'all';
+  
   populateLdStage();
   $('ld-sg').value=LEADSV.stage||'all';
   $('ld-lrm').value=LEADSV.lrm||'';
   $('ld-lid').value=LEADSV.lead_id||'';
 
   const isDrill=LEADSV._fromS||LEADSV._toS||LEADSV.status!=='all'||LEADSV.stage!=='all'||
-                LEADSV.cluster!=='all'||LEADSV.lrm||LEADSV.has_ms||LEADSV.has_md||LEADSV.active_only||LEADSV.attempts_bucket!=null;
+                LEADSV.cluster!=='all'||LEADSV.lrm||LEADSV.has_ms||LEADSV.has_md||LEADSV.active_only||LEADSV.attempts_bucket!=null||LEADSV.is_overdue;
   if(isDrill){
     $('ld-drill-info').style.display='flex';
     if(LEADSV._fromS||LEADSV._toS){
@@ -606,18 +623,33 @@ function bLeads(){
 function populateLdStage(){
   const status=$('ld-st')?.value||'all';
   const sel=$('ld-sg');if(!sel)return;
-  const stages=status==='all'
-    ?[...new Set(Object.values(STATUS_STAGE_MAP).flat())]
-    :(STATUS_STAGE_MAP[status]||[]);
+  
+  let stages = [];
+  if (status === 'all') {
+    stages = [...new Set(Object.values(STATUS_STAGE_MAP).flat())];
+  } else {
+    // Collect stages for single or multiple comma-separated statuses
+    status.split(',').forEach(st => {
+      if (STATUS_STAGE_MAP[st]) stages.push(...STATUS_STAGE_MAP[st]);
+    });
+    stages = [...new Set(stages)];
+  }
+  
   sel.innerHTML='<option value="all">All Stages</option>'
     +stages.map(s=>`<option value="${s}">${s}</option>`).join('');
 }
 
 function clearDrill(){
   LEADSV={cluster:'all',status:'all',stage:'all',lrm:'',lead_id:'',
-          _fromS:null,_toS:null,has_ms:false,has_md:false,active_only:false,attempts_bucket:null};
+          _fromS:null,_toS:null,has_ms:false,has_md:false,active_only:false,attempts_bucket:null,is_overdue:false};
   const e=$('ld-cl');if(e)e.value='all';
-  const st=$('ld-st');if(st){st.value='all';populateLdStage();}
+  const st=$('ld-st');if(st){
+      // Remove the dynamic "Multiple" option if it exists
+      const multiOpt = st.querySelector('option[value*=","]');
+      if(multiOpt) multiOpt.remove();
+      st.value='all';
+      populateLdStage();
+  }
   const sg=$('ld-sg');if(sg)sg.value='all';
   const lr=$('ld-lrm');if(lr)lr.value='';
   const li=$('ld-lid');if(li)li.value='';
@@ -636,14 +668,18 @@ function renderLeads(){
 
   let recs=LEADS_FULL.records;
   // Always derive date range from the UI pickers.
-  // bLeads() seeds ld-pr/ld-fr/ld-to from LEADSV._fromS/_toS on drill-through,
-  // so using getDR here is always correct and means filter changes always apply.
   const dr=getDR('ld-pr','ld-fr','ld-to');
   const fmt=d=>d?[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),
                   String(d.getDate()).padStart(2,'0')].join('-'):null;
   const fromS=fmt(dr.from); const toS=fmt(dr.to);
   if(cl!=='all')           recs=recs.filter(r=>r.cluster===cl);
-  if(st!=='all')           recs=recs.filter(r=>r.status===st);
+  
+  // Handle single or multiple comma-separated statuses safely
+  if(st!=='all'){
+    const stArr = st.split(',');
+    recs=recs.filter(r=>stArr.includes(r.status));
+  }
+  
   if(sg!=='all')           recs=recs.filter(r=>r.stage===sg);
   if(lrm)                  recs=recs.filter(r=>(r.lrm||'').toLowerCase().includes(lrm));
   if(lid)                  recs=recs.filter(r=>(r.lead_id||'').toUpperCase().includes(lid));
@@ -651,11 +687,13 @@ function renderLeads(){
   if(toS)                  recs=recs.filter(r=>r.creation_date&&r.creation_date<=toS);
   if(LEADSV.has_ms)        recs=recs.filter(r=>r.has_ms);
   if(LEADSV.has_md)        recs=recs.filter(r=>r.has_md);
+  
   if(LEADSV.active_only){
     const INACT_ST=new Set(['Closed - Lost','Closed - Cold','Closed - Won','Lost']);
     const INACT_SG=new Set(['Lost in Qualification']);
     recs=recs.filter(r=>!INACT_ST.has(r.status)&&!INACT_SG.has(r.stage)&&!r.has_ms);
   }
+  if(LEADSV.is_overdue)    recs=recs.filter(r=>r.is_overdue);
   if(LEADSV.attempts_bucket!=null){
     const b=String(LEADSV.attempts_bucket);
     if(b==='0')        recs=recs.filter(r=>r.call_attempts===0);
@@ -742,7 +780,7 @@ async function loadJSON(name,varName){
 }
 
 // ════════════════════════════════════════════════════════════════════════════
-// VIEW 1 — CLUSTER × STAGE  (unchanged from prior version, included for completeness)
+// VIEW 1 — CLUSTER × STAGE
 // ════════════════════════════════════════════════════════════════════════════
 function bV1(){
   const presentSt=new Set(DATA.records.map(r=>r.lead_status).filter(Boolean));
@@ -816,7 +854,6 @@ function renderV1Chart(aggA,aggB,stages,clusters,colors,groups,comp,pctM){
   const singleSt=V1.sel.length===1;
   const datasets=[];
 
-  // Inline plugin: draw grand total above each stacked cluster bar
   const stackTotPlugin={id:'stackTot',afterDraw(chart){
     const c2=chart.ctx;c2.save();c2.font='9px "DM Mono",monospace';c2.textAlign='center';c2.textBaseline='bottom';c2.fillStyle='#374151';
     const tots={};chart.data.datasets.forEach((ds,di)=>{if(chart.getDatasetMeta(di).hidden||!ds.stack)return;ds.data.forEach((v,i)=>{const k=ds.stack+'|'+i;tots[k]=(tots[k]||0)+(Number(v)||0);});});
@@ -890,7 +927,7 @@ function renderV1Matrix(aggA,aggB,groups,stages,clusters,comp,pctM){
   if(comp){html+=`<td class="tdt">${f(tA)}</td><td class="tdb">${f(tB)}</td><td class="tdr">${dHtml(tA,tB)}</td>`;}else{html+=`<td class="tdt">${f(tA)}</td>`;}
   html+='</tr></tbody></table>';wrap.innerHTML=html;autoSort(wrap);
   if(!comp){
-    const _dr=getDR('v1-pr','v1-fr','v1-to');
+    const _dr=getDR('v1-pa','v1-fa','v1-ta');
     const _f=d=>d?[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-'):null;
     const _from=_f(_dr.from),_to=_f(_dr.to);
     const _sm=groups.flatMap(g=>g.stages.map(s=>({status:g.status,stage:s})));
@@ -973,8 +1010,9 @@ function renderDailyTbl(byCluster,clusters,T){
     const _tds=[...tr.querySelectorAll('td')];
     if(_tds[4])addDrillDblClick(_tds[4],{
       cluster:_cn,
-      status:CV.sel.length===1?CV.sel[0]:'all',
+      status:CV.sel.length > 0 ? CV.sel.join(',') : 'all',
       stage:CV.stageSel!=='all'?CV.stageSel:'all',
+      is_overdue: true
     });
   });
 }
@@ -984,7 +1022,6 @@ function renderAttemptsTbl(byCluster,clusters,maxAttempts){
   const BCOLS=['#dbeafe','#bfdbfe','#93c5fd','#60a5fa','#3b82f6','#2563eb','#1d4ed8'];
   const cData=clusters.map(c=>BKTS.map(bk=>{let v=0;Object.entries(byCluster[c].by_attempts||{}).forEach(([k,val])=>{if(bk.t(parseInt(k)))v+=val;});return v;}));
 
-  // Build raw table HTML (kept for toggle)
   const valid=[];for(let i=0;i<=Math.min(maxAttempts,20);i++){const s=clusters.reduce((a,c)=>a+(byCluster[c].by_attempts[i]||0),0);if(s>0)valid.push(i);}
   if(maxAttempts>20){const s=clusters.reduce((a,c)=>{let t=0;Object.entries(byCluster[c].by_attempts).forEach(([k,v])=>{if(parseInt(k)>20)t+=v;});return a+t;},0);if(s>0)valid.push('20+');}
   let gMax=0;let rawHtml='<table><thead><tr><th rowspan="2">Cluster</th><th colspan="'+valid.length+'" style="background:#1e293b;color:#f1f5f9;text-align:center">Leads with N call attempts</th><th rowspan="2" class="tdr">Total</th></tr><tr>';
@@ -1029,7 +1066,6 @@ async function bMovement(){
     EOD =await loadJSON('eod_position','EOD');
   }catch(e){$('p-movement').innerHTML=`<div class="err">⚠ Cannot load movement data — run <code>python etl.py</code> first<br>${e.message}</div>`;return;}
 
-  // Build cluster + lrm lists from both files
   const clusters=new Set(),lrms=new Set();
   MOVE.stage.forEach(r=>{if(r.cluster&&r.cluster!=='Unknown')clusters.add(r.cluster);if(r.lrm&&r.lrm!=='Unknown')lrms.add(r.lrm);});
   EOD.records.forEach(r=>{if(r.cluster&&r.cluster!=='Unknown')clusters.add(r.cluster);if(r.lrm&&r.lrm!=='Unknown')lrms.add(r.lrm);});
@@ -1111,7 +1147,6 @@ function renderTransitions(dr,cl,lrm){
   if(titleEl)titleEl.textContent=`${MV.level==='stage'?'Stage':'Status'} transitions`;
   if(subEl)subEl.textContent='From → To · rows = Cluster × LRM · cells = transition count';
 
-  // Pivot: rows = (cluster, lrm), cols = (from, to) combos
   const fromToPairs=new Set();const rowSet=new Set();const pivot={};
   recs.forEach(r=>{
     const ft=r[fromField]+'→'+r[toField];fromToPairs.add(ft);
@@ -1128,25 +1163,17 @@ function renderTransitions(dr,cl,lrm){
 
   if(!recs.length){$('mv-tbl').innerHTML='<div class="nd">No transitions in selected range. Try widening filters or check that audit data exists.</div>';return;}
 
-  // Build From→To pivot
   const pairs=[...fromToPairs];
-  // group pairs by From
   const byFrom={};pairs.forEach(p=>{const[f,t]=p.split('→');byFrom[f]=byFrom[f]||[];byFrom[f].push(t);});
   const fromList=Object.keys(byFrom).sort();fromList.forEach(f=>byFrom[f].sort());
-  // Roll up cluster rows: rows = cluster, then sub-rows per lrm
   const byCluster={};rowSet.forEach(rk=>{const[c,l]=rk.split('|');byCluster[c]=byCluster[c]||{};byCluster[c][l]=pivot[rk];});
   const clusters=Object.keys(byCluster).sort();
 
-  // Max for heat
   const max=Math.max(...Object.values(pivot).flatMap(o=>Object.values(o)),1);
 
-  let html='<table><thead>';
-  // Row 1: From-stage headers spanning to-stages
-  html+='<tr><th class="row-hdr" rowspan="2">Cluster / LRM</th>';
+  let html='<table><thead><tr><th class="row-hdr" rowspan="2">Cluster / LRM</th>';
   fromList.forEach(f=>{html+=`<th colspan="${byFrom[f].length}" style="background:#1e293b;color:#f1f5f9">From: ${f}</th>`;});
-  html+='<th class="row-hdr tdr" rowspan="2">Total</th></tr>';
-  // Row 2: To-stage headers
-  html+='<tr>';
+  html+='<th class="row-hdr tdr" rowspan="2">Total</th></tr><tr>';
   fromList.forEach(f=>byFrom[f].forEach(t=>{html+=`<th class="tdr" title="From ${f} → To ${t}">→ ${t}</th>`;}));
   html+='</tr></thead><tbody>';
 
@@ -1154,11 +1181,9 @@ function renderTransitions(dr,cl,lrm){
     const lrmsInCluster=Object.keys(byCluster[c]).sort();
     const clusterTotals={};let clusterGrand=0;
     lrmsInCluster.forEach(l=>Object.entries(byCluster[c][l]).forEach(([p,v])=>{clusterTotals[p]=(clusterTotals[p]||0)+v;clusterGrand+=v;}));
-    // Cluster header row
     html+=`<tr style="background:#f1f5f9;font-weight:600"><td class="tdc">${c}</td>`;
     fromList.forEach(fr=>byFrom[fr].forEach(t=>{const p=fr+'→'+t;const v=clusterTotals[p]||0;html+=`<td class="tdr mono">${v||'·'}</td>`;}));
     html+=`<td class="tdt">${f(clusterGrand)}</td></tr>`;
-    // LRM sub-rows
     lrmsInCluster.forEach(l=>{
       const row=byCluster[c][l];let rt=0;
       html+=`<tr><td class="td-lrm" title="${l}">${l}</td>`;
@@ -1196,7 +1221,6 @@ function renderTouches(dr,cl,lrm){
 
   if(!recs.length){$('mv-tbl').innerHTML='<div class="nd">No touch data for selected filters.</div>';return;}
 
-  // Aggregate by (cluster, lrm)
   const byCluster={};
   recs.forEach(r=>{
     if(!byCluster[r.cluster])byCluster[r.cluster]={};
@@ -1223,8 +1247,6 @@ function renderTouches(dr,cl,lrm){
 }
 
 function renderEOD(dr,cl,lrm){
-  // EOD Position: show from→to transitions per lead per day.
-  // Data format: {date,cluster,lrm,from_stage,to_stage,from_status,to_status,count}
   const fromField=MV.level==='stage'?'from_stage':'from_status';
   const toField  =MV.level==='stage'?'to_stage'  :'to_status';
   let recs=filterByDate(EOD.records,dr.from,dr.to);
@@ -1246,7 +1268,6 @@ function renderEOD(dr,cl,lrm){
 
   if(!recs.length){$('mv-tbl').innerHTML='<div class="nd">No EOD data in selected range.</div>';return;}
 
-  // Pivot: rows=(cluster,lrm), cols=from→to pairs (mirrors transitions table structure)
   const fromToPairs=new Set();const rowSet=new Set();const pivot={};
   recs.forEach(r=>{
     const ft=(r[fromField]||'Unknown')+'→'+(r[toField]||'Unknown');
@@ -1254,7 +1275,6 @@ function renderEOD(dr,cl,lrm){
     const rk=r.cluster+'|'+(r.lrm||'Unknown');rowSet.add(rk);
     pivot[rk]=pivot[rk]||{};pivot[rk][ft]=(pivot[rk][ft]||0)+r.count;
   });
-  // Group pairs by From value
   const byFrom={};
   fromToPairs.forEach(p=>{const sep=p.indexOf('→');const fr=p.slice(0,sep),t=p.slice(sep+1);byFrom[fr]=byFrom[fr]||[];if(!byFrom[fr].includes(t))byFrom[fr].push(t);});
   const fromList=Object.keys(byFrom).sort();fromList.forEach(fr=>byFrom[fr].sort());
@@ -1320,7 +1340,6 @@ async function bLRM(){
     <button class="stab-btn on" data-stab="lrm-perf">LRM Performance</button>
     <button class="stab-btn" data-stab="lrm-snap">Leads × LRM</button>
   </div>
-  <!-- Sub-tab: LRM Performance -->
   <div id="stab-lrm-perf" class="stab-panel on">
     <div class="fb"><div class="fr">
       <div class="fg"><span class="flbl">Date range <span class="sub">(event date)</span></span>
@@ -1341,7 +1360,6 @@ async function bLRM(){
     <div class="sc"><div class="sc-h"><span class="sc-t">LRM-level metrics</span><span class="sc-hi">Leads touched = unique leads updated by LRM · click header to sort</span></div>
       <div style="overflow-x:auto;max-height:520px;overflow-y:auto"><div class="tw" id="lr-lrm-tbl"></div></div></div>
   </div>
-  <!-- Sub-tab: Leads × LRM -->
   <div id="stab-lrm-snap" class="stab-panel">
     <div id="snap-loading" class="stb"><div class="spin"></div>Loading snapshot data…</div>
     <div id="snap-content" style="display:none">
@@ -1368,7 +1386,6 @@ async function bLRM(){
     </div>
   </div>`;
 
-  // Sub-tab switching
   $('p-lrm').querySelectorAll('.stab-btn').forEach(btn=>btn.addEventListener('click',()=>{
     $('p-lrm').querySelectorAll('.stab-btn').forEach(b=>b.classList.remove('on'));
     $('p-lrm').querySelectorAll('.stab-panel').forEach(p=>p.classList.remove('on'));
@@ -1386,7 +1403,6 @@ async function initSnap(){
   if(LRM_SNAP){renderSnap();return;}
   try{
     LRM_SNAP=await loadJSON('lrm_snapshot','LRM_SNAP');
-    // Populate cluster filter
     const cs=new Set();LRM_SNAP.records.forEach(r=>{if(r.cluster&&r.cluster!=='Unknown')cs.add(r.cluster);});
     const snapCl=$('snap-cl');
     [...cs].sort().forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;snapCl.appendChild(o);});
@@ -1410,7 +1426,6 @@ function renderSnap(){
   const cl=$('snap-cl')?.value||'all';
   const byCluster=$('snap-grp-tgl')?.querySelector('.tgl-b.on')?.dataset.v==='1';
 
-  // Filter by date range (creation date) and cluster
   let recs=LRM_SNAP.records;
   if(cl!=='all') recs=recs.filter(r=>r.cluster===cl);
   if(dr.from||dr.to){
@@ -1424,7 +1439,6 @@ function renderSnap(){
     });
   }
 
-  // Group by (lrm) or (lrm, cluster)
   const groups={};
   recs.forEach(r=>{
     const k=byCluster?r.lrm+'|'+r.cluster:r.lrm;
@@ -1439,7 +1453,6 @@ function renderSnap(){
   });
   const rows=Object.values(groups).sort((a,b)=>b.assigned-a.assigned);
 
-  // KPI totals
   let tA=0,tAc=0,tMS=0,tMD=0;
   rows.forEach(r=>{tA+=r.assigned;tAc+=r.active;tMS+=r.ms;tMD+=r.md;});
   $('snap-kpis').innerHTML=`
@@ -1450,13 +1463,11 @@ function renderSnap(){
     <div class="kcard"><div class="kl">Lead → MS %</div><div class="kv ca">${tA>0?((tMS/tA)*100).toFixed(1)+'%':'—'}</div><div class="ks">meeting scheduled / assigned</div></div>
     <div class="kcard"><div class="kl">Lead → MD %</div><div class="kv cp">${tA>0?((tMD/tA)*100).toFixed(1)+'%':'—'}</div><div class="ks">meeting done / assigned</div></div>`;
 
-  // TAT helper
   function tatCells(arr){
     const s=[...arr].sort((a,b)=>a-b);
     return`<td class="tdr mono">${fmtTAT(avg(s))}</td><td class="tdr mono">${fmtTAT(percentile(s,50))}</td><td class="tdr mono">${fmtTAT(percentile(s,90))}</td>`;
   }
 
-  // Table
   let html=`<table><thead>
     <tr>
       <th rowspan="2" style="text-align:left">LRM</th>
@@ -1496,7 +1507,6 @@ function renderSnap(){
     </tr>`;
   });
 
-  // Overall row
   const allFc=[],allGaps=[],allTms=[],allTmd=[];
   rows.forEach(r=>{allFc.push(...r.fc);allGaps.push(...r.gaps);allTms.push(...r.tms);allTmd.push(...r.tmd);});
   const msP=tA>0?((tMS/tA)*100).toFixed(1)+'%':'—';
@@ -1535,12 +1545,10 @@ function renderLRM(){
   let recs=filterByDate(LRM_DATA.records,dr.from,dr.to);
   if(cl!=='all')recs=recs.filter(r=>r.cluster===cl);
 
-  // Date strings for conversion lookup
   const lStr=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
   const fromS=dr.from?lStr(dr.from):null;const toS=dr.to?lStr(dr.to):null;
   const convMap=computeConversion(fromS,toS);
 
-  // Roll up per LRM and per Cluster
   const byLRM={};const byCluster={};const T={calls:0,leads:0,stage:0,status:0,meetings:0};
   recs.forEach(r=>{
     const lk=r.cluster+'|'+r.lrm;
@@ -1554,18 +1562,17 @@ function renderLRM(){
     T.calls+=r.calls;T.leads+=r.leads_touched;T.stage+=r.stage_movements;T.status+=r.status_movements;
   });
 
-  // Enrich byLRM with conversion data
   Object.entries(byLRM).forEach(([lk,v])=>{const cv=convMap[lk]||{};v.meetings_scheduled=cv.meetings_scheduled||0;v.conversion_pct=cv.conversion_pct||0;v.leads_called=cv.leads_called||0;});
   const totalMeetings=Object.values(byLRM).reduce((s,v)=>s+v.meetings_scheduled,0);T.meetings=totalMeetings;
   Object.entries(byCluster).forEach(([c,v])=>{v.meetings=Object.values(byLRM).filter(r=>r.cluster===c).reduce((s,r)=>s+r.meetings_scheduled,0);});
 
   const convAvail=!!LRM_CONV;
+  const totalCalled=Object.values(byLRM).reduce((s,v)=>s+(v.leads_called||0),0);
   $('lr-kpis').innerHTML=`<div class="kcard"><div class="kl">Total Calls</div><div class="kv cb">${f(T.calls)}</div><div class="ks">LRM call attempts</div></div>
     <div class="kcard"><div class="kl">Leads Touched†</div><div class="kv cg">${f(T.leads)}</div><div class="ks">unique leads updated by LRM</div></div>
-    <div class="kcard"><div class="kl">Meetings Scheduled</div><div class="kv ca">${convAvail?f(T.meetings):'—'}</div><div class="ks">${convAvail&&T.leads>0?((T.meetings/T.leads)*100).toFixed(1)+'% conversion':'run ETL to unlock'}</div></div>
+    <div class="kcard"><div class="kl">Meetings Scheduled</div><div class="kv ca">${convAvail?f(T.meetings):'—'}</div><div class="ks">${convAvail&&totalCalled>0?((T.meetings/totalCalled)*100).toFixed(1)+'% conversion':'run ETL to unlock'}</div></div>
     <div class="kcard"><div class="kl">Stage Movements</div><div class="kv cp">${f(T.stage)}</div><div class="ks">${T.calls>0?(T.stage/T.calls*100).toFixed(1):0}% of calls</div></div>`;
 
-  // Ranked bar chart
   const rankMetric=$('lr-rank-metric')?.value||'calls';
   const metricLabel={calls:'Calls made',leads_touched:'Leads touched',meetings_scheduled:'Meetings scheduled',conversion_pct:'Conversion %'};
   const lrmRows=Object.values(byLRM).filter(r=>r.calls>0||r.meetings_scheduled>0);
@@ -1590,17 +1597,15 @@ function renderLRM(){
       plugins:[rankTotPlugin]});
   }
 
-  // Cluster summary table
   const clusters=Object.keys(byCluster).sort((a,b)=>byCluster[b].calls-byCluster[a].calls);
   if(!clusters.length){$('lr-cluster-tbl').innerHTML='<div class="nd">No data.</div>';$('lr-lrm-tbl').innerHTML='';return;}
   const maxC=Math.max(...clusters.map(c=>byCluster[c].calls),1);
   let html='<table><thead class="single"><tr><th>Cluster</th><th class="tdr">LRMs Active</th><th class="tdr">Calls</th><th class="tdr">Leads Touched†</th><th class="tdr">Meetings Scheduled</th><th class="tdr">Conversion %</th><th class="tdr">Stage Movements</th></tr></thead><tbody>';
   clusters.forEach(c=>{const b=byCluster[c];const lrmCalled=Object.values(byLRM).filter(r=>r.cluster===c&&r.leads_called>0);const totCalled=lrmCalled.reduce((s,r)=>s+r.leads_called,0);const cvPct=totCalled>0?(b.meetings/totCalled*100).toFixed(1)+'%':'—';
     html+=`<tr><td class="tdc">${c}</td><td class="tdr mono">${b.lrms.size}</td><td class="tdr mono" style="${hBg(b.calls,maxC)}">${f(b.calls)}</td><td class="tdr mono">${f(b.leads)}</td><td class="tdr mono">${convAvail?f(b.meetings):'—'}</td><td class="tdr mono">${convAvail?cvPct:'—'}</td><td class="tdr mono">${f(b.stage)}</td></tr>`;});
-  html+=`<tr style="background:var(--sur2);font-weight:600"><td>Total</td><td class="tdr mono">${[...new Set(recs.map(r=>r.lrm))].filter(l=>l&&l!=='Unknown').length}</td><td class="tdr mono">${f(T.calls)}</td><td class="tdr mono">${f(T.leads)}</td><td class="tdr mono">${convAvail?f(T.meetings):'—'}</td><td class="tdr mono">${convAvail&&T.leads>0?((T.meetings/T.leads)*100).toFixed(1)+'%':'—'}</td><td class="tdr mono">${f(T.stage)}</td></tr></tbody></table>`;
+  html+=`<tr style="background:var(--sur2);font-weight:600"><td>Total</td><td class="tdr mono">${[...new Set(recs.map(r=>r.lrm))].filter(l=>l&&l!=='Unknown').length}</td><td class="tdr mono">${f(T.calls)}</td><td class="tdr mono">${f(T.leads)}</td><td class="tdr mono">${convAvail?f(T.meetings):'—'}</td><td class="tdr mono">${convAvail&&totalCalled>0?((T.meetings/totalCalled)*100).toFixed(1)+'%':'—'}</td><td class="tdr mono">${f(T.stage)}</td></tr></tbody></table>`;
   $('lr-cluster-tbl').innerHTML=html;autoSort($('lr-cluster-tbl'));
 
-  // LRM-level table
   const lrmList=Object.values(byLRM).sort((a,b)=>{const cc=a.cluster.localeCompare(b.cluster);return cc!==0?cc:b.calls-a.calls;});
   const maxL=Math.max(...lrmList.map(r=>r.calls),1);
   let h2='<table><thead class="single"><tr><th>Cluster</th><th>LRM</th><th class="tdr">Calls</th><th class="tdr">Leads Touched†</th><th class="tdr">Meetings Sched.</th><th class="tdr">Conversion %</th><th class="tdr">Stage Movements</th><th class="tdr">Calls / Lead</th></tr></thead><tbody>';
@@ -1675,14 +1680,12 @@ function renderTAT(){
   const pcSel=$('tat-pctile').value;
   const pcVal=pcSel==='custom'?parseInt($('tat-pctile-custom').value)||80:parseInt(pcSel);
 
-  // Filter records
   let recs=TAT_DATA.records;
   if(cl!=='all')recs=recs.filter(r=>r.cluster===cl);
   if(dr.from||dr.to){
     recs=recs.filter(r=>{if(!r.creation_date)return false;const cd=new Date(r.creation_date+'T00:00:00');if(dr.from&&cd<dr.from)return false;if(dr.to&&cd>dr.to)return false;return true;});
   }
 
-  // Extract values for the chosen metric
   function getValues(records){
     if(metric==='tat_gaps'){const all=[];records.forEach(r=>{(r.tat_gaps||[]).forEach(g=>all.push(g));});return all;}
     return records.map(r=>r[metric]).filter(v=>v!=null&&!isNaN(v));
@@ -1699,7 +1702,6 @@ function renderTAT(){
     <div class="kcard"><div class="kl">P50 (Median)</div><div class="kv cg">${fmtTAT(p50)}</div><div class="ks">50th percentile</div></div>
     <div class="kcard"><div class="kl">P${pcVal}</div><div class="kv cp">${fmtTAT(pcCust)}</div><div class="ks">${pcVal}th percentile</div></div>`;
 
-  // Group by cluster (and optionally LRM)
   const groupKey=byLRM?(r=>r.cluster+'|'+(r.lrm||'Unknown')):(r=>r.cluster);
   const groups={};
   recs.forEach(r=>{const k=groupKey(r);if(!groups[k])groups[k]={key:k,records:[]};groups[k].records.push(r);});
@@ -1711,7 +1713,6 @@ function renderTAT(){
 
   if(!recs.length||!N){$('tat-tbl').innerHTML='<div class="nd">No data for selected filters & metric.</div>';return;}
 
-  // Build rows
   const rows=Object.values(groups).map(g=>{
     const vals=getValues(g.records).sort((a,b)=>a-b);
     return {
