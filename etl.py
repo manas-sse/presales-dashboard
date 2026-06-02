@@ -506,7 +506,6 @@ def build_tat_stats(audit_sorted: list, lead_creation: dict, lead_ms_dates: dict
         by_lead[r["lead_id"]].append(r)
 
     STAGE_TARGETS = {
-        "first_booked":  {"Booking Processing", "Booking Pending by Cx", "Booking Pending by ZSM"},
         "first_won":     {"Order Confirmed"},
     }
 
@@ -584,7 +583,6 @@ def build_tat_stats(audit_sorted: list, lead_creation: dict, lead_ms_dates: dict
             "tat_first_call":  tat_first_call,
             "tat_gaps":        tat_gaps,
             "tat_to_meeting":  tat_to_meeting,
-            "tat_to_booked":   tat_to_targets.get("first_booked"),
             "tat_to_won":      tat_to_targets.get("first_won"),
         })
 
