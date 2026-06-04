@@ -5,12 +5,13 @@ Generates:
   data/city_stage.json      → cluster × status × stage (lead snapshot)
   data/call_attempts.json   → cluster × status × stage with attempt buckets
   data/daily_movement.json  → stage/status transitions per day per cluster × LRM
-  data/eod_position.json    → end-of-day position per lead per day
+  data/eod_position.json    → end-of-day position per lead per day (aggregated)
+  data/eod_leads.json       → per-lead per-day EOD snapshots for multi-day period view
   data/lrm_performance.json → per-LRM aggregates
   data/tat_stats.json       → TAT distributions for events
 """
 
-import os, re, json, requests, statistics
+import os, re, json, time, requests, statistics
 from datetime import datetime, date, timezone, timedelta
 from collections import defaultdict
 from dotenv import load_dotenv
@@ -71,6 +72,17 @@ def normalise_cluster(raw: str) -> str:
 
     return "Invalid"
 
+def resolve_cluster(lid: str, event_cluster: str, lead_meta: dict) -> str:
+    """
+    Returns the card-2557 cluster when valid; falls back to the audit-log cluster.
+    Rule: a lead cannot change clusters, so card 2557 is authoritative.
+    Exception: card 2557 cluster = 'Invalid' → the LRM may have entered the correct
+    cluster in the audit log (site_address_cluster), so use that instead.
+    """
+    c2557 = lead_meta.get(lid, {}).get("cluster", "Invalid")
+    return c2557 if c2557 != "Invalid" else event_cluster
+
+
 METABASE_URL    = os.environ["METABASE_URL"].rstrip("/")
 USERNAME        = os.environ["METABASE_USERNAME"]
 PASSWORD        = os.environ["METABASE_PASSWORD"]
@@ -90,15 +102,61 @@ def get_session_token() -> str:
     return r.json()["id"]
 
 
-def fetch_card(token: str, card_id: int) -> list:
-    r = requests.post(
-        f"{METABASE_URL}/api/card/{card_id}/query/json",
-        headers={"X-Metabase-Session": token},
-        json={"ignore_cache": False},
-        timeout=TIMEOUT_S,
-    )
-    r.raise_for_status()
-    return r.json()
+def fetch_card(token: str, card_id: int, max_retries: int = 3) -> list:
+    """
+    Fetch a Metabase saved-question result as a JSON list.
+
+    The audit card (3227) response exceeds 190 MB as data grows.  A single-shot
+    r.json() can fail with JSONDecodeError if Metabase's Jetty server, a reverse
+    proxy, or a network buffer truncates the response body mid-stream.
+
+    Mitigations applied here:
+      • stream=True  — reads the body in 1 MB chunks instead of one huge buffer,
+                        reducing peak memory and letting the OS/TCP layer keep up.
+      • Separate read timeout (TIMEOUT_S) from connect timeout (30 s), so a slow
+        but active transfer is never killed prematurely.
+      • Retry with back-off — on JSONDecodeError, wait and try again up to
+        max_retries times.  Covers transient Metabase load spikes.
+
+    If all retries fail the original exception is re-raised so the caller sees it.
+    If the problem is persistent, the most likely fix is raising MB_JETTY_MAX_POST_SIZE
+    in the Metabase server config (or adding a date filter to card 3227).
+    """
+    url = f"{METABASE_URL}/api/card/{card_id}/query/json"
+    headers = {"X-Metabase-Session": token}
+    body = {"ignore_cache": False}
+    last_exc = None
+
+    for attempt in range(max_retries):
+        try:
+            r = requests.post(
+                url,
+                headers=headers,
+                json=body,
+                timeout=(30, TIMEOUT_S),   # (connect_timeout, read_timeout)
+                stream=True,               # don't buffer the whole response at once
+            )
+            r.raise_for_status()
+
+            # Read in 1 MB chunks; join and parse once fully received
+            chunks = []
+            for chunk in r.iter_content(chunk_size=1024 * 1024):
+                if chunk:
+                    chunks.append(chunk)
+            raw = b"".join(chunks)
+            return json.loads(raw)
+
+        except (json.JSONDecodeError, requests.exceptions.JSONDecodeError) as exc:
+            last_exc = exc
+            if attempt < max_retries - 1:
+                wait = 15 * (attempt + 1)   # 15 s, 30 s, …
+                print(f"      ⚠  Card {card_id}: JSON decode error on attempt "
+                      f"{attempt + 1}/{max_retries} "
+                      f"(char {getattr(exc, 'pos', '?')}), retrying in {wait} s…")
+                time.sleep(wait)
+            # else: fall through and re-raise after loop
+
+    raise last_exc
 
 
 # ── DATE HELPERS ─────────────────────────────────────────────────────────────
@@ -269,14 +327,14 @@ def normalise_audit_rows(audit_raw: list) -> list:
     return cleaned
 
 
-def build_daily_movement(audit_sorted: list, lead_creation: dict) -> dict:
+def build_daily_movement(audit_sorted: list, lead_meta: dict) -> dict:
     """
     Per (date, cluster, lrm, from_stage, to_stage):
       - count of transitions
     Also tracks status-level transitions (from_status -> to_status).
-    Also tracks "touches" — audit events where stage AND status did NOT change
-    (call attempted with no transition, or updated_at changed with no transition).
+    Also tracks "touches" — audit events where stage AND status did NOT change.
     Date is IST (audit createdAt + 5:30 hrs).
+    Cluster resolved via resolve_cluster(): card 2557 authoritative, audit fallback for Invalid.
     """
     transitions_stage  = defaultdict(int)
     transitions_status = defaultdict(int)
@@ -291,7 +349,7 @@ def build_daily_movement(audit_sorted: list, lead_creation: dict) -> dict:
         prev = None
         for ev in events:
             ev_date = (ev["ts"] + timedelta(hours=5, minutes=30)).date().strftime("%Y-%m-%d")
-            cluster = ev["cluster"]
+            cluster = resolve_cluster(lid, ev["cluster"], lead_meta)
             lrm     = ev["lrm"] or "Unknown"
             if prev is not None:
                 stage_changed  = prev["stage"]  != ev["stage"]
@@ -352,7 +410,7 @@ def build_daily_movement(audit_sorted: list, lead_creation: dict) -> dict:
     }
 
 
-def build_eod_position(audit_sorted: list) -> dict:
+def build_eod_position(audit_sorted: list, lead_meta: dict) -> dict:
     """
     For each (date, lead_id) find:
       - from_stage/from_status: position at START of that day
@@ -389,7 +447,7 @@ def build_eod_position(audit_sorted: list) -> dict:
                 from_stage  = day_evs[0]["stage"]
                 from_status = day_evs[0]["status"]
 
-            cluster = last_ev["cluster"]
+            cluster = resolve_cluster(lid, last_ev["cluster"], lead_meta)
             lrm     = last_ev["lrm"] or "Unknown"
 
             buckets[(d, cluster, lrm,
@@ -421,48 +479,130 @@ def build_eod_position(audit_sorted: list) -> dict:
     }
 
 
-def build_lrm_performance(audit_sorted: list) -> dict:
+def build_eod_leads(audit_sorted: list, lead_meta: dict) -> dict:
     """
-    Per (date, cluster, lrm):
-      - calls_attempted   (rows where call_attempts_lrm incremented)
-      - leads_touched     (distinct leads with any event from this LRM)
-      - stage_movements   (rows where stage changed compared to prev event)
-      - status_movements  (rows where status changed compared to prev event)
+    Per-lead per-day end-of-day snapshots for multi-day EOD period analysis.
+    Compact field names to keep file size manageable:
+      lid  = lead_id
+      d    = date (YYYY-MM-DD IST)
+      cl   = cluster (normalised)
+      lrm  = LRM email
+      fs   = start-of-day stage  (previous day's last event)
+      fst  = start-of-day status (previous day's last event)
+      s    = end-of-day stage    (last audit event of the day)
+      st   = end-of-day status
+
+    Dashboard usage:
+      Single-day  -> use eod_position.json (faster, pre-aggregated).
+      Multi-day   -> group by lid, find last record before period start (from-state)
+                     and last record within period (to-state), then re-aggregate.
+    """
+    by_lead: dict = defaultdict(list)
+    for r in audit_sorted:
+        by_lead[r["lead_id"]].append(r)
+
+    records = []
+    for lid, events in by_lead.items():
+        by_day: dict = defaultdict(list)
+        for ev in events:
+            d = (ev["ts"] + timedelta(hours=5, minutes=30)).date().strftime("%Y-%m-%d")
+            by_day[d].append(ev)
+
+        sorted_days = sorted(by_day.keys())
+        prev_last_ev = None
+
+        for d in sorted_days:
+            day_evs = sorted(by_day[d], key=lambda x: x["ts"])
+            last_ev = day_evs[-1]
+
+            if prev_last_ev is not None:
+                from_stage  = prev_last_ev["stage"]
+                from_status = prev_last_ev["status"]
+            else:
+                from_stage  = day_evs[0]["stage"]
+                from_status = day_evs[0]["status"]
+
+            records.append({
+                "lid": lid,
+                "d":   d,
+                "cl":  resolve_cluster(lid, last_ev["cluster"], lead_meta),
+                "lrm": last_ev["lrm"] or "Unknown",
+                "fs":  from_stage,
+                "fst": from_status,
+                "s":   last_ev["stage"],
+                "st":  last_ev["status"],
+            })
+            prev_last_ev = last_ev
+
+    return {
+        "meta": {
+            "generated_at":  datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "total_records": len(records),
+            "note": (
+                "Per-lead per-day EOD snapshots. Compact keys. "
+                "fs/fst = start-of-day state (prev day EOD). "
+                "s/st = end-of-day state. "
+                "Lazy-loaded only when multi-day EOD period view is active."
+            ),
+        },
+        "records": records,
+    }
+
+
+def build_lrm_performance(audit_sorted: list, lead_meta: dict) -> dict:
+    """
+    Per (date IST, cluster, lrm):
+      - calls          (n_attempts incremented — attributed to assigned LRM)
+      - leads_touched  (distinct leads with any LRM-initiated update)
+      - stage_movements / status_movements (any state change — attributed to assigned LRM)
+      - call_lead_ids, touch_lead_ids, stage_move_lead_ids — lead ID sets for drill-through
+    Cluster resolved via resolve_cluster(): card 2557 authoritative, audit fallback for Invalid.
     """
     by_lead = defaultdict(list)
     for r in audit_sorted:
         by_lead[r["lead_id"]].append(r)
 
-    bucket = defaultdict(lambda: {"calls": 0, "leads": set(),
-                                  "stage_moves": 0, "status_moves": 0})
+    bucket = defaultdict(lambda: {
+        "calls": 0, "leads": set(),
+        "stage_moves": 0, "status_moves": 0,
+        "call_ids": set(), "stage_ids": set(),
+    })
 
     for lid, events in by_lead.items():
         prev = None
         for ev in events:
-            d = (ev["ts"] + timedelta(hours=5, minutes=30)).date().strftime("%Y-%m-%d")
-            lrm = ev["lrm"] or "Unknown"
-            cluster = ev["cluster"]
+            d       = (ev["ts"] + timedelta(hours=5, minutes=30)).date().strftime("%Y-%m-%d")
+            lrm     = ev["lrm"] or "Unknown"
+            cluster = resolve_cluster(lid, ev["cluster"], lead_meta)
             k = (d, cluster, lrm)
             # leads_touched = unique leads updated BY the LRM (not system/SC updates)
             if ev["updated_by"] == "LRM":
                 bucket[k]["leads"].add(lid)
             if prev is not None and ev["n_attempts"] > prev["n_attempts"]:
                 bucket[k]["calls"] += 1
+                bucket[k]["call_ids"].add(lid)
             if prev is not None:
-                if prev["stage"]  != ev["stage"]:  bucket[k]["stage_moves"]  += 1
-                if prev["status"] != ev["status"]: bucket[k]["status_moves"] += 1
+                if prev["stage"]  != ev["stage"]:
+                    bucket[k]["stage_moves"] += 1
+                    bucket[k]["stage_ids"].add(lid)
+                if prev["status"] != ev["status"]:
+                    bucket[k]["status_moves"] += 1
             prev = ev
 
     records = []
     for (d, cluster, lrm), v in bucket.items():
         records.append({
-            "date":     d,
-            "cluster":  cluster,
-            "lrm":      lrm,
-            "calls":            v["calls"],
-            "leads_touched":    len(v["leads"]),
-            "stage_movements":  v["stage_moves"],
-            "status_movements": v["status_moves"],
+            "date":               d,
+            "cluster":            cluster,
+            "lrm":                lrm,
+            "calls":              v["calls"],
+            "leads_touched":      len(v["leads"]),
+            "stage_movements":    v["stage_moves"],
+            "status_movements":   v["status_moves"],
+            # Sorted lists for drill-through: exact lead IDs behind each metric
+            "call_lead_ids":      sorted(v["call_ids"]),
+            "touch_lead_ids":     sorted(v["leads"]),
+            "stage_move_lead_ids":sorted(v["stage_ids"]),
         })
     records.sort(key=lambda x: (x["date"], -x["calls"]), reverse=True)
 
@@ -481,52 +621,47 @@ def build_lrm_performance(audit_sorted: list) -> dict:
     }
 
 
-def build_tat_stats(audit_sorted: list, lead_creation: dict, lead_ms_dates: dict = None) -> dict:
+def build_tat_stats(audit_sorted: list, lead_meta: dict, lead_ms_dates: dict = None) -> dict:
     """
     Computes TAT in fractional HOURS for each measure per lead.
-    lead_creation values are UTC naive datetimes; ev["ts"] are UTC naive datetimes.
+    lead_meta values carry UTC naive creation_dt, card-2557 cluster, card-2557 lrm.
     All arithmetic is datetime − datetime → timedelta → total_seconds() / 3600.
-    IST date strings (creation_date, first_call_date) are derived at output time only.
+    IST date strings are derived at output time only.
 
     Metrics:
       tat_first_call : creation → createdAt of first call event (hours)
       tat_gaps       : list of hours between each consecutive pair of call events
       tat_to_meeting : creation → Meeting Schedule Date from card 2557 (hours)
-      tat_to_booked  : creation → createdAt of first booked-stage event (hours)
       tat_to_won     : creation → createdAt of first Order Confirmed event (hours)
 
-    Call detection: n_attempts increments between consecutive events.
-    prev_n starts at the first event's n_attempts (pre-audit calls are excluded).
-
-    lead_ms_dates: dict of lead_id → Meeting Schedule Date UTC naive datetime
-    (from card 2557 — more reliable than audit stage detection for this metric).
+    Call detection: n_attempts increments between consecutive events (no LRM filter).
+    LRM attribution: card 2557 LRM Email (lead_meta["lrm"]).
+    Cluster attribution: card 2557 Cluster with Invalid fallback (resolve_cluster).
+    lead_ms_dates: dict of lead_id → Meeting Schedule Date UTC naive datetime (from card 2557).
     """
     by_lead = defaultdict(list)
     for r in audit_sorted:
         by_lead[r["lead_id"]].append(r)
 
     STAGE_TARGETS = {
-        "first_won":     {"Order Confirmed"},
+        "first_won": {"Order Confirmed"},
     }
 
     records = []
     for lid, events in by_lead.items():
         if not events: continue
 
-        # Lead creation UTC datetime
-        cdate_dt = lead_creation.get(lid)
+        # Lead-level attributes from card 2557 (authoritative)
+        meta     = lead_meta.get(lid, {})
+        cdate_dt = meta.get("creation_dt")
+        lrm      = meta.get("lrm") or "Unknown"
 
-        # Cluster: most recent non-Invalid value, fallback to first event
-        cluster = next(
+        # Cluster: card 2557 with Invalid fallback to most recent valid audit cluster
+        c2557   = meta.get("cluster", "Invalid")
+        cluster = c2557 if c2557 != "Invalid" else next(
             (ev["cluster"] for ev in reversed(events) if ev["cluster"] != "Invalid"),
             events[0]["cluster"]
         )
-
-        # LRM: most common email across all events for this lead
-        lrm_counter = defaultdict(int)
-        for ev in events:
-            if ev["lrm"]: lrm_counter[ev["lrm"]] += 1
-        lrm = max(lrm_counter, key=lrm_counter.get) if lrm_counter else "Unknown"
 
         # Call events: n_attempts increments (prev_n = first event's count)
         call_times = []   # UTC naive datetimes
@@ -599,12 +734,10 @@ def build_tat_stats(audit_sorted: list, lead_creation: dict, lead_ms_dates: dict
         "records": records,
     }
 
-def build_lrm_conversion(audit_sorted: list) -> dict:
+def build_lrm_conversion(audit_sorted: list, lead_meta: dict) -> dict:
     """
     Per (lead_id, lrm): dates when this LRM made a call + first meeting date for the lead.
-    Dashboard uses this to compute: of leads called by LRM X in period [A,B],
-    how many also had a meeting scheduled in [A,B]?
-    Meeting stages: Meeting Scheduled (BD), Meeting Confirmed - Customer Home
+    Cluster resolved via resolve_cluster().
     """
     MEETING_STAGES = {"Meeting Scheduled (BD)", "Meeting Confirmed - Customer Home"}
 
@@ -629,7 +762,7 @@ def build_lrm_conversion(audit_sorted: list) -> dict:
                 lrm = ev["lrm"] or "Unknown"
                 d_ist = (ev["ts"] + timedelta(hours=5, minutes=30)).date().strftime("%Y-%m-%d")
                 by_lrm[lrm]["call_dates"].add(d_ist)
-                by_lrm[lrm]["cluster"] = ev["cluster"]
+                by_lrm[lrm]["cluster"] = resolve_cluster(lid, ev["cluster"], lead_meta)
             prev = ev
 
         for lrm, v in by_lrm.items():
@@ -657,7 +790,7 @@ def build_lrm_conversion(audit_sorted: list) -> dict:
 # ════════════════════════════════════════════════════════════════════════════
 # CARD 2557 × 3227 — LRM SNAPSHOT (Leads × LRM sub-tab)
 # ════════════════════════════════════════════════════════════════════════════
-def build_lrm_snapshot(leads_raw: list, audit_sorted: list, lead_creation: dict) -> dict:
+def build_lrm_snapshot(leads_raw: list, audit_sorted: list, lead_meta: dict) -> dict:
     """
     Per-lead snapshot combining card 2557 (LRM attribution, counts, MS/MD dates)
     and card 3227 (call TATs via n_attempts increments).
@@ -685,7 +818,7 @@ def build_lrm_snapshot(leads_raw: list, audit_sorted: list, lead_creation: dict)
 
     call_tat = {}   # lead_id → {tat_first_call: float|None, tat_gaps: [float]}
     for lid, events in by_lead_audit.items():
-        cdate_dt = lead_creation.get(lid)   # UTC naive datetime
+        cdate_dt = lead_meta.get(lid, {}).get("creation_dt")   # UTC naive datetime
         call_times = []
         prev_n = None
         for ev in events:
@@ -720,7 +853,7 @@ def build_lrm_snapshot(leads_raw: list, audit_sorted: list, lead_creation: dict)
         status  = (r.get("Lead status") or "Unknown").strip()
         stage   = (r.get("Lead stage")  or "Unknown").strip()
 
-        cdate_dt = lead_creation.get(lid)   # UTC naive datetime
+        cdate_dt = lead_meta.get(lid, {}).get("creation_dt")   # UTC naive datetime
         if not cdate_dt:
             continue   # no creation timestamp → skip (can't compute any TAT)
 
@@ -875,18 +1008,25 @@ def main():
     audit_raw = fetch_card(token, AUDIT_CARD_ID)
     print(f"      {len(audit_raw):,} rows")
 
-    # Build lead_id → creation UTC datetime map (from card 2557 Creation Date).
-    # Values are UTC naive datetimes. All TAT calculations use these directly.
-    # IST date strings are derived at output time only via ist_date_str().
-    lead_creation = {}
+    # Build lead_id → {creation_dt, cluster, lrm} from card 2557.
+    # creation_dt: UTC naive datetime for TAT arithmetic.
+    # cluster/lrm: card 2557 is authoritative for all lead-level attribution.
+    # resolve_cluster() uses this dict to override audit cluster when card 2557 is valid.
+    lead_meta   = {}
     lead_ms_dates = {}   # lead_id → Meeting Schedule Date UTC naive datetime
     for r in leads_raw:
         lid = r.get("Lead Id")
         if not lid: continue
-        cd_dt = parse_dt(r.get("Creation Date"))   # UTC naive datetime
-        if cd_dt: lead_creation[lid] = cd_dt
+        cd_dt = parse_dt(r.get("Creation Date"))
         ms_dt = parse_dt(r.get("Meeting Schedule Date"))
-        if ms_dt: lead_ms_dates[lid] = ms_dt
+        if cd_dt:
+            lead_meta[lid] = {
+                "creation_dt": cd_dt,
+                "cluster":     normalise_cluster(r.get("Cluster") or ""),
+                "lrm":         (r.get("LRM Email") or "").strip(),
+            }
+        if ms_dt:
+            lead_ms_dates[lid] = ms_dt
 
     print("[4/7] Aggregating lead snapshot...")
     city_stage = build_city_stage_output(aggregate_city_stage(leads_raw))
@@ -904,35 +1044,40 @@ def main():
     print(f"      {len(audit_sorted):,} clean audit events")
 
     print("[6/7] Building daily movement + EOD position...")
-    dm = build_daily_movement(audit_sorted, lead_creation)
+    dm = build_daily_movement(audit_sorted, lead_meta)
     with open("data/daily_movement.json", "w") as f:
         json.dump(dm, f, indent=2, default=str)
     print(f"      daily_movement.json — {dm['meta']['total_stage_transitions']:,} stage, "
           f"{dm['meta']['total_status_transitions']:,} status transitions, "
           f"{dm['meta']['total_touches']:,} touches")
 
-    eod = build_eod_position(audit_sorted)
+    eod = build_eod_position(audit_sorted, lead_meta)
     with open("data/eod_position.json", "w") as f:
         json.dump(eod, f, indent=2, default=str)
     print(f"      eod_position.json — {eod['meta']['total_records']:,} rows (from→to format)")
 
+    eod_leads = build_eod_leads(audit_sorted, lead_meta)
+    with open("data/eod_leads.json", "w") as f:
+        json.dump(eod_leads, f, separators=(',', ':'), default=str)   # compact — no indent
+    print(f"      eod_leads.json — {eod_leads['meta']['total_records']:,} lead-day records")
+
     print("[7/7] Building LRM performance + TAT...")
-    lrm = build_lrm_performance(audit_sorted)
+    lrm = build_lrm_performance(audit_sorted, lead_meta)
     with open("data/lrm_performance.json", "w") as f:
         json.dump(lrm, f, indent=2, default=str)
     print(f"      lrm_performance.json — {lrm['meta']['lrm_count']} LRMs · {len(lrm['records']):,} rows")
 
-    tat = build_tat_stats(audit_sorted, lead_creation, lead_ms_dates)
+    tat = build_tat_stats(audit_sorted, lead_meta, lead_ms_dates)
     with open("data/tat_stats.json", "w") as f:
         json.dump(tat, f, indent=2, default=str)
     print(f"      tat_stats.json — {tat['meta']['total_leads']:,} lead-level TAT records")
 
-    conv = build_lrm_conversion(audit_sorted)
+    conv = build_lrm_conversion(audit_sorted, lead_meta)
     with open("data/lrm_conversion.json", "w") as f:
         json.dump(conv, f, indent=2, default=str)
     print(f"      lrm_conversion.json — {conv['meta']['total_records']:,} lead-LRM records")
 
-    snap = build_lrm_snapshot(leads_raw, audit_sorted, lead_creation)
+    snap = build_lrm_snapshot(leads_raw, audit_sorted, lead_meta)
     with open("data/lrm_snapshot.json", "w") as f:
         json.dump(snap, f, separators=(',', ':'), default=str)   # compact — no indent, ~40% smaller
     print(f"      lrm_snapshot.json — {snap['meta']['total_records']:,} (lrm × cluster × date) rows")
