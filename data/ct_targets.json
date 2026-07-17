@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "updated": "2026-07-01",
+    "note": "Monthly Operating Plan (MOP) targets for Control Tower — manually maintained by Manas, same pattern as targets.json. Each entry is a FULL-MONTH target; the dashboard linearly pro-rates it to 'today' for MTD comparison (target * cutoff_day / days_in_month) — this file does NOT store day-level pacing. Referral channel only. Omit a cluster under 'by_cluster' to fall back to 'global' for that cluster (global is used as-is, not divided among unlisted clusters)."
+  },
+  "monthly": {
+    "2026-07": {
+      "global": {"bql": 7000, "ms": 4000, "md": 3500, "order": 1800},
+      "by_cluster": {
+        "Pune":   {"bql": 500, "ms": 300, "md": 260, "order": 130},
+        "Nagpur": {"bql": 400, "ms": 250, "md": 220, "order": 100}
+      }
+    }
+  }
+}

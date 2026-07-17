@@ -76,6 +76,7 @@ input[type=number].fc{width:80px}
 .ms-foot{padding:8px 10px;border-top:1px solid var(--bd);display:flex;justify-content:flex-end;gap:6px;background:var(--sur2)}
 .ms-apply{padding:5px 14px;background:var(--bl);color:#fff;border:none;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif}
 .ms-apply:hover{background:var(--bld)}
+.ms-apply:disabled{background:var(--t3);cursor:not-allowed;opacity:.5}
 .ms-clear{padding:5px 10px;background:transparent;color:var(--t2);border:1px solid var(--bd2);border-radius:6px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif}
 
 .stab-bar{display:flex;border-bottom:2px solid var(--bd2);margin-bottom:16px;gap:0}.stab-btn{padding:8px 18px;font-size:12px;font-weight:600;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;color:var(--t2);font-family:'DM Sans',sans-serif;white-space:nowrap}.stab-btn.on{color:var(--bl);border-bottom-color:var(--bl)}.stab-panel{display:none}.stab-panel.on{display:block}
@@ -86,11 +87,24 @@ input[type=number].fc{width:80px}
 .tgl-b.on{background:var(--bl);color:#fff}
 .comp-btn{padding:5px 12px;font-size:11px;font-weight:500;background:var(--sur2);color:var(--t2);border:1px solid var(--bd2);border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
 .comp-btn.on{background:var(--skyl);color:#006dad;border-color:var(--sky)}
+.ov-link{font-size:11px;font-weight:600;color:var(--bl);cursor:pointer;white-space:nowrap;background:none;border:none;font-family:'DM Sans',sans-serif;padding:0}
+.ov-link:hover{text-decoration:underline}
+.ov-flag-cat{margin-bottom:14px}
+.ov-flag-cat:last-child{margin-bottom:0}
+.ov-flag-cat-hdr{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--t3);margin-bottom:6px}
+.ov-flag-item{padding:7px 10px;border-radius:6px;margin-bottom:6px;display:flex;gap:8px;align-items:flex-start;font-size:12px;line-height:1.5;cursor:pointer}
+.ov-flag-item:last-child{margin-bottom:0}
+.ov-flag-item:hover{filter:brightness(.97)}
+.ov-flag-item.f-red{background:var(--rdl);color:var(--rd)}
+.ov-flag-item.f-amber{background:var(--aml);color:var(--am)}
+.ov-flag-item .ov-flag-fix{font-weight:700;white-space:nowrap;flex-shrink:0}
+.ov-flag-ok{color:var(--gn);font-size:12px;padding:2px 10px 6px}
+.ov-flag-more{font-size:10px;color:var(--t3);padding:0 10px 6px}
 .ptag{display:inline-flex;align-items:center;padding:1px 7px;border-radius:20px;font-size:10px;font-weight:600;margin-right:3px}
 .pa{background:var(--bll);color:var(--bl)}.pb{background:var(--skyl);color:#006dad}
 
 .kgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px}
-.kgrid.k4{grid-template-columns:repeat(4,1fr)}.kgrid.k6{grid-template-columns:repeat(6,1fr)}
+.kgrid.k3{grid-template-columns:repeat(3,1fr)}.kgrid.k4{grid-template-columns:repeat(4,1fr)}.kgrid.k6{grid-template-columns:repeat(6,1fr)}
 .kcard{background:var(--sur);border:1px solid var(--bd);border-radius:var(--rl);padding:12px 14px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
 .kcard.cmp{border-top:3px solid var(--sky)}
 .kl{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--t3);margin-bottom:5px}
@@ -102,6 +116,7 @@ input[type=number].fc{width:80px}
 .kdelta{font-size:10px;padding:1px 5px;border-radius:8px}
 .du{background:var(--gnl);color:var(--gn)}.dd{background:var(--rdl);color:var(--rd)}.dn{background:var(--sur2);color:var(--t2)}
 .cb{color:var(--bl)}.cg{color:var(--gn)}.ca{color:var(--am)}.cr{color:var(--rd)}.cp{color:#7c3aed}
+.kv.tgt-green{color:var(--gn)}.kv.tgt-amber{color:#b45309}.kv.tgt-red{color:#dc2626}
 
 .sc{background:var(--sur);border:1px solid var(--bd);border-radius:var(--rl);box-shadow:0 1px 3px rgba(0,0,0,.05);margin-bottom:12px;overflow:hidden}
 .sc-h{padding:11px 15px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
@@ -123,6 +138,9 @@ input[type=number].fc{width:80px}
 .tw tbody tr:hover td{background:var(--sur2)}
 .tdc{font-weight:500;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .td-lrm{font-size:10px;color:var(--t2);padding-left:18px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+td.tgt-headline-col{background:rgba(99,102,241,0.05)}
+td.tgt-green{background:rgba(34,197,94,0.15)} td.tgt-amber{background:rgba(251,191,36,0.18)} td.tgt-red{background:rgba(239,68,68,0.15)}
+th.tgt-headline{background:rgba(99,102,241,0.10)!important;font-weight:700;letter-spacing:.02em}
 .tdr{text-align:right}
 .tdt{text-align:right;font-weight:600;background:var(--bll);color:var(--bl)}
 .tdb{text-align:right;font-weight:600;background:#ede9fe;color:#5b21b6}
@@ -135,12 +153,21 @@ input[type=number].fc{width:80px}
 .cell-warn{background:#fef3c7;color:#92400e;font-weight:600}
 .cell-bad{background:#fee2e2;color:#991b1b;font-weight:600}
 .cell-good{background:#dcfce7;color:#166534;font-weight:600}
+.cellsub{display:block;font-size:9px;font-weight:500;margin-top:2px}
+.ct-sub{font-weight:400;color:var(--t3);text-transform:none;letter-spacing:0;font-size:9px;margin-left:3px}
+
+/* ── DoD matrix (Control Tower) ─────────────────────────────────────────── */
+.dod-tbl td{border-right:1px solid var(--bd)}
+.dod-tbl td:last-child{border-right:none}
+.dod-tbl td.diag{background:rgba(99,102,241,.22)!important;box-shadow:inset 0 0 0 2px #4338ca;font-weight:700;color:#312e81}
+.dod-tbl td[title],.dod-tbl th[title]{cursor:help}
 
 /* ── STICKY FIRST COLUMN ─────────────────────────────────────────────────── */
 .tw table tbody td:first-child{position:sticky;left:0;z-index:2;background:var(--sur);box-shadow:1px 0 0 var(--bd2)}
 .tw table tbody tr:hover td:first-child{background:var(--sur2)}
 .tw thead.single tr th:first-child,
-.tw thead tr:last-child th:first-child{left:0;z-index:4!important;box-shadow:1px 0 0 var(--bd2)}
+.tw thead tr:first-child th:first-child,
+.tw thead tr:last-child th:first-child{position:sticky;top:0;left:0;z-index:4!important;box-shadow:1px 0 0 var(--bd2)}
 .tw tbody tr.total-row td{background:var(--sur2)!important;position:sticky;z-index:2}
 .tw tbody tr.total-row td:first-child{background:var(--sur2)!important;z-index:3}
 
@@ -183,8 +210,12 @@ input[type=number].fc{width:80px}
 
 <div class="shell">
   <nav class="sidebar">
+    <div class="sh">Overview</div>
+    <div class="ni active" data-tab="ov"><span class="ico">★</span>Overview</div>
+    <div class="sh">Control Tower</div>
+    <div class="ni" data-tab="ct"><span class="ico">◈</span>Control Tower</div>
     <div class="sh">Lead state</div>
-    <div class="ni active" data-tab="v1"><span class="ico">⊞</span>Cluster × Stage</div>
+    <div class="ni" data-tab="v1"><span class="ico">⊞</span>Cluster × Stage</div>
     <div class="ni" data-tab="calls"><span class="ico">☎</span>Call Attempts</div>
     <div class="sh">Movement</div>
     <div class="ni" data-tab="movement"><span class="ico">⇄</span>Daily Movement</div>
@@ -201,7 +232,9 @@ input[type=number].fc{width:80px}
 
   <div class="main">
     <div class="mob-nav">
-      <span class="mob-tab active" data-tab="v1">Cluster×Stage</span>
+      <span class="mob-tab active" data-tab="ov">Overview</span>
+      <span class="mob-tab" data-tab="ct">Control Tower</span>
+      <span class="mob-tab" data-tab="v1">Cluster×Stage</span>
       <span class="mob-tab" data-tab="calls">Calls</span>
       <span class="mob-tab" data-tab="movement">Movement</span>
       <span class="mob-tab" data-tab="lrm">LRM</span>
@@ -211,9 +244,11 @@ input[type=number].fc{width:80px}
       <span class="mob-tab" data-tab="leads">Leads</span>
       <span class="mob-tab" data-tab="quality">Quality</span>
     </div>
-    <div class="sticky-hdr"><span class="tab-name" id="tab-name">Cluster × Stage</span></div>
+    <div class="sticky-hdr"><span class="tab-name" id="tab-name">Overview</span></div>
     <div class="scroll-area" id="scroll-area">
-      <div id="p-v1"       class="panel active"><div class="stb"><div class="spin"></div>Loading…</div></div>
+      <div id="p-ov"       class="panel active"><div class="stb"><div class="spin"></div>Loading…</div></div>
+      <div id="p-ct"       class="panel"></div>
+      <div id="p-v1"       class="panel"></div>
       <div id="p-calls"    class="panel"></div>
       <div id="p-movement" class="panel"></div>
       <div id="p-lrm"      class="panel"></div>
@@ -245,16 +280,40 @@ const STATUS_ORDER = ['Open','Connected','Booked','Closed - Lost','Closed - Cold
 const STATUS_COLORS = {'Open':'#131ca2','Connected':'#10b981','Prequalification':'#00bdff','Meeting':'#f59e0b','Booked':'#8b5cf6','Closed - Won':'#22c55e','Closed - Lost':'#ef4444','Closed - Cold':'#94a3b8','Lost':'#f97316','Unknown':'#64748b'};
 const STATUS_BG = {'Open':'#e8eaff','Connected':'#f0fdf4','Prequalification':'#e0f7ff','Meeting':'#fffbeb','Booked':'#f5f3ff','Closed - Won':'#f0fdf4','Closed - Lost':'#fef2f2','Closed - Cold':'#f8fafc','Lost':'#fff7ed','Unknown':'#f8fafc'};
 
+// ── ZONES (Overview tab) ─────────────────────────────────────────────────────
+// Manually maintained org mapping — no source-of-truth column for this exists
+// in card 2557/3227, so this is the single place to edit if zone ownership
+// changes. null = no filter (Pan India, every cluster).
+const ZONE_CLUSTERS={
+  'Pan India':     null,
+  'North':         ['Delhi','Gurgaon','Noida','Ghaziabad','Faridabad','Jaipur','Kota','Kanpur','Lucknow','Agra','Varanasi','Bareilly','Meerut'],
+  'South & Pune':  ['Bangalore','Hyderabad','Chennai','Coimbatore','Vijayawada','Pune'],
+  'Nagpur':        ['Nagpur'],
+  'MP & RoMH':     ['Bhopal','Gwalior','Indore','Jabalpur','Aurangabad','Nashik','Kolhapur','Jalgaon','Solapur','Ahilyanagar','Amravati','Ahmedabad','Surat'],
+};
+const ZONE_NAMES=Object.keys(ZONE_CLUSTERS);
+
 // ── STATE ────────────────────────────────────────────────────────────────────
-let DATA=null, CALLS=null, MOVE=null, EOD=null, EOD_LEADS=null, LRM_DATA=null, LRM_CONV=null, TAT_DATA=null, LRM_SNAP=null, LEADS_FULL=null;
-let LEADSV={cluster:'all',status:'all',stage:'all',lrm:'',lead_id:'',_fromS:null,_toS:null,has_ms:false,has_md:false,active_only:false,attempts_bucket:null,is_overdue:false,lead_id_list:null};
-let curTab='v1', rendered={}, charts={};
+let DATA=null, CALLS=null, MOVE=null, EOD=null, EOD_LEADS=null, LRM_DATA=null, LRM_CONV=null, TAT_DATA=null, LRM_SNAP=null, LEADS_FULL=null, TARGETS=null;
+let OV={zone:'Pan India'};
+// Full (unpaginated) filtered/drilled result set from the most recent renderLeads() call —
+// export always reads this, independent of the 2,000-row display cap.
+let LEADS_EXPORT_RECS=[];
+let LEADSV={cluster:'all',status:'all',stage:'all',lrm:'',lead_id:'',_fromS:null,_toS:null,date_basis:'creation',has_ms:false,has_md:false,has_oc:false,ct_cohort_month:null,ct_milestone:null,active_only:false,attempts_bucket:null,is_overdue:false,is_scheduled_today:false,is_updated_today:false,lead_id_list:null};
+let curTab='ov', rendered={}, charts={};
 let V1={sel:[],comp:false,pct:false,sortBy:'A'};
 let CV={sel:['Open'],stageSel:'all'};
-let FN={sel:[]};
-let MV={mode:'transitions',level:'stage',granularity:'cluster',preset:'yesterday',cluster:'all',lrm:'all',fromStage:'all',toStage:'all'};
-let LRMV={preset:'last7',cluster:'all',lrm:'all'};
-let TATV={metric:'tat_first_call',percentile:50,cluster:'all',lrm:'all',preset:'last30'};
+let FN={sel:[],clSel:[]};
+let CO={clSel:[],stageSel:[]};
+let MV={mode:'transitions',level:'stage',granularity:'cluster',preset:'yesterday',clSel:[],lrm:'all',fromStage:'all',toStage:'all'};
+let AT={clSel:[],compare:false};
+let LRMV={preset:'last7',clSel:[],lrm:'all'};
+let SNAP={clSel:[]};
+let TATV={metric:'tat_first_call',percentile:50,clSel:[],lrm:'all',preset:'last30'};
+// Working-hours TAT mode — applies to both TAT tab and LRM Snapshot tab.
+// When true, wh_tat_* fields are used instead of regular tat_* fields.
+// Toggled via the "TAT basis" toggle in each tab's filter row.
+let WH_MODE=false;
 
 // ── HELPERS ──────────────────────────────────────────────────────────────────
 const $=id=>document.getElementById(id);
@@ -342,7 +401,7 @@ function aggPivot(records,dimField){
   });
   return{pivot,rowTotals,dimTotals};
 }
-function topClusters(aggA,aggB,n=20,sortBy='A'){
+function topClusters(aggA,aggB,n=999,sortBy='A'){
   const s=new Set([...Object.keys(aggA.rowTotals),...(aggB?Object.keys(aggB.rowTotals):[])]);
   s.delete('Unknown');
   return[...s].sort((a,b)=>{
@@ -393,41 +452,98 @@ function dHtml(a,b){
   return`<span class="${cls}">${arr}${p!=null?Math.abs(p)+'%':''}</span>`;
 }
 
-// Compute the actual body-column index for each <th> in the last header row.
-// Handles rowspan cells in row-0 that occupy a body column but are absent from row-1.
-function headerColIndices(thead){
-  const rows=[...thead.querySelectorAll('tr')];
-  if(rows.length<=1)return[...(rows[0]?.querySelectorAll('th')??[])].map((_,i)=>i);
-  const blocked=new Set();let c=0;
-  [...rows[0].querySelectorAll('th')].forEach(th=>{
-    while(blocked.has(c))c++;
-    const cs=parseInt(th.getAttribute('colspan')||'1');
-    const rs=parseInt(th.getAttribute('rowspan')||'1');
-    if(rs>1)for(let i=0;i<cs;i++)blocked.add(c+i);
-    c+=cs;
-  });
-  const res=[];let bc=0;
-  [...rows[rows.length-1].querySelectorAll('th')].forEach(()=>{
-    while(blocked.has(bc))bc++;res.push(bc++);
-  });
-  return res;
+// ── Target helpers ────────────────────────────────────────────────────────────
+function resolveTarget(metric,cluster){
+  if(!TARGETS)return null;
+  const m=TARGETS[metric];if(!m)return null;
+  const byC=m.by_cluster&&cluster?m.by_cluster[cluster]:undefined;
+  return byC!=null?byC:(m.global!=null?m.global:null);
 }
-// Sortable table — uses last-row of thead as header
+
+// direction: 'lower' (TAT — lower is better) | 'higher' (rate — higher is better)
+function targetBadge(actual,target,direction='lower'){
+  if(actual==null||target==null)return{cls:'',hover:'',icon:''};
+  const pct=Math.round(Math.abs(actual-target)/target*100);
+  const dir=actual>target?'above':'below';
+  const hoverFmt=direction==='higher'?(target*100).toFixed(1)+'%':fmtTAT(target);
+  const hover=`title="${pct}% ${dir} target (target: ${hoverFmt})"`;
+  let cls;
+  if(direction==='higher'){
+    cls=actual>=target?'tgt-green':'tgt-red';
+  }else{
+    cls=actual<target?'tgt-green':actual<target*1.2?'tgt-amber':'tgt-red';
+  }
+  const icon=cls==='tgt-green'
+    ?'<span style="font-size:9px;margin-left:3px;opacity:.75">✓</span>'
+    :cls==='tgt-amber'
+    ?'<span style="font-size:9px;margin-left:3px;color:#b45309;opacity:.85">!</span>'
+    :'<span style="font-size:9px;margin-left:3px;color:#dc2626;opacity:.85">✗</span>';
+  return{cls,hover,icon};
+}
+
+// BQL→MS: cluster-level deduplicates lead_ids to avoid double-counting across LRMs.
+// fromS/toS filter by lead creation_date (YYYY-MM-DD strings). Requires ETL re-run to add
+// creation_date to lrm_conversion.json — shows '—' on old data until then.
+function computeBqlMs(cluster,lrm,fromS,toS){
+  if(!LRM_CONV||!LRM_CONV.records)return null;
+  let recs=LRM_CONV.records;
+  if(cluster&&cluster!=='all')recs=recs.filter(r=>r.cluster===cluster);
+  if(lrm&&lrm!=='all')recs=recs.filter(r=>r.lrm===lrm);
+  if(fromS)recs=recs.filter(r=>r.creation_date&&r.creation_date>=fromS);
+  if(toS)  recs=recs.filter(r=>r.creation_date&&r.creation_date<=toS);
+  // Deduplicate by lead_id at cluster level (a lead assigned to 2 LRMs counts once)
+  if(!lrm||lrm==='all'){
+    const seen=new Map();
+    for(const r of recs){if(!seen.has(r.lead_id))seen.set(r.lead_id,r);}
+    recs=[...seen.values()];
+  }
+  const total=recs.length;
+  if(!total)return null;
+  const met=recs.filter(r=>r.meeting_date!=null).length;
+  return{rate:met/total,met,total};
+}
+
+function fmtRate(v){if(v==null)return'—';return(v*100).toFixed(1)+'%';}
+
+// Resolves every <th> in a (possibly multi-row) thead to its true body-column
+// index, honouring rowspan/colspan. Only leaf headers (colspan===1) map to a
+// single sortable body column — group headers (e.g. "First Call TAT" spanning
+// Avg/P50/P90) are skipped since sorting a merged header is meaningless.
+// This replaces the old last-row-only lookup, which silently skipped any
+// rowspan="2" header placed in the FIRST row (e.g. "LRM", "Cluster" in
+// Leads×LRM / V1 matrix / Daily Movement — those were never sortable before).
+function headerLeafGrid(thead){
+  const rows=[...thead.querySelectorAll('tr')];
+  const occupied=[];const leaves=[];
+  rows.forEach((tr,r)=>{
+    occupied[r]=occupied[r]||[];
+    let c=0;
+    [...tr.querySelectorAll('th')].forEach(th=>{
+      while(occupied[r][c])c++;
+      const cs=parseInt(th.getAttribute('colspan')||'1');
+      const rs=parseInt(th.getAttribute('rowspan')||'1');
+      for(let rr=r;rr<r+rs;rr++){occupied[rr]=occupied[rr]||[];for(let cc=c;cc<c+cs;cc++)occupied[rr][cc]=true;}
+      if(cs===1)leaves.push({th,ci:c});
+      c+=cs;
+    });
+  });
+  return leaves;
+}
+// Sortable table — every leaf header (any row) is clickable.
 function makeSortable(tbl){
   if(!tbl||tbl.dataset.s||tbl.dataset.nosort)return;tbl.dataset.s='1';
   const thead=tbl.querySelector('thead');if(!thead)return;
   const tbody=tbl.querySelector('tbody');if(!tbody)return;
-  const rows=thead.querySelectorAll('tr');
-  const headers=rows[rows.length-1].querySelectorAll('th');
-  const colIdx=headerColIndices(thead);
+  const leaves=headerLeafGrid(thead);
+  const allHeaders=leaves.map(l=>l.th);
   let origOrder=null;
 
-  headers.forEach((th,hi)=>{
+  leaves.forEach(({th,ci})=>{
     th.classList.add('sortable');
     th.addEventListener('click',()=>{
       const cur=th.dataset.d||'';
       const next=cur===''?'desc':cur==='desc'?'asc':'';
-      headers.forEach(h=>{h.dataset.d='';h.classList.remove('sort-asc','sort-desc');});
+      allHeaders.forEach(h=>{h.dataset.d='';h.classList.remove('sort-asc','sort-desc');});
 
       const allR=[...tbody.querySelectorAll('tr')];
       const pinned=allR.filter(r=>r.classList.contains('total-row'));
@@ -445,11 +561,9 @@ function makeSortable(tbl){
       th.classList.toggle('sort-asc',next==='asc');
       th.classList.toggle('sort-desc',next==='desc');
 
-      // Pull cluster header rows out of the flow so LRMs sort globally across clusters
       const df=document.createDocumentFragment();
       clusterHdrs.forEach(r=>df.appendChild(r));
 
-      const ci=colIdx[hi]??hi;
       data.sort((a,b)=>{
         const av=cn(a,ci),bv=cn(b,ci);
         return next==='desc'
@@ -462,6 +576,7 @@ function makeSortable(tbl){
 }
 function cn(row,ci){
   const td=row.querySelectorAll('td')[ci];if(!td)return 0;
+  if(td.dataset.sort!==undefined){const n=parseFloat(td.dataset.sort);return isNaN(n)?td.dataset.sort:n;}
   const t=td.textContent.replace(/[,%+↑↓·—⚠]/g,'').trim();
   const m=t.match(/^([\d.]+)(d|h|m)$/);
   if(m){
@@ -508,6 +623,19 @@ function setupMS(btnId,ddId,allId,chkClass,applyId,clearId,onApply){
   });
 }
 
+// Reusable cluster multi-select (same visual pattern as the existing status
+// multi-selects). `prefix` must be unique per tab (e.g. 'mv-cl').
+function clMS(prefix,list,sel){
+  return `<div class="ms-wrap" id="${prefix}-wrap"><button class="ms-btn" id="${prefix}-btn">${sel.length===0?'All Clusters':sel.length===1?sel[0]:sel.length+' selected'}</button>
+    <div class="ms-dd" id="${prefix}-dd"><div class="ms-list">
+      <label class="ms-opt"><input type="checkbox" id="${prefix}-all" ${sel.length===0?'checked':''}>&nbsp;All Clusters</label><div class="ms-sep"></div>
+      ${list.map(c=>`<label class="ms-opt"><input type="checkbox" class="${prefix}-chk" value="${c}" ${sel.includes(c)?'checked':''}>${c}</label>`).join('')}
+    </div><div class="ms-foot"><button class="ms-clear" id="${prefix}-clr">Clear</button><button class="ms-apply" id="${prefix}-apl">Apply</button></div></div></div>`;
+}
+function wireClMS(prefix,onApply){
+  setupMS(prefix+'-btn',prefix+'-dd',prefix+'-all','.'+prefix+'-chk',prefix+'-apl',prefix+'-clr',onApply);
+}
+
 // Percentile from sorted array
 function percentile(sortedArr,p){
   if(!sortedArr.length)return null;
@@ -526,7 +654,7 @@ function sw(tab){
   $('p-'+curTab).classList.remove('active');
   $('p-'+tab).classList.add('active');
   curTab=tab;
-  const names={v1:'Cluster × Stage',calls:'Call Attempts & Overdue',movement:'Daily Movement',lrm:'LRM Performance',tat:'TAT Analysis',funnel:'Stage Funnel',cohort:'Cohort View',quality:'Quality Check (Preview)',leads:'Lead Data'};
+  const names={ov:'Overview',ct:'Control Tower',v1:'Cluster × Stage',calls:'Call Attempts & Overdue',movement:'Daily Movement',lrm:'LRM Performance',tat:'TAT Analysis',funnel:'Stage Funnel',cohort:'Cohort View',quality:'Quality Check (Preview)',leads:'Lead Data'};
   $('tab-name').textContent=names[tab]||tab;
   $('scroll-area').scrollTop=0;
   if(tab==='leads')delete rendered['leads'];  // always re-render lead data (stale drill-through fix)
@@ -534,8 +662,17 @@ function sw(tab){
 }
 function buildTab(t){
   if(!DATA&&t!=='quality')return;
-  ({v1:bV1,calls:bCalls,movement:bMovement,lrm:bLRM,tat:bTAT,funnel:bFunnel,cohort:bCohort,quality:bQuality,leads:bLeads}[t]||Function)();
+  ({ov:bOverview,ct:bControlTower,v1:bV1,calls:bCalls,movement:bMovement,lrm:bLRM,tat:bTAT,funnel:bFunnel,cohort:bCohort,quality:bQuality,leads:bLeads}[t]||Function)();
   rendered[t]=true;
+}
+
+// Jump to another tab with a preset applied first, forcing a rebuild even if
+// that tab was already rendered earlier in the session (mirrors the 'leads'
+// special-case above — sw() only calls buildTab() when rendered[tab] is unset).
+function jumpToTab(tab,presetFn){
+  if(presetFn)presetFn();
+  delete rendered[tab];
+  sw(tab);
 }
 
 // ════════════════════════════════════════════════════════════════════════════
@@ -576,9 +713,15 @@ function drillTo(filters){
   LEADSV.lead_id        = '';
   LEADSV.has_ms         = filters.has_ms||false;
   LEADSV.has_md         = filters.has_md||false;
+  LEADSV.has_oc         = filters.has_oc||false;
+  LEADSV.ct_cohort_month= filters.ct_cohort_month||null;
+  LEADSV.ct_milestone   = filters.ct_milestone||null;
+  LEADSV.date_basis     = filters.date_basis||'creation';
   LEADSV.active_only    = filters.active_only||filters.status_active||false;
   LEADSV.attempts_bucket= filters.attempts_bucket||null;
   LEADSV.is_overdue     = filters.is_overdue||false;
+  LEADSV.is_scheduled_today = filters.is_scheduled_today||false;
+  LEADSV.is_updated_today   = filters.is_updated_today||false;
   LEADSV._fromS         = filters.fromS||null;
   LEADSV._toS           = filters.toS||null;
   LEADSV.lead_id_list   = filters.lead_id_list||null;
@@ -601,7 +744,7 @@ function bLeads(){
     <div class="fg"><span class="flbl">Lead ID</span>
       <input type="text" class="fc" id="ld-lid" placeholder="e.g. RAP0008" style="min-width:130px"></div>
     <div class="fg"><span class="flbl">Cluster</span>
-      <select class="fc" id="ld-cl"><option value="all">All</option></select></div>
+      <div id="ld-cl-wrap"></div></div>
     <div class="fg"><span class="flbl">Status</span>
       <select class="fc" id="ld-st"><option value="all">All Statuses</option>
         ${STATUS_ORDER.map(s=>`<option value="${s}">${s}</option>`).join('')}
@@ -610,7 +753,14 @@ function bLeads(){
       <select class="fc" id="ld-sg" style="min-width:180px"><option value="all">All Stages</option></select></div>
     <div class="fg"><span class="flbl">LRM Email</span>
       <input type="text" class="fc" id="ld-lrm" placeholder="partial match" style="min-width:160px"></div>
-    <div class="fg"><span class="flbl">Creation Date</span>
+    <div class="fg"><span class="flbl">Date basis</span>
+      <select class="fc" id="ld-datebasis">
+        <option value="creation" selected>Creation Date</option>
+        <option value="ms">Meeting Scheduled Date</option>
+        <option value="md">Meeting Done Date</option>
+        <option value="oc">Order Booked Date</option>
+      </select></div>
+    <div class="fg"><span class="flbl">Date range <span class="sub" id="ld-date-lbl">(lead creation)</span></span>
       <div class="frow"><select class="fc" id="ld-pr">
         <option value="alltime">All time</option>
         <option value="last7">Last 7 days</option>
@@ -633,6 +783,8 @@ function bLeads(){
   <div class="sc"><div class="sc-h">
     <span class="sc-t" id="ld-tbl-title">Lead Data</span>
     <span class="sc-hi">Double-click any count cell in other views to drill through · enable toggle first</span>
+    <button class="ms-apply" id="ld-export-btn" onclick="exportLeadsCSV()"
+      style="margin-left:auto" disabled>⬇ Export CSV</button>
   </div>
   <div style="overflow-x:auto;max-height:600px;overflow-y:auto">
     <div class="tw" id="ld-tbl"></div>
@@ -641,13 +793,11 @@ function bLeads(){
   if(LEADS_FULL){
     const clSet=new Set();
     LEADS_FULL.records.forEach(r=>{if(r.cluster)clSet.add(r.cluster);});
-    const ldCl=$('ld-cl');
-    [...clSet].sort().forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;ldCl.appendChild(o);});
+    const curSel=LEADSV.cluster&&LEADSV.cluster!=='all'?LEADSV.cluster.split(','):[];
+    $('ld-cl-wrap').innerHTML=clMS('ld-cl',[...clSet].sort(),curSel);
+    wireClMS('ld-cl',sel=>{LEADSV.cluster=sel.length?sel.join(','):'all';renderLeads();});
   }
 
-  // Restore drill-through state into UI
-  if(LEADSV.cluster&&LEADSV.cluster!=='all'){const e=$('ld-cl');if(e)e.value=LEADSV.cluster;}
-  
   // Inject "Multiple Statuses" if active via drill
   if (LEADSV.status && LEADSV.status !== 'all' && LEADSV.status.includes(',')) {
     const opt = document.createElement('option');
@@ -662,8 +812,12 @@ function bLeads(){
   $('ld-lrm').value=LEADSV.lrm||'';
   $('ld-lid').value=LEADSV.lead_id||'';
 
+  const db=$('ld-datebasis');if(db)db.value=LEADSV.date_basis||'creation';
+  const lbl={creation:'(lead creation)',ms:'(meeting scheduled)',md:'(meeting done)',oc:'(order booked)'};
+  const dlbl=$('ld-date-lbl');if(dlbl)dlbl.textContent=lbl[LEADSV.date_basis||'creation'];
+
   const isDrill=LEADSV._fromS||LEADSV._toS||LEADSV.status!=='all'||LEADSV.stage!=='all'||
-                LEADSV.cluster!=='all'||LEADSV.lrm||LEADSV.has_ms||LEADSV.has_md||LEADSV.active_only||LEADSV.attempts_bucket!=null||LEADSV.is_overdue||LEADSV.lead_id_list!=null;
+                LEADSV.cluster!=='all'||LEADSV.lrm||LEADSV.has_ms||LEADSV.has_md||LEADSV.has_oc||LEADSV.ct_cohort_month||LEADSV.active_only||LEADSV.attempts_bucket!=null||LEADSV.is_overdue||LEADSV.is_scheduled_today||LEADSV.is_updated_today||LEADSV.lead_id_list!=null;
   if(isDrill){
     $('ld-drill-info').style.display='flex';
     if(LEADSV._fromS||LEADSV._toS){
@@ -681,6 +835,12 @@ function bLeads(){
 
   $('ld-st').addEventListener('change',populateLdStage);
   ['ld-fr','ld-to'].forEach(id=>$(id)?.addEventListener('change',()=>{$('ld-pr').value='custom';}));
+  $('ld-datebasis')?.addEventListener('change',e=>{
+    LEADSV.date_basis=e.target.value;
+    const lbl={creation:'(lead creation)',ms:'(meeting scheduled)',md:'(meeting done)',oc:'(order booked)'};
+    const l=$('ld-date-lbl');if(l)l.textContent=lbl[e.target.value]||'';
+    renderLeads();
+  });
 
   if(!LEADS_FULL){
     $('ld-tbl').innerHTML='<div class="nd" style="padding:32px;text-align:center">'
@@ -711,8 +871,10 @@ function populateLdStage(){
 
 function clearDrill(){
   LEADSV={cluster:'all',status:'all',stage:'all',lrm:'',lead_id:'',
-          _fromS:null,_toS:null,has_ms:false,has_md:false,active_only:false,attempts_bucket:null,is_overdue:false,lead_id_list:null};
-  const e=$('ld-cl');if(e)e.value='all';
+          _fromS:null,_toS:null,date_basis:'creation',has_ms:false,has_md:false,has_oc:false,ct_cohort_month:null,ct_milestone:null,active_only:false,attempts_bucket:null,is_overdue:false,is_scheduled_today:false,is_updated_today:false,lead_id_list:null};
+  const clChks=[...document.querySelectorAll('.ld-cl-chk')];clChks.forEach(c=>c.checked=false);
+  const clAll=$('ld-cl-all');if(clAll)clAll.checked=true;
+  const clBtn=$('ld-cl-btn');if(clBtn)clBtn.textContent='All Clusters';
   const st=$('ld-st');if(st){
       // Remove the dynamic "Multiple" option if it exists
       const multiOpt = st.querySelector('option[value*=","]');
@@ -724,13 +886,14 @@ function clearDrill(){
   const lr=$('ld-lrm');if(lr)lr.value='';
   const li=$('ld-lid');if(li)li.value='';
   const pr=$('ld-pr');if(pr)pr.value='alltime';
+  const db=$('ld-datebasis');if(db)db.value='creation';
   const di=$('ld-drill-info');if(di)di.style.display='none';
   renderLeads();
 }
 
 function renderLeads(){
   if(!LEADS_FULL)return;
-  const cl  = $('ld-cl')?.value||'all';
+  const cl  = LEADSV.cluster||'all';
   const st  = $('ld-st')?.value||'all';
   const sg  = $('ld-sg')?.value||'all';
   const lrm = ($('ld-lrm')?.value||'').trim().toLowerCase();
@@ -749,34 +912,61 @@ function renderLeads(){
     const fmt=d=>d?[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),
                     String(d.getDate()).padStart(2,'0')].join('-'):null;
     const fromS=fmt(dr.from); const toS=fmt(dr.to);
-    if(cl!=='all')           recs=recs.filter(r=>r.cluster===cl);
+    if(cl!=='all'){const clArr=cl.split(',');recs=recs.filter(r=>clArr.includes(r.cluster));}
     if(st!=='all'){const stArr=st.split(',');recs=recs.filter(r=>stArr.includes(r.status));}
     if(sg!=='all')           recs=recs.filter(r=>r.stage===sg);
     if(lrm)                  recs=recs.filter(r=>(r.lrm||'').toLowerCase().includes(lrm));
     if(lid)                  recs=recs.filter(r=>(r.lead_id||'').toUpperCase().includes(lid));
-    if(fromS)                recs=recs.filter(r=>r.creation_date&&r.creation_date>=fromS);
-    if(toS)                  recs=recs.filter(r=>r.creation_date&&r.creation_date<=toS);
+    if(fromS||toS){
+      const dbField={creation:'creation_date',ms:'ms_date',md:'md_date',oc:'oc_date'}[LEADSV.date_basis||'creation'];
+      recs=recs.filter(r=>{
+        const d=r[dbField];if(!d)return false;
+        if(fromS&&d<fromS)return false;
+        if(toS&&d>toS)return false;
+        return true;
+      });
+    }
     if(LEADSV.has_ms)        recs=recs.filter(r=>r.has_ms);
     if(LEADSV.has_md)        recs=recs.filter(r=>r.has_md);
+    if(LEADSV.has_oc)        recs=recs.filter(r=>r.has_oc);
+    // Control Tower Cohort (MO) filter — SAME-MONTH-BOUNDED, mirrors
+    // build_control_tower() in etl.py EXACTLY (a milestone only counts if
+    // it ALSO falls within the creation month; backfill applies within that
+    // same window). If that rule changes, update BOTH places.
+    if(LEADSV.ct_cohort_month){
+      const m=LEADSV.ct_cohort_month;
+      recs=recs.filter(r=>r.creation_date&&r.creation_date.slice(0,7)===m);
+      if(LEADSV.ct_milestone){
+        recs=recs.filter(r=>{
+          const hasOcM=r.has_oc&&r.oc_date&&r.oc_date.slice(0,7)===m;
+          const hasMdM=(r.has_md&&r.md_date&&r.md_date.slice(0,7)===m)||hasOcM;
+          const hasMsM=(r.has_ms&&r.ms_date&&r.ms_date.slice(0,7)===m)||hasMdM;
+          if(LEADSV.ct_milestone==='oc')return hasOcM;
+          if(LEADSV.ct_milestone==='md')return hasMdM;
+          if(LEADSV.ct_milestone==='ms')return hasMsM;
+          return true;
+        });
+      }
+    }
     if(LEADSV.active_only){
       const INACT_ST=new Set(['Closed - Lost','Closed - Cold','Closed - Won','Lost']);
       const INACT_SG=new Set(['Lost in Qualification']);
       recs=recs.filter(r=>!INACT_ST.has(r.status)&&!INACT_SG.has(r.stage)&&!r.has_ms);
     }
     if(LEADSV.is_overdue)    recs=recs.filter(r=>r.is_overdue);
+    if(LEADSV.is_scheduled_today) recs=recs.filter(r=>r.is_scheduled_today);
+    if(LEADSV.is_updated_today)   recs=recs.filter(r=>r.is_updated_today);
     if(LEADSV.attempts_bucket!=null){
       const b=String(LEADSV.attempts_bucket);
-      if(b==='0')        recs=recs.filter(r=>r.call_attempts===0);
-      else if(b==='1')   recs=recs.filter(r=>r.call_attempts===1);
-      else if(b==='2')   recs=recs.filter(r=>r.call_attempts===2);
-      else if(b==='3')   recs=recs.filter(r=>r.call_attempts===3);
-      else if(b==='4')   recs=recs.filter(r=>r.call_attempts===4);
-      else if(b==='5-9') recs=recs.filter(r=>r.call_attempts>=5&&r.call_attempts<=9);
-      else if(b==='10+') recs=recs.filter(r=>r.call_attempts>=10);
+      if(b.endsWith('+'))        recs=recs.filter(r=>r.call_attempts>=parseInt(b));
+      else if(b.includes('-')){const[lo,hi]=b.split('-').map(Number);recs=recs.filter(r=>r.call_attempts>=lo&&r.call_attempts<=hi);}
+      else                       recs=recs.filter(r=>r.call_attempts===parseInt(b));
     }
   }
 
   const total=recs.length;
+  LEADS_EXPORT_RECS=recs;
+  const expBtn=$('ld-export-btn');if(expBtn)expBtn.disabled=total===0;
   const tbl=$('ld-tbl-title');if(tbl)tbl.textContent=`Lead Data — ${total.toLocaleString('en-IN')} leads`;
   if(!total){$('ld-tbl').innerHTML='<div class="nd">No leads match the selected filters.</div>';return;}
 
@@ -826,6 +1016,43 @@ function renderLeads(){
   autoSort($('ld-tbl'));
 }
 
+// ── CSV EXPORT (Lead Data drill-through) ─────────────────────────────────────
+// Exports the full filtered/drilled result set (LEADS_EXPORT_RECS, set by
+// renderLeads() before its 2,000-row display cap is applied) — always the
+// complete set, never just the visible page. Columns = full underlying
+// leads_full.json record: the union of every key seen across all records,
+// not just the first one, since some fields (has_oc/ms_date/md_date/oc_date
+// etc.) are only present on some records depending on ETL version / milestone.
+function csvEscape(v){
+  if(v===null||v===undefined)return '';
+  const s=String(v);
+  return /[",\n\r]/.test(s) ? '"'+s.replace(/"/g,'""')+'"' : s;
+}
+
+function toCSV(records){
+  if(!records.length)return '';
+  const cols=[];
+  const seen=new Set();
+  records.forEach(r=>Object.keys(r).forEach(k=>{if(!seen.has(k)){seen.add(k);cols.push(k);}}));
+  const lines=[cols.map(csvEscape).join(',')];
+  records.forEach(r=>lines.push(cols.map(c=>csvEscape(r[c])).join(',')));
+  return lines.join('\r\n');
+}
+
+function exportLeadsCSV(){
+  if(!LEADS_EXPORT_RECS.length)return;
+  const csv=toCSV(LEADS_EXPORT_RECS);
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download=`leads_export_${Date.now()}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
 // ── LOAD DATA ────────────────────────────────────────────────────────────────
 async function loadData(){
   $('upd-lbl').textContent='Loading…';
@@ -849,6 +1076,716 @@ async function loadJSON(name,varName){
   if(!res.ok)throw new Error('HTTP '+res.status);
   window[varName]=await res.json();
   return window[varName];
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// CONTROL TOWER — BQL → MS → MD → Order (Referral channel only)
+// ════════════════════════════════════════════════════════════════════════════
+// Two sub-tabs, not a toggle (per explicit instruction): Effort (event-date
+// based, pace ratios) and Cohort/MO (same-month-bounded, with backfill).
+// All aggregation is pre-computed in etl.py's build_control_tower() — this
+// side just re-sums the city-level records when a cluster filter narrows
+// the view, and renders. No lead_id_list needed anywhere here — this is
+// pure card 2557 data (Class A), so dimension-filter drill into Lead Data
+// is exactly reliable, same mechanism as the Cluster×Stage tab.
+//
+// Deferred (explicitly, not silently): HOTO, Tier, Sub-Channel, BQL's own
+// qualifying condition (BQL = Lead Created for now).
+let CT={effClSel:[],cohClSel:[]};
+let CT_DATA=null;
+
+async function bControlTower(){
+  $('p-ct').innerHTML='<div class="stb"><div class="spin"></div>Loading Control Tower…</div>';
+  try{ CT_DATA=await loadJSON('control_tower','CT_DATA'); }
+  catch(e){ $('p-ct').innerHTML=`<div class="err">⚠ Cannot load data/control_tower.json — run <code>python etl.py</code> first<br>${e.message}</div>`; return; }
+  if(!TARGETS){ try{ const r=await fetch('./data/targets.json?t='+Date.now()); TARGETS=r.ok?await r.json():null; }catch(e){ TARGETS=null; } }
+
+  const clusterSet=new Set();
+  CT_DATA.effort.city_full_month.forEach(r=>{ if(r.cluster&&r.cluster!=='Unknown') clusterSet.add(r.cluster); });
+  const clusterList=[...clusterSet].sort();
+
+  $('p-ct').innerHTML=`
+  <div class="stab-bar">
+    <button class="stab-btn on" data-stab="ct-effort">Funnel (Effort)</button>
+    <button class="stab-btn" data-stab="ct-cohort">Funnel (Cohort / MO)</button>
+  </div>
+  <div id="stab-ct-effort" class="stab-panel on">
+    <div class="fb"><div class="fr"><div class="fg"><span class="flbl">Cluster</span>${clMS('ct-eff-cl',clusterList,CT.effClSel)}</div></div></div>
+    <div class="kgrid k4" id="ct-eff-kpis"></div>
+    <div class="sc"><div class="sc-h"><span class="sc-t">Effort Funnel — Full Month</span><span class="sc-hi">Most recent first · scroll for older months · double-click any figure to drill through</span></div>
+      <div style="overflow-x:auto;max-height:260px;overflow-y:auto"><div class="tw" id="ct-eff-full-tbl"></div></div></div>
+    <div class="sc"><div class="sc-h"><span class="sc-t">Effort Funnel — MTD (apples-to-apples)</span><span class="sc-hi">Every month truncated to day-of-month ${CT_DATA.meta.cutoff_day} — compared with LMTD</span></div>
+      <div style="overflow-x:auto;max-height:260px;overflow-y:auto"><div class="tw" id="ct-eff-mtd-tbl"></div></div></div>
+    <div class="sc"><div class="sc-h"><span class="sc-t">City Funnel — Effort MTD</span><span class="sc-hi">Absolute counts vs LMTD · funnel rates (BQL→MS%, MS→MD%) coloured vs targets.json</span></div>
+      <div style="overflow-x:auto;max-height:480px;overflow-y:auto"><div class="tw" id="ct-eff-city-tbl"></div></div></div>
+  </div>
+  <div id="stab-ct-cohort" class="stab-panel">
+    <div class="fb"><div class="fr"><div class="fg"><span class="flbl">Cluster</span>${clMS('ct-coh-cl',clusterList,CT.cohClSel)}</div></div></div>
+    <div class="kgrid k4" id="ct-coh-kpis"></div>
+    <div style="background:var(--bll);border:1px solid var(--bl);border-radius:6px;color:var(--bld);font-size:11px;padding:8px 12px;margin-bottom:12px">
+      Same-month cohort: lead created in Month X → milestone also reached in Month X. A milestone reached in a LATER month does not count here (it shows up in Effort instead, for that later month).
+    </div>
+    <div class="sc"><div class="sc-h"><span class="sc-t">Cohort (MO) Funnel — Full Month</span><span class="sc-hi">Most recent first · scroll for older months · double-click any figure to drill through</span></div>
+      <div style="overflow-x:auto;max-height:260px;overflow-y:auto"><div class="tw" id="ct-coh-full-tbl"></div></div></div>
+    <div class="sc"><div class="sc-h"><span class="sc-t">Cohort (MO) Funnel — MTD (apples-to-apples)</span><span class="sc-hi">Every month truncated to day-of-month ${CT_DATA.meta.cutoff_day} — compared with LMTD</span></div>
+      <div style="overflow-x:auto;max-height:260px;overflow-y:auto"><div class="tw" id="ct-coh-mtd-tbl"></div></div></div>
+    <div class="sc"><div class="sc-h"><span class="sc-t">City Funnel — Cohort MTD</span><span class="sc-hi">Absolute counts vs LMTD · funnel rates (BQL→MS%, MS→MD%) coloured vs targets.json</span></div>
+      <div style="overflow-x:auto;max-height:480px;overflow-y:auto"><div class="tw" id="ct-coh-city-tbl"></div></div></div>
+    <div class="sc"><div class="sc-h"><span class="sc-t">Day-on-Day Funnel Cohort — ${monthLabel(CT_DATA.meta.current_month)}</span><span class="sc-hi">Row = day entered start stage · Column = day converted (same month only)</span></div>
+      <div id="ct-dod-wrap" style="padding:14px 15px"></div></div>
+  </div>`;
+
+  $('p-ct').querySelectorAll('.stab-btn').forEach(btn=>btn.addEventListener('click',()=>{
+    $('p-ct').querySelectorAll('.stab-btn').forEach(b=>b.classList.remove('on'));
+    $('p-ct').querySelectorAll('.stab-panel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');
+    $('stab-'+btn.dataset.stab).classList.add('on');
+  }));
+
+  wireClMS('ct-eff-cl',sel=>{CT.effClSel=sel;renderCTEffort();});
+  wireClMS('ct-coh-cl',sel=>{CT.cohClSel=sel;renderCTCohort();});
+
+  renderCTEffort();
+  renderCTCohort();
+}
+
+function monthLabel(m){
+  const[y,mo]=m.split('-');
+  const names=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return names[parseInt(mo)-1]+"'"+y.slice(2);
+}
+function ctPctStr(n,d){ return d>0 ? (n/d*100).toFixed(1)+'%' : '—'; }
+function ctDaysInMonth(m){ const[y,mo]=m.split('-').map(Number); return new Date(y,mo,0).getDate(); }
+function ctPrevMonth(m){ const[y,mo]=m.split('-').map(Number); const d=new Date(y,mo-2,1); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'); }
+// Percentage-POINT delta between two rates (not dHtml's relative-% — a rate
+// moving 10%→12% should read "+2.0pp", not "+20%").
+function ctRateDeltaHtml(a,b){
+  if(a==null||b==null)return'';
+  const d=(a-b)*100;
+  if(Math.abs(d)<0.05)return'<span class="dn">—</span>';
+  const cls=d>0?'du':'dd',arr=d>0?'↑':'↓';
+  return`<span class="${cls}">${arr}${Math.abs(d).toFixed(1)}pp</span>`;
+}
+
+// Sum city-level (month,cluster,bql,ms,md,order) records into per-month
+// totals, restricted to the selected clusters (or all, if none selected).
+function ctAggregateByCluster(cityRecords, clSel){
+  const byMonth={};
+  cityRecords.forEach(r=>{
+    if(clSel.length>0 && !clSel.includes(r.cluster)) return;
+    if(!byMonth[r.month]) byMonth[r.month]={month:r.month,bql:0,ms:0,md:0,order:0};
+    byMonth[r.month].bql+=r.bql; byMonth[r.month].ms+=r.ms; byMonth[r.month].md+=r.md; byMonth[r.month].order+=r.order;
+  });
+  return Object.values(byMonth).sort((a,b)=>a.month.localeCompare(b.month));
+}
+function ctMonthRows(framing, granularity, clSel){
+  const globalSrc = CT_DATA[framing][granularity];
+  if(clSel.length===0) return globalSrc.map(r=>({...r}));
+  const citySrc = CT_DATA[framing][granularity==='full_month'?'city_full_month':'city_mtd'];
+  return ctAggregateByCluster(citySrc, clSel);
+}
+
+// Shared month-table renderer for both Effort and Cohort sub-tabs.
+function renderCTMonthTable(elId, rows, framing, isMTD, clSel){
+  const cur=CT_DATA.meta.current_month;
+  const rowsDesc=rows.slice().sort((a,b)=>b.month.localeCompare(a.month));   // most recent first — table is height-capped/scrollable, current month must be visible without scrolling
+  let html='<table><thead class="single"><tr><th>Month</th><th class="tdr">BQL</th><th class="tdr">MS</th><th class="tdr">BQL→MS%</th><th class="tdr">MD</th><th class="tdr">MS→MD%</th><th class="tdr">ORDER</th><th class="tdr">MD→ORD%</th><th class="tdr">BQL→ORD%</th></tr></thead><tbody>';
+  rowsDesc.forEach(r=>{
+    const isCur=r.month===cur;
+    html+=`<tr data-month="${r.month}"${isCur?' style="background:var(--skyl);font-weight:600"':''}>
+      <td class="tdc">${monthLabel(r.month)}${isCur?` <span class="ptag pa" style="font-size:9px">${isMTD?'MTD':'Current'}</span>`:''}</td>
+      <td class="tdr mono">${f(r.bql)}</td>
+      <td class="tdr mono">${f(r.ms)}</td>
+      <td class="tdr">${ctPctStr(r.ms,r.bql)}</td>
+      <td class="tdr mono">${f(r.md)}</td>
+      <td class="tdr">${ctPctStr(r.md,r.ms)}</td>
+      <td class="tdr mono">${f(r.order)}</td>
+      <td class="tdr">${ctPctStr(r.order,r.md)}</td>
+      <td class="tdr">${ctPctStr(r.order,r.bql)}</td>
+    </tr>`;
+  });
+  html+='</tbody></table>';
+  $(elId).innerHTML=html; autoSort($(elId));
+
+  $(elId).querySelectorAll('tbody tr[data-month]').forEach(tr=>{
+    const m=tr.dataset.month;
+    const lastDay=ctDaysInMonth(m);
+    const cutoff=isMTD?Math.min(CT_DATA.meta.cutoff_day,lastDay):lastDay;
+    const monthFrom=`${m}-01`, monthTo=`${m}-${String(cutoff).padStart(2,'0')}`;
+    const cl=clSel.length===1?clSel[0]:'all';
+    const tds=[...tr.querySelectorAll('td.tdr.mono')];
+    if(framing==='effort'){
+      // Effort: BQL uses creation date; MS/MD/Order each use THEIR OWN date field.
+      if(tds[0]) addDrillDblClick(tds[0],{cluster:cl,date_basis:'creation',fromS:monthFrom,toS:monthTo});
+      if(tds[1]) addDrillDblClick(tds[1],{cluster:cl,date_basis:'ms',fromS:monthFrom,toS:monthTo});
+      if(tds[2]) addDrillDblClick(tds[2],{cluster:cl,date_basis:'md',fromS:monthFrom,toS:monthTo});
+      if(tds[3]) addDrillDblClick(tds[3],{cluster:cl,date_basis:'oc',fromS:monthFrom,toS:monthTo});
+    }else{
+      // Cohort: same-month-bounded — use ct_cohort_month, NOT a generic date range
+      // (a generic range can't express "milestone must fall in THIS SAME month as creation").
+      if(tds[0]) addDrillDblClick(tds[0],{cluster:cl,ct_cohort_month:m});
+      if(tds[1]) addDrillDblClick(tds[1],{cluster:cl,ct_cohort_month:m,ct_milestone:'ms'});
+      if(tds[2]) addDrillDblClick(tds[2],{cluster:cl,ct_cohort_month:m,ct_milestone:'md'});
+      if(tds[3]) addDrillDblClick(tds[3],{cluster:cl,ct_cohort_month:m,ct_milestone:'oc'});
+    }
+  });
+}
+
+// Headline KPI row — BQL, BQL→MS%, MS→MD%, BQL→MD%, this MTD vs LMTD (same
+// cutoff-day truncation both sides) and vs targets.json where a target
+// exists. Respects the sub-tab's own cluster filter; a single selected
+// cluster resolves to that cluster's target, otherwise falls back to global
+// (mirrors the cl.length===1?cl[0]:'all' convention used for drill-through).
+function renderCTKPIs(elId, framing, clSel){
+  const cur=CT_DATA.meta.current_month, prevMonth=ctPrevMonth(cur);
+  const mtdRows=ctMonthRows(framing,'mtd',clSel);
+  const curRow=mtdRows.find(r=>r.month===cur)||{bql:0,ms:0,md:0,order:0};
+  const prevRow=mtdRows.find(r=>r.month===prevMonth)||null;
+  const targetCluster=clSel.length===1?clSel[0]:null;
+
+  const bqlMsRate=curRow.bql>0?curRow.ms/curRow.bql:null;
+  const prevBqlMsRate=prevRow&&prevRow.bql>0?prevRow.ms/prevRow.bql:null;
+  const bqlMsTgt=resolveTarget('bql_to_ms',targetCluster);
+  const bqlMsBadge=bqlMsRate!=null&&bqlMsTgt!=null?targetBadge(bqlMsRate,bqlMsTgt,'higher'):{cls:'',hover:'',icon:''};
+
+  const msMdRate=curRow.ms>0?curRow.md/curRow.ms:null;
+  const prevMsMdRate=prevRow&&prevRow.ms>0?prevRow.md/prevRow.ms:null;
+  const msMdTgt=resolveTarget('ms_to_md',targetCluster);
+  const msMdBadge=msMdRate!=null&&msMdTgt!=null?targetBadge(msMdRate,msMdTgt,'higher'):{cls:'',hover:'',icon:''};
+
+  const bqlMdRate=curRow.bql>0?curRow.md/curRow.bql:null;
+  const prevBqlMdRate=prevRow&&prevRow.bql>0?prevRow.md/prevRow.bql:null;
+
+  const sub=(deltaHtml,tgt)=>{
+    const parts=[];
+    if(deltaHtml)parts.push(deltaHtml+' vs LMTD');
+    if(tgt!=null)parts.push('target '+fmtRate(tgt));
+    return parts.length?parts.join(' · '):'<span style="color:var(--t3)">No LMTD data</span>';
+  };
+
+  $(elId).innerHTML=`
+    <div class="kcard"><div class="kl">BQL (MTD)</div>
+      <div class="kv cb">${f(curRow.bql)}</div>
+      <div class="ks">${sub(prevRow?dHtml(curRow.bql,prevRow.bql):'',null)}</div></div>
+    <div class="kcard"><div class="kl">BQL → MS %</div>
+      <div class="kv ${bqlMsBadge.cls}" ${bqlMsBadge.hover}>${fmtRate(bqlMsRate)}${bqlMsBadge.icon}</div>
+      <div class="ks">${sub(ctRateDeltaHtml(bqlMsRate,prevBqlMsRate),bqlMsTgt)}</div></div>
+    <div class="kcard"><div class="kl">MS → MD %</div>
+      <div class="kv ${msMdBadge.cls}" ${msMdBadge.hover}>${fmtRate(msMdRate)}${msMdBadge.icon}</div>
+      <div class="ks">${sub(ctRateDeltaHtml(msMdRate,prevMsMdRate),msMdTgt)}</div></div>
+    <div class="kcard"><div class="kl">BQL → MD %</div>
+      <div class="kv cb">${fmtRate(bqlMdRate)}</div>
+      <div class="ks">${sub(ctRateDeltaHtml(bqlMdRate,prevBqlMdRate),null)}</div></div>`;
+}
+
+// City breakdown table: current-month MTD, absolute (current vs LMTD, no
+// target — targets only apply to funnel RATES, not absolute counts, per
+// explicit instruction July 2026), with BQL→MS% and MS→MD% compared against
+// targets.json's bql_to_ms / ms_to_md rate targets (same helpers TAT/LRM
+// Performance already use — resolveTarget/targetBadge — not a separate
+// Control Tower target system).
+function renderCTCityTable(elId, framing, clSel, sortBy){
+  const cur=CT_DATA.meta.current_month;
+  const prevMonth=ctPrevMonth(cur);
+  const curCity=CT_DATA[framing].city_mtd.filter(r=>r.month===cur && (clSel.length===0||clSel.includes(r.cluster)));
+  const lmtdCity=CT_DATA[framing].city_mtd.filter(r=>r.month===prevMonth);
+  const lmtdByCluster={}; lmtdCity.forEach(r=>lmtdByCluster[r.cluster]=r);
+
+  if(!curCity.length){ $(elId).innerHTML='<div class="nd">No data for the current month yet.</div>'; return; }
+
+  // Default: alphabetical by cluster. sortBy='ms' (Overview tab): highest MS
+  // count first, so the busiest/most-relevant clusters surface without a click.
+  const rows=curCity.slice().sort(sortBy==='ms'?(a,b)=>b.ms-a.ms:(a,b)=>a.cluster.localeCompare(b.cluster));
+  const maxBql=Math.max(...rows.map(r=>r.bql),1);
+  let html='<table><thead class="single"><tr><th>Cluster</th>';
+  ['BQL','MS','MD','ORDER'].forEach(h=>html+=`<th class="tdr">${h}</th>`);
+  html+='<th class="tdr">BQL→MS% <span class="ct-sub">vs target</span></th><th class="tdr">MS→MD% <span class="ct-sub">vs target</span></th><th class="tdr">MD→ORD%</th><th class="tdr">BQL→ORD%</th></tr></thead><tbody>';
+  rows.forEach(r=>{
+    const lm=lmtdByCluster[r.cluster]||{bql:0,ms:0,md:0,order:0};
+    html+=`<tr data-cluster="${r.cluster}">`;
+    html+=`<td class="tdc">${r.cluster}</td>`;
+    html+=`<td class="tdr mono" style="${hBg(r.bql,maxBql)}" data-sort="${r.bql}" title="LMTD: ${f(lm.bql)}">${f(r.bql)}<span class="cellsub">${dHtml(r.bql,lm.bql)}</span></td>`;
+    ['ms','md','order'].forEach(fld=>{
+      html+=`<td class="tdr mono" data-sort="${r[fld]}" title="LMTD: ${f(lm[fld]||0)}">${f(r[fld])}<span class="cellsub">${dHtml(r[fld],lm[fld]||0)}</span></td>`;
+    });
+    const bqlMsRate=r.bql>0?r.ms/r.bql:null, msMdRate=r.ms>0?r.md/r.ms:null;
+    const mdOrdRate=r.md>0?r.order/r.md:null, bqlOrdRate=r.bql>0?r.order/r.bql:null;
+    const lmBqlMsRate=lm.bql>0?lm.ms/lm.bql:null, lmMsMdRate=lm.ms>0?lm.md/lm.ms:null;
+    const lmMdOrdRate=lm.md>0?lm.order/lm.md:null, lmBqlOrdRate=lm.bql>0?lm.order/lm.bql:null;
+    const bqlMsTgt=resolveTarget('bql_to_ms',r.cluster), msMdTgt=resolveTarget('ms_to_md',r.cluster);
+    const bqlMsBadge=bqlMsRate!=null&&bqlMsTgt!=null?targetBadge(bqlMsRate,bqlMsTgt,'higher'):{cls:'',hover:'',icon:''};
+    const msMdBadge=msMdRate!=null&&msMdTgt!=null?targetBadge(msMdRate,msMdTgt,'higher'):{cls:'',hover:'',icon:''};
+    html+=`<td class="tdr ${bqlMsBadge.cls}" data-sort="${bqlMsRate!=null?bqlMsRate*100:''}" ${bqlMsBadge.hover}>${ctPctStr(r.ms,r.bql)}${bqlMsBadge.icon}<span class="cellsub">${ctRateDeltaHtml(bqlMsRate,lmBqlMsRate)}</span></td>`;
+    html+=`<td class="tdr ${msMdBadge.cls}" data-sort="${msMdRate!=null?msMdRate*100:''}" ${msMdBadge.hover}>${ctPctStr(r.md,r.ms)}${msMdBadge.icon}<span class="cellsub">${ctRateDeltaHtml(msMdRate,lmMsMdRate)}</span></td>`;
+    html+=`<td class="tdr" data-sort="${mdOrdRate!=null?mdOrdRate*100:''}">${ctPctStr(r.order,r.md)}<span class="cellsub">${ctRateDeltaHtml(mdOrdRate,lmMdOrdRate)}</span></td>`;
+    html+=`<td class="tdr" data-sort="${bqlOrdRate!=null?bqlOrdRate*100:''}">${ctPctStr(r.order,r.bql)}<span class="cellsub">${ctRateDeltaHtml(bqlOrdRate,lmBqlOrdRate)}</span></td>`;
+    html+='</tr>';
+  });
+  html+='</tbody></table>';
+  $(elId).innerHTML=html; autoSort($(elId));
+
+  const lastDay=ctDaysInMonth(cur), cutoff=Math.min(CT_DATA.meta.cutoff_day,lastDay);
+  const monthFrom=`${cur}-01`, monthTo=`${cur}-${String(cutoff).padStart(2,'0')}`;
+  $(elId).querySelectorAll('tbody tr[data-cluster]').forEach(tr=>{
+    const c=tr.dataset.cluster;
+    const tds=[...tr.querySelectorAll('td.tdr.mono')];
+    if(framing==='effort'){
+      if(tds[0]) addDrillDblClick(tds[0],{cluster:c,date_basis:'creation',fromS:monthFrom,toS:monthTo});
+      if(tds[1]) addDrillDblClick(tds[1],{cluster:c,date_basis:'ms',fromS:monthFrom,toS:monthTo});
+      if(tds[2]) addDrillDblClick(tds[2],{cluster:c,date_basis:'md',fromS:monthFrom,toS:monthTo});
+      if(tds[3]) addDrillDblClick(tds[3],{cluster:c,date_basis:'oc',fromS:monthFrom,toS:monthTo});
+    }else{
+      if(tds[0]) addDrillDblClick(tds[0],{cluster:c,ct_cohort_month:cur});
+      if(tds[1]) addDrillDblClick(tds[1],{cluster:c,ct_cohort_month:cur,ct_milestone:'ms'});
+      if(tds[2]) addDrillDblClick(tds[2],{cluster:c,ct_cohort_month:cur,ct_milestone:'md'});
+      if(tds[3]) addDrillDblClick(tds[3],{cluster:c,ct_cohort_month:cur,ct_milestone:'oc'});
+    }
+  });
+}
+
+function renderCTEffort(){
+  if(!CT_DATA) return;
+  const cl=CT.effClSel||[];
+  renderCTKPIs('ct-eff-kpis', 'effort', cl);
+  renderCTMonthTable('ct-eff-full-tbl', ctMonthRows('effort','full_month',cl), 'effort', false, cl);
+  renderCTMonthTable('ct-eff-mtd-tbl',  ctMonthRows('effort','mtd',cl),        'effort', true,  cl);
+  renderCTCityTable('ct-eff-city-tbl', 'effort', cl);
+}
+function renderCTCohort(){
+  if(!CT_DATA) return;
+  const cl=CT.cohClSel||[];
+  renderCTKPIs('ct-coh-kpis', 'cohort', cl);
+  renderCTMonthTable('ct-coh-full-tbl', ctMonthRows('cohort','full_month',cl), 'cohort', false, cl);
+  renderCTMonthTable('ct-coh-mtd-tbl',  ctMonthRows('cohort','mtd',cl),        'cohort', true,  cl);
+  renderCTCityTable('ct-coh-city-tbl', 'cohort', cl);
+  renderCTDoD();
+}
+
+// Day-on-Day 31x31-style matrix — current month only, 3 adjacent stage pairs.
+// Uses RAW same-month date presence only (no cohort backfill) — see footnote.
+function renderCTDoD(){
+  const dm=CT_DATA.cohort.dod_matrix;
+  const pairs=[
+    {key:'bql_to_ms',   label:'BQL → Meeting Scheduled',  fromL:'BQL',  toL:'MS'},
+    {key:'ms_to_md',    label:'Meeting Scheduled → Meeting Done', fromL:'MS', toL:'MD'},
+    {key:'md_to_order', label:'Meeting Done → Order',     fromL:'MD',  toL:'Order'},
+  ];
+  let html=`<div style="font-size:10px;color:var(--t3);margin-bottom:16px;line-height:1.5">
+    Unlike the Cohort funnel tables above (which backfill — e.g. MS counts as done if MD happened the same month even without its own date), this matrix only marks a conversion when that stage's own date field is actually present. A handful of leads may show as "converted" above but not appear here — treat as one-off data gaps, not a discrepancy to chase.
+  </div>`;
+  pairs.forEach(p=>{
+    const rows=(dm[p.key]?.rows||[]).filter(r=>r.count_in>0);
+    const allRow=dm[p.key]?.all;
+    const maxEndDay=Math.max(...rows.map(r=>Math.max(0,...Object.keys(r.cells||{}).map(Number))),...(allRow?Object.keys(allRow.cells||{}).map(Number):[0]),1);
+    const maxCellVal=Math.max(...rows.flatMap(r=>Object.values(r.cells||{})),1);
+    html+=`<div style="margin-bottom:24px"><div style="font-weight:600;font-size:12px;color:var(--bl);margin-bottom:6px">${p.label}</div>
+      <div style="overflow-x:auto"><div class="tw"><table class="dod-tbl"><thead class="single"><tr>
+        <th style="min-width:70px" title="Day of the month the lead entered ${p.fromL} (same-month only)">Day↓ End→</th>
+        <th class="tdr" style="min-width:55px" title="Leads that entered ${p.fromL} on this day">Count In</th>
+        <th class="tdr" style="min-width:55px" title="% of that day's entrants that reached ${p.toL} within this same month">Conv% Total</th>
+        <th class="tdr" style="min-width:48px" title="% that converted within their first 3 days as an ${p.fromL} (entry day counted as day 1)">D1-3%</th>
+        <th class="tdr" style="min-width:48px" title="% that converted within their first 7 days as an ${p.fromL} (entry day counted as day 1)">D1-7%</th>`;
+    for(let d=1; d<=maxEndDay; d++) html+=`<th class="tdr" style="min-width:34px;max-width:34px" title="Reached ${p.toL} on day ${d} of the month">${d}</th>`;
+    html+='</tr></thead><tbody>';
+    rows.forEach(r=>{
+      html+=`<tr><td class="tdc" title="${f(r.count_in)} leads entered ${p.fromL} on day ${r.day}">${r.day}</td><td class="tdr mono">${f(r.count_in)}</td>
+        <td class="tdr" title="${r.conv_total_pct}% of day ${r.day}'s ${p.fromL} entrants reached ${p.toL} this month">${r.conv_total_pct}%</td>
+        <td class="tdr" title="${r.d1_3_pct}% converted within their first 3 days">${r.d1_3_pct}%</td>
+        <td class="tdr" title="${r.d1_7_pct}% converted within their first 7 days">${r.d1_7_pct}%</td>`;
+      for(let d=1; d<=maxEndDay; d++){
+        const v=r.cells[String(d)];
+        const isDiag=d===r.day;
+        const daysLater=d-r.day;
+        const whenLbl=isDiag?'same day':daysLater>0?`${daysLater} day${daysLater===1?'':'s'} later`:`${-daysLater} day${daysLater===-1?'':'s'} earlier (data anomaly)`;
+        const title=v?`Day ${r.day}→${d}: ${v}% of day ${r.day}'s ${f(r.count_in)} entrants converted to ${p.toL} on day ${d} (${whenLbl})`:`No conversions from day ${r.day} to day ${d}`;
+        html+=`<td class="tdr mono${isDiag?' diag':''}" style="min-width:34px;max-width:34px;${v&&!isDiag?hBg(v,maxCellVal):''}" title="${title}">${v?v+'%':'·'}</td>`;
+      }
+      html+='</tr>';
+    });
+    if(allRow&&allRow.count_in>0){
+      html+=`<tr class="total-row" style="background:var(--sur2);font-weight:600"><td class="tdc" title="Totals pooled across every entry day this month">ALL</td><td class="tdr mono">${f(allRow.count_in)}</td>
+        <td class="tdr">${allRow.conv_total_pct}%</td><td class="tdr">${allRow.d1_3_pct}%</td><td class="tdr">${allRow.d1_7_pct}%</td>`;
+      for(let d=1; d<=maxEndDay; d++){
+        const v=allRow.cells[String(d)];
+        html+=`<td class="tdr mono" style="min-width:34px;max-width:34px" title="${v?`${v}% of ALL entrants (pooled across every entry day) converted to ${p.toL} on day ${d} of the month`:`No pooled conversions on day ${d}`}">${v?v+'%':'·'}</td>`;
+      }
+      html+='</tr>';
+    }
+    html+='</tbody></table></div></div></div>';
+  });
+  $('ct-dod-wrap').innerHTML=html;
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// OVERVIEW — role-specific zone rollup (Pan India / North / South & Pune /
+// Nagpur / MP & RoMH). Every number here is a re-slice of data the other
+// tabs already compute (no new ETL logic) — the value-add is: pre-scoped to
+// a zone head's own clusters, a "Needs Attention" callout synthesizing the
+// numbers below into flags (reusing the exact same thresholds already used
+// elsewhere — 50%/25% overdue bands from Call Attempts, the 1.2× target
+// band from targetBadge — no new business rules invented here), and a quick
+// link from every section into its full detailed tab (pre-filtered to the
+// zone where that tab supports a cluster filter).
+// ════════════════════════════════════════════════════════════════════════════
+async function bOverview(){
+  $('p-ov').innerHTML='<div class="stb"><div class="spin"></div>Loading Overview…</div>';
+  try{
+    // loadJSON also stashes onto window[varName], but CT_DATA/MOVE/etc. are
+    // `let` bindings — that side-channel doesn't reach them, so assign the
+    // resolved values back explicitly (same as every other tab's bXxx() does).
+    [CT_DATA,MOVE,LRM_DATA,CALLS,TAT_DATA]=await Promise.all([
+      loadJSON('control_tower','CT_DATA'),
+      loadJSON('daily_movement','MOVE'),
+      loadJSON('lrm_performance','LRM_DATA'),
+      loadJSON('call_attempts','CALLS'),
+      loadJSON('tat_stats','TAT_DATA'),
+    ]);
+    if(!TARGETS){ try{ const r=await fetch('./data/targets.json?t='+Date.now()); TARGETS=r.ok?await r.json():null; }catch(e){ TARGETS=null; } }
+  }catch(e){
+    $('p-ov').innerHTML=`<div class="err">⚠ Could not load one of the underlying datasets — run <code>python etl.py</code> first<br>${e.message}</div>`;
+    return;
+  }
+  $('p-ov').innerHTML=`
+    <div class="stab-bar" id="ov-tabbar">${ZONE_NAMES.map((z,i)=>`<button class="stab-btn${z===OV.zone?' on':''}" data-zone="${z}">${z}</button>`).join('')}</div>
+    <div id="ov-body"></div>`;
+  $('ov-tabbar').querySelectorAll('.stab-btn').forEach(btn=>btn.addEventListener('click',()=>{
+    $('ov-tabbar').querySelectorAll('.stab-btn').forEach(b=>b.classList.remove('on'));
+    btn.classList.add('on');
+    OV.zone=btn.dataset.zone;
+    renderOverviewZone();
+  }));
+  renderOverviewZone();
+}
+
+function renderOverviewZone(){
+  const zone=OV.zone, zc=ZONE_CLUSTERS[zone];           // null = Pan India (no filter)
+  const inZone=c=>!zc||zc.includes(c);
+  const ctCl=zc||[];                                    // [] means "no filter" to ctMonthRows/renderCTKPIs/renderCTCityTable
+  const targetCluster=zc&&zc.length===1?zc[0]:null;     // single-cluster zone (Nagpur) resolves its own target; multi-cluster zones fall back to global, same convention as Control Tower's drill-through
+
+  // ── 1. Control Tower MTD (Effort + Cohort) ────────────────────────────────
+  const cur=CT_DATA.meta.current_month;
+  const effCur=ctMonthRows('effort','mtd',ctCl).find(r=>r.month===cur)||{bql:0,ms:0,md:0,order:0};
+  const cohCur=ctMonthRows('cohort','mtd',ctCl).find(r=>r.month===cur)||{bql:0,ms:0,md:0,order:0};
+
+  // ── 2. Yesterday's Movement ────────────────────────────────────────────────
+  const [yestFrom]=presetRange('yesterday'), yestS=fmtD(yestFrom);
+  const stageY=MOVE.stage.filter(r=>r.date===yestS&&inZone(r.cluster));
+  const statusY=MOVE.status.filter(r=>r.date===yestS&&inZone(r.cluster));
+  const touchY=MOVE.touches.filter(r=>r.date===yestS&&inZone(r.cluster));
+  const mvByCluster={};
+  const touchCount=r=>(r.calls_no_transition||0)+(r.updates_no_transition||0);
+  const bump=(arr,key,valFn)=>arr.forEach(r=>{ if(!mvByCluster[r.cluster])mvByCluster[r.cluster]={stage:0,status:0,touch:0}; mvByCluster[r.cluster][key]+=valFn(r); });
+  bump(stageY,'stage',r=>r.count); bump(statusY,'status',r=>r.count); bump(touchY,'touch',touchCount);
+  const mvT={stage:stageY.reduce((s,r)=>s+r.count,0),status:statusY.reduce((s,r)=>s+r.count,0),touch:touchY.reduce((s,r)=>s+touchCount(r),0)};
+
+  // ── 3. LRM Performance MTD ──────────────────────────────────────────────────
+  const [lrmFrom]=presetRange('thismonth'); const lrmFromS=fmtD(lrmFrom), todayS=fmtD(new Date());
+  const lrmRecs=LRM_DATA.records.filter(r=>r.date>=lrmFromS&&r.date<=todayS&&inZone(r.cluster));
+  const lrmByCluster={}; const zoneLRMs=new Set(); const zoneTouched=new Set();
+  lrmRecs.forEach(r=>{
+    if(!lrmByCluster[r.cluster])lrmByCluster[r.cluster]={calls:0,stage:0,lrms:new Set()};
+    const b=lrmByCluster[r.cluster];
+    b.calls+=r.calls; b.stage+=r.stage_movements;
+    if(r.lrm&&r.lrm!=='Unknown'){ b.lrms.add(r.lrm); zoneLRMs.add(r.lrm); }
+    (r.touch_lead_ids||[]).forEach(id=>zoneTouched.add(id));
+  });
+  const lrmT={calls:Object.values(lrmByCluster).reduce((s,b)=>s+b.calls,0),stage:Object.values(lrmByCluster).reduce((s,b)=>s+b.stage,0),touched:zoneTouched.size,lrmCount:zoneLRMs.size};
+
+  // ── 4. Overdue & Open Leads ──────────────────────────────────────────────────
+  // Overdue is reported as two separate, non-overlapping slices rather than
+  // one bucket-wide total: leads currently in Open status (any stage), and
+  // leads currently in the Future Followup Required stage (a Closed-Cold
+  // stage) — the two categories a zone head actually needs to chase.
+  const FFU_STAGE='Future Followup Required';
+  const callByCluster={};
+  CALLS.records.filter(r=>inZone(r.cluster)).forEach(r=>{
+    if(!callByCluster[r.cluster])callByCluster[r.cluster]={total:0,updated:0,scheduled:0,openTotal:0,openOverdue:0,ffuTotal:0,ffuOverdue:0};
+    const b=callByCluster[r.cluster];
+    b.total+=r.total; b.updated+=r.updated_today; b.scheduled+=r.scheduled_today;
+    if(r.lead_status==='Open'){ b.openTotal+=r.total; b.openOverdue+=r.overdue; }
+    if(r.lead_stage===FFU_STAGE){ b.ffuTotal+=r.total; b.ffuOverdue+=r.overdue; }
+  });
+  const openByCluster={};
+  DATA.records.filter(r=>r.lead_status==='Open'&&inZone(r.cluster)).forEach(r=>{ openByCluster[r.cluster]=(openByCluster[r.cluster]||0)+r.lead_count; });
+  const ovT={total:0,updated:0,scheduled:0,openTotal:0,openOverdue:0,ffuTotal:0,ffuOverdue:0,open:0};
+  Object.values(callByCluster).forEach(b=>{ ovT.total+=b.total; ovT.updated+=b.updated; ovT.scheduled+=b.scheduled; ovT.openTotal+=b.openTotal; ovT.openOverdue+=b.openOverdue; ovT.ffuTotal+=b.ffuTotal; ovT.ffuOverdue+=b.ffuOverdue; });
+  Object.values(openByCluster).forEach(v=>ovT.open+=v);
+
+  // ── 5. TAT MTD (first call + first meeting) ─────────────────────────────────
+  const tatRecs=TAT_DATA.records.filter(r=>r.creation_date>=lrmFromS&&r.creation_date<=todayS&&inZone(r.cluster));
+  const fcVals=tatRecs.map(r=>r.tat_first_call).filter(v=>v!=null).sort((a,b)=>a-b);
+  const msVals=tatRecs.map(r=>r.tat_to_meeting).filter(v=>v!=null).sort((a,b)=>a-b);
+  const fcP80=percentile(fcVals,80), msP80=percentile(msVals,80);
+  const fcTgt=resolveTarget('lc_to_first_call',targetCluster), msTgt=resolveTarget('lc_to_ms',targetCluster);
+  const fcBadge=fcP80!=null&&fcTgt!=null?targetBadge(fcP80,fcTgt,'lower'):{cls:'',hover:'',icon:''};
+  const msBadge=msP80!=null&&msTgt!=null?targetBadge(msP80,msTgt,'lower'):{cls:'',hover:'',icon:''};
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // NEEDS ATTENTION — v2. Design goals (per Manas, July 2026):
+  //  (a) ACCURATE — every rate-based flag requires its denominator to be
+  //      ≥ MIN_N before it's even eligible to fire. Same convention the TAT
+  //      tab already uses for its own "small sample" warning — not a new
+  //      number invented for this.
+  //  (b) ACTIONABLE — ranked by a real score (how far past threshold ×
+  //      log(volume affected)), not by category order + truncation. A big
+  //      miss on a big cluster always outranks a big miss on a tiny one.
+  //      Every flag links straight to the leads behind it via drillTo (or,
+  //      for activity flags with no clean lead-list equivalent, jumps to the
+  //      relevant tab pre-filtered to that cluster).
+  //  (c) BROAD — per-cluster (not just zone-aggregate) funnel + TAT checks,
+  //      both Effort and Cohort framing, PLUS trend/early-warning flags for
+  //      metrics still above target but falling sharply — catches decline a
+  //      cycle before it becomes a hard breach.
+  //  (d) GROUPED — Funnel / SLA / Team Activity / Backlog, each shown
+  //      separately (with its own "✓ nothing flagged" when clean) so one
+  //      noisy category can't crowd out a real issue in another.
+  // ══════════════════════════════════════════════════════════════════════════
+  const MIN_N=20;            // same threshold as the TAT tab's own small-sample warning
+  const TREND_DROP_PP=10;    // funnel rate falling >10pp vs LMTD, while still at/above target, is an early warning
+  const TAT_TREND_GROW_PCT=30; // TAT P80 slowing >30% vs LMTD, while still under the red threshold, is an early warning
+
+  const flagCandidates=[];   // {cat, sev, html, score, action}
+  const pushCandidate=(cat,sev,html,magnitude,volume,action)=>{
+    flagCandidates.push({cat,sev,html,score:Math.max(magnitude,0.01)*Math.log(1+Math.max(volume,0)),action});
+  };
+
+  const cutoffDay=CT_DATA.meta.cutoff_day;
+  const monthTo=(m)=>`${m}-${String(Math.min(cutoffDay,ctDaysInMonth(m))).padStart(2,'0')}`;
+  const monthFrom=(m)=>`${m}-01`;
+  const prevMonthCT=ctPrevMonth(cur);
+
+  // ── Funnel: per-cluster, Effort + Cohort, BQL→MS and MS→MD ─────────────────
+  const ctClusters=zc||[...new Set(CT_DATA.effort.city_mtd.map(r=>r.cluster))].filter(c=>c&&c!=='Unknown'&&c!=='Invalid');
+  const byClusterMonth=(arr,m)=>{ const o={}; arr.filter(r=>r.month===m).forEach(r=>o[r.cluster]=r); return o; };
+  const effCurByC=byClusterMonth(CT_DATA.effort.city_mtd,cur), effPrevByC=byClusterMonth(CT_DATA.effort.city_mtd,prevMonthCT);
+  const cohCurByC=byClusterMonth(CT_DATA.cohort.city_mtd,cur), cohPrevByC=byClusterMonth(CT_DATA.cohort.city_mtd,prevMonthCT);
+
+  function checkFunnelRate(c,framing,cur_r,prev_r,numFld,denFld,targetKey,label,action){
+    if(!cur_r)return;
+    const den=cur_r[denFld], num=cur_r[numFld];
+    if(den<MIN_N)return;
+    const rate=num/den, tgt=resolveTarget(targetKey,c);
+    if(tgt==null)return;
+    if(rate<tgt){
+      const gapPP=(tgt-rate)*100;
+      pushCandidate('funnel','red',
+        `<b>${c}</b> ${framing} ${label} is <b>${fmtRate(rate)}</b>, ${gapPP.toFixed(1)}pp below the ${fmtRate(tgt)} target (N=${f(den)}).`,
+        gapPP,den,action);
+    }else if(prev_r&&prev_r[denFld]>=MIN_N){
+      const prevRate=prev_r[numFld]/prev_r[denFld];
+      const dropPP=(prevRate-rate)*100;
+      if(dropPP>TREND_DROP_PP)
+        pushCandidate('funnel','amber',
+          `<b>${c}</b> ${framing} ${label} fell ${dropPP.toFixed(1)}pp vs LMTD to <b>${fmtRate(rate)}</b> — still above the ${fmtRate(tgt)} target, but worth a check.`,
+          dropPP,den,action);
+    }
+  }
+  ctClusters.forEach(c=>{
+    const effFrom=monthFrom(cur), effTo=monthTo(cur);
+    checkFunnelRate(c,'Effort',effCurByC[c],effPrevByC[c],'ms','bql','bql_to_ms','BQL→MS',
+      {type:'drill',filters:{cluster:c,date_basis:'creation',fromS:effFrom,toS:effTo}});
+    checkFunnelRate(c,'Effort',effCurByC[c],effPrevByC[c],'md','ms','ms_to_md','MS→MD',
+      {type:'drill',filters:{cluster:c,date_basis:'ms',fromS:effFrom,toS:effTo}});
+    checkFunnelRate(c,'Cohort',cohCurByC[c],cohPrevByC[c],'ms','bql','bql_to_ms','BQL→MS',
+      {type:'drill',filters:{cluster:c,ct_cohort_month:cur}});
+    checkFunnelRate(c,'Cohort',cohCurByC[c],cohPrevByC[c],'md','ms','ms_to_md','MS→MD',
+      {type:'drill',filters:{cluster:c,ct_cohort_month:cur,ct_milestone:'ms'}});
+  });
+
+  // ── SLA: per-cluster TAT, first-call + first-meeting P80 ────────────────────
+  const [prevMoFrom,prevMoTo]=presetRange('lastmonth'); const prevMoFromS=fmtD(prevMoFrom), prevMoToS=fmtD(prevMoTo);
+  const tatPrevRecs=TAT_DATA.records.filter(r=>r.creation_date>=prevMoFromS&&r.creation_date<=prevMoToS&&inZone(r.cluster));
+  function tatValsByCluster(recs,fld){ const o={}; recs.forEach(r=>{ if(r[fld]==null)return; (o[r.cluster]=o[r.cluster]||[]).push(r[fld]); }); return o; }
+  const fcByC=tatValsByCluster(tatRecs,'tat_first_call'), fcPrevByC=tatValsByCluster(tatPrevRecs,'tat_first_call');
+  const msByC=tatValsByCluster(tatRecs,'tat_to_meeting'), msPrevByC=tatValsByCluster(tatPrevRecs,'tat_to_meeting');
+  function checkTATMetric(c,vals,prevVals,targetKey,label){
+    if(!vals||vals.length<MIN_N)return;
+    const sorted=vals.slice().sort((a,b)=>a-b), p80=percentile(sorted,80), tgt=resolveTarget(targetKey,c);
+    if(tgt==null)return;
+    const action={type:'drill',filters:{cluster:c,date_basis:'creation',fromS:lrmFromS,toS:todayS}};
+    if(p80>tgt*1.2){
+      pushCandidate('sla','red',
+        `<b>${c}</b> ${label} P80 is <b>${fmtTAT(p80)}</b>, over 20% above the ${fmtTAT(tgt)} target (N=${f(vals.length)}).`,
+        (p80-tgt)/tgt*100,vals.length,action);
+    }else if(prevVals&&prevVals.length>=MIN_N){
+      const prevP80=percentile(prevVals.slice().sort((a,b)=>a-b),80);
+      const growPct=prevP80>0?(p80-prevP80)/prevP80*100:0;
+      if(growPct>TAT_TREND_GROW_PCT)
+        pushCandidate('sla','amber',
+          `<b>${c}</b> ${label} P80 slowed to <b>${fmtTAT(p80)}</b>, up ${growPct.toFixed(0)}% vs last month — still under threshold, but worth a check.`,
+          growPct,vals.length,action);
+    }
+  }
+  ctClusters.forEach(c=>{
+    checkTATMetric(c,fcByC[c],fcPrevByC[c],'lc_to_first_call','First-call');
+    checkTATMetric(c,msByC[c],msPrevByC[c],'lc_to_ms','First-meeting');
+  });
+
+  // ── Team Activity: idle (last 3 days) + dormant (zero calls MTD) ───────────
+  // Zone-level only (like the old version) — "idle across all of Pan India"
+  // isn't a meaningful signal, and scanning 33 clusters here would just
+  // reproduce the LRM/Movement tables verbatim.
+  if(zc){
+    const win3End=new Date(); win3End.setDate(win3End.getDate()-1);
+    const win3Start=new Date(win3End); win3Start.setDate(win3Start.getDate()-2);
+    const win3FromS=fmtD(win3Start), win3ToS=fmtD(win3End);
+    const touch3ByCluster={};
+    MOVE.touches.filter(r=>r.date>=win3FromS&&r.date<=win3ToS&&inZone(r.cluster)).forEach(r=>{ touch3ByCluster[r.cluster]=(touch3ByCluster[r.cluster]||0)+touchCount(r); });
+    zc.forEach(c=>{
+      if(!(touch3ByCluster[c]>0))
+        pushCandidate('activity','red',`<b>${c}</b> has had zero touches in the last 3 days.`,25,10,
+          {type:'jump',tab:'movement',presetFn:()=>{MV.clSel=[c];MV.preset='last7';}});
+    });
+    zc.forEach(c=>{
+      if(!(lrmByCluster[c]&&lrmByCluster[c].calls>0))
+        pushCandidate('activity','amber',`<b>${c}</b> has zero calls logged this month.`,15,10,
+          {type:'jump',tab:'lrm',presetFn:()=>{LRMV.clSel=[c];LRMV.preset='thismonth';}});
+    });
+  }
+
+  // ── Backlog: per-cluster Open-overdue and Future-Followup-overdue rate ──────
+  Object.entries(callByCluster).forEach(([c,b])=>{
+    if(b.openTotal>=MIN_N){
+      const openOvPct=b.openOverdue/b.openTotal*100;
+      const action={type:'drill',filters:{cluster:c,status:'Open',is_overdue:true}};
+      if(openOvPct>50) pushCandidate('backlog','red',`<b>${c}</b> has <b>${openOvPct.toFixed(0)}%</b> of its Open leads overdue (${f(b.openOverdue)} of ${f(b.openTotal)}).`,openOvPct-50,b.openTotal,action);
+      else if(openOvPct>25) pushCandidate('backlog','amber',`<b>${c}</b> has ${openOvPct.toFixed(0)}% of its Open leads overdue (${f(b.openOverdue)} of ${f(b.openTotal)}).`,openOvPct-25,b.openTotal,action);
+    }
+    if(b.ffuTotal>=MIN_N){
+      const ffuOvPct=b.ffuOverdue/b.ffuTotal*100;
+      const action={type:'drill',filters:{cluster:c,stage:FFU_STAGE,is_overdue:true}};
+      if(ffuOvPct>50) pushCandidate('backlog','red',`<b>${c}</b> has <b>${ffuOvPct.toFixed(0)}%</b> of its Future Followup leads overdue (${f(b.ffuOverdue)} of ${f(b.ffuTotal)}).`,ffuOvPct-50,b.ffuTotal,action);
+      else if(ffuOvPct>25) pushCandidate('backlog','amber',`<b>${c}</b> has ${ffuOvPct.toFixed(0)}% of its Future Followup leads overdue (${f(b.ffuOverdue)} of ${f(b.ffuTotal)}).`,ffuOvPct-25,b.ffuTotal,action);
+    }
+  });
+
+  // ── Group, rank within category, cap ─────────────────────────────────────────
+  const FLAG_CATS=[
+    {key:'funnel',  label:'Funnel'},
+    {key:'sla',     label:'SLA / Response Time'},
+    {key:'activity',label:'Team Activity'},
+    {key:'backlog', label:'Backlog'},
+  ];
+  const CATEGORY_CAP=3;
+  const renderedFlags=[];   // flat, in DOM order — click handler indexes into this
+  const catBlocksHtml=FLAG_CATS.map(cat=>{
+    const items=flagCandidates.filter(f=>f.cat===cat.key).sort((a,b)=>b.score-a.score);
+    const shown=items.slice(0,CATEGORY_CAP), hidden=items.length-shown.length;
+    const rows=shown.length?shown.map(f=>{
+      const idx=renderedFlags.push(f)-1;
+      return `<div class="ov-flag-item f-${f.sev}" data-flagidx="${idx}">${f.sev==='red'?'⛔':'⚠'} <span style="flex:1">${f.html}</span><span class="ov-flag-fix">Fix →</span></div>`;
+    }).join(''):'<div class="ov-flag-ok">✓ Nothing flagged</div>';
+    return `<div class="ov-flag-cat"><div class="ov-flag-cat-hdr">${cat.label}</div>${rows}${hidden>0?`<div class="ov-flag-more">+${hidden} more in this category — see the section tables below.</div>`:''}</div>`;
+  }).join('');
+
+  // ── Assemble ─────────────────────────────────────────────────────────────────
+  // sc-hi is a <div> here (not the usual inline <span>) so it wraps onto its
+  // own line below the title instead of running into it on the same line.
+  const linkHdr=(title,sub,onClick,btnLabel)=>`<div class="sc-h"><div style="flex:1;min-width:0">${title?`<span class="sc-t">${title}</span>`:''}<div class="sc-hi">${sub}</div></div><button class="ov-link" style="flex:0 0 auto" data-ovlink="${onClick}">${btnLabel||'View full tab →'}</button></div>`;
+
+  const clusterListStr=zc?zc.join(', '):'all '+[...new Set(CT_DATA.effort.city_full_month.map(r=>r.cluster))].filter(c=>c&&c!=='Unknown').length+' clusters';
+
+  $('ov-body').innerHTML=`
+    <div style="font-size:11px;color:var(--t3);margin-bottom:12px">${zone==='Pan India'?'Company-wide, no cluster filter.':`Clusters in this zone: <b>${clusterListStr}</b>`}</div>
+
+    <div class="sc"><div class="sc-h"><span class="sc-t">⚑ Needs Attention</span><span class="sc-hi">Ranked by severity × leads affected · grouped by area · click any flag to jump straight to it</span></div>
+      <div class="sc-b">${catBlocksHtml}</div></div>
+
+    <div class="sc">${linkHdr('Control Tower — MTD','Effort (pace) and Cohort/MO (same-month) funnels, this zone only','ct-tower','View full Control Tower →')}
+      <div class="sc-b">
+        <div style="font-size:11px;font-weight:600;color:var(--t3);margin-bottom:6px;text-transform:uppercase;letter-spacing:.4px">Effort</div>
+        <div class="kgrid k4" id="ov-ct-eff-kpis"></div>
+        <div style="overflow-x:auto;max-height:320px;overflow-y:auto;margin-bottom:16px"><div class="tw" id="ov-ct-eff-city"></div></div>
+        <div style="font-size:11px;font-weight:600;color:var(--t3);margin-bottom:6px;text-transform:uppercase;letter-spacing:.4px">Cohort / MO</div>
+        <div class="kgrid k4" id="ov-ct-coh-kpis"></div>
+        <div style="overflow-x:auto;max-height:320px;overflow-y:auto"><div class="tw" id="ov-ct-coh-city"></div></div>
+      </div></div>
+
+    <div class="sc">${linkHdr('TAT — MTD','Response-time P80 vs target, first call & first meeting','tat','View full TAT →')}
+      <div class="sc-b">
+        <div class="kgrid k3">
+          <div class="kcard"><div class="kl">First Call P80</div><div class="kv ${fcBadge.cls}" ${fcBadge.hover}>${fmtTAT(fcP80)}${fcBadge.icon}</div><div class="ks">${fcTgt!=null?'target '+fmtTAT(fcTgt):'no target set'}</div></div>
+          <div class="kcard"><div class="kl">First Meeting P80</div><div class="kv ${msBadge.cls}" ${msBadge.hover}>${fmtTAT(msP80)}${msBadge.icon}</div><div class="ks">${msTgt!=null?'target '+fmtTAT(msTgt):'no target set'}</div></div>
+          <div class="kcard"><div class="kl">Leads (MTD)</div><div class="kv cb">${f(tatRecs.length)}</div><div class="ks">sample size</div></div>
+        </div>
+      </div></div>
+
+    <div class="sc">${linkHdr('LRM Performance — MTD',`Since ${fmtNice(lrmFromS)} · this zone only`,'lrm','View full LRM Performance →')}
+      <div class="sc-b">
+        <div class="kgrid k4">
+          <div class="kcard"><div class="kl">Calls</div><div class="kv cb">${f(lrmT.calls)}</div><div class="ks">MTD</div></div>
+          <div class="kcard"><div class="kl">Leads Touched</div><div class="kv cg">${f(lrmT.touched)}</div><div class="ks">unique, MTD</div></div>
+          <div class="kcard"><div class="kl">Stage Movements</div><div class="kv cp">${f(lrmT.stage)}</div><div class="ks">MTD</div></div>
+          <div class="kcard"><div class="kl">Active LRMs</div><div class="kv ca">${f(lrmT.lrmCount)}</div><div class="ks">logged ≥1 event MTD</div></div>
+        </div>
+        ${Object.keys(lrmByCluster).length?`<div style="overflow-x:auto;max-height:260px;overflow-y:auto;margin-top:10px"><div class="tw"><table><thead class="single"><tr><th>Cluster</th><th class="tdr">Calls</th><th class="tdr">Stage Movements</th><th class="tdr">Active LRMs</th></tr></thead><tbody>
+          ${Object.entries(lrmByCluster).sort((a,b)=>a[1].calls-b[1].calls).map(([c,b])=>`<tr><td class="tdc">${c}</td><td class="tdr mono ${b.calls===0?'cell-bad':''}">${f(b.calls)}</td><td class="tdr mono">${f(b.stage)}</td><td class="tdr mono">${b.lrms.size}</td></tr>`).join('')}
+        </tbody></table></div></div>`:'<div class="nd">No LRM activity recorded MTD in this zone.</div>'}
+      </div></div>
+
+    <div class="sc">${linkHdr('Yesterday’s Movement',`${fmtNice(yestS)} · stage/status transitions & touches, this zone only`,'movement','View full Movement →')}
+      <div class="sc-b">
+        <div class="kgrid k3">
+          <div class="kcard"><div class="kl">Stage Movements</div><div class="kv cb">${f(mvT.stage)}</div><div class="ks">clusters active: ${Object.keys(mvByCluster).length}</div></div>
+          <div class="kcard"><div class="kl">Status Changes</div><div class="kv cp">${f(mvT.status)}</div><div class="ks">yesterday</div></div>
+          <div class="kcard"><div class="kl">Touches</div><div class="kv cg">${f(mvT.touch)}</div><div class="ks">calls + no-change updates</div></div>
+        </div>
+        ${Object.keys(mvByCluster).length?`<div style="overflow-x:auto;max-height:260px;overflow-y:auto;margin-top:10px"><div class="tw"><table><thead class="single"><tr><th>Cluster</th><th class="tdr">Stage</th><th class="tdr">Status</th><th class="tdr">Touches</th></tr></thead><tbody>
+          ${Object.entries(mvByCluster).sort((a,b)=>(b[1].stage+b[1].status+b[1].touch)-(a[1].stage+a[1].status+a[1].touch)).map(([c,b])=>`<tr><td class="tdc">${c}</td><td class="tdr mono">${f(b.stage)}</td><td class="tdr mono">${f(b.status)}</td><td class="tdr mono">${f(b.touch)}</td></tr>`).join('')}
+        </tbody></table></div></div>`:'<div class="nd">No movement recorded yesterday in this zone.</div>'}
+      </div></div>
+
+    <div class="sc">${linkHdr('Overdue & Open Leads',`As of ${fmtNice(CALLS.meta.as_of_date)}`,'calls','View Call Attempts detail →')}
+      <div class="sc-b">
+        <div class="kgrid k6">
+          <div class="kcard"><div class="kl">Open Leads</div><div class="kv cb" id="ov-open-kv">${f(ovT.open)}</div><div class="ks">from Cluster × Stage</div></div>
+          <div class="kcard"><div class="kl">In Bucket</div><div class="kv cb">${f(ovT.total)}</div><div class="ks">Call Attempts tracked</div></div>
+          <div class="kcard"><div class="kl">Updated Today</div><div class="kv cg">${f(ovT.updated)}</div><div class="ks">${pct(ovT.updated,ovT.total)}</div></div>
+          <div class="kcard"><div class="kl">Scheduled Today</div><div class="kv ca">${f(ovT.scheduled)}</div><div class="ks">follow-ups due</div></div>
+          <div class="kcard"><div class="kl">Overdue — Open</div><div class="kv cr" id="ov-overdue-open-kv">${f(ovT.openOverdue)}</div><div class="ks">${pct(ovT.openOverdue,ovT.openTotal)} of Open</div></div>
+          <div class="kcard"><div class="kl">Overdue — Future Followup</div><div class="kv cr" id="ov-overdue-ffu-kv">${f(ovT.ffuOverdue)}</div><div class="ks">${pct(ovT.ffuOverdue,ovT.ffuTotal)} of FFU stage</div></div>
+        </div>
+        ${Object.keys(callByCluster).length?`<div style="overflow-x:auto;max-height:300px;overflow-y:auto;margin-top:10px"><div class="tw"><table><thead class="single"><tr><th>Cluster</th><th class="tdr">Open</th><th class="tdr">In Bucket</th><th class="tdr">Overdue (Open)</th><th class="tdr">Overdue (Future Followup)</th></tr></thead><tbody>
+          ${Object.entries(callByCluster).sort((a,b)=>(b[1].openTotal>0?b[1].openOverdue/b[1].openTotal:0)-(a[1].openTotal>0?a[1].openOverdue/a[1].openTotal:0)).map(([c,b])=>{
+            const openOvPct=b.openTotal>0?b.openOverdue/b.openTotal*100:0; const cls=openOvPct>50?'cell-bad':openOvPct>25?'cell-warn':'';
+            return `<tr><td class="tdc">${c}</td><td class="tdr mono">${f(openByCluster[c]||0)}</td><td class="tdr mono">${f(b.total)}</td><td class="tdr mono ${cls}">${f(b.openOverdue)}</td><td class="tdr mono">${f(b.ffuOverdue)}</td></tr>`;
+          }).join('')}
+        </tbody></table></div></div>`:'<div class="nd">No call-attempt data for this zone.</div>'}
+      </div></div>`;
+
+  // Section header quick links → jump to detailed tab, pre-scoped to this zone
+  $('ov-body').querySelectorAll('[data-ovlink]').forEach(btn=>btn.addEventListener('click',()=>{
+    const dest=btn.dataset.ovlink;
+    if(dest==='ct-tower')      jumpToTab('ct',      ()=>{CT.effClSel=ctCl.slice(); CT.cohClSel=ctCl.slice();});
+    else if(dest==='movement')jumpToTab('movement', ()=>{MV.clSel=ctCl.slice(); MV.preset='yesterday';});
+    else if(dest==='lrm')     jumpToTab('lrm',      ()=>{LRMV.clSel=ctCl.slice(); LRMV.preset='thismonth';});
+    else if(dest==='tat')     jumpToTab('tat',      ()=>{TATV.clSel=ctCl.slice(); TATV.preset='thismonth';});
+    else if(dest==='calls')   jumpToTab('calls');   // no cluster filter exists on this tab today
+  }));
+
+  // Needs Attention flags → drill straight to the leads behind the flag, or
+  // (for activity flags with no clean lead-list equivalent) jump to the
+  // relevant tab pre-filtered to that cluster.
+  $('ov-body').querySelectorAll('[data-flagidx]').forEach(el=>el.addEventListener('click',()=>{
+    const flag=renderedFlags[parseInt(el.dataset.flagidx)]; if(!flag||!flag.action)return;
+    if(flag.action.type==='drill') drillTo(flag.action.filters);
+    else if(flag.action.type==='jump') jumpToTab(flag.action.tab,flag.action.presetFn);
+  }));
+
+  renderCTKPIs('ov-ct-eff-kpis','effort',ctCl);
+  renderCTKPIs('ov-ct-coh-kpis','cohort',ctCl);
+  renderCTCityTable('ov-ct-eff-city','effort',ctCl,'ms');
+  renderCTCityTable('ov-ct-coh-city','cohort',ctCl,'ms');
+
+  // Drill straight into the actual lead list for the numbers a head is most
+  // likely to act on immediately (same double-click convention as every
+  // other drillable number in the dashboard).
+  const openKv=$('ov-open-kv'), overdueOpenKv=$('ov-overdue-open-kv'), overdueFfuKv=$('ov-overdue-ffu-kv');
+  const clStr=ctCl.join(',')||'all';
+  if(openKv)       addDrillDblClick(openKv,       {cluster:clStr, status:'Open'});
+  if(overdueOpenKv)addDrillDblClick(overdueOpenKv,{cluster:clStr, status:'Open', is_overdue:true});
+  if(overdueFfuKv) addDrillDblClick(overdueFfuKv, {cluster:clStr, stage:FFU_STAGE, is_overdue:true});
 }
 
 // ════════════════════════════════════════════════════════════════════════════
@@ -908,7 +1845,7 @@ function renderV1(){
   const aggA=aggPivot(rA,'lead_stage');const aggB=rB?aggPivot(rB,'lead_stage'):null;
   const allDims={...aggA.dimTotals,...(aggB?.dimTotals||{})};
   const groups=stageGroups(allDims,sel);const colors=buildColors(groups);
-  const stages=groups.flatMap(g=>g.stages);const clusters=topClusters(aggA,aggB,20,comp?V1.sortBy:'A');
+  const stages=groups.flatMap(g=>g.stages);const clusters=topClusters(aggA,aggB,999,comp?V1.sortBy:'A');
   renderV1KPIs(rA,rB,comp);renderV1Chart(aggA,aggB,stages,clusters,colors,groups,comp,pctM);renderV1Matrix(aggA,aggB,groups,stages,clusters,comp,pctM);
 }
 function renderV1KPIs(rA,rB,comp){
@@ -998,18 +1935,65 @@ function renderV1Matrix(aggA,aggB,groups,stages,clusters,comp,pctM){
     else{html+=`<td class="tdr" style="font-weight:600;${border}">${pctM?((ta/(tA||1))*100).toFixed(1)+'%':f(ta)}</td>`;}});});
   if(comp){html+=`<td class="tdt">${f(tA)}</td><td class="tdb">${f(tB)}</td><td class="tdr">${dHtml(tA,tB)}</td>`;}else{html+=`<td class="tdt">${f(tA)}</td>`;}
   html+='</tr></tbody></table>';wrap.innerHTML=html;autoSort(wrap);
+  const _sm=groups.flatMap(g=>g.stages.map(s=>({status:g.status,stage:s})));
+  const _fmt=d=>d?[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-'):null;
   if(!comp){
     const _dr=getDR('v1-pa','v1-fa','v1-ta');
-    const _f=d=>d?[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-'):null;
-    const _from=_f(_dr.from),_to=_f(_dr.to);
-    const _sm=groups.flatMap(g=>g.stages.map(s=>({status:g.status,stage:s})));
+    const _from=_fmt(_dr.from),_to=_fmt(_dr.to);
     wrap.querySelectorAll('tbody tr').forEach(tr=>{
       const _cn=tr.querySelector('td.tdc')?.textContent?.trim();
-      if(!_cn||_cn==='Total')return;
+      if(!_cn||_cn==='Total'){
+        // Bottom Total row: per-stage Pan-India sums + grand total corner
+        if(_cn==='Total'){
+          tr.querySelectorAll('td.tdr').forEach((td,i)=>{
+            if(i>=_sm.length)return;
+            addDrillDblClick(td,{cluster:'all',status:_sm[i].status,stage:_sm[i].stage,fromS:_from,toS:_to});
+          });
+          const _tot=tr.querySelector('td.tdt');
+          if(_tot)addDrillDblClick(_tot,{cluster:'all',status:'all',stage:'all',fromS:_from,toS:_to});
+        }
+        return;
+      }
       tr.querySelectorAll('td.tdr.mono').forEach((td,i)=>{
         if(i>=_sm.length)return;
         addDrillDblClick(td,{cluster:_cn,status:_sm[i].status,stage:_sm[i].stage,fromS:_from,toS:_to});
       });
+      // Row-total (rightmost Total column) — this cluster, all statuses/stages
+      const _rowTot=tr.querySelector('td.tdt');
+      if(_rowTot)addDrillDblClick(_rowTot,{cluster:_cn,status:'all',stage:'all',fromS:_from,toS:_to});
+    });
+  }else{
+    // Comparison mode: each stage renders TWO .tdr.mono cells in sequence (A then B).
+    // Wire each to its own period's date range.
+    const _drA=getDR('v1-pa','v1-fa','v1-ta'),_drB=getDR('v1-pb','v1-fb','v1-tb');
+    const _fromA=_fmt(_drA.from),_toA=_fmt(_drA.to),_fromB=_fmt(_drB.from),_toB=_fmt(_drB.to);
+    wrap.querySelectorAll('tbody tr').forEach(tr=>{
+      const _cn=tr.querySelector('td.tdc')?.textContent?.trim();
+      if(!_cn||_cn==='Total'){
+        if(_cn==='Total'){
+          // Bottom Total row: 3 cells per stage (A value, B value, delta) — only wire A and B
+          tr.querySelectorAll('td.tdr').forEach((td,i)=>{
+            const si=Math.floor(i/3);if(si>=_sm.length)return;
+            const pos=i%3;if(pos===2)return; // skip delta cell
+            addDrillDblClick(td,{cluster:'all',status:_sm[si].status,stage:_sm[si].stage,
+              fromS:pos===1?_fromB:_fromA,toS:pos===1?_toB:_toA});
+          });
+          const _totA=tr.querySelector('td.tdt'),_totB=tr.querySelector('td.tdb');
+          if(_totA)addDrillDblClick(_totA,{cluster:'all',status:'all',stage:'all',fromS:_fromA,toS:_toA});
+          if(_totB)addDrillDblClick(_totB,{cluster:'all',status:'all',stage:'all',fromS:_fromB,toS:_toB});
+        }
+        return;
+      }
+      tr.querySelectorAll('td.tdr.mono').forEach((td,i)=>{
+        const si=Math.floor(i/2);if(si>=_sm.length)return;
+        const isB=i%2===1;
+        addDrillDblClick(td,{cluster:_cn,status:_sm[si].status,stage:_sm[si].stage,
+          fromS:isB?_fromB:_fromA,toS:isB?_toB:_toA});
+      });
+      // Row-total column — A and B cells, this cluster, all statuses/stages
+      const _rtA=tr.querySelector('td.tdt'),_rtB=tr.querySelector('td.tdb');
+      if(_rtA)addDrillDblClick(_rtA,{cluster:_cn,status:'all',stage:'all',fromS:_fromA,toS:_toA});
+      if(_rtB)addDrillDblClick(_rtB,{cluster:_cn,status:'all',stage:'all',fromS:_fromB,toS:_toB});
     });
   }
 }
@@ -1077,15 +2061,23 @@ function renderDailyTbl(byCluster,clusters,T){
   html+=`<tr class="total-row" style="background:var(--sur2);font-weight:600"><td>Total</td><td class="tdr mono">${f(T.total)}</td><td class="tdr mono">${f(T.updated)}</td><td class="tdr mono">${f(T.scheduled)}</td><td class="tdr mono">${f(T.overdue)}</td><td class="tdr">${T.total>0?(T.overdue/T.total*100).toFixed(1)+'%':'—'}</td></tr></tbody></table>`;
   const wrap=$('cv-tbl-daily');wrap.innerHTML=html;autoSort(wrap);
   wrap.querySelectorAll('tbody tr').forEach(tr=>{
+    if(tr.classList.contains('total-row')){
+      const _tds=[...tr.querySelectorAll('td')];
+      const _base={cluster:'all',status:CV.sel.length > 0 ? CV.sel.join(',') : 'all',stage:CV.stageSel!=='all'?CV.stageSel:'all'};
+      if(_tds[1])addDrillDblClick(_tds[1],{..._base});
+      if(_tds[2])addDrillDblClick(_tds[2],{..._base,is_updated_today:true});
+      if(_tds[3])addDrillDblClick(_tds[3],{..._base,is_scheduled_today:true});
+      if(_tds[4])addDrillDblClick(_tds[4],{..._base,is_overdue:true});
+      return;
+    }
     const _cn=tr.querySelector('td.tdc')?.textContent?.trim();
-    if(!_cn||_cn==='Total')return;
+    if(!_cn)return;
     const _tds=[...tr.querySelectorAll('td')];
-    if(_tds[4])addDrillDblClick(_tds[4],{
-      cluster:_cn,
-      status:CV.sel.length > 0 ? CV.sel.join(',') : 'all',
-      stage:CV.stageSel!=='all'?CV.stageSel:'all',
-      is_overdue: true
-    });
+    const _base={cluster:_cn,status:CV.sel.length > 0 ? CV.sel.join(',') : 'all',stage:CV.stageSel!=='all'?CV.stageSel:'all'};
+    if(_tds[1])addDrillDblClick(_tds[1],{..._base});
+    if(_tds[2])addDrillDblClick(_tds[2],{..._base,is_updated_today:true});
+    if(_tds[3])addDrillDblClick(_tds[3],{..._base,is_scheduled_today:true});
+    if(_tds[4])addDrillDblClick(_tds[4],{..._base,is_overdue:true});
   });
 }
 function renderAttemptsTbl(byCluster,clusters,maxAttempts){
@@ -1108,6 +2100,14 @@ function renderAttemptsTbl(byCluster,clusters,maxAttempts){
     <div style="padding:0 15px 10px;display:flex;justify-content:flex-end"><button class="rbtn" style="font-size:11px" onclick="const d=document.getElementById('cv-att-raw');const open=d.style.display!=='none';d.style.display=open?'none':'block';this.textContent=open?'▾ Show raw data':'▴ Hide raw data'">▾ Show raw data</button></div>
     <div id="cv-att-raw" style="display:none;overflow-x:auto;padding:0 15px 15px"><div class="tw">${rawHtml}</div></div>`;
   autoSort(wrap.querySelector('.tw'));
+  wrap.querySelectorAll('#cv-att-raw tbody tr').forEach((tr,ri)=>{
+    const c=clusters[ri];if(!c)return;
+    const tds=[...tr.querySelectorAll('td.tdr.mono')];
+    const base={cluster:c,status:CV.sel.length>0?CV.sel.join(','):'all',stage:CV.stageSel!=='all'?CV.stageSel:'all'};
+    valid.forEach((a,ai)=>{if(tds[ai])addDrillDblClick(tds[ai],{...base,attempts_bucket:a});});
+    const totTd=tr.querySelector('td.tdt');
+    if(totTd)addDrillDblClick(totTd,{...base});
+  });
 
   if(charts.cvAtt){charts.cvAtt.destroy();charts.cvAtt=null;}
   const attCtx=$('cv-att-cv');if(!attCtx)return;
@@ -1144,7 +2144,13 @@ async function bMovement(){
   const clusterList=[...clusters].sort();
   const lrmList=[...lrms].sort();
 
-  $('p-movement').innerHTML=`<div class="fb"><div class="fr">
+  $('p-movement').innerHTML=`
+  <div class="stab-bar">
+    <button class="stab-btn on" data-stab="mv-trans">Transitions &amp; EOD</button>
+    <button class="stab-btn" data-stab="mv-activity">Activity Tracker</button>
+  </div>
+  <div id="stab-mv-trans" class="stab-panel on">
+  <div class="fb"><div class="fr">
     <div class="fg"><span class="flbl">View Mode</span>
       <div class="tgl" id="mv-mode"><button class="tgl-b ${MV.mode==='transitions'?'on':''}" data-v="transitions">All Transitions</button><button class="tgl-b ${MV.mode==='eod'?'on':''}" data-v="eod">EOD Position</button></div></div>
     <div class="fg"><span class="flbl">Level</span>
@@ -1158,14 +2164,26 @@ async function bMovement(){
         <option value="lastweek">Last week</option><option value="last30">Last 30 days</option>
         <option value="custom">Custom</option></select>
         <input type="date" class="fc" id="mv-fr"><input type="date" class="fc" id="mv-to"></div></div>
-    <div class="fg"><span class="flbl">Cluster</span><select class="fc" id="mv-cl"><option value="all">All</option>${clusterList.map(c=>`<option value="${c}">${c}</option>`).join('')}</select></div>
+    <div class="fg"><span class="flbl">Cluster</span>${clMS('mv-cl',clusterList,MV.clSel)}</div>
     <div class="fg"><span class="flbl">LRM</span><select class="fc" id="mv-lrm"><option value="all">All</option>${lrmList.map(l=>`<option value="${l}">${l}</option>`).join('')}</select></div>
   </div>
   <div class="fr" id="mv-stage-filter"><div class="fg"><span class="flbl">From Stage</span><select class="fc" id="mv-from" style="min-width:200px"><option value="all">All</option></select></div>
     <div class="fg"><span class="flbl">To Stage</span><select class="fc" id="mv-toS" style="min-width:200px"><option value="all">All</option></select></div></div></div>
   <div class="kgrid k4" id="mv-kpis"></div>
   <div class="sc"><div class="sc-h"><span class="sc-t" id="mv-tbl-title">Stage transitions</span><span class="sc-hi" id="mv-tbl-sub">From → To by cluster</span></div>
-    <div style="overflow-x:auto;max-height:520px;overflow-y:auto"><div class="tw" id="mv-tbl"></div></div></div>`;
+    <div style="overflow-x:auto;max-height:520px;overflow-y:auto"><div class="tw" id="mv-tbl"></div></div></div>
+  </div>
+  <div id="stab-mv-activity" class="stab-panel">
+    <div class="stb"><div class="spin"></div>Loading activity data…</div>
+  </div>`;
+
+  $('p-movement').querySelectorAll('.stab-btn').forEach(btn=>btn.addEventListener('click',()=>{
+    $('p-movement').querySelectorAll('.stab-btn').forEach(b=>b.classList.remove('on'));
+    $('p-movement').querySelectorAll('.stab-panel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');
+    $('stab-'+btn.dataset.stab).classList.add('on');
+    if(btn.dataset.stab==='mv-activity') initActivityTracker();
+  }));
 
   // Toggle wire-up helper
   const tglListen=(id,prop)=>{
@@ -1182,7 +2200,7 @@ async function bMovement(){
   tglListen('mv-gran','granularity');
 
   ['mv-pr','mv-lrm','mv-from','mv-toS'].forEach(id=>$(id)?.addEventListener('change',e=>{if(id==='mv-pr')MV.preset=e.target.value;renderMovement();}));
-  $('mv-cl')?.addEventListener('change',()=>{populateMVStageFilter();const fs=$('mv-from'),ts=$('mv-toS');if(fs)fs.value='all';if(ts)ts.value='all';renderMovement();});
+  wireClMS('mv-cl',sel=>{MV.clSel=sel;populateMVStageFilter();const fs=$('mv-from'),ts=$('mv-toS');if(fs)fs.value='all';if(ts)ts.value='all';renderMovement();});
   ['mv-fr','mv-to'].forEach(id=>$(id)?.addEventListener('change',()=>{$('mv-pr').value='custom';renderMovement();}));
 
   populateMVStageFilter();
@@ -1194,9 +2212,9 @@ async function bMovement(){
 
 function populateMVStageFilter(){
   if(!MOVE)return;
-  const cl=$('mv-cl')?.value||'all';
+  const cl=MV.clSel||[];
   const allRecs=MV.level==='stage'?MOVE.stage:MOVE.status;
-  const recs=cl==='all'?allRecs:allRecs.filter(r=>r.cluster===cl);
+  const recs=cl.length===0?allRecs:allRecs.filter(r=>cl.includes(r.cluster));
   const fromField=MV.level==='stage'?'from_stage':'from_status';
   const toField  =MV.level==='stage'?'to_stage':'to_status';
   const fromSet=new Set(recs.map(r=>r[fromField]).filter(Boolean));
@@ -1215,7 +2233,7 @@ function populateMVStageFilter(){
 function buildTouchLookup(dr,cl,lrm){
   if(!MOVE||!MOVE.touches)return{map:{},maxCalls:1,totalCalls:0,totalUpdates:0};
   let recs=filterByDate(MOVE.touches,dr.from,dr.to);
-  if(cl!=='all')recs=recs.filter(r=>r.cluster===cl);
+  if(cl.length>0)recs=recs.filter(r=>cl.includes(r.cluster));
   if(lrm!=='all')recs=recs.filter(r=>r.lrm===lrm);
   const map={};let maxCalls=1,totalCalls=0,totalUpdates=0;
   recs.forEach(r=>{
@@ -1244,7 +2262,7 @@ function computeEODPeriod(fromStr,toStr,cl,lrm){
   // Group by lead_id (apply cluster/lrm filter early to save memory)
   const byLead={};
   EOD_LEADS.records.forEach(r=>{
-    if(cl!=='all'&&r.cl!==cl)return;
+    if(cl.length>0&&!cl.includes(r.cl))return;
     if(lrm!=='all'&&r.lrm!==lrm)return;
     if(!byLead[r.lid])byLead[r.lid]=[];
     byLead[r.lid].push(r);
@@ -1365,7 +2383,7 @@ function renderMvPivotTable(recs,fromField,toField,touchData){
 function renderMovement(){
   if(!MOVE||!EOD)return;
   const dr=getDR('mv-pr','mv-fr','mv-to');
-  const cl=$('mv-cl')?.value||'all',lrm=$('mv-lrm')?.value||'all';
+  const cl=MV.clSel||[],lrm=$('mv-lrm')?.value||'all';
   if(MV.mode==='transitions')renderTransitions(dr,cl,lrm);
   else renderEOD(dr,cl,lrm);
 }
@@ -1376,7 +2394,7 @@ function renderTransitions(dr,cl,lrm){
   const fromSel=$('mv-from')?.value||'all',toSel=$('mv-toS')?.value||'all';
   const allRecs=MV.level==='stage'?MOVE.stage:MOVE.status;
   let recs=filterByDate(allRecs,dr.from,dr.to);
-  if(cl!=='all')recs=recs.filter(r=>r.cluster===cl);
+  if(cl.length>0)recs=recs.filter(r=>cl.includes(r.cluster));
   if(lrm!=='all')recs=recs.filter(r=>r.lrm===lrm);
   if(fromSel!=='all')recs=recs.filter(r=>r[fromField]===fromSel);
   if(toSel!=='all')recs=recs.filter(r=>r[toField]===toSel);
@@ -1424,7 +2442,7 @@ function renderEOD(dr,cl,lrm){
   if(isSingleDay){
     // Fast path: use pre-aggregated eod_position.json
     let recs=filterByDate(EOD.records,dr.from,dr.to);
-    if(cl!=='all')recs=recs.filter(r=>r.cluster===cl);
+    if(cl.length>0)recs=recs.filter(r=>cl.includes(r.cluster));
     if(lrm!=='all')recs=recs.filter(r=>r.lrm===lrm);
     const total=recs.reduce((s,r)=>s+r.count,0);
     const clSet=new Set(recs.map(r=>r.cluster));
@@ -1482,6 +2500,237 @@ function computeConversion(fromS,toS){
 }
 
 // ════════════════════════════════════════════════════════════════════════════
+// DAILY MOVEMENT — ACTIVITY TRACKER (pre-sales-department-wide activity over
+// time). Reuses lrm_performance.json — no new ETL output needed; it already
+// carries daily (date, cluster, lrm) buckets PLUS lead_id arrays per metric,
+// which is what makes drill-through here possible at all.
+//
+// Metric semantics (deliberately NOT uniform):
+//   Calls Made        — raw EVENT count (sum of r.calls). Matches the same
+//                        definition already used in LRM Performance's KPI.
+//   Stage Movements    — raw EVENT count (sum of r.stage_movements). Same
+//                        reasoning — see Assumptions doc §7.4 ("N stage-change
+//                        events, drill shows the ≤N unique leads behind it").
+//   Leads Touched      — UNIQUE LEAD count, via lead_id SET UNION (not a sum).
+//                        This is deliberately more accurate than summing
+//                        per-(cluster,lrm)-bucket counts, which double-counts
+//                        a lead touched by two LRMs/clusters on the same day.
+//                        Applied at BOTH the per-day level (chart/table rows)
+//                        AND the period-wide level (KPI card, Total row) — the
+//                        latter is a genuine fix for the long-standing
+//                        cross-day/cross-bucket double-count issue noted in
+//                        ASSUMPTIONS_AND_DECISIONS.md §4.3/§13, achieved here
+//                        as a side effect of having the ID sets on hand. NOT
+//                        retrofitted into the LRM Performance tab itself — its
+//                        KPI still sums naively, so the two tabs' "Leads
+//                        Touched" totals will legitimately differ for the same
+//                        filters. That's intentional, not a bug.
+//
+// Comparison mode: KPI deltas + chart (Period A solid, Period B grey-dashed,
+// aligned by day-OFFSET since calendar dates differ). The day-by-day TABLE
+// deliberately shows Period A only — trying to row-align two differently-
+// dated periods in one table read as more confusing than useful; comparison
+// lives in the KPIs and chart instead.
+// ════════════════════════════════════════════════════════════════════════════
+
+const AT_METRIC_META = {
+  calls:           {label:'Calls made',      color:'#131ca2', kpiClass:'cb'},
+  leads_touched:   {label:'Leads touched',   color:'#10b981', kpiClass:'cg'},
+  stage_movements: {label:'Stage movements', color:'#8b5cf6', kpiClass:'cp'},
+};
+
+async function initActivityTracker(){
+  if(!LRM_DATA){
+    try{LRM_DATA=await loadJSON('lrm_performance','LRM_DATA');}
+    catch(e){$('stab-mv-activity').innerHTML=`<div class="err">⚠ Cannot load data/lrm_performance.json — run <code>python etl.py</code> first<br>${e.message}</div>`;return;}
+  }
+  if(!$('stab-mv-activity').dataset.built){
+    buildActivityTrackerUI();
+    $('stab-mv-activity').dataset.built='1';
+  }
+  renderActivityTracker();
+}
+
+function buildActivityTrackerUI(){
+  const clusterSet=new Set(),lrmSet=new Set();
+  LRM_DATA.records.forEach(r=>{if(r.cluster&&r.cluster!=='Unknown')clusterSet.add(r.cluster);if(r.lrm&&r.lrm!=='Unknown')lrmSet.add(r.lrm);});
+  const clusterList=[...clusterSet].sort();
+  const lrmList=[...lrmSet].sort();
+  const presetOpts=`<option value="today">Today</option><option value="yesterday">Yesterday</option>
+    <option value="last7">Last 7 days</option><option value="thisweek">This week</option>
+    <option value="lastweek">Last week</option><option value="last30" selected>Last 30 days</option>
+    <option value="thismonth">This month</option><option value="lastmonth">Last month</option>
+    <option value="custom">Custom</option>`;
+
+  $('stab-mv-activity').innerHTML=`
+  <div class="fb"><div class="fr">
+    <div class="fg"><span class="flbl">Period A <span class="sub">(event date)</span></span>
+      <div class="frow"><select class="fc" id="at-pa">${presetOpts}</select>
+        <span class="fi">From</span><input type="date" class="fc" id="at-fa">
+        <span class="fi">To</span><input type="date" class="fc" id="at-ta"></div></div>
+    <div class="fg"><span class="flbl">Cluster <span class="sub">(pre-sales dept-wide if unset)</span></span>${clMS('at-cl',clusterList,AT.clSel)}</div>
+    <div class="fg"><span class="flbl">LRM</span><select class="fc" id="at-lrm"><option value="all">All</option>${lrmList.map(l=>`<option value="${l}">${l}</option>`).join('')}</select></div>
+    <div class="fg" style="margin-left:auto"><span class="flbl">&nbsp;</span><button class="comp-btn" id="at-comp">+ Compare</button></div>
+  </div>
+  <div class="fr" id="at-brow" style="display:none">
+    <span class="ptag pa">A</span><span style="font-size:11px;color:var(--t2)">vs</span><span class="ptag pb">B</span>
+    <span style="font-size:10px;color:var(--t3);margin-left:4px">(event date)</span>
+    <div class="fg"><div class="frow">
+      <select class="fc" id="at-pb"><option value="lastmonth" selected>Last month</option>${presetOpts}</select>
+      <span class="fi">From</span><input type="date" class="fc" id="at-fb">
+      <span class="fi">To</span><input type="date" class="fc" id="at-tb"></div></div>
+  </div></div>
+  <div class="kgrid k3" id="at-kpis"></div>
+  <div class="sc"><div class="sc-h"><span class="sc-t">Activity trend</span>
+    <div style="display:flex;align-items:center;gap:8px;flex-shrink:0"><span style="font-size:10px;color:var(--t3)">Metric</span>
+    <select class="fc" id="at-metric" style="font-size:11px;padding:3px 7px">
+      <option value="calls">Calls made</option><option value="leads_touched">Leads touched</option><option value="stage_movements">Stage movements</option>
+    </select></div></div>
+    <div style="padding:14px 15px;height:280px"><canvas id="at-cv"></canvas></div></div>
+  <div class="sc"><div class="sc-h"><span class="sc-t">Day-by-day (Period A)</span><span class="sc-hi">Double-click any figure to see the leads behind it</span></div>
+    <div style="overflow-x:auto;max-height:480px;overflow-y:auto"><div class="tw" id="at-tbl"></div></div></div>`;
+
+  wireClMS('at-cl',sel=>{AT.clSel=sel;renderActivityTracker();});
+  ['at-lrm','at-metric'].forEach(id=>$(id)?.addEventListener('change',renderActivityTracker));
+  ['at-pa','at-pb'].forEach(id=>$(id)?.addEventListener('change',e=>{if(e.target.value!=='custom')renderActivityTracker();}));
+  ['at-fa','at-ta'].forEach(id=>$(id)?.addEventListener('change',()=>{$('at-pa').value='custom';renderActivityTracker();}));
+  ['at-fb','at-tb'].forEach(id=>$(id)?.addEventListener('change',()=>{$('at-pb').value='custom';renderActivityTracker();}));
+  $('at-comp')?.addEventListener('click',()=>{
+    AT.compare=!AT.compare;
+    const btn=$('at-comp'),row=$('at-brow');
+    btn.textContent=AT.compare?'× Remove Comparison':'+ Compare';
+    btn.classList.toggle('on',AT.compare);
+    row.style.display=AT.compare?'flex':'none';
+    renderActivityTracker();
+  });
+}
+
+// Aggregates a filtered record set into per-day buckets. Returns
+// {[date]: {calls, stage_movements, call_ids:Set, touch_ids:Set, stage_ids:Set}}
+function activityByDay(recs){
+  const m={};
+  recs.forEach(r=>{
+    if(!m[r.date])m[r.date]={calls:0,stage_movements:0,call_ids:new Set(),touch_ids:new Set(),stage_ids:new Set()};
+    const d=m[r.date];
+    d.calls+=r.calls;
+    d.stage_movements+=r.stage_movements;
+    (r.call_lead_ids||[]).forEach(id=>d.call_ids.add(id));
+    (r.touch_lead_ids||[]).forEach(id=>d.touch_ids.add(id));
+    (r.stage_move_lead_ids||[]).forEach(id=>d.stage_ids.add(id));
+  });
+  return m;
+}
+function activityMetricVal(dayObj,metric){
+  if(!dayObj)return 0;
+  if(metric==='leads_touched')return dayObj.touch_ids.size;
+  return dayObj[metric]||0;
+}
+// Period-wide totals (deduped for leads_touched — see header comment)
+function activityTotals(recs){
+  const callIds=new Set(),touchIds=new Set(),stageIds=new Set();
+  let calls=0,stageMoves=0;
+  recs.forEach(r=>{
+    calls+=r.calls;stageMoves+=r.stage_movements;
+    (r.call_lead_ids||[]).forEach(id=>callIds.add(id));
+    (r.touch_lead_ids||[]).forEach(id=>touchIds.add(id));
+    (r.stage_move_lead_ids||[]).forEach(id=>stageIds.add(id));
+  });
+  return{calls,leads_touched:touchIds.size,stage_movements:stageMoves,callIds,touchIds,stageIds};
+}
+
+function renderActivityTracker(){
+  if(!LRM_DATA)return;
+  const cl=AT.clSel||[],lrm=$('at-lrm')?.value||'all';
+  const comp=AT.compare;
+
+  const drA=getDR('at-pa','at-fa','at-ta');
+  let recsA=filterByDate(LRM_DATA.records,drA.from,drA.to);
+  if(cl.length>0)recsA=recsA.filter(r=>cl.includes(r.cluster));
+  if(lrm!=='all')recsA=recsA.filter(r=>r.lrm===lrm);
+
+  let recsB=[];
+  if(comp){
+    const drB=getDR('at-pb','at-fb','at-tb');
+    recsB=filterByDate(LRM_DATA.records,drB.from,drB.to);
+    if(cl.length>0)recsB=recsB.filter(r=>cl.includes(r.cluster));
+    if(lrm!=='all')recsB=recsB.filter(r=>r.lrm===lrm);
+  }
+
+  const totA=activityTotals(recsA);
+  const totB=comp?activityTotals(recsB):null;
+
+  // ── KPI cards ─────────────────────────────────────────────────────────────
+  $('at-kpis').innerHTML=`
+    <div class="kcard"><div class="kl">Calls Made</div><div class="kv ${AT_METRIC_META.calls.kpiClass}">${f(totA.calls)}</div><div class="ks">${comp?dHtml(totA.calls,totB.calls):'LRM call attempts, pre-sales dept-wide'}</div></div>
+    <div class="kcard"><div class="kl">Leads Touched</div><div class="kv ${AT_METRIC_META.leads_touched.kpiClass}">${f(totA.leads_touched)}</div><div class="ks">${comp?dHtml(totA.leads_touched,totB.leads_touched):'unique leads, deduped across full period'}</div></div>
+    <div class="kcard"><div class="kl">Stage Movements</div><div class="kv ${AT_METRIC_META.stage_movements.kpiClass}">${f(totA.stage_movements)}</div><div class="ks">${comp?dHtml(totA.stage_movements,totB.stage_movements):'stage-change events'}</div></div>`;
+  const kpiEls=[...$('at-kpis').querySelectorAll('.kv')];
+  if(kpiEls[0])addDrillDblClick(kpiEls[0],{lead_id_list:[...totA.callIds]});
+  if(kpiEls[1])addDrillDblClick(kpiEls[1],{lead_id_list:[...totA.touchIds]});
+  if(kpiEls[2])addDrillDblClick(kpiEls[2],{lead_id_list:[...totA.stageIds]});
+
+  // ── Trend chart ───────────────────────────────────────────────────────────
+  const metric=$('at-metric')?.value||'calls';
+  const meta=AT_METRIC_META[metric];
+  const dailyA=activityByDay(recsA);
+  const daysA=Object.keys(dailyA).sort();
+
+  if(charts.actTrend){charts.actTrend.destroy();charts.actTrend=null;}
+  const ctx=$('at-cv');
+  if(ctx){
+    if(!daysA.length){
+      ctx.getContext('2d').clearRect(0,0,ctx.width,ctx.height);
+    }else if(!comp){
+      const labels=daysA.map(d=>{const dt=new Date(d+'T00:00:00');return dt.toLocaleDateString('en-IN',{day:'numeric',month:'short'});});
+      const data=daysA.map(d=>activityMetricVal(dailyA[d],metric));
+      charts.actTrend=new Chart(ctx,{type:'line',data:{labels,datasets:[{label:meta.label,data,borderColor:meta.color,backgroundColor:meta.color+'22',fill:true,tension:0.25,pointRadius:3,pointHoverRadius:5}]},
+        options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},title:{display:true,text:`${meta.label} — day by day`,font:{size:12,weight:'600'}}},scales:{y:{beginAtZero:true,ticks:{precision:0}}}}});
+    }else{
+      const drB=getDR('at-pb','at-fb','at-tb');
+      let recsB2=filterByDate(LRM_DATA.records,drB.from,drB.to);
+      if(cl.length>0)recsB2=recsB2.filter(r=>cl.includes(r.cluster));
+      if(lrm!=='all')recsB2=recsB2.filter(r=>r.lrm===lrm);
+      const dailyB=activityByDay(recsB2);
+      const daysB=Object.keys(dailyB).sort();
+      const maxLen=Math.max(daysA.length,daysB.length);
+      const labels=Array.from({length:maxLen},(_,i)=>'Day '+(i+1));
+      const dataA=Array.from({length:maxLen},(_,i)=>i<daysA.length?activityMetricVal(dailyA[daysA[i]],metric):null);
+      const dataB=Array.from({length:maxLen},(_,i)=>i<daysB.length?activityMetricVal(dailyB[daysB[i]],metric):null);
+      charts.actTrend=new Chart(ctx,{type:'line',data:{labels,datasets:[
+        {label:`A: ${meta.label} (${daysA[0]||'—'} to ${daysA[daysA.length-1]||'—'})`,data:dataA,borderColor:meta.color,backgroundColor:meta.color+'22',fill:false,tension:0.25,pointRadius:3,pointHoverRadius:5},
+        {label:`B: ${meta.label} (${daysB[0]||'—'} to ${daysB[daysB.length-1]||'—'})`,data:dataB,borderColor:'#94a3b8',borderDash:[5,4],backgroundColor:'transparent',fill:false,tension:0.25,pointRadius:3,pointHoverRadius:5},
+      ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:12,font:{size:10}}}},scales:{y:{beginAtZero:true,ticks:{precision:0}}}}});
+    }
+  }
+
+  // ── Day-by-day table (Period A only — see header comment) ────────────────
+  if(!daysA.length){$('at-tbl').innerHTML='<div class="nd">No activity in selected range.</div>';return;}
+  let html='<table><thead class="single"><tr><th>Date</th><th class="tdr">Calls</th><th class="tdr">Leads Touched</th><th class="tdr">Stage Movements</th></tr></thead><tbody>';
+  [...daysA].sort().reverse().forEach(d=>{
+    const dv=dailyA[d];
+    html+=`<tr data-date="${d}"><td class="tdc">${d}</td><td class="tdr mono">${f(dv.calls)}</td><td class="tdr mono">${f(dv.touch_ids.size)}</td><td class="tdr mono">${f(dv.stage_movements)}</td></tr>`;
+  });
+  html+=`<tr class="total-row" style="background:var(--sur2);font-weight:600"><td class="tdc">Total</td><td class="tdr mono">${f(totA.calls)}</td><td class="tdr mono">${f(totA.leads_touched)}</td><td class="tdr mono">${f(totA.stage_movements)}</td></tr>`;
+  html+='</tbody></table>';
+  $('at-tbl').innerHTML=html;autoSort($('at-tbl'));
+
+  $('at-tbl').querySelectorAll('tbody tr[data-date]').forEach(tr=>{
+    const d=tr.dataset.date;const dv=dailyA[d];if(!dv)return;
+    const tds=[...tr.querySelectorAll('td.tdr.mono')];
+    if(tds[0])addDrillDblClick(tds[0],{lead_id_list:[...dv.call_ids]});
+    if(tds[1])addDrillDblClick(tds[1],{lead_id_list:[...dv.touch_ids]});
+    if(tds[2])addDrillDblClick(tds[2],{lead_id_list:[...dv.stage_ids]});
+  });
+  const totRow=$('at-tbl').querySelector('tbody tr.total-row');
+  if(totRow){
+    const tds=[...totRow.querySelectorAll('td.tdr.mono')];
+    if(tds[0])addDrillDblClick(tds[0],{lead_id_list:[...totA.callIds]});
+    if(tds[1])addDrillDblClick(tds[1],{lead_id_list:[...totA.touchIds]});
+    if(tds[2])addDrillDblClick(tds[2],{lead_id_list:[...totA.stageIds]});
+  }
+}
+
+// ════════════════════════════════════════════════════════════════════════════
 // LRM PERFORMANCE VIEW
 // ════════════════════════════════════════════════════════════════════════════
 async function bLRM(){
@@ -1489,6 +2738,7 @@ async function bLRM(){
   try{LRM_DATA=await loadJSON('lrm_performance','LRM_DATA');}
   catch(e){$('p-lrm').innerHTML=`<div class="err">⚠ Cannot load data/lrm_performance.json — run <code>python etl.py</code> first<br>${e.message}</div>`;return;}
   try{LRM_CONV=await loadJSON('lrm_conversion','LRM_CONV');}catch(e){LRM_CONV=null;}
+  if(!TARGETS){try{const r=await fetch('./data/targets.json?t='+Date.now());TARGETS=r.ok?await r.json():null;}catch(e){TARGETS=null;}}
 
   const clusterSet=new Set();LRM_DATA.records.forEach(r=>{if(r.cluster&&r.cluster!=='Unknown')clusterSet.add(r.cluster);});
   const clusterList=[...clusterSet].sort();
@@ -1508,10 +2758,10 @@ async function bLRM(){
           <option value="thismonth">This month</option><option value="lastmonth">Last month</option>
           <option value="custom">Custom</option></select>
           <input type="date" class="fc" id="lr-fr"><input type="date" class="fc" id="lr-to"></div></div>
-      <div class="fg"><span class="flbl">Cluster</span><select class="fc" id="lr-cl"><option value="all">All</option>${clusterList.map(c=>`<option value="${c}">${c}</option>`).join('')}</select></div>
+      <div class="fg"><span class="flbl">Cluster</span>${clMS('lr-cl',clusterList,LRMV.clSel)}</div>
     </div></div>
     <div class="kgrid k4" id="lr-kpis"></div>
-    <div class="sc"><div class="sc-h"><span class="sc-t">LRM ranking</span><div style="display:flex;align-items:center;gap:8px;flex-shrink:0"><span style="font-size:10px;color:var(--t3)">Sort by</span><select class="fc" id="lr-rank-metric" style="font-size:11px;padding:3px 7px"><option value="calls">Calls made</option><option value="leads_touched">Leads touched</option><option value="meetings_scheduled">Meetings scheduled</option><option value="conversion_pct">Conversion %</option></select></div></div>
+    <div class="sc"><div class="sc-h"><span class="sc-t">LRM ranking</span><div style="display:flex;align-items:center;gap:8px;flex-shrink:0"><span style="font-size:10px;color:var(--t3)">Sort by</span><select class="fc" id="lr-rank-metric" style="font-size:11px;padding:3px 7px"><option value="calls">Calls made</option><option value="leads_touched">Leads touched</option><option value="meetings_scheduled">Meetings scheduled</option><option value="conversion_pct">Conversion %</option><option value="bql_ms">BQL→MS %</option></select></div></div>
       <div style="padding:14px 15px;height:320px"><canvas id="lr-rank-cv"></canvas></div></div>
     <div class="sc"><div class="sc-h"><span class="sc-t">Cluster summary</span><span class="sc-hi">Roll-up across LRMs · calls, touches, meetings</span></div>
       <div style="overflow-x:auto;max-height:340px;overflow-y:auto"><div class="tw" id="lr-cluster-tbl"></div></div></div>
@@ -1529,11 +2779,16 @@ async function bLRM(){
             <option value="last3mo">Last 3 months</option><option value="alltime">All time</option>
             <option value="custom">Custom</option></select>
             <input type="date" class="fc" id="snap-fr"><input type="date" class="fc" id="snap-to"></div></div>
-        <div class="fg"><span class="flbl">Cluster</span><select class="fc" id="snap-cl"><option value="all">All</option></select></div>
+        <div class="fg"><span class="flbl">Cluster</span><div id="snap-cl-wrap"></div></div>
         <div class="fg"><span class="flbl">Group by Cluster</span>
           <div class="tgl" id="snap-grp-tgl">
             <button class="tgl-b" data-v="0">LRM only</button>
             <button class="tgl-b on" data-v="1">LRM × Cluster</button>
+          </div></div>
+        <div class="fg"><span class="flbl">TAT basis</span>
+          <div class="tgl" id="snap-wh-tgl">
+            <button class="tgl-b ${!WH_MODE?'on':''}" data-v="0">📅 Calendar</button>
+            <button class="tgl-b ${WH_MODE?'on':''}" data-v="1">⏰ Working Hours</button>
           </div></div>
       </div></div>
       <div class="kgrid k6" id="snap-kpis"></div>
@@ -1552,7 +2807,8 @@ async function bLRM(){
     if(btn.dataset.stab==='lrm-snap') initSnap();
   }));
 
-  ['lr-pr','lr-cl','lr-rank-metric'].forEach(id=>$(id)?.addEventListener('change',renderLRM));
+  ['lr-pr','lr-rank-metric'].forEach(id=>$(id)?.addEventListener('change',renderLRM));
+  wireClMS('lr-cl',sel=>{LRMV.clSel=sel;renderLRM();});
   ['lr-fr','lr-to'].forEach(id=>$(id)?.addEventListener('change',()=>{$('lr-pr').value='custom';renderLRM();}));
   renderLRM();
 }
@@ -1562,15 +2818,24 @@ async function initSnap(){
   try{
     LRM_SNAP=await loadJSON('lrm_snapshot','LRM_SNAP');
     const cs=new Set();LRM_SNAP.records.forEach(r=>{if(r.cluster&&r.cluster!=='Unknown')cs.add(r.cluster);});
-    const snapCl=$('snap-cl');
-    [...cs].sort().forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;snapCl.appendChild(o);});
+    $('snap-cl-wrap').innerHTML=clMS('snap-cl',[...cs].sort(),SNAP.clSel);
+    wireClMS('snap-cl',sel=>{SNAP.clSel=sel;renderSnap();});
     $('snap-loading').style.display='none';
     $('snap-content').style.display='block';
-    ['snap-pr','snap-cl'].forEach(id=>$(id)?.addEventListener('change',renderSnap));
+    ['snap-pr'].forEach(id=>$(id)?.addEventListener('change',renderSnap));
     ['snap-fr','snap-to'].forEach(id=>$(id)?.addEventListener('change',()=>{$('snap-pr').value='custom';renderSnap();}));
     $('snap-grp-tgl').querySelectorAll('.tgl-b').forEach(b=>b.addEventListener('click',()=>{
       $('snap-grp-tgl').querySelectorAll('.tgl-b').forEach(x=>x.classList.remove('on'));
       b.classList.add('on');renderSnap();
+    }));
+    $('snap-wh-tgl')?.querySelectorAll('.tgl-b').forEach(b=>b.addEventListener('click',()=>{
+      $('snap-wh-tgl').querySelectorAll('.tgl-b').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on');
+      WH_MODE=b.dataset.v==='1';
+      // Sync the TAT tab toggle if it exists in DOM
+      const tatTgl=$('tat-wh-tgl');
+      if(tatTgl){tatTgl.querySelectorAll('.tgl-b').forEach(x=>{x.classList.toggle('on',x.dataset.v===(WH_MODE?'1':'0'));});}
+      renderSnap();
     }));
     renderSnap();
   }catch(e){
@@ -1581,11 +2846,11 @@ async function initSnap(){
 function renderSnap(){
   if(!LRM_SNAP)return;
   const dr=getDR('snap-pr','snap-fr','snap-to');
-  const cl=$('snap-cl')?.value||'all';
+  const cl=SNAP.clSel||[];
   const byCluster=$('snap-grp-tgl')?.querySelector('.tgl-b.on')?.dataset.v==='1';
 
   let recs=LRM_SNAP.records;
-  if(cl!=='all') recs=recs.filter(r=>r.cluster===cl);
+  if(cl.length>0) recs=recs.filter(r=>cl.includes(r.cluster));
   if(dr.from||dr.to){
     const fmtS=d=>d?[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-'):null;
     const fromS=fmtS(dr.from),toS=fmtS(dr.to);
@@ -1604,10 +2869,12 @@ function renderSnap(){
       assigned:0,active:0,ms:0,md:0,fc:[],gaps:[],tms:[],tmd:[]};
     const g=groups[k];
     g.assigned+=r.assigned; g.active+=r.active; g.ms+=r.ms; g.md+=r.md;
-    g.fc.push(...r.tat_first_call);
-    g.gaps.push(...r.tat_gaps);
-    g.tms.push(...r.tat_to_ms);
-    g.tmd.push(...r.tat_to_md);
+    // In WH mode, use working-hours TAT arrays for first-call, to-MS, to-MD.
+    // Call gaps (between consecutive calls) are always calendar-based.
+    g.fc.push(...(WH_MODE?(r.wh_tat_first_call||[]):(r.tat_first_call||[])));
+    g.gaps.push(...(r.tat_gaps||[]));
+    g.tms.push(...(WH_MODE?(r.wh_tat_to_ms||[]):(r.tat_to_ms||[])));
+    g.tmd.push(...(WH_MODE?(r.wh_tat_to_md||[]):(r.tat_to_md||[])));
   });
   const rows=Object.values(groups).sort((a,b)=>b.assigned-a.assigned);
 
@@ -1626,6 +2893,7 @@ function renderSnap(){
     return`<td class="tdr mono">${fmtTAT(avg(s))}</td><td class="tdr mono">${fmtTAT(percentile(s,50))}</td><td class="tdr mono">${fmtTAT(percentile(s,90))}</td>`;
   }
 
+  const whBadge=WH_MODE?'<span style="font-size:9px;font-weight:600;padding:1px 5px;border-radius:3px;background:#fef3c7;color:#92400e;border:1px solid #fde68a;margin-left:4px">⏰ WH</span>':'';
   let html=`<table><thead>
     <tr>
       <th rowspan="2" style="text-align:left">LRM</th>
@@ -1633,10 +2901,10 @@ function renderSnap(){
       <th rowspan="2">Assigned</th><th rowspan="2">Active</th>
       <th rowspan="2">MS</th><th rowspan="2">MD</th>
       <th rowspan="2">Lead→MS%</th><th rowspan="2">Lead→MD%</th>
-      <th colspan="3" style="border-left:2px solid #c7d2fe">First Call TAT</th>
+      <th colspan="3" style="border-left:2px solid #c7d2fe">First Call TAT${whBadge}</th>
       <th colspan="3" style="border-left:1px solid #c7d2fe">Call Gap TAT</th>
-      <th colspan="3" style="border-left:1px solid #c7d2fe">Creation→MS TAT</th>
-      <th colspan="3" style="border-left:1px solid #c7d2fe">Creation→MD TAT</th>
+      <th colspan="3" style="border-left:1px solid #c7d2fe">Creation→MS TAT${whBadge}</th>
+      <th colspan="3" style="border-left:1px solid #c7d2fe">Creation→MD TAT${whBadge}</th>
     </tr>
     <tr>
       <th style="border-left:2px solid #c7d2fe">Avg</th><th>P50</th><th>P90</th>
@@ -1679,14 +2947,23 @@ function renderSnap(){
   html+='</tbody></table>';
   $('snap-tbl').innerHTML=html;
   autoSort($('snap-tbl'));
-  $('snap-tbl-title').textContent=`Leads × LRM${byCluster?' (by Cluster)':''}`;
+  $('snap-tbl-title').textContent=`Leads × LRM${byCluster?' (by Cluster)':''}${WH_MODE?' · ⏰ Working Hours TAT':''}`;
   const _drSn=getDR('snap-pr','snap-fr','snap-to');
   const _fSn=d=>d?[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-'):null;
   const _fromSn=_fSn(_drSn.from),_toSn=_fSn(_drSn.to);
   $('snap-tbl').querySelectorAll('tbody tr').forEach(tr=>{
     const _cs=[...tr.querySelectorAll('td')];
     const _lv=_cs[0]?.getAttribute('title')||_cs[0]?.textContent?.trim()||'';
-    if(_lv==='Overall')return;
+    if(_lv==='Overall'){
+      const _clAll=cl.length===1?cl[0]:'all';
+      const _off=byCluster?1:0;
+      const _base={lrm:'all',cluster:_clAll,fromS:_fromSn,toS:_toSn};
+      if(_cs[1+_off])addDrillDblClick(_cs[1+_off],{..._base});
+      if(_cs[2+_off])addDrillDblClick(_cs[2+_off],{..._base,active_only:true});
+      if(_cs[3+_off])addDrillDblClick(_cs[3+_off],{..._base,has_ms:true});
+      if(_cs[4+_off])addDrillDblClick(_cs[4+_off],{..._base,has_md:true});
+      return;
+    }
     const _clV=byCluster?(_cs[1]?.textContent?.trim()||'all'):'all';
     const _off=byCluster?1:0;
     const _base={lrm:_lv,cluster:_clV,fromS:_fromSn,toS:_toSn};
@@ -1716,9 +2993,9 @@ function getMeetingLeadIds(lrm,cluster,fromS,toS){
 
 function renderLRM(){
   if(!LRM_DATA)return;
-  const dr=getDR('lr-pr','lr-fr','lr-to');const cl=$('lr-cl')?.value;
+  const dr=getDR('lr-pr','lr-fr','lr-to');const cl=LRMV.clSel||[];
   let recs=filterByDate(LRM_DATA.records,dr.from,dr.to);
-  if(cl!=='all')recs=recs.filter(r=>r.cluster===cl);
+  if(cl.length>0)recs=recs.filter(r=>cl.includes(r.cluster));
 
   const lStr=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
   const fromS=dr.from?lStr(dr.from):null;const toS=dr.to?lStr(dr.to):null;
@@ -1749,7 +3026,7 @@ function renderLRM(){
     <div class="kcard"><div class="kl">Stage Movements</div><div class="kv cp">${f(T.stage)}</div><div class="ks">${T.calls>0?(T.stage/T.calls*100).toFixed(1):0}% of calls</div></div>`;
 
   const rankMetric=$('lr-rank-metric')?.value||'calls';
-  const metricLabel={calls:'Calls made',leads_touched:'Leads touched',meetings_scheduled:'Meetings scheduled',conversion_pct:'Conversion %'};
+  const metricLabel={calls:'Calls made',leads_touched:'Leads touched',meetings_scheduled:'Meetings scheduled',conversion_pct:'Conversion %',bql_ms:'BQL→MS %'};
   const lrmRows=Object.values(byLRM).filter(r=>r.calls>0||r.meetings_scheduled>0);
   lrmRows.sort((a,b)=>(b[rankMetric]||0)-(a[rankMetric]||0));
   const topLRMs=lrmRows.slice(0,20);
@@ -1757,17 +3034,25 @@ function renderLRM(){
   if(charts.lrmRank){charts.lrmRank.destroy();charts.lrmRank=null;}
   const rkCtx=$('lr-rank-cv');
   if(rkCtx&&topLRMs.length){
-    const rankVals=topLRMs.map(r=>rankMetric==='conversion_pct'?parseFloat((r.conversion_pct||0).toFixed(1)):(r[rankMetric]||0));
-    const maxRank=Math.max(...rankVals,1);
+    // For bql_ms we need to compute per-LRM BQL→MS rate
+    const bqlMsMap={};
+    if(rankMetric==='bql_ms'&&convAvail){
+      topLRMs.forEach(r=>{const b=computeBqlMs(r.cluster,r.lrm,fromS,toS);bqlMsMap[r.cluster+'|'+r.lrm]=b?b.rate:null;});
+    }
+    const rankVals=topLRMs.map(r=>{
+      if(rankMetric==='conversion_pct')return parseFloat((r.conversion_pct||0).toFixed(1));
+      if(rankMetric==='bql_ms'){const v=bqlMsMap[r.cluster+'|'+r.lrm];return v!=null?parseFloat((v*100).toFixed(1)):0;}
+      return r[rankMetric]||0;
+    });
     const rankTotPlugin={id:'rankTot',afterDraw(chart){
       const c2=chart.ctx;c2.save();c2.font='9px "DM Mono",monospace';c2.textAlign='left';c2.textBaseline='middle';c2.fillStyle='#374151';
-      chart.data.datasets.forEach((ds,di)=>{const meta=chart.getDatasetMeta(di);if(meta.hidden)return;meta.data.forEach((bar,i)=>{const v=ds.data[i];if(!v)return;const fmt=rankMetric==='conversion_pct'?v.toFixed(1)+'%':f(v);c2.fillText(fmt,chart.scales.x.getPixelForValue(v)+4,bar.y);});});
+      chart.data.datasets.forEach((ds,di)=>{const meta=chart.getDatasetMeta(di);if(meta.hidden)return;meta.data.forEach((bar,i)=>{const v=ds.data[i];if(!v)return;const fmt=(rankMetric==='conversion_pct'||rankMetric==='bql_ms')?v.toFixed(1)+'%':f(v);c2.fillText(fmt,chart.scales.x.getPixelForValue(v)+4,bar.y);});});
       c2.restore();
     }};
     const barColors=topLRMs.map((_,i)=>{const q=i/Math.max(topLRMs.length-1,1);if(q<0.25)return'#22c55e';if(q<0.5)return'#3b82f6';if(q<0.75)return'#f59e0b';return'#f97316';});
     charts.lrmRank=new Chart(rkCtx,{type:'bar',data:{labels:topLRMs.map(r=>r.lrm.split('@')[0]),datasets:[{label:metricLabel[rankMetric]||rankMetric,data:rankVals,backgroundColor:barColors,borderRadius:2}]},
       options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
-        plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${topLRMs[c.dataIndex].cluster} · ${c.dataset.label}: ${rankMetric==='conversion_pct'?c.parsed.x.toFixed(1)+'%':f(c.parsed.x)}`}}},
+        plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${topLRMs[c.dataIndex].cluster} · ${c.dataset.label}: ${(rankMetric==='conversion_pct'||rankMetric==='bql_ms')?c.parsed.x.toFixed(1)+'%':f(c.parsed.x)}`}}},
         scales:{x:{grid:{color:'#f0f0f0'},ticks:{font:{size:10}},afterFit(scale){scale.width+=50;}},y:{grid:{display:false},ticks:{font:{size:10,family:"'DM Sans'"}}}}},
       plugins:[rankTotPlugin]});
   }
@@ -1793,47 +3078,69 @@ function renderLRM(){
   }
 
   const maxC=Math.max(...clusters.map(c=>byCluster[c].calls),1);
-  // col indices: 0=Cluster 1=LRMs 2=Calls 3=Touches 4=Meetings 5=Conv% 6=Stage
-  let html='<table><thead class="single"><tr><th>Cluster</th><th class="tdr">LRMs Active</th><th class="tdr">Calls</th><th class="tdr">Leads Touched†</th><th class="tdr">Meetings Scheduled</th><th class="tdr">Conversion %</th><th class="tdr">Stage Movements</th></tr></thead><tbody>';
+  const globalBqlTgt=resolveTarget('bql_to_ms',null);
+  const bqlHdrSub=globalBqlTgt?`<br><span style="font-size:8px;font-weight:400;opacity:.6;letter-spacing:0">tgt: ${fmtRate(globalBqlTgt)}</span>`:'';
+  // col indices: 0=Cluster 1=LRMs 2=Calls 3=Touches 4=Meetings 5=Conv% 6=BQL→MS% 7=Stage
+  let html=`<table><thead class="single"><tr><th>Cluster</th><th class="tdr">LRMs Active</th><th class="tdr">Calls</th><th class="tdr">Leads Touched†</th><th class="tdr">Meetings Scheduled</th><th class="tdr">Conversion %</th><th class="tdr">BQL→MS %${bqlHdrSub}</th><th class="tdr">Stage Movements</th></tr></thead><tbody>`;
   clusters.forEach(c=>{const b=byCluster[c];const lrmCalled=Object.values(byLRM).filter(r=>r.cluster===c&&r.leads_called>0);const totCalled=lrmCalled.reduce((s,r)=>s+r.leads_called,0);const cvPct=totCalled>0?(b.meetings/totCalled*100).toFixed(1)+'%':'—';
-    html+=`<tr data-cluster="${c}"><td class="tdc">${c}</td><td class="tdr mono">${b.lrms.size}</td><td class="tdr mono" style="${hBg(b.calls,maxC)}">${f(b.calls)}</td><td class="tdr mono">${f(b.leads)}</td><td class="tdr mono">${convAvail?f(b.meetings):'—'}</td><td class="tdr mono">${convAvail?cvPct:'—'}</td><td class="tdr mono">${f(b.stage)}</td></tr>`;});
-  html+=`<tr class="total-row" style="background:var(--sur2);font-weight:600"><td>Total</td><td class="tdr mono">${[...new Set(recs.map(r=>r.lrm))].filter(l=>l&&l!=='Unknown').length}</td><td class="tdr mono">${f(T.calls)}</td><td class="tdr mono">${f(T.leads)}</td><td class="tdr mono">${convAvail?f(T.meetings):'—'}</td><td class="tdr mono">${convAvail&&totalCalled>0?((T.meetings/totalCalled)*100).toFixed(1)+'%':'—'}</td><td class="tdr mono">${f(T.stage)}</td></tr></tbody></table>`;
+    const bql=convAvail?computeBqlMs(c,'all',fromS,toS):null;
+    const bqlTgt=resolveTarget('bql_to_ms',c);
+    const{cls:bqlCls,hover:bqlHover,icon:bqlIcon}=bql&&bqlTgt!=null?targetBadge(bql.rate,bqlTgt,'higher'):{cls:'',hover:'',icon:''};
+    const bqlCell=bql?`<td class="tdr mono ${bqlCls}" ${bqlHover}>${fmtRate(bql.rate)}${bqlIcon}</td>`:'<td class="tdr mono">—</td>';
+    html+=`<tr data-cluster="${c}"><td class="tdc">${c}</td><td class="tdr mono">${b.lrms.size}</td><td class="tdr mono" style="${hBg(b.calls,maxC)}">${f(b.calls)}</td><td class="tdr mono">${f(b.leads)}</td><td class="tdr mono">${convAvail?f(b.meetings):'—'}</td><td class="tdr mono">${convAvail?cvPct:'—'}</td>${bqlCell}<td class="tdr mono">${f(b.stage)}</td></tr>`;});
+  html+=`<tr class="total-row" style="background:var(--sur2);font-weight:600"><td>Total</td><td class="tdr mono">${[...new Set(recs.map(r=>r.lrm))].filter(l=>l&&l!=='Unknown').length}</td><td class="tdr mono">${f(T.calls)}</td><td class="tdr mono">${f(T.leads)}</td><td class="tdr mono">${convAvail?f(T.meetings):'—'}</td><td class="tdr mono">${convAvail&&totalCalled>0?((T.meetings/totalCalled)*100).toFixed(1)+'%':'—'}</td><td class="tdr mono">—</td><td class="tdr mono">${f(T.stage)}</td></tr></tbody></table>`;
   $('lr-cluster-tbl').innerHTML=html;autoSort($('lr-cluster-tbl'));
-  // Wire cluster table drill (col 2=Calls, 3=Touches, 4=Meetings, 6=Stage)
+  // Wire cluster table drill (col 2=Calls, 3=Touches, 4=Meetings, 7=Stage — col 6 is BQL→MS, no drill)
   $('lr-cluster-tbl').querySelectorAll('tbody tr[data-cluster]').forEach(tr=>{
     const c=tr.dataset.cluster;const tds=[...tr.querySelectorAll('td')];
     const dc=drillByCluster[c];
     if(dc){
       addDrillDblClick(tds[2],{lead_id_list:[...dc.c]});
       addDrillDblClick(tds[3],{lead_id_list:[...dc.t]});
-      addDrillDblClick(tds[6],{lead_id_list:[...dc.s]});
+      addDrillDblClick(tds[7],{lead_id_list:[...dc.s]});
     }
     if(convAvail){const mIds=getMeetingLeadIds('all',c,fromS,toS);if(mIds?.length)addDrillDblClick(tds[4],{lead_id_list:mIds});}
   });
+  if(hasLrmDrill){
+    const grandC=new Set(),grandT=new Set(),grandS=new Set();
+    Object.values(drillByCluster).forEach(dc=>{dc.c.forEach(id=>grandC.add(id));dc.t.forEach(id=>grandT.add(id));dc.s.forEach(id=>grandS.add(id));});
+    const totRow=$('lr-cluster-tbl').querySelector('tbody tr.total-row');
+    if(totRow){
+      const tds=[...totRow.querySelectorAll('td')];
+      addDrillDblClick(tds[2],{lead_id_list:[...grandC]});
+      addDrillDblClick(tds[3],{lead_id_list:[...grandT]});
+      addDrillDblClick(tds[7],{lead_id_list:[...grandS]});
+      if(convAvail){const mIds=getMeetingLeadIds('all','all',fromS,toS);if(mIds?.length)addDrillDblClick(tds[4],{lead_id_list:mIds});}
+    }
+  }
 
   const lrmList=Object.values(byLRM).sort((a,b)=>{const cc=a.cluster.localeCompare(b.cluster);return cc!==0?cc:b.calls-a.calls;});
   const maxL=Math.max(...lrmList.map(r=>r.calls),1);
-  // col indices: 0=Cluster 1=LRM 2=Calls 3=Touches 4=Meetings 5=Conv% 6=Stage 7=C/L
-  let h2='<table><thead class="single"><tr><th>Cluster</th><th>LRM</th><th class="tdr">Calls</th><th class="tdr">Leads Touched†</th><th class="tdr">Meetings Sched.</th><th class="tdr">Conversion %</th><th class="tdr">Stage Movements</th><th class="tdr">Calls / Lead</th></tr></thead><tbody>';
+  // col indices: 0=Cluster 1=LRM 2=Calls 3=Touches 4=Meetings 5=Conv% 6=BQL→MS% 7=Stage 8=C/L
+  let h2=`<table><thead class="single"><tr><th>Cluster</th><th>LRM</th><th class="tdr">Calls</th><th class="tdr">Leads Touched†</th><th class="tdr">Meetings Sched.</th><th class="tdr">Conversion %</th><th class="tdr">BQL→MS %${bqlHdrSub}</th><th class="tdr">Stage Movements</th><th class="tdr">Calls / Lead</th></tr></thead><tbody>`;
   let curC=null;
   lrmList.forEach(r=>{
     const lk=r.cluster+'|'+r.lrm;
     const cpl=r.leads_touched>0?r.calls/r.leads_touched:0;
     const cvPct=r.leads_called>0?r.conversion_pct.toFixed(1)+'%':'—';
+    const bql=convAvail?computeBqlMs(r.cluster,r.lrm,fromS,toS):null;
+    const bqlTgt=resolveTarget('bql_to_ms',r.cluster);
+    const{cls:bqlCls,hover:bqlHover,icon:bqlIcon}=bql&&bqlTgt!=null?targetBadge(bql.rate,bqlTgt,'higher'):{cls:'',hover:'',icon:''};
+    const bqlCell=bql?`<td class="tdr mono ${bqlCls}" ${bqlHover}>${fmtRate(bql.rate)}${bqlIcon}</td>`:'<td class="tdr mono">—</td>';
     const isNew=r.cluster!==curC;curC=r.cluster;
     const clusterCell=`<td class="tdc" style="${isNew?'font-weight:600;background:#f1f5f9;border-top:1px solid var(--bd2)':'color:var(--t3)'}">${r.cluster}</td>`;
-    h2+=`<tr data-lrmk="${lk}">${clusterCell}<td class="td-lrm" style="padding-left:8px" title="${r.lrm}">${r.lrm}</td><td class="tdr mono" style="${hBg(r.calls,maxL)}">${f(r.calls)}</td><td class="tdr mono">${f(r.leads_touched)}</td><td class="tdr mono">${convAvail?f(r.meetings_scheduled):'—'}</td><td class="tdr mono">${convAvail?cvPct:'—'}</td><td class="tdr mono">${f(r.stage_movements)}</td><td class="tdr mono">${fdec(cpl,1)}</td></tr>`;
+    h2+=`<tr data-lrmk="${lk}">${clusterCell}<td class="td-lrm" style="padding-left:8px" title="${r.lrm}">${r.lrm}</td><td class="tdr mono" style="${hBg(r.calls,maxL)}">${f(r.calls)}</td><td class="tdr mono">${f(r.leads_touched)}</td><td class="tdr mono">${convAvail?f(r.meetings_scheduled):'—'}</td><td class="tdr mono">${convAvail?cvPct:'—'}</td>${bqlCell}<td class="tdr mono">${f(r.stage_movements)}</td><td class="tdr mono">${fdec(cpl,1)}</td></tr>`;
   });
   h2+='</tbody></table>';
   $('lr-lrm-tbl').innerHTML=h2;autoSort($('lr-lrm-tbl'));
-  // Wire LRM table drill (col 2=Calls, 3=Touches, 4=Meetings, 6=Stage)
+  // Wire LRM table drill (col 2=Calls, 3=Touches, 4=Meetings, 7=Stage — col 6 is BQL→MS, no drill)
   $('lr-lrm-tbl').querySelectorAll('tbody tr[data-lrmk]').forEach(tr=>{
     const lk=tr.dataset.lrmk;const tds=[...tr.querySelectorAll('td')];
     const dl=drillByLRM[lk];
     if(dl){
       addDrillDblClick(tds[2],{lead_id_list:[...dl.c]});
       addDrillDblClick(tds[3],{lead_id_list:[...dl.t]});
-      addDrillDblClick(tds[6],{lead_id_list:[...dl.s]});
+      addDrillDblClick(tds[7],{lead_id_list:[...dl.s]});
     }
     if(convAvail){
       const lrme=tr.querySelector('.td-lrm')?.title||'';
@@ -1851,6 +3158,7 @@ async function bTAT(){
   $('p-tat').innerHTML='<div class="stb"><div class="spin"></div>Loading TAT data…</div>';
   try{TAT_DATA=await loadJSON('tat_stats','TAT_DATA');}
   catch(e){$('p-tat').innerHTML=`<div class="err">⚠ Cannot load data/tat_stats.json — run <code>python etl.py</code> first<br>${e.message}</div>`;return;}
+  if(!TARGETS){try{const r=await fetch('./data/targets.json?t='+Date.now());TARGETS=r.ok?await r.json():null;}catch(e){TARGETS=null;}}
 
   const clusterSet=new Set(),lrmSet=new Set();
   TAT_DATA.records.forEach(r=>{if(r.cluster&&r.cluster!=='Unknown')clusterSet.add(r.cluster);if(r.lrm&&r.lrm!=='Unknown')lrmSet.add(r.lrm);});
@@ -1871,7 +3179,7 @@ async function bTAT(){
         <option value="last3mo">Last 3 months</option><option value="alltime">All time</option>
         <option value="custom">Custom</option></select>
         <input type="date" class="fc" id="tat-fr"><input type="date" class="fc" id="tat-to"></div></div>
-    <div class="fg"><span class="flbl">Cluster</span><select class="fc" id="tat-cl"><option value="all">All</option>${clusters.map(c=>`<option>${c}</option>`).join('')}</select></div>
+    <div class="fg"><span class="flbl">Cluster</span>${clMS('tat-cl',clusters,TATV.clSel)}</div>
     <div class="fg"><span class="flbl">Show by LRM</span>
       <div class="tgl" id="tat-bylrm-tgl"><button class="tgl-b" data-v="0">Hide</button><button class="tgl-b on" data-v="1">Show</button></div></div>
   </div>
@@ -1880,7 +3188,12 @@ async function bTAT(){
       <div class="frow"><select class="fc" id="tat-pctile">
         <option value="50">P50 (Median)</option><option value="75">P75</option><option value="90">P90</option>
         <option value="custom">Custom</option></select>
-        <input type="number" class="fc" id="tat-pctile-custom" min="1" max="99" value="80" style="display:none">
+        <input type="number" class="fc" id="tat-pctile-custom" min="1" max="99" value="90" style="display:none">
+      </div></div>
+    <div class="fg"><span class="flbl">TAT basis</span>
+      <div class="tgl" id="tat-wh-tgl">
+        <button class="tgl-b ${!WH_MODE?'on':''}" data-v="0">📅 Calendar</button>
+        <button class="tgl-b ${WH_MODE?'on':''}" data-v="1">⏰ Working Hours</button>
       </div></div>
   </div></div>
   <div class="kgrid k4" id="tat-kpis"></div>
@@ -1889,7 +3202,17 @@ async function bTAT(){
 
   $('tat-pctile')?.addEventListener('change',e=>{$('tat-pctile-custom').style.display=e.target.value==='custom'?'inline-block':'none';renderTAT();});
   $('tat-bylrm-tgl')?.querySelectorAll('.tgl-b').forEach(b=>b.addEventListener('click',()=>{$('tat-bylrm-tgl').querySelectorAll('.tgl-b').forEach(x=>x.classList.remove('on'));b.classList.add('on');renderTAT();}));
-  ['tat-metric','tat-pr','tat-cl','tat-pctile-custom'].forEach(id=>$(id)?.addEventListener('change',renderTAT));
+  $('tat-wh-tgl')?.querySelectorAll('.tgl-b').forEach(b=>b.addEventListener('click',()=>{
+    $('tat-wh-tgl').querySelectorAll('.tgl-b').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    WH_MODE=b.dataset.v==='1';
+    // Sync the LRM snapshot toggle if it exists in DOM
+    const snapTgl=$('snap-wh-tgl');
+    if(snapTgl){snapTgl.querySelectorAll('.tgl-b').forEach(x=>{x.classList.toggle('on',x.dataset.v===(WH_MODE?'1':'0'));});}
+    renderTAT();
+  }));
+  ['tat-metric','tat-pr','tat-pctile-custom'].forEach(id=>$(id)?.addEventListener('change',renderTAT));
+  wireClMS('tat-cl',sel=>{TATV.clSel=sel;renderTAT();});
   ['tat-fr','tat-to'].forEach(id=>$(id)?.addEventListener('change',()=>{$('tat-pr').value='custom';renderTAT();}));
 
   renderTAT();
@@ -1899,20 +3222,24 @@ function renderTAT(){
   if(!TAT_DATA)return;
   const metric=$('tat-metric').value;
   const dr=getDR('tat-pr','tat-fr','tat-to');
-  const cl=$('tat-cl').value;
+  const cl=TATV.clSel||[];
   const byLRM=$('tat-bylrm-tgl')?.querySelector('.tgl-b.on')?.dataset.v==='1';
   const pcSel=$('tat-pctile').value;
   const pcVal=pcSel==='custom'?parseInt($('tat-pctile-custom').value)||80:parseInt(pcSel);
 
   let recs=TAT_DATA.records;
-  if(cl!=='all')recs=recs.filter(r=>r.cluster===cl);
+  if(cl.length>0)recs=recs.filter(r=>cl.includes(r.cluster));
   if(dr.from||dr.to){
     recs=recs.filter(r=>{if(!r.creation_date)return false;const cd=new Date(r.creation_date+'T00:00:00');if(dr.from&&cd<dr.from)return false;if(dr.to&&cd>dr.to)return false;return true;});
   }
 
   function getValues(records){
     if(metric==='tat_gaps'){const all=[];records.forEach(r=>{(r.tat_gaps||[]).forEach(g=>all.push(g));});return all;}
-    return records.map(r=>r[metric]).filter(v=>v!=null&&!isNaN(v));
+    // In working-hours mode, swap affected metrics to their wh_ counterparts.
+    // tat_gaps has no WH equivalent and is always calendar-based.
+    const WH_MAP={'tat_first_call':'wh_tat_first_call','tat_to_meeting':'wh_tat_to_meeting','tat_to_won':'wh_tat_to_won'};
+    const fieldKey=WH_MODE?(WH_MAP[metric]||metric):metric;
+    return records.map(r=>r[fieldKey]).filter(v=>v!=null&&!isNaN(v));
   }
 
   const allVals=getValues(recs).sort((a,b)=>a-b);
@@ -1924,7 +3251,7 @@ function renderTAT(){
   $('tat-kpis').innerHTML=`<div class="kcard"><div class="kl">Sample Size</div><div class="kv cb">${f(N)}</div><div class="ks">data points</div></div>
     <div class="kcard"><div class="kl">Average</div><div class="kv ca">${fmtTAT(avgAll)}</div><div class="ks">${metric==='tat_gaps'?'gap':'TAT'}</div></div>
     <div class="kcard"><div class="kl">P50 (Median)</div><div class="kv cg">${fmtTAT(p50)}</div><div class="ks">50th percentile</div></div>
-    <div class="kcard"><div class="kl">P${pcVal}</div><div class="kv cp">${fmtTAT(pcCust)}</div><div class="ks">${pcVal}th percentile</div></div>`;
+    <div class="kcard"><div class="kl">P${pcVal}</div><div class="kv cp">${fmtTAT(pcCust)}</div><div class="ks">${pcVal}th percentile${WH_MODE&&metric!=='tat_gaps'?' · ⏰ WH basis':''}</div></div>`;
 
   const groupKey=byLRM?(r=>r.cluster+'|'+(r.lrm||'Unknown')):(r=>r.cluster);
   const groups={};
@@ -1932,8 +3259,9 @@ function renderTAT(){
 
   const titleEl=$('tat-tbl-title'),subEl=$('tat-tbl-sub');
   const metricLabel={'tat_first_call':'Creation → First Call','tat_gaps':'Between consecutive calls','tat_to_meeting':'Creation → First Meeting','tat_to_won':'Creation → Order Confirmed'}[metric];
-  if(titleEl)titleEl.textContent=`TAT: ${metricLabel}`;
-  if(subEl)subEl.textContent=`h/d mixed units (< 1h = min) · P${pcVal} · ${byLRM?'by Cluster × LRM':'by Cluster'}`;
+  const whLabel=WH_MODE&&metric!=='tat_gaps'?' <span style="font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px;background:#fef3c7;color:#92400e;border:1px solid #fde68a">⏰ Working Hours basis</span>':'';
+  if(titleEl)titleEl.innerHTML=`TAT: ${metricLabel}${whLabel}`;
+  if(subEl)subEl.textContent=`h/d mixed units (< 1h = min) · P${pcVal} · ${byLRM?'by Cluster × LRM':'by Cluster'}${WH_MODE&&metric!=='tat_gaps'?' · Effective creation = next WH window (9 AM–7 PM, Mon weekoff)':''}`;
 
   if(!recs.length||!N){$('tat-tbl').innerHTML='<div class="nd">No data for selected filters & metric.</div>';return;}
 
@@ -1945,37 +3273,63 @@ function renderTAT(){
       avg: avg(vals),
       p50: percentile(vals,50),
       p75: percentile(vals,75),
-      p90: percentile(vals,90),
+      p80: percentile(vals,80),
       pc:  percentile(vals,pcVal),
+      records: g.records,
     };
   }).filter(r=>r.n>0).sort((a,b)=>b.n-a.n);
 
-  const maxP90=Math.max(...rows.map(r=>r.p90||0),1);
-  function tatBar(p50,p75,p90){
+  const maxP80=Math.max(...rows.map(r=>r.p80||0),1);
+  function tatBar(p50,p75,p80v){
     if(p50==null||isNaN(p50))return'<span style="font-size:10px;color:#ccc">—</span>';
-    const W=90,s=v=>Math.min((v/maxP90)*W,W).toFixed(1);
+    const W=90,s=v=>Math.min((v/maxP80)*W,W).toFixed(1);
     return`<svg width="${W}" height="14" style="vertical-align:middle;display:block"><rect x="0" y="4" width="${W}" height="6" rx="2" fill="#f1f5f9"/>
       <rect x="0" y="4" width="${s(p50)}" height="6" rx="2" fill="#93c5fd"/>
       ${p75&&p75>p50?`<rect x="${s(p50)}" y="4" width="${(parseFloat(s(p75))-parseFloat(s(p50))).toFixed(1)}" height="6" fill="#3b82f6"/>`:''}
-      ${p90&&p90>(p75||p50)?`<rect x="${s(p75||p50)}" y="4" width="${(parseFloat(s(p90))-parseFloat(s(p75||p50))).toFixed(1)}" height="6" fill="#1d4ed8"/>`:''}
+      ${p80v&&p80v>(p75||p50)?`<rect x="${s(p75||p50)}" y="4" width="${(parseFloat(s(p80v))-parseFloat(s(p75||p50))).toFixed(1)}" height="6" fill="#1d4ed8"/>`:''}
       <line x1="${s(p50)}" y1="2" x2="${s(p50)}" y2="12" stroke="#0c447c" stroke-width="1.5"/></svg>`;
   }
 
+  // Determine which metrics have targets for the P80 column
+  const tatMetricKey=metric==='tat_first_call'?'lc_to_first_call':metric==='tat_to_meeting'?'lc_to_ms':null;
+  const globalTatTgt=tatMetricKey?resolveTarget(tatMetricKey,null):null;
+  const p80HdrTgt=globalTatTgt?`<br><span style="font-size:8px;font-weight:400;opacity:.6;letter-spacing:0">tgt: ${fmtTAT(globalTatTgt)}</span>`:'';
+
   let html='<table><thead class="single"><tr>';
   if(byLRM){html+='<th>Cluster</th><th>LRM</th>';}else{html+='<th>Cluster</th>';}
-  html+=`<th class="tdr">N</th><th class="tdr">Avg</th><th class="tdr">P50</th><th class="tdr">P75</th><th class="tdr">P90</th><th class="tdr">P${pcVal}</th><th class="tdr" style="min-width:110px">Distribution <span style="font-size:9px;font-weight:400;color:var(--t3)">P50 · P75 · P90</span></th></tr></thead><tbody>`;
-  rows.forEach(r=>{
+  html+=`<th class="tdr">N</th><th class="tdr">Avg</th><th class="tdr">P50</th><th class="tdr">P75</th><th class="tgt-headline tdr">P80 ★${p80HdrTgt}</th><th class="tdr">P${pcVal}</th><th class="tdr" style="min-width:110px">Distribution <span style="font-size:9px;font-weight:400;color:var(--t3)">P50 · P75 · P80</span></th></tr></thead><tbody>`;
+  rows.forEach((r,ri)=>{
     const[c,l]=r.key.split('|');
     const lowN=r.n<20;
     const rowStyle=lowN?' title="Small sample (N < 20) — interpret with caution"':'';
-    if(byLRM){html+=`<tr${rowStyle}><td class="tdc" title="${c}">${c}${lowN?' <span style="font-size:9px;color:#f59e0b">⚠</span>':''}</td><td class="td-lrm" style="padding-left:8px" title="${l}">${l}</td>`;}
-    else{html+=`<tr${rowStyle}><td class="tdc" title="${r.key}">${r.key}${lowN?' <span style="font-size:9px;color:#f59e0b">⚠</span>':''}</td>`;}
-    html+=`<td class="tdr mono">${f(r.n)}</td><td class="tdr mono">${fmtTAT(r.avg)}</td><td class="tdr mono">${fmtTAT(r.p50)}</td><td class="tdr mono">${fmtTAT(r.p75)}</td><td class="tdr mono">${fmtTAT(r.p90)}</td><td class="tdr mono" style="font-weight:600;background:#fef3c7">${fmtTAT(r.pc)}</td><td style="padding:4px 8px">${tatBar(r.p50,r.p75,r.p90)}</td></tr>`;
+    // P80 target badge — only for lc_to_first_call and lc_to_ms metrics
+    const tgt=tatMetricKey?resolveTarget(tatMetricKey,c):null;
+    const{cls:tgtCls,hover:tgtHover,icon:tgtIcon}=tgt!=null?targetBadge(r.p80,tgt,'lower'):{cls:'',hover:'',icon:''};
+    if(byLRM){html+=`<tr data-ri="${ri}"${rowStyle}><td class="tdc" title="${c}">${c}${lowN?' <span style="font-size:9px;color:#f59e0b">⚠</span>':''}</td><td class="td-lrm" style="padding-left:8px" title="${l}">${l}</td>`;}
+    else{html+=`<tr data-ri="${ri}"${rowStyle}><td class="tdc" title="${r.key}">${r.key}${lowN?' <span style="font-size:9px;color:#f59e0b">⚠</span>':''}</td>`;}
+    html+=`<td class="tdr mono">${f(r.n)}</td><td class="tdr mono">${fmtTAT(r.avg)}</td><td class="tdr mono">${fmtTAT(r.p50)}</td><td class="tdr mono">${fmtTAT(r.p75)}</td><td class="tgt-headline-col ${tgtCls} tdr mono" ${tgtHover}>${fmtTAT(r.p80)}${tgtIcon}</td><td class="tdr mono" style="font-weight:600;background:#fef3c7">${fmtTAT(r.pc)}</td><td style="padding:4px 8px">${tatBar(r.p50,r.p75,r.p80)}</td></tr>`;
   });
-  const p75All=percentile(allVals,75),p90All=percentile(allVals,90);
-  html+=`<tr class="total-row" style="background:var(--sur2);font-weight:600">${byLRM?'<td colspan="2">Overall</td>':'<td>Overall</td>'}<td class="tdr mono">${f(N)}</td><td class="tdr mono">${fmtTAT(avgAll)}</td><td class="tdr mono">${fmtTAT(p50)}</td><td class="tdr mono">${fmtTAT(p75All)}</td><td class="tdr mono">${fmtTAT(p90All)}</td><td class="tdr mono">${fmtTAT(pcCust)}</td><td style="padding:4px 8px">${tatBar(p50,p75All,p90All)}</td></tr>`;
+  const p75All=percentile(allVals,75),p80All=percentile(allVals,80);
+  html+=`<tr class="total-row" style="background:var(--sur2);font-weight:600">${byLRM?'<td colspan="2">Overall</td>':'<td>Overall</td>'}<td class="tdr mono">${f(N)}</td><td class="tdr mono">${fmtTAT(avgAll)}</td><td class="tdr mono">${fmtTAT(p50)}</td><td class="tdr mono">${fmtTAT(p75All)}</td><td class="tgt-headline-col tdr mono">${fmtTAT(p80All)}</td><td class="tdr mono">${fmtTAT(pcCust)}</td><td style="padding:4px 8px">${tatBar(p50,p75All,p80All)}</td></tr>`;
   html+='</tbody></table>';
   $('tat-tbl').innerHTML=html;autoSort($('tat-tbl'));
+  const _whMap={'tat_first_call':'wh_tat_first_call','tat_to_meeting':'wh_tat_to_meeting','tat_to_won':'wh_tat_to_won'};
+  const _fieldKey=WH_MODE?(_whMap[metric]||metric):metric;
+  $('tat-tbl').querySelectorAll('tbody tr[data-ri]').forEach(tr=>{
+    const r=rows[parseInt(tr.dataset.ri)];if(!r)return;
+    const ids=metric==='tat_gaps'
+      ?r.records.filter(x=>(x.tat_gaps||[]).length>0).map(x=>x.lead_id)
+      :r.records.filter(x=>x[_fieldKey]!=null).map(x=>x.lead_id);
+    if(!ids.length)return;
+    [...tr.querySelectorAll('td.tdr.mono')].forEach(td=>addDrillDblClick(td,{lead_id_list:ids}));
+  });
+  const _totRow=$('tat-tbl').querySelector('tbody tr.total-row');
+  if(_totRow){
+    const _allIds=metric==='tat_gaps'
+      ?recs.filter(x=>(x.tat_gaps||[]).length>0).map(x=>x.lead_id)
+      :recs.filter(x=>x[_fieldKey]!=null).map(x=>x.lead_id);
+    if(_allIds.length)[..._totRow.querySelectorAll('td.tdr.mono')].forEach(td=>addDrillDblClick(td,{lead_id_list:_allIds}));
+  }
 }
 
 // ════════════════════════════════════════════════════════════════════════════
@@ -2046,7 +3400,7 @@ function bFunnel(){
   const presentSt=new Set(DATA.records.map(r=>r.lead_status).filter(Boolean));
   const activeStatuses=[...STATUS_ORDER.filter(s=>presentSt.has(s)),...[...presentSt].filter(s=>s&&s!=='Unknown'&&!STATUS_ORDER.includes(s))];
   $('p-funnel').innerHTML=`<div class="fb"><div class="fr">
-    <div class="fg"><span class="flbl">Cluster</span><select class="fc" id="fn-cl"><option value="all">All Clusters</option>${clusterList.map(c=>`<option value="${c}">${c}</option>`).join('')}</select></div>
+    <div class="fg"><span class="flbl">Cluster</span>${clMS('fn-cl',clusterList,FN.clSel)}</div>
     <div class="fg"><span class="flbl">Status</span>
       <div class="ms-wrap" id="fn-ms-wrap"><button class="ms-btn" id="fn-ms-btn">${FN.sel.length===0?'All Statuses':FN.sel.length===1?FN.sel[0]:FN.sel.length+' selected'}</button>
         <div class="ms-dd" id="fn-ms-dd"><div class="ms-list"><label class="ms-opt"><input type="checkbox" id="fn-ms-all" ${FN.sel.length===0?'checked':''}>&nbsp;All Statuses</label><div class="ms-sep"></div>
@@ -2059,7 +3413,7 @@ function bFunnel(){
   setupMS('fn-ms-btn','fn-ms-dd','fn-ms-all','.fn-ms-chk','fn-ms-apl','fn-ms-clr',sel=>{FN.sel=sel;render();});
   function render(){
     const dr=getDR('fn-pr','fn-fr','fn-to');let recs=filterDR(DATA.records,dr.from,dr.to);
-    const cl=$('fn-cl')?.value;if(cl&&cl!=='all')recs=recs.filter(r=>r.cluster===cl);
+    const cl=FN.clSel||[];if(cl.length>0)recs=recs.filter(r=>cl.includes(r.cluster));
     if(FN.sel.length>0)recs=recs.filter(r=>FN.sel.includes(r.lead_status));
     const total=recs.reduce((s,r)=>s+r.lead_count,0);
     const dimT={};recs.forEach(r=>{dimT[r.lead_stage]=(dimT[r.lead_stage]||0)+r.lead_count;});
@@ -2079,7 +3433,8 @@ function bFunnel(){
       return`<div style="margin-bottom:14px"><div style="display:flex;align-items:center;justify-content:space-between;background:${sBg};color:${sCol};padding:6px 10px;border-radius:6px;margin-bottom:6px;border-left:3px solid ${sCol}"><span style="font-size:11px;font-weight:600">${status}</span><span style="font-size:11px;font-family:'DM Mono',monospace">${f(sTot)} leads · ${total>0?((sTot/total)*100).toFixed(1):0}%</span></div>${bars}</div>`;
     }).join('');
   }
-  ['fn-cl','fn-pr'].forEach(id=>$(id)?.addEventListener('change',render));
+  ['fn-pr'].forEach(id=>$(id)?.addEventListener('change',render));
+  wireClMS('fn-cl',sel=>{FN.clSel=sel;render();});
   ['fn-fr','fn-to'].forEach(id=>$(id)?.addEventListener('change',()=>{$('fn-pr').value='custom';render();}));
   setTimeout(render,0);
 }
@@ -2089,16 +3444,28 @@ function bCohort(){
   const clusterList=[...clusterSet].sort();
   const presentSt=new Set(DATA.records.map(r=>r.lead_status).filter(Boolean));
   const activeStatuses=STATUS_ORDER.filter(s=>presentSt.has(s));
+  // Master stage list (all stages ever present, regardless of current filters) — static per build.
+  const allDimT={};DATA.records.forEach(r=>{allDimT[r.lead_stage]=(allDimT[r.lead_stage]||0)+r.lead_count;});
+  const allGroups=stageGroups(allDimT,[]);
+  const allStages=allGroups.flatMap(g=>g.stages);
   $('p-cohort').innerHTML=`<div class="fb"><div class="fr">
-    <div class="fg"><span class="flbl">Cluster</span><select class="fc" id="co-cl"><option value="all">All Clusters</option>${clusterList.map(c=>`<option>${c}</option>`).join('')}</select></div>
+    <div class="fg"><span class="flbl">Cluster</span>${clMS('co-cl',clusterList,CO.clSel)}</div>
     <div class="fg"><span class="flbl">Status</span><select class="fc" id="co-st"><option value="all">All Statuses</option>${activeStatuses.map(s=>`<option value="${s}">${s}</option>`).join('')}</select></div>
+    <div class="fg"><span class="flbl">Stage</span>
+      <div class="ms-wrap" id="co-stage-wrap"><button class="ms-btn" id="co-stage-btn">${CO.stageSel.length===0?'All Stages':CO.stageSel.length===1?CO.stageSel[0]:CO.stageSel.length+' selected'}</button>
+        <div class="ms-dd" id="co-stage-dd"><div class="ms-list">
+          <label class="ms-opt"><input type="checkbox" id="co-stage-all" ${CO.stageSel.length===0?'checked':''}>&nbsp;All Stages</label><div class="ms-sep"></div>
+          ${allGroups.map(g=>g.stages.map(s=>`<label class="ms-opt"><input type="checkbox" class="co-stage-chk" value="${s}" ${CO.stageSel.includes(s)?'checked':''}><span class="ms-dot" style="background:${STATUS_COLORS[g.status]||'#94a3b8'}"></span>${s}</label>`).join('')).join('')}
+        </div><div class="ms-foot"><button class="ms-clear" id="co-stage-clr">Clear</button><button class="ms-apply" id="co-stage-apl">Apply</button></div></div></div></div>
     <div class="fg"><span class="flbl">Date range <span class="sub">(lead creation)</span></span><div class="frow"><select class="fc" id="co-pr"><option value="last3mo">Last 3 months</option><option value="last30">Last 30 days</option><option value="thisyear">This year</option><option value="alltime">All time</option><option value="custom">Custom</option></select><input type="date" class="fc" id="co-fr"><input type="date" class="fc" id="co-to"></div></div>
   </div></div>
-  <div class="sc"><div class="sc-h"><span class="sc-t">Cohort week × Stage</span><span class="sc-hi">Rows = creation week · top 12 stages · double-click cell to drill through</span></div><div style="overflow-x:auto;max-height:440px;overflow-y:auto"><div class="tw" id="co-tbl"></div></div></div>`;
+  <div class="sc"><div class="sc-h"><span class="sc-t">Cohort week × Stage</span><span class="sc-hi">Rows = creation week · stages grouped &amp; coloured by status · double-click cell to drill through</span></div><div style="overflow-x:auto;max-height:440px;overflow-y:auto"><div class="tw" id="co-tbl"></div></div></div>`;
+  wireClMS('co-cl',sel=>{CO.clSel=sel;render();});
+  setupMS('co-stage-btn','co-stage-dd','co-stage-all','.co-stage-chk','co-stage-apl','co-stage-clr',sel=>{CO.stageSel=sel;render();});
   function render(){
     const dr=getDR('co-pr','co-fr','co-to');let recs=filterDR(DATA.records,dr.from,dr.to);
-    const cl=$('co-cl')?.value,st=$('co-st')?.value;
-    if(cl&&cl!=='all')recs=recs.filter(r=>r.cluster===cl);if(st&&st!=='all')recs=recs.filter(r=>r.lead_status===st);
+    const cl=CO.clSel||[],st=$('co-st')?.value;
+    if(cl.length>0)recs=recs.filter(r=>cl.includes(r.cluster));if(st&&st!=='all')recs=recs.filter(r=>r.lead_status===st);
     // Map each record to a month-relative week key and label
     // Week 1=1-7, Week 2=8-14, Week 3=15-21, Week 4=22-28, Week 5=29+
     function weekKey(dateStr){
@@ -2119,8 +3486,15 @@ function bCohort(){
     const weeks=Object.keys(wkMap).sort().reverse();
     const dimT={};recs.forEach(r=>{dimT[r.lead_stage]=(dimT[r.lead_stage]||0)+r.lead_count;});
     const groups=stageGroups(dimT,st&&st!=='all'?[st]:[]);
-    const topStages=groups.flatMap(g=>g.stages).slice(0,12);
-    if(!weeks.length){$('co-tbl').innerHTML='<div class="nd">No data for selected filters.</div>';return;}
+    // Restrict to selected stages (if any) and drop empty groups — no more hardcoded top-12 cut.
+    const activeGroups=(CO.stageSel.length>0
+      ?groups.map(g=>({status:g.status,stages:g.stages.filter(s=>CO.stageSel.includes(s))}))
+      :groups
+    ).filter(g=>g.stages.length>0);
+    const flatStages=activeGroups.flatMap(g=>g.stages);
+    const stageStatus={};activeGroups.forEach(g=>g.stages.forEach(s=>stageStatus[s]=g.status));
+    const groupStarts=new Set(activeGroups.map(g=>g.stages[0]).filter(Boolean));
+    if(!weeks.length||!flatStages.length){$('co-tbl').innerHTML='<div class="nd">No data for selected filters.</div>';return;}
     const pv={};
     recs.forEach(r=>{
       const ds=r.creation_date&&r.creation_date!=='Unknown'?r.creation_date:r.cohort_week;
@@ -2128,12 +3502,27 @@ function bCohort(){
       pv[w.key]=pv[w.key]||{};
       pv[w.key][r.lead_stage]=(pv[w.key][r.lead_stage]||0)+r.lead_count;
     });
-    let html='<table><thead class="single"><tr><th>Week (creation)</th>';topStages.forEach(s=>html+=`<th class="tdr" title="${s}">${s}</th>`);html+='<th class="tdr">Total</th></tr></thead><tbody>';
+    // Header: status-group row + stage row, matching the Cluster×Stage matrix's colour language.
+    let html='<table><thead><tr><th rowspan="2">Week (creation)</th>';
+    activeGroups.forEach(({status,stages})=>{
+      const border=`border-left:3px solid ${STATUS_COLORS[status]||'#94a3b8'}`;
+      html+=`<th colspan="${stages.length}" style="${border};background:${STATUS_BG[status]||'#f8fafc'};color:${STATUS_COLORS[status]||'#374151'}">${status}</th>`;
+    });
+    html+='<th rowspan="2" class="tdr">Total</th></tr><tr>';
+    activeGroups.forEach(({status,stages})=>{stages.forEach((s,i)=>{
+      const border=i===0?`border-left:3px solid ${STATUS_COLORS[status]||'#94a3b8'}`:'';
+      html+=`<th class="tdr" style="${border}" title="${s}">${s}</th>`;
+    });});
+    html+='</tr></thead><tbody>';
     weeks.forEach(wk=>{
-      const wt=topStages.reduce((s,st2)=>s+(pv[wk]?.[st2]||0),0);
-      const wmax=Math.max(...topStages.map(s=>pv[wk]?.[s]||0),1);
+      const wt=flatStages.reduce((s,st2)=>s+(pv[wk]?.[st2]||0),0);
+      const wmax=Math.max(...flatStages.map(s=>pv[wk]?.[s]||0),1);
       html+=`<tr><td class="tdc" style="font-size:11px;white-space:nowrap">${wkMap[wk]}</td>`;
-      topStages.forEach(s=>{const v=pv[wk]?.[s]||0;html+=`<td class="tdr mono" style="${hBg(v,wmax)}">${v||'·'}</td>`;});
+      flatStages.forEach(s=>{
+        const v=pv[wk]?.[s]||0;
+        const border=groupStarts.has(s)?`border-left:3px solid ${STATUS_COLORS[stageStatus[s]]||'#94a3b8'}`:'';
+        html+=`<td class="tdr mono" style="${hBgSt(v,wmax,STATUS_COLORS[stageStatus[s]]||'#3b82f6')};${border}">${v||'·'}</td>`;
+      });
       html+=`<td class="tdt">${f(wt)}</td></tr>`;
     });
     html+='</tbody></table>';const wrap=$('co-tbl');wrap.innerHTML=html;autoSort(wrap);
@@ -2149,25 +3538,27 @@ function bCohort(){
         const pad=n=>String(n).padStart(2,'0');
         return{from:`${y}-${pad(mo)}-${pad(dayStart)}`,to:`${y}-${pad(mo)}-${pad(dayEnd)}`};
       }
-      const clVal=$('co-cl')?.value||'all';
+      const clVal=cl.length===1?cl[0]:'all';
       const stVal=$('co-st')?.value||'all';
       wrap.querySelectorAll('tbody tr').forEach((tr,wi)=>{
         const wk=weeks[wi];if(!wk)return;
         const{from:wkFrom,to:wkTo}=weekDateRange(wk);
         tr.querySelectorAll('td.tdr.mono').forEach((td,si)=>{
-          if(si>=topStages.length)return;
-          const stage=topStages[si];
+          if(si>=flatStages.length)return;
+          const stage=flatStages[si];
           addDrillDblClick(td,{
-            cluster:clVal!=='all'?clVal:'all',
+            cluster:clVal,
             status: stVal!=='all'?stVal:'all',
             stage,
             fromS:wkFrom,toS:wkTo,
           });
         });
+        const _wkTot=tr.querySelector('td.tdt');
+        if(_wkTot)addDrillDblClick(_wkTot,{cluster:clVal,status:stVal!=='all'?stVal:'all',stage:'all',fromS:wkFrom,toS:wkTo});
       });
     }
   }
-  ['co-cl','co-st','co-pr'].forEach(id=>$(id)?.addEventListener('change',render));
+  ['co-st','co-pr'].forEach(id=>$(id)?.addEventListener('change',render));
   ['co-fr','co-to'].forEach(id=>$(id)?.addEventListener('change',()=>{$('co-pr').value='custom';render();}));
   setTimeout(render,0);
 }

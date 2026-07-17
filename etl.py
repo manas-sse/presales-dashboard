@@ -11,14 +11,22 @@ Generates:
   data/tat_stats.json       → TAT distributions for events
 """
 
-import os, re, json, time, requests, statistics
+import os, re, json, time, requests, statistics, calendar
 from datetime import datetime, date, timezone, timedelta
 from collections import defaultdict
 from dotenv import load_dotenv
 
 load_dotenv()
 
+# ⚠ Column name NOT independently confirmed against Metabase card 2557 —
+# per Manas (July 2026) this IS the correct column. If tat_to_won /
+# Control Tower's Order numbers ever come back wrong, check this first.
+ORDER_BOOKED_DATE_FIELD = "Order Booked Date"
+
 # ── VALID CLUSTER LIST ───────────────────────────────────────────────────────
+# NOTE: "Surat" is discontinued as of June 2026 — no new leads will be created
+# there, but historical Surat leads must remain attributed to it (not folded
+# into another cluster or dropped to "Invalid"). Kept in the list for that reason.
 VALID_CLUSTERS = [
     "Ahmedabad","Surat","Bangalore","Hyderabad","Amravati",
     "Nagpur","Aurangabad","Nashik","Pune","Kolhapur",
@@ -26,7 +34,7 @@ VALID_CLUSTERS = [
     "Indore","Jabalpur","Jaipur","Kanpur","Lucknow",
     "Varanasi","Agra","Bareilly","Meerut","Delhi",
     "Ghaziabad","Noida","Gurgaon","Faridabad","Chennai",
-    "Coimbatore","Vijayawada",
+    "Coimbatore","Vijayawada","Kota",
 ]
 
 # Known alternate spellings → canonical name.
@@ -39,6 +47,7 @@ CLUSTER_ALIASES = {
     r"gaziabad|gzb":                        "Ghaziabad",
     r"navi\s*mumbai|thane|mumbai":          "Invalid",   # not in cluster list
     r"new\s*delhi|north\s*delhi|south\s*delhi|east\s*delhi|west\s*delhi": "Delhi",
+    r"kota\s*rajasthan":                    "Kota",
 }
 
 # Pre-compile: (pattern, canonical) list, checked in order
@@ -46,6 +55,14 @@ _ALIAS_RE = [(re.compile(p, re.IGNORECASE), c) for p, c in CLUSTER_ALIASES.items
 
 # Fast lookup: lowercase canonical name → canonical name
 _CLUSTER_LOWER = {c.lower(): c for c in VALID_CLUSTERS}
+
+# ── WORKING HOURS CONFIG ──────────────────────────────────────────────────────
+# All times in IST.  Adjust these constants to change the definition.
+WH_START_H = 10          # Working day starts at 10:00 IST
+WH_END_H   = 18         # Working day ends at 18:00 IST (6 PM)
+# Python weekday(): 0 = Monday, 1 = Tuesday, … 6 = Sunday.
+# Monday is the LRM team's weekoff → working days are Tuesday–Sunday.
+WH_WORKING_DAYS: set = {1, 2, 3, 4, 5, 6}   # Tue, Wed, Thu, Fri, Sat, Sun
 
 
 def normalise_cluster(raw: str) -> str:
@@ -213,6 +230,50 @@ def today_ist():
     return (datetime.now(timezone.utc) + _IST).date()
 
 
+def effective_creation_dt_wh(creation_dt_utc: datetime) -> datetime:
+    """
+    Working-hours-adjusted effective creation datetime.
+
+    Given a UTC naive creation datetime, returns the earliest moment within
+    working hours that is ≥ the actual creation time (UTC naive).
+
+    Logic (all arithmetic in IST):
+      • If created during working hours on a working day → return unchanged.
+      • If created before WH_START_H on a working day → return WH_START_H that day.
+      • If created at or after WH_END_H on a working day → return WH_START_H of
+        the next working day.
+      • If created on a weekoff day (Monday) → return WH_START_H of the next
+        working day.
+
+    The returned datetime is UTC naive for TAT arithmetic consistency with the
+    rest of the pipeline.  Floor-of-zero (max(0, tat)) is applied at call sites.
+    """
+    ist_dt = creation_dt_utc + _IST
+
+    def _next_working_start(from_ist: datetime) -> datetime:
+        """IST datetime of the start of the next working day after from_ist."""
+        d = from_ist.date() + timedelta(days=1)
+        while d.weekday() not in WH_WORKING_DAYS:
+            d += timedelta(days=1)
+        return datetime(d.year, d.month, d.day, WH_START_H, 0, 0)
+
+    wd = ist_dt.weekday()
+    if wd not in WH_WORKING_DAYS:
+        # Weekoff day → push to next working day's start
+        eff_ist = _next_working_start(ist_dt)
+    elif ist_dt.hour < WH_START_H:
+        # Before working hours → same day's start
+        eff_ist = datetime(ist_dt.year, ist_dt.month, ist_dt.day, WH_START_H, 0, 0)
+    elif ist_dt.hour >= WH_END_H:
+        # After working hours → next working day's start
+        eff_ist = _next_working_start(ist_dt)
+    else:
+        # During working hours — no adjustment
+        eff_ist = ist_dt
+
+    return eff_ist - _IST   # IST → UTC naive
+
+
 # ════════════════════════════════════════════════════════════════════════════
 # CARD 2557 — LEAD SNAPSHOT (city_stage + call_attempts)
 # ════════════════════════════════════════════════════════════════════════════
@@ -301,8 +362,128 @@ def build_call_attempts_output(raw_rows: list) -> dict:
 # CARD 3227 — AUDIT LOG AGGREGATIONS
 # ════════════════════════════════════════════════════════════════════════════
 
+# ╔══════════════════════════════════════════════════════════════════════════╗
+# ║ CALL DETECTION LOGIC — ADJUSTABLE. This is THE single source of truth    ║
+# ║ for "did a call happen at this audit event". Every function that counts  ║
+# ║ calls or computes call-based TAT reads call_made_calc / call_attempt_    ║
+# ║ lrm_calc below — none of them re-derive the rule themselves. If the      ║
+# ║ business definition of "a call happened" changes, edit ONLY              ║
+# ║ compute_call_attempt_calc(). If the rechurn-truncation rule changes, or  ║
+# ║ rechurn ever needs its own dedicated handling (rather than this simple   ║
+# ║ truncation), edit ONLY FIRST_CALL_TRUNCATION_STATUSES and                ║
+# ║ compute_call_times_and_first_call_tat().                                 ║
+# ╚══════════════════════════════════════════════════════════════════════════╝
+
+# Rule (as agreed July 2026): a call is counted at an event when EITHER
+#   (a) call_attempts_lrm incremented from the previous event (source truth
+#       — actor-unrestricted; the counter itself is already evidence a call
+#       was logged, regardless of which audit row happens to carry it), OR
+#   (b) the lead's STAGE changed from the previous event AND that change was
+#       made BY THE LRM (status_stage_updated_by == "LRM"), even if (a)
+#       didn't fire — catches calls that happened but weren't logged in the
+#       counter. RESTRICTED to LRM-made changes only — confirmed after
+#       testing showed the unrestricted version wrongly counted System/Solar-
+#       Consultant-driven stage changes (closures, reopens, SC home-visit
+#       progressions) as calls, which inflated counts well beyond intent.
+# If raw_delta > 1 (source logged multiple attempts between two audit rows),
+# that magnitude is preserved rather than collapsed to 1.
+def compute_call_attempt_calc(events: list) -> None:
+    """
+    Mutates `events` (already sorted by ts, for ONE lead_id) in place, adding:
+      call_attempt_lrm_calc  — cumulative corrected call count (same shape as
+                                the raw call_attempts_lrm column, but corrected)
+      call_made_calc         — bool, whether THIS event is itself a call
+    No call is ever attributed to a lead's first-ever audit event (nothing
+    to compare it against) — same convention as the old raw-increment logic.
+    """
+    if not events: return
+    events[0]["call_attempt_lrm_calc"] = events[0]["n_attempts"]
+    events[0]["call_made_calc"] = False
+    for i in range(1, len(events)):
+        prev, ev = events[i - 1], events[i]
+        raw_delta = ev["n_attempts"] - prev["n_attempts"]
+        stage_changed_by_lrm = (ev["stage"] != prev["stage"]) and (ev["updated_by"] == "LRM")
+        inc = raw_delta if raw_delta > 0 else (1 if stage_changed_by_lrm else 0)
+        ev["call_attempt_lrm_calc"] = prev["call_attempt_lrm_calc"] + inc
+        ev["call_made_calc"] = inc > 0
+
+# Rechurn-bleed guard for "first call" TAT specifically (NOT for total call
+# counts or call-gap TAT, which intentionally reflect the full lifecycle).
+# Problem: a lead created → closed → later reopened, with a NEW call made
+# during the reopened cycle, was getting counted as if it were the ORIGINAL
+# lead's first call — wrongly inflating/deflating TAT relative to the
+# original creation date.
+# Fix: once a lead has progressed into one of these "contact clearly
+# established" statuses for the first time, no call after that point counts
+# toward tat_first_call. If NO call happened before that point, tat_first_call
+# is None (the pre-progression call genuinely didn't happen) rather than
+# picking up a much-later rechurned call.
+# TUNABLE — deliberately excludes Closed-Lost/Closed-Cold/Lost: many of those
+# stages (e.g. "Wrong Number", "Not Serviceable") can be reached WITHOUT any
+# contact ever happening, so including them here would truncate too early in
+# those cases. Revisit this set if that assumption turns out wrong, or if
+# rechurn needs full dedicated handling (e.g. splitting a lead's history into
+# distinct "cycles" at each close→reopen boundary) instead of this truncation.
+FIRST_CALL_TRUNCATION_STATUSES = {"Connected", "Meeting", "Booked", "Closed - Won"}
+
+def compute_call_times_and_first_call_tat(events: list, cdate_dt) -> dict:
+    """
+    Shared by build_tat_stats() and build_lrm_snapshot() so the call-detection
+    rule and the rechurn-truncation rule can never drift between the two —
+    edit ONLY this function (and the two constants/helpers above it) to
+    change either behaviour everywhere at once.
+
+    events: sorted-by-ts audit events for ONE lead, must already carry
+            'call_made_calc' (via compute_call_attempt_calc).
+    cdate_dt: lead's creation datetime (UTC naive), or None.
+
+    Returns: {
+      call_times:        [ts,...] ALL calls, full lifecycle, untruncated
+                          (used for total_calls and tat_gaps — NOT affected
+                          by the rechurn guard, by design)
+      tat_first_call:     hours, creation → first PRE-TRUNCATION call, or None
+      wh_tat_first_call:  same, working-hours-adjusted, floor 0, or None
+      first_call_date:    IST date string of that (truncated) first call, or None
+      tat_gaps:           [hours,...] between consecutive calls, full lifecycle,
+                          gaps > 365 days excluded as outliers
+    }
+    """
+    call_times = [ev["ts"] for ev in events if ev.get("call_made_calc")]
+
+    first_progress_ts = next((ev["ts"] for ev in events if ev["status"] in FIRST_CALL_TRUNCATION_STATUSES), None)
+    truncated_calls = [t for t in call_times if not first_progress_ts or t <= first_progress_ts]
+
+    tat_first_call = None
+    wh_tat_first_call = None
+    first_call_date = None
+    if cdate_dt and truncated_calls:
+        tat_first_call = round((truncated_calls[0] - cdate_dt).total_seconds() / 3600, 2)
+        eff_cdate = effective_creation_dt_wh(cdate_dt)
+        wh_tat_first_call = round(max(0.0, (truncated_calls[0] - eff_cdate).total_seconds() / 3600), 2)
+        first_call_date = ist_date_str(truncated_calls[0])
+
+    tat_gaps = []
+    for i in range(1, len(call_times)):
+        gap_h = (call_times[i] - call_times[i - 1]).total_seconds() / 3600
+        if 0 <= gap_h <= 365 * 24:
+            tat_gaps.append(round(gap_h, 2))
+
+    return {
+        "call_times":        call_times,
+        "tat_first_call":     tat_first_call,
+        "wh_tat_first_call":  wh_tat_first_call,
+        "first_call_date":    first_call_date,
+        "tat_gaps":           tat_gaps,
+    }
+
+
 def normalise_audit_rows(audit_raw: list) -> list:
-    """Sort audit by lead_id, createdAt asc — required for transition + attempt detection."""
+    """
+    Sort audit by lead_id, createdAt asc — required for transition + attempt
+    detection. Also computes call_attempt_lrm_calc / call_made_calc per event
+    (see CALL DETECTION LOGIC block above) — every downstream function reads
+    these, not the raw n_attempts increment, for call counting.
+    """
     cleaned = []
     for r in audit_raw:
         lid = r.get("lead_id")
@@ -324,6 +505,10 @@ def normalise_audit_rows(audit_raw: list) -> list:
             "n_attempts": n_attempts,
         })
     cleaned.sort(key=lambda x: (x["lead_id"], x["ts"]))
+    by_lead_tmp: dict = defaultdict(list)
+    for r in cleaned: by_lead_tmp[r["lead_id"]].append(r)
+    for lid, evs in by_lead_tmp.items():
+        compute_call_attempt_calc(evs)   # mutates evs (and thus `cleaned`) in place
     return cleaned
 
 
@@ -354,7 +539,7 @@ def build_daily_movement(audit_sorted: list, lead_meta: dict) -> dict:
             if prev is not None:
                 stage_changed  = prev["stage"]  != ev["stage"]
                 status_changed = prev["status"] != ev["status"]
-                call_made      = ev["n_attempts"] > prev["n_attempts"]
+                call_made      = ev.get("call_made_calc", False)
                 if stage_changed:
                     transitions_stage[(ev_date, cluster, lrm,
                                        prev["stage"], ev["stage"])] += 1
@@ -400,7 +585,7 @@ def build_daily_movement(audit_sorted: list, lead_meta: dict) -> dict:
             "note": (
                 "stage/status: stage/status-level transitions. "
                 "touches: events with no stage/status change — calls_no_transition = "
-                "call attempted (n_attempts incremented); "
+                "call attempted (call_made_calc — see CALL DETECTION LOGIC block); "
                 "updates_no_transition = any other audit event with no state change."
             ),
         },
@@ -552,7 +737,7 @@ def build_eod_leads(audit_sorted: list, lead_meta: dict) -> dict:
 def build_lrm_performance(audit_sorted: list, lead_meta: dict) -> dict:
     """
     Per (date IST, cluster, lrm):
-      - calls          (n_attempts incremented — attributed to assigned LRM)
+      - calls          (call_made_calc — see CALL DETECTION LOGIC block; attributed to assigned LRM)
       - leads_touched  (distinct leads with any LRM-initiated update)
       - stage_movements / status_movements (any state change — attributed to assigned LRM)
       - call_lead_ids, touch_lead_ids, stage_move_lead_ids — lead ID sets for drill-through
@@ -578,7 +763,7 @@ def build_lrm_performance(audit_sorted: list, lead_meta: dict) -> dict:
             # leads_touched = unique leads updated BY the LRM (not system/SC updates)
             if ev["updated_by"] == "LRM":
                 bucket[k]["leads"].add(lid)
-            if prev is not None and ev["n_attempts"] > prev["n_attempts"]:
+            if ev.get("call_made_calc"):
                 bucket[k]["calls"] += 1
                 bucket[k]["call_ids"].add(lid)
             if prev is not None:
@@ -621,7 +806,7 @@ def build_lrm_performance(audit_sorted: list, lead_meta: dict) -> dict:
     }
 
 
-def build_tat_stats(audit_sorted: list, lead_meta: dict, lead_ms_dates: dict = None) -> dict:
+def build_tat_stats(audit_sorted: list, lead_meta: dict, lead_ms_dates: dict = None, lead_won_dates: dict = None) -> dict:
     """
     Computes TAT in fractional HOURS for each measure per lead.
     lead_meta values carry UTC naive creation_dt, card-2557 cluster, card-2557 lrm.
@@ -629,15 +814,32 @@ def build_tat_stats(audit_sorted: list, lead_meta: dict, lead_ms_dates: dict = N
     IST date strings are derived at output time only.
 
     Metrics:
-      tat_first_call : creation → createdAt of first call event (hours)
-      tat_gaps       : list of hours between each consecutive pair of call events
-      tat_to_meeting : creation → Meeting Schedule Date from card 2557 (hours)
-      tat_to_won     : creation → createdAt of first Order Confirmed event (hours)
+      tat_first_call : creation → first call, TRUNCATED at first "contact
+                       established" status to guard against rechurn bleed
+                       (see FIRST_CALL_TRUNCATION_STATUSES) (hours)
+      tat_gaps       : list of hours between each consecutive pair of call
+                       events — FULL lifecycle, not truncated
+      tat_to_meeting : creation → Meeting Schedule Date from card 2557 (hours).
+                       ⚠ CAVEAT (flagged July 2026, not yet resolved): this reads
+                       the CURRENT/latest Meeting Schedule Date value, not the
+                       FIRST time a meeting was ever scheduled. If a meeting is
+                       rescheduled, this TAT silently reflects the most recent
+                       schedule date, not the original one. No fix implemented
+                       yet — revisit if "time to first scheduling attempt" (as
+                       opposed to "time to current scheduled meeting") is needed.
+      tat_to_won     : creation → Order Booked Date from card 2557 (hours) when
+                       available, else FALLS BACK to createdAt of the first
+                       audit event where stage == "Order Confirmed" (the old,
+                       sole method). See ORDER_BOOKED_DATE_FIELD below — confirm
+                       the exact Metabase column name matches.
 
-    Call detection: n_attempts increments between consecutive events (no LRM filter).
+    Call detection: call_made_calc (see CALL DETECTION LOGIC block near
+    normalise_audit_rows) — increments on raw call_attempts_lrm OR stage change.
     LRM attribution: card 2557 LRM Email (lead_meta["lrm"]).
     Cluster attribution: card 2557 Cluster with Invalid fallback (resolve_cluster).
     lead_ms_dates: dict of lead_id → Meeting Schedule Date UTC naive datetime (from card 2557).
+    lead_won_dates: dict of lead_id → Order Booked Date UTC naive datetime (from card 2557),
+                    may be None/absent for older leads or if the field isn't populated.
     """
     by_lead = defaultdict(list)
     for r in audit_sorted:
@@ -663,28 +865,16 @@ def build_tat_stats(audit_sorted: list, lead_meta: dict, lead_ms_dates: dict = N
             events[0]["cluster"]
         )
 
-        # Call events: n_attempts increments (prev_n = first event's count)
-        call_times = []   # UTC naive datetimes
-        prev_n = None
-        for ev in events:
-            n = ev["n_attempts"]
-            if prev_n is not None and n > prev_n:
-                call_times.append(ev["ts"])
-            prev_n = n
-
-        # TAT 1: creation → first call (hours)
-        tat_first_call = None
-        if cdate_dt and call_times:
-            tat_first_call = round((call_times[0] - cdate_dt).total_seconds() / 3600, 2)
-
-        # TAT 2: gap between each consecutive pair of call events (hours)
-        tat_gaps = []
-        for i in range(1, len(call_times)):
-            gap_h = (call_times[i] - call_times[i - 1]).total_seconds() / 3600
-            if 0 <= gap_h <= 365 * 24:
-                tat_gaps.append(round(gap_h, 2))
+        # Call detection + first-call TAT (incl. rechurn truncation) — shared
+        # helper, see FIRST_CALL_TRUNCATION_STATUSES block near normalise_audit_rows.
+        fc = compute_call_times_and_first_call_tat(events, cdate_dt)
+        call_times      = fc["call_times"]       # full lifecycle, untruncated
+        tat_first_call  = fc["tat_first_call"]    # truncated at rechurn guard
+        tat_gaps        = fc["tat_gaps"]          # full lifecycle, untruncated
 
         # TAT 3: creation → Meeting Schedule Date (from card 2557)
+        # ⚠ Uses the CURRENT/latest MS date, not the first-ever scheduled one —
+        # see caveat in the function docstring above. Not fixed, just flagged.
         tat_to_meeting = None
         if cdate_dt and lead_ms_dates:
             ms_dt_from_lead = lead_ms_dates.get(lid)
@@ -694,6 +884,8 @@ def build_tat_stats(audit_sorted: list, lead_meta: dict, lead_ms_dates: dict = N
                 )
 
         # TAT 4–5: creation → first event at each target stage (hours) — from audit
+        # (kept as-is: this is now ONLY the fallback path for tat_to_won when
+        # lead_won_dates has no entry for this lead — see below)
         tat_to_targets = {}
         if cdate_dt:
             for label, target_stages in STAGE_TARGETS.items():
@@ -704,9 +896,49 @@ def build_tat_stats(audit_sorted: list, lead_meta: dict, lead_ms_dates: dict = N
                         )
                         break
 
+        # TAT (won): PRIMARY = creation → Order Booked Date (card 2557).
+        # FALLBACK = old audit-based method (first "Order Confirmed" stage
+        # event) when lead_won_dates has no value for this lead (older leads,
+        # or the field not yet populated at ETL run time).
+        won_dt_from_lead = lead_won_dates.get(lid) if lead_won_dates else None
+        if cdate_dt and won_dt_from_lead:
+            tat_to_won = round((won_dt_from_lead - cdate_dt).total_seconds() / 3600, 2)
+        else:
+            tat_to_won = tat_to_targets.get("first_won")
+
+        # ── WORKING HOURS TAT (separate from calendar TAT above) ─────────────
+        # Effective creation = creation time adjusted forward to next working-hour
+        # window.  TAT floor = 0 (a call before wh-start on creation day → 0).
+        # tat_gaps has no WH equivalent (gap is between two call events, not
+        # relative to creation).
+        wh_tat_first_call  = fc["wh_tat_first_call"]   # also rechurn-truncated
+        wh_tat_to_meeting  = None
+        wh_tat_to_won      = None
+        if cdate_dt:
+            eff_cdate = effective_creation_dt_wh(cdate_dt)
+
+            # WH TAT 3: effective creation → Meeting Schedule Date
+            if lead_ms_dates:
+                ms_dt_from_lead = lead_ms_dates.get(lid)
+                if ms_dt_from_lead:
+                    raw = (ms_dt_from_lead - eff_cdate).total_seconds() / 3600
+                    wh_tat_to_meeting = round(max(0.0, raw), 2)
+
+            # WH TAT 4: effective creation → Order Booked Date (primary),
+            # else effective creation → first Order Confirmed audit event (fallback)
+            if won_dt_from_lead:
+                raw = (won_dt_from_lead - eff_cdate).total_seconds() / 3600
+                wh_tat_to_won = round(max(0.0, raw), 2)
+            else:
+                for ev in events:
+                    if ev["stage"] in STAGE_TARGETS["first_won"]:
+                        raw = (ev["ts"] - eff_cdate).total_seconds() / 3600
+                        wh_tat_to_won = round(max(0.0, raw), 2)
+                        break
+
         # Display-only date strings in IST
         creation_date_str   = ist_date_str(cdate_dt) if cdate_dt else None
-        first_call_date_str = ist_date_str(call_times[0]) if call_times else None
+        first_call_date_str = fc["first_call_date"]   # truncated, consistent with tat_first_call
 
         records.append({
             "lead_id":         lid,
@@ -718,7 +950,11 @@ def build_tat_stats(audit_sorted: list, lead_meta: dict, lead_ms_dates: dict = N
             "tat_first_call":  tat_first_call,
             "tat_gaps":        tat_gaps,
             "tat_to_meeting":  tat_to_meeting,
-            "tat_to_won":      tat_to_targets.get("first_won"),
+            "tat_to_won":      tat_to_won,
+            # Working-hours variants (effective creation time, floor 0, no WH gaps)
+            "wh_tat_first_call": wh_tat_first_call,
+            "wh_tat_to_meeting": wh_tat_to_meeting,
+            "wh_tat_to_won":     wh_tat_to_won,
         })
 
     return {
@@ -728,7 +964,19 @@ def build_tat_stats(audit_sorted: list, lead_meta: dict, lead_ms_dates: dict = N
             "note": (
                 "TAT in fractional hours. "
                 "UI displays: <1h as minutes, 1–24h as hours, >=24h as days. "
-                "tat_to_meeting uses Meeting Schedule Date from card 2557 (not audit stage events)."
+                "tat_to_meeting uses Meeting Schedule Date from card 2557 — CAVEAT: this is "
+                "the CURRENT/latest MS value, not the first-ever scheduled date; a rescheduled "
+                "meeting shifts this TAT. Not fixed, flagged only (July 2026). "
+                "tat_to_won: PRIMARY = Order Booked Date (card 2557); FALLBACK = first audit "
+                "event at stage 'Order Confirmed' when Order Booked Date is absent for the lead. "
+                "Call detection = call_made_calc (raw call_attempts_lrm increment OR stage change), "
+                "see CALL DETECTION LOGIC block in etl.py. "
+                "tat_first_call/wh_tat_first_call are rechurn-truncated (see FIRST_CALL_TRUNCATION_STATUSES) "
+                "— total_calls and tat_gaps are NOT truncated (full lifecycle). "
+                "wh_tat_* fields use working-hours-adjusted effective creation time "
+                f"(WH_START={WH_START_H}:00–{WH_END_H}:00 IST, Mon weekoff). "
+                "wh_tat_* floor is 0 (call before wh-start on creation day). "
+                "tat_gaps has no wh equivalent."
             ),
         },
         "records": records,
@@ -754,26 +1002,29 @@ def build_lrm_conversion(audit_sorted: list, lead_meta: dict) -> dict:
                 meeting_date = (ev["ts"] + timedelta(hours=5, minutes=30)).date().strftime("%Y-%m-%d")
                 break
 
-        # Collect call events grouped by LRM (call = n_attempts incremented)
+        # Collect call events grouped by LRM (call = call_made_calc, see
+        # CALL DETECTION LOGIC block near normalise_audit_rows)
         by_lrm: dict = defaultdict(lambda: {"cluster": "Invalid", "call_dates": set()})
-        prev = None
         for ev in events:
-            if prev is not None and ev["n_attempts"] > prev["n_attempts"]:
+            if ev.get("call_made_calc"):
                 lrm = ev["lrm"] or "Unknown"
                 d_ist = (ev["ts"] + timedelta(hours=5, minutes=30)).date().strftime("%Y-%m-%d")
                 by_lrm[lrm]["call_dates"].add(d_ist)
                 by_lrm[lrm]["cluster"] = resolve_cluster(lid, ev["cluster"], lead_meta)
-            prev = ev
+
+        creation_dt = lead_meta.get(lid, {}).get("creation_dt")
+        creation_date_str = creation_dt.date().isoformat() if creation_dt else None
 
         for lrm, v in by_lrm.items():
             if not v["call_dates"]:
                 continue
             records.append({
-                "lead_id":      lid,
-                "lrm":          lrm,
-                "cluster":      v["cluster"],
-                "call_dates":   sorted(v["call_dates"]),
-                "meeting_date": meeting_date,
+                "lead_id":       lid,
+                "lrm":           lrm,
+                "cluster":       v["cluster"],
+                "creation_date": creation_date_str,
+                "call_dates":    sorted(v["call_dates"]),
+                "meeting_date":  meeting_date,
             })
 
     return {
@@ -793,7 +1044,7 @@ def build_lrm_conversion(audit_sorted: list, lead_meta: dict) -> dict:
 def build_lrm_snapshot(leads_raw: list, audit_sorted: list, lead_meta: dict) -> dict:
     """
     Per-lead snapshot combining card 2557 (LRM attribution, counts, MS/MD dates)
-    and card 3227 (call TATs via n_attempts increments).
+    and card 3227 (call TATs via call_made_calc — see CALL DETECTION LOGIC block).
 
     Attribution: LRM Email from card 2557 (not audit).
     Date filter key: creation_date IST — applied client-side.
@@ -811,35 +1062,30 @@ def build_lrm_snapshot(leads_raw: list, audit_sorted: list, lead_meta: dict) -> 
     INACTIVE_STAGES   = {"Lost in Qualification"}
 
     # ── Build call TAT lookup from audit (keyed by lead_id) ──────────────────
-    # Same prev_n=0 logic as build_tat_stats.
+    # Uses the SAME shared helper as build_tat_stats — see CALL DETECTION
+    # LOGIC block near normalise_audit_rows. Do not re-derive this locally;
+    # if it drifts from build_tat_stats, the TAT tab and Leads×LRM tab will
+    # silently disagree on "first call" for the same lead.
     by_lead_audit = defaultdict(list)
     for ev in audit_sorted:
         by_lead_audit[ev["lead_id"]].append(ev)
 
-    call_tat = {}   # lead_id → {tat_first_call: float|None, tat_gaps: [float]}
+    call_tat = {}   # lead_id → {tat_first_call: float|None, tat_gaps: [float], wh_tat_first_call: float|None}
     for lid, events in by_lead_audit.items():
         cdate_dt = lead_meta.get(lid, {}).get("creation_dt")   # UTC naive datetime
-        call_times = []
-        prev_n = None
-        for ev in events:
-            n = ev["n_attempts"]
-            if prev_n is not None and n > prev_n:
-                call_times.append(ev["ts"])
-            prev_n = n
-        tat_fc = None
-        if cdate_dt and call_times:
-            tat_fc = round((call_times[0] - cdate_dt).total_seconds() / 3600, 2)
-        gaps = []
-        for i in range(1, len(call_times)):
-            gh = (call_times[i] - call_times[i - 1]).total_seconds() / 3600
-            if 0 <= gh <= 365 * 24:
-                gaps.append(round(gh, 2))
-        call_tat[lid] = {"tat_first_call": tat_fc, "tat_gaps": gaps}
+        fc = compute_call_times_and_first_call_tat(events, cdate_dt)
+        call_tat[lid] = {
+            "tat_first_call":    fc["tat_first_call"],
+            "tat_gaps":          fc["tat_gaps"],
+            "wh_tat_first_call": fc["wh_tat_first_call"],
+        }
 
     # ── Aggregate by (lrm, cluster, creation_date_ist) ───────────────────────
     BucketT = lambda: {
         "assigned": 0, "active": 0, "ms": 0, "md": 0,
         "tat_first_call": [], "tat_gaps": [], "tat_to_ms": [], "tat_to_md": [],
+        # Working-hours TAT arrays (separate from calendar TAT above)
+        "wh_tat_first_call": [], "wh_tat_to_ms": [], "wh_tat_to_md": [],
     }
     buckets = defaultdict(BucketT)
 
@@ -877,20 +1123,33 @@ def build_lrm_snapshot(leads_raw: list, audit_sorted: list, lead_meta: dict) -> 
         if is_active:
             b["active"] += 1
 
+        # Working-hours effective creation datetime (used for wh_tat_* fields)
+        eff_cdate_dt = effective_creation_dt_wh(cdate_dt)
+
         if ms_dt:
             b["ms"] += 1
             tat_ms = round((ms_dt - cdate_dt).total_seconds() / 3600, 2)
             b["tat_to_ms"].append(tat_ms)
+            # Working-hours version (floor 0)
+            b["wh_tat_to_ms"].append(
+                round(max(0.0, (ms_dt - eff_cdate_dt).total_seconds() / 3600), 2)
+            )
 
         if md_dt:
             b["md"] += 1
             tat_md = round((md_dt - cdate_dt).total_seconds() / 3600, 2)
             b["tat_to_md"].append(tat_md)
+            # Working-hours version (floor 0)
+            b["wh_tat_to_md"].append(
+                round(max(0.0, (md_dt - eff_cdate_dt).total_seconds() / 3600), 2)
+            )
 
-        # Call TATs from audit
+        # Call TATs from audit (regular + WH)
         ct = call_tat.get(lid, {})
         if ct.get("tat_first_call") is not None:
             b["tat_first_call"].append(ct["tat_first_call"])
+        if ct.get("wh_tat_first_call") is not None:
+            b["wh_tat_first_call"].append(ct["wh_tat_first_call"])
         b["tat_gaps"].extend(ct.get("tat_gaps", []))
 
     records = [
@@ -906,6 +1165,10 @@ def build_lrm_snapshot(leads_raw: list, audit_sorted: list, lead_meta: dict) -> 
             "tat_gaps":       v["tat_gaps"],
             "tat_to_ms":      v["tat_to_ms"],
             "tat_to_md":      v["tat_to_md"],
+            # Working-hours TAT arrays (separate; use wh toggle in dashboard)
+            "wh_tat_first_call": v["wh_tat_first_call"],
+            "wh_tat_to_ms":      v["wh_tat_to_ms"],
+            "wh_tat_to_md":      v["wh_tat_to_md"],
         }
         for k, v in buckets.items()
     ]
@@ -919,12 +1182,247 @@ def build_lrm_snapshot(leads_raw: list, audit_sorted: list, lead_meta: dict) -> 
                 "TAT arrays in fractional hours — client concatenates across date range. "
                 "Active = not in inactive statuses/stages. "
                 "MS/MD timestamps from card 2557 (ISO UTC). "
-                "Call TATs from card 3227 (n_attempts increment method)."
+                "Call TATs from card 3227 (call_made_calc method, see CALL DETECTION LOGIC block; "
+                "tat_first_call is rechurn-truncated, see FIRST_CALL_TRUNCATION_STATUSES). "
+                "wh_tat_* fields use working-hours-adjusted effective creation time "
+                f"(WH={WH_START_H}:00–{WH_END_H}:00 IST, Mon weekoff); floor 0."
             ),
         },
         "records": records,
     }
 
+
+# ════════════════════════════════════════════════════════════════════════════
+# CONTROL TOWER — BQL → MS → MD → Order funnel (Referral channel only)
+# ════════════════════════════════════════════════════════════════════════════
+# Agreed design (July 2026):
+#   - "BQL" = Lead Created (relabelled only — no separate BQL qualifying
+#     condition implemented yet; revisit if that changes).
+#   - Pure card 2557 timestamps. Stage/status AGNOSTIC — a milestone is
+#     "reached" purely because its date column is populated, full stop.
+#   - HOTO not implemented (deferred). Tier / Sub-Channel not implemented.
+#
+# BACKFILL rule (strict subset funnel) — used ONLY in the Cohort/MO framing:
+#   has_oc = order_booked_dt is not None
+#   has_md = (meeting_done_dt is not None) OR has_oc
+#   has_ms = (meeting_schedule_dt is not None) OR has_md
+# Mirrored in index.html's Lead Data drill filters (ct_ms/ct_md/ct_oc) — if
+# this rule ever changes, update BOTH places or the two will silently drift.
+#
+# EFFORT framing: each stage counted on ITS OWN event date's month, using
+# RAW dates only (no backfill — a backfilled milestone has no date of its
+# own, so it can't be placed in a specific month/day). Effort %s are pace
+# ratios (numerator/denominator are NOT the same lead set), not true
+# per-lead conversion — labelled as such in the dashboard.
+# FUTURE-MONTH GUARD (added July 2026): meetings/orders are sometimes
+# pre-scheduled for a date beyond the current month (e.g. an August meeting
+# booked while still in July). Those are EXCLUDED from Effort's monthly
+# buckets — a future month isn't a real month to report activity for yet.
+# This does NOT affect Cohort/MO (bucketed by creation month, which can't be
+# future-dated) or the DoD matrix (current month only, day-level — a future
+# DAY within the current month is left as-is; that's real pre-scheduled data,
+# not the same problem).
+#
+# COHORT (MO) framing: a lead created in month X only counts toward month
+# X's MS/MD/Order numbers if THAT milestone ALSO falls in month X. Backfill
+# still applies, but a backfilled milestone always inherits the same-month-
+# ness of whichever later milestone caused the backfill (it must
+# chronologically precede it, so it can't be in a later month).
+#
+# MTD tables: every month (including past ones) is truncated to
+# day-of-month <= today's day-of-month, enabling apples-to-apples MTD vs
+# LMTD (last-month-to-date) comparison.
+#
+# DoD matrix: current calendar month only. Row = day lead entered the start
+# stage; "count_in" = ALL leads that entered that day (converted or not);
+# cells = % of that day's entrants converting on each subsequent day
+# (same month only). D1-3%/D1-7% = % converting within 3/7 calendar days
+# inclusive of the start day.
+def build_control_tower(leads_raw: list) -> dict:
+    today = today_ist()
+    cur_month = today.strftime("%Y-%m")
+    cutoff_day = today.day
+
+    def month_str(d): return d.strftime("%Y-%m")
+    def new_bucket(): return {"bql": 0, "ms": 0, "md": 0, "order": 0}
+
+    leads = []
+    for r in leads_raw:
+        lead_id = (r.get("Lead Id") or "").strip()
+        if not lead_id: continue
+        cdt = parse_dt(r.get("Creation Date"))
+        if not cdt: continue   # every lead must have a creation date; skip malformed rows
+        ms_dt = parse_dt(r.get("Meeting Schedule Date"))
+        md_dt = parse_dt(r.get("Meeting Done Date"))
+        oc_dt = parse_dt(r.get(ORDER_BOOKED_DATE_FIELD))
+        leads.append({
+            "cluster":  normalise_cluster(r.get("Cluster") or ""),
+            "c_date":   (cdt + _IST).date(),
+            "ms_date":  (ms_dt + _IST).date() if ms_dt else None,
+            "md_date":  (md_dt + _IST).date() if md_dt else None,
+            "oc_date":  (oc_dt + _IST).date() if oc_dt else None,
+        })
+
+    # ── EFFORT: full-month + MTD, both global and per-city ──────────────────
+    effort_month        = defaultdict(new_bucket)          # key: month
+    effort_month_city   = defaultdict(new_bucket)          # key: (month, cluster)
+    effort_mtd_month      = defaultdict(new_bucket)
+    effort_mtd_month_city = defaultdict(new_bucket)
+
+    for L in leads:
+        cm = month_str(L["c_date"])
+        effort_month[cm]["bql"] += 1
+        effort_month_city[(cm, L["cluster"])]["bql"] += 1
+        if L["c_date"].day <= cutoff_day:
+            effort_mtd_month[cm]["bql"] += 1
+            effort_mtd_month_city[(cm, L["cluster"])]["bql"] += 1
+        for fld, dt in (("ms", L["ms_date"]), ("md", L["md_date"]), ("order", L["oc_date"])):
+            if not dt: continue
+            m = month_str(dt)
+            if m > cur_month: continue   # future-dated event (e.g. a meeting pre-scheduled for next month) — exclude, not a real month to report on yet
+            effort_month[m][fld] += 1
+            effort_month_city[(m, L["cluster"])][fld] += 1
+            if dt.day <= cutoff_day:
+                effort_mtd_month[m][fld] += 1
+                effort_mtd_month_city[(m, L["cluster"])][fld] += 1
+
+    # ── COHORT (MO): full-month + MTD, both global and per-city ─────────────
+    cohort_month        = defaultdict(new_bucket)
+    cohort_month_city   = defaultdict(new_bucket)
+    cohort_mtd_month      = defaultdict(new_bucket)
+    cohort_mtd_month_city = defaultdict(new_bucket)
+
+    # DoD matrix inputs — current month only, per adjacent stage pair.
+    # value = day-of-month the lead converted to the NEXT stage (same month),
+    # or None if it entered the start stage this month but never converted
+    # (within this month) to the next one.
+    dod_bql_ms   = defaultdict(list)   # start_day(entered BQL) -> [conv_day|None]
+    dod_ms_md    = defaultdict(list)   # start_day(entered MS)  -> [conv_day|None]
+    dod_md_order = defaultdict(list)   # start_day(entered MD)  -> [conv_day|None]
+
+    for L in leads:
+        cm = month_str(L["c_date"])
+        has_oc = L["oc_date"] is not None and month_str(L["oc_date"]) == cm
+        md_same_month = L["md_date"] is not None and month_str(L["md_date"]) == cm
+        has_md = md_same_month or has_oc
+        ms_same_month = L["ms_date"] is not None and month_str(L["ms_date"]) == cm
+        has_ms = ms_same_month or has_md
+
+        cohort_month[cm]["bql"] += 1
+        cohort_month_city[(cm, L["cluster"])]["bql"] += 1
+        if has_ms: cohort_month[cm]["ms"] += 1; cohort_month_city[(cm, L["cluster"])]["ms"] += 1
+        if has_md: cohort_month[cm]["md"] += 1; cohort_month_city[(cm, L["cluster"])]["md"] += 1
+        if has_oc: cohort_month[cm]["order"] += 1; cohort_month_city[(cm, L["cluster"])]["order"] += 1
+
+        # MTD: effective date = the actual raw date that made each flag true
+        # (its own date if genuinely present this month, else whichever
+        # later milestone's date backfilled it).
+        oc_eff = L["oc_date"] if has_oc else None
+        md_eff = L["md_date"] if md_same_month else (oc_eff if has_md else None)
+        ms_eff = L["ms_date"] if ms_same_month else (md_eff if has_ms else None)
+
+        if L["c_date"].day <= cutoff_day:
+            cohort_mtd_month[cm]["bql"] += 1
+            cohort_mtd_month_city[(cm, L["cluster"])]["bql"] += 1
+            if has_ms and ms_eff and ms_eff.day <= cutoff_day:
+                cohort_mtd_month[cm]["ms"] += 1; cohort_mtd_month_city[(cm, L["cluster"])]["ms"] += 1
+            if has_md and md_eff and md_eff.day <= cutoff_day:
+                cohort_mtd_month[cm]["md"] += 1; cohort_mtd_month_city[(cm, L["cluster"])]["md"] += 1
+            if has_oc and oc_eff and oc_eff.day <= cutoff_day:
+                cohort_mtd_month[cm]["order"] += 1; cohort_mtd_month_city[(cm, L["cluster"])]["order"] += 1
+
+        # DoD matrix — current month only
+        if cm == cur_month:
+            conv = L["ms_date"].day if ms_same_month else None
+            dod_bql_ms[L["c_date"].day].append(conv)
+        if L["ms_date"] is not None and month_str(L["ms_date"]) == cur_month:
+            conv = L["md_date"].day if (L["md_date"] and month_str(L["md_date"]) == cur_month) else None
+            dod_ms_md[L["ms_date"].day].append(conv)
+        if L["md_date"] is not None and month_str(L["md_date"]) == cur_month:
+            conv = L["oc_date"].day if (L["oc_date"] and month_str(L["oc_date"]) == cur_month) else None
+            dod_md_order[L["md_date"].day].append(conv)
+
+    def dod_rows(entries_by_day, days_in_month):
+        rows = []
+        all_pairs = []   # (start_day, conv_day|None) across every day — for the ALL summary row
+        for day in range(1, days_in_month + 1):
+            convs = entries_by_day.get(day, [])
+            all_pairs.extend((day, c) for c in convs)
+            count_in = len(convs)
+            converted = [c for c in convs if c is not None]
+            n_conv = len(converted)
+            cells = defaultdict(int)
+            for c in converted: cells[c] += 1
+            rows.append({
+                "day": day,
+                "count_in": count_in,
+                "conv_total_pct": round(n_conv / count_in * 100, 1) if count_in else 0,
+                "d1_3_pct": round(sum(1 for c in converted if c - day <= 2) / count_in * 100, 1) if count_in else 0,
+                "d1_7_pct": round(sum(1 for c in converted if c - day <= 6) / count_in * 100, 1) if count_in else 0,
+                "cells": {str(k): round(v / count_in * 100, 1) for k, v in cells.items()} if count_in else {},
+            })
+
+        # ALL row: totals across every start-day combined. count_in/conv_total/
+        # D1-3/D1-7 are straightforward sums; "cells" here is different from a
+        # normal row's cells — it's the % of the TOTAL entrant pool that
+        # converted on each ABSOLUTE end-day (a marginal distribution across
+        # the whole month), not a per-row relative offset.
+        total_count_in = len(all_pairs)
+        total_converted = [(d, c) for d, c in all_pairs if c is not None]
+        all_cells = defaultdict(int)
+        for _, c in total_converted: all_cells[c] += 1
+        all_row = {
+            "day": "ALL",
+            "count_in": total_count_in,
+            "conv_total_pct": round(len(total_converted) / total_count_in * 100, 1) if total_count_in else 0,
+            "d1_3_pct": round(sum(1 for d, c in total_converted if c - d <= 2) / total_count_in * 100, 1) if total_count_in else 0,
+            "d1_7_pct": round(sum(1 for d, c in total_converted if c - d <= 6) / total_count_in * 100, 1) if total_count_in else 0,
+            "cells": {str(k): round(v / total_count_in * 100, 1) for k, v in all_cells.items()} if total_count_in else {},
+        }
+        return {"rows": rows, "all": all_row}
+
+    days_in_cur_month = calendar.monthrange(today.year, today.month)[1]
+
+    def serialize_month_buckets(d):
+        return sorted([{"month": k, **v} for k, v in d.items()], key=lambda x: x["month"])
+
+    def serialize_city_buckets(d):
+        return sorted([{"month": k[0], "cluster": k[1], **v} for k, v in d.items()], key=lambda x: (x["month"], x["cluster"]))
+
+    return {
+        "meta": {
+            "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "current_month": cur_month,
+            "cutoff_day": cutoff_day,
+            "note": (
+                "BQL = Lead Created (relabelled, no separate qualifying condition yet). "
+                "Effort = event-date based, RAW dates, no backfill; %s are pace ratios, "
+                "not true conversion (numerator/denominator are different lead sets). "
+                "Cohort(MO) = same-month-bounded (lead created in month X counts toward "
+                "month X's MS/MD/Order only if that milestone ALSO falls in month X), WITH "
+                "backfill (see BACKFILL rule in etl.py). MTD tables truncate every month "
+                "(including past ones) to day-of-month <= today's day-of-month. "
+                "HOTO, Tier, Sub-Channel not implemented — deferred. Referral channel only."
+            ),
+        },
+        "effort": {
+            "full_month":      serialize_month_buckets(effort_month),
+            "mtd":             serialize_month_buckets(effort_mtd_month),
+            "city_full_month": serialize_city_buckets(effort_month_city),
+            "city_mtd":        serialize_city_buckets(effort_mtd_month_city),
+        },
+        "cohort": {
+            "full_month":      serialize_month_buckets(cohort_month),
+            "mtd":             serialize_month_buckets(cohort_mtd_month),
+            "city_full_month": serialize_city_buckets(cohort_month_city),
+            "city_mtd":        serialize_city_buckets(cohort_mtd_month_city),
+            "dod_matrix": {
+                "bql_to_ms":   dod_rows(dod_bql_ms, days_in_cur_month),
+                "ms_to_md":    dod_rows(dod_ms_md, days_in_cur_month),
+                "md_to_order": dod_rows(dod_md_order, days_in_cur_month),
+            },
+        },
+    }
 
 
 # ════════════════════════════════════════════════════════════════════════════
@@ -938,7 +1436,13 @@ def build_leads_full(leads_raw: list) -> dict:
     Display columns : lead_id, status, stage, cluster, lrm,
                       creation_date, updated_at, updated_by, _id
       updated_by    : status_stage_updated_by (role: LRM / Solar Consultant / System)
-    Filter-only cols: call_attempts, has_ms, has_md, is_overdue
+    Filter-only cols: call_attempts, has_ms, has_md, has_oc, is_overdue
+    Date cols (raw, for Control Tower drill-through & date-basis filtering):
+      ms_date, md_date, oc_date — IST date strings, None if not reached.
+      has_ms/has_md/has_oc are RAW (no backfill) — Control Tower's backfill
+      rule (see build_control_tower) is applied CLIENT-SIDE when filtering
+      Lead Data from a Cohort drill (ct_ms/ct_md/ct_oc in index.html) — if
+      that rule changes, update both places.
 
     Standards: cluster via normalise_cluster(); dates via ist_date_str() (IST).
     """
@@ -953,10 +1457,13 @@ def build_leads_full(leads_raw: list) -> dict:
         updated_dt  = parse_dt(r.get("Updated At"))
         ms_dt       = parse_dt(r.get("Meeting Schedule Date"))
         md_dt       = parse_dt(r.get("Meeting Done Date"))
+        oc_dt       = parse_dt(r.get(ORDER_BOOKED_DATE_FIELD))
 
         _rs         = parse_dt(r.get("Reshedule Date"))
         rs_date     = (_rs + _IST).date() if _rs else None
         is_overdue  = (rs_date < today) if rs_date else False
+        is_scheduled_today = (rs_date == today) if rs_date else False
+        is_updated_today   = ((updated_dt + _IST).date() == today) if updated_dt else False
 
         try:    call_attempts = int(r.get("call_attempts_lrm") or 0)
         except: call_attempts = 0
@@ -974,7 +1481,13 @@ def build_leads_full(leads_raw: list) -> dict:
             "call_attempts": call_attempts,
             "has_ms":        ms_dt is not None,
             "has_md":        md_dt is not None,
+            "has_oc":        oc_dt is not None,
+            "ms_date":       ist_date_str(ms_dt) if ms_dt else None,
+            "md_date":       ist_date_str(md_dt) if md_dt else None,
+            "oc_date":       ist_date_str(oc_dt) if oc_dt else None,
             "is_overdue":    is_overdue,
+            "is_scheduled_today": is_scheduled_today,
+            "is_updated_today":   is_updated_today,
         })
 
     return {
@@ -997,14 +1510,14 @@ def build_leads_full(leads_raw: list) -> dict:
 def main():
     os.makedirs("data", exist_ok=True)
 
-    print("[1/7] Authenticating with Metabase...")
+    print("[1/8] Authenticating with Metabase...")
     token = get_session_token()
 
-    print("[2/7] Fetching lead data (card 2557)...")
+    print("[2/8] Fetching lead data (card 2557)...")
     leads_raw = fetch_card(token, CARD_ID)
     print(f"      {len(leads_raw):,} rows")
 
-    print("[3/7] Fetching audit log (card 3227)...")
+    print("[3/8] Fetching audit log (card 3227)...")
     audit_raw = fetch_card(token, AUDIT_CARD_ID)
     print(f"      {len(audit_raw):,} rows")
 
@@ -1012,13 +1525,19 @@ def main():
     # creation_dt: UTC naive datetime for TAT arithmetic.
     # cluster/lrm: card 2557 is authoritative for all lead-level attribution.
     # resolve_cluster() uses this dict to override audit cluster when card 2557 is valid.
+    #
+    # ⚠ ORDER_BOOKED_DATE_FIELD — column name NOT independently confirmed against
+    # Metabase card 2557 (module-level constant, near VALID_CLUSTERS). If
+    # tat_to_won / Control Tower come back wrong, check that constant first.
     lead_meta   = {}
-    lead_ms_dates = {}   # lead_id → Meeting Schedule Date UTC naive datetime
+    lead_ms_dates = {}    # lead_id → Meeting Schedule Date UTC naive datetime (CURRENT value, see caveat in build_tat_stats)
+    lead_won_dates = {}   # lead_id → Order Booked Date UTC naive datetime (primary source for tat_to_won)
     for r in leads_raw:
         lid = r.get("Lead Id")
         if not lid: continue
-        cd_dt = parse_dt(r.get("Creation Date"))
-        ms_dt = parse_dt(r.get("Meeting Schedule Date"))
+        cd_dt  = parse_dt(r.get("Creation Date"))
+        ms_dt  = parse_dt(r.get("Meeting Schedule Date"))
+        won_dt = parse_dt(r.get(ORDER_BOOKED_DATE_FIELD))
         if cd_dt:
             lead_meta[lid] = {
                 "creation_dt": cd_dt,
@@ -1027,8 +1546,10 @@ def main():
             }
         if ms_dt:
             lead_ms_dates[lid] = ms_dt
+        if won_dt:
+            lead_won_dates[lid] = won_dt
 
-    print("[4/7] Aggregating lead snapshot...")
+    print("[4/8] Aggregating lead snapshot...")
     city_stage = build_city_stage_output(aggregate_city_stage(leads_raw))
     with open("data/city_stage.json", "w") as f:
         json.dump(city_stage, f, indent=2, default=str)
@@ -1039,11 +1560,11 @@ def main():
         json.dump(call_attempts, f, indent=2, default=str)
     print(f"      call_attempts.json — {len(call_attempts['records']):,} buckets")
 
-    print("[5/7] Normalising audit log...")
+    print("[5/8] Normalising audit log...")
     audit_sorted = normalise_audit_rows(audit_raw)
     print(f"      {len(audit_sorted):,} clean audit events")
 
-    print("[6/7] Building daily movement + EOD position...")
+    print("[6/8] Building daily movement + EOD position...")
     dm = build_daily_movement(audit_sorted, lead_meta)
     with open("data/daily_movement.json", "w") as f:
         json.dump(dm, f, indent=2, default=str)
@@ -1061,13 +1582,13 @@ def main():
         json.dump(eod_leads, f, separators=(',', ':'), default=str)   # compact — no indent
     print(f"      eod_leads.json — {eod_leads['meta']['total_records']:,} lead-day records")
 
-    print("[7/7] Building LRM performance + TAT...")
+    print("[7/8] Building LRM performance + TAT...")
     lrm = build_lrm_performance(audit_sorted, lead_meta)
     with open("data/lrm_performance.json", "w") as f:
         json.dump(lrm, f, indent=2, default=str)
     print(f"      lrm_performance.json — {lrm['meta']['lrm_count']} LRMs · {len(lrm['records']):,} rows")
 
-    tat = build_tat_stats(audit_sorted, lead_meta, lead_ms_dates)
+    tat = build_tat_stats(audit_sorted, lead_meta, lead_ms_dates, lead_won_dates)
     with open("data/tat_stats.json", "w") as f:
         json.dump(tat, f, indent=2, default=str)
     print(f"      tat_stats.json — {tat['meta']['total_leads']:,} lead-level TAT records")
@@ -1086,6 +1607,13 @@ def main():
     with open("data/leads_full.json", "w") as f:
         json.dump(leads_full, f, separators=(',', ':'), default=str)
     print(f"      leads_full.json — {leads_full['meta']['total_leads']:,} leads")
+
+    print("[8/8] Building Control Tower (BQL→MS→MD→Order)...")
+    ct = build_control_tower(leads_raw)
+    with open("data/control_tower.json", "w") as f:
+        json.dump(ct, f, indent=2, default=str)
+    print(f"      control_tower.json — current month {ct['meta']['current_month']}, "
+          f"cutoff day {ct['meta']['cutoff_day']}")
 
     print("\n  All done.")
 

@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "updated": "2026-06-04",
+    "note": "TAT targets in fractional hours. bql_to_ms and ms_to_md as rates (0.0-1.0) -- used by Control Tower's city funnel breakdown for BQL->MS% and MS->MD% coloring. LRMs inherit their cluster target; omit a cluster to use global. Add an 'ms_to_md' entry here (same shape as bql_to_ms) when ready -- Control Tower gracefully shows no target coloring until it exists."
+  },
+  "lc_to_first_call": {
+    "unit": "hours",
+    "percentile": 80,
+    "global": 24,
+    "by_cluster": {
+      "Pune": 20,
+      "Delhi": 28
+    }
+  },
+  "lc_to_ms": {
+    "unit": "hours",
+    "percentile": 80,
+    "global": 168,
+    "by_cluster": {
+      "Pune": 144,
+      "Delhi": 192
+    }
+  },
+  "bql_to_ms": {
+    "unit": "rate",
+    "global": 0.15,
+    "by_cluster": {
+      "Pune": 0.18,
+      "Delhi": 0.12
+    }
+  }
+}
