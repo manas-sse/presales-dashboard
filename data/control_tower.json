@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-07-24T09:08:34Z",
+    "generated_at": "2026-07-24T09:12:06Z",
     "current_month": "2026-07",
     "cutoff_day": 24,
     "note": "BQL = Lead Created (relabelled, no separate qualifying condition yet). Effort = event-date based, RAW dates, no backfill; %s are pace ratios, not true conversion (numerator/denominator are different lead sets). Cohort(MO) = same-month-bounded (lead created in month X counts toward month X's MS/MD/Order only if that milestone ALSO falls in month X), WITH backfill (see BACKFILL rule in etl.py). MTD tables truncate every month (including past ones) to day-of-month <= today's day-of-month. HOTO, Tier, Sub-Channel not implemented \u2014 deferred. Referral channel only."
@@ -159,7 +159,7 @@
         "bql": 4535,
         "ms": 2871,
         "md": 2317,
-        "order": 1126
+        "order": 1127
       }
     ],
     "mtd": [
@@ -308,7 +308,7 @@
         "bql": 4535,
         "ms": 2756,
         "md": 2317,
-        "order": 1126
+        "order": 1127
       }
     ],
     "city_full_month": [
@@ -4190,7 +4190,7 @@
         "bql": 111,
         "ms": 67,
         "md": 48,
-        "order": 17
+        "order": 18
       },
       {
         "month": "2026-07",
@@ -8224,7 +8224,7 @@
         "bql": 111,
         "ms": 64,
         "md": 48,
-        "order": 17
+        "order": 18
       },
       {
         "month": "2026-07",
@@ -8585,7 +8585,7 @@
         "bql": 4535,
         "ms": 2330,
         "md": 1975,
-        "order": 938
+        "order": 939
       }
     ],
     "mtd": [
@@ -8720,7 +8720,7 @@
         "bql": 4535,
         "ms": 2249,
         "md": 1975,
-        "order": 938
+        "order": 939
       }
     ],
     "city_full_month": [
@@ -12554,7 +12554,7 @@
         "bql": 111,
         "ms": 48,
         "md": 37,
-        "order": 14
+        "order": 15
       },
       {
         "month": "2026-07",
@@ -16548,7 +16548,7 @@
         "bql": 111,
         "ms": 47,
         "md": 37,
-        "order": 14
+        "order": 15
       },
       {
         "month": "2026-07",
@@ -18124,13 +18124,13 @@
           {
             "day": 22,
             "count_in": 115,
-            "conv_total_pct": 29.6,
-            "d1_3_pct": 29.6,
-            "d1_7_pct": 29.6,
+            "conv_total_pct": 30.4,
+            "d1_3_pct": 30.4,
+            "d1_7_pct": 30.4,
             "cells": {
               "22": 20.9,
               "23": 7.8,
-              "24": 0.9
+              "24": 1.7
             }
           },
           {
@@ -18214,7 +18214,7 @@
         "all": {
           "day": "ALL",
           "count_in": 2317,
-          "conv_total_pct": 44.1,
+          "conv_total_pct": 44.2,
           "d1_3_pct": 37.3,
           "d1_7_pct": 42.0,
           "cells": {
@@ -18238,7 +18238,7 @@
             "10": 1.9,
             "12": 2.7,
             "14": 1.7,
-            "24": 0.9,
+            "24": 1.0,
             "13": 0.9,
             "18": 2.9,
             "20": 0.6
