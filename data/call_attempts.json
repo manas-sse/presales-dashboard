@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-07-25T14:20:44Z",
+    "generated_at": "2026-07-25T15:47:41Z",
     "as_of_date": "2026-07-25",
     "max_attempts": 19,
     "clusters": [
@@ -76,7 +76,6 @@
       "Followup Rescheduled",
       "Future Followup Required",
       "General Enquiry",
-      "HOTO Initiated",
       "Housing Society Enquiry",
       "Inactive Lead",
       "Language Barrier",
@@ -123,7 +122,6 @@
       "Qualification Remaining",
       "Qualification in Progress",
       "Qualification in progress",
-      "RM Rejected",
       "SIQ - Opportunity Exhausted",
       "SIQ - Opportunity Remaining",
       "SIQ - Remaining",
@@ -135,7 +133,19 @@
   },
   "records": [
     {
-      "cluster": "Nagpur",
+      "cluster": "Indore",
+      "lead_status": "Open",
+      "lead_stage": "Assigned",
+      "total": 8,
+      "updated_today": 4,
+      "scheduled_today": 0,
+      "overdue": 0,
+      "by_attempts": {
+        "0": 8
+      }
+    },
+    {
+      "cluster": "Nashik",
       "lead_status": "Open",
       "lead_stage": "Assigned",
       "total": 1,
@@ -147,45 +157,90 @@
       }
     },
     {
-      "cluster": "Indore",
+      "cluster": "Lucknow",
       "lead_status": "Open",
       "lead_stage": "Assigned",
-      "total": 6,
-      "updated_today": 2,
+      "total": 9,
+      "updated_today": 7,
       "scheduled_today": 0,
       "overdue": 0,
       "by_attempts": {
-        "0": 6
+        "0": 9
+      }
+    },
+    {
+      "cluster": "Chennai",
+      "lead_status": "Open",
+      "lead_stage": "Assigned",
+      "total": 10,
+      "updated_today": 5,
+      "scheduled_today": 0,
+      "overdue": 0,
+      "by_attempts": {
+        "0": 10
+      }
+    },
+    {
+      "cluster": "Nagpur",
+      "lead_status": "Connected",
+      "lead_stage": "Meeting Confirmed - Customer Home",
+      "total": 35,
+      "updated_today": 14,
+      "scheduled_today": 5,
+      "overdue": 19,
+      "by_attempts": {
+        "1": 25,
+        "2": 2,
+        "3": 3,
+        "4": 2,
+        "0": 3
+      }
+    },
+    {
+      "cluster": "Kanpur",
+      "lead_status": "Open",
+      "lead_stage": "Assigned",
+      "total": 1,
+      "updated_today": 1,
+      "scheduled_today": 0,
+      "overdue": 0,
+      "by_attempts": {
+        "0": 1
       }
     },
     {
       "cluster": "Pune",
-      "lead_status": "Connected",
-      "lead_stage": "Meeting Confirmed - Customer Home",
-      "total": 68,
-      "updated_today": 23,
-      "scheduled_today": 9,
-      "overdue": 46,
+      "lead_status": "Meeting",
+      "lead_stage": "Meeting Done - Moderate",
+      "total": 683,
+      "updated_today": 77,
+      "scheduled_today": 13,
+      "overdue": 642,
       "by_attempts": {
-        "1": 26,
-        "2": 16,
-        "3": 6,
-        "0": 15,
-        "6": 4,
-        "4": 1
+        "1": 336,
+        "2": 198,
+        "0": 43,
+        "3": 52,
+        "5": 16,
+        "4": 22,
+        "9": 2,
+        "8": 3,
+        "7": 5,
+        "10": 1,
+        "6": 5
       }
     },
     {
       "cluster": "Pune",
       "lead_status": "Meeting",
       "lead_stage": "Meeting Done - Hot",
-      "total": 227,
-      "updated_today": 26,
+      "total": 228,
+      "updated_today": 27,
       "scheduled_today": 4,
       "overdue": 214,
       "by_attempts": {
         "1": 146,
-        "2": 46,
+        "2": 47,
         "0": 20,
         "3": 11,
         "9": 1,
@@ -330,28 +385,33 @@
       }
     },
     {
-      "cluster": "Lucknow",
-      "lead_status": "Open",
-      "lead_stage": "Assigned",
-      "total": 7,
-      "updated_today": 5,
-      "scheduled_today": 0,
-      "overdue": 0,
+      "cluster": "Pune",
+      "lead_status": "Connected",
+      "lead_stage": "Meeting Confirmed - Customer Home",
+      "total": 66,
+      "updated_today": 21,
+      "scheduled_today": 7,
+      "overdue": 46,
       "by_attempts": {
-        "0": 7
+        "1": 25,
+        "2": 15,
+        "3": 6,
+        "0": 15,
+        "6": 4,
+        "4": 1
       }
     },
     {
       "cluster": "Jaipur",
       "lead_status": "Connected",
       "lead_stage": "Meeting Confirmed - Customer Home",
-      "total": 19,
-      "updated_today": 15,
-      "scheduled_today": 1,
+      "total": 18,
+      "updated_today": 14,
+      "scheduled_today": 0,
       "overdue": 6,
       "by_attempts": {
         "1": 7,
-        "2": 5,
+        "2": 4,
         "4": 1,
         "6": 2,
         "3": 3,
@@ -406,12 +466,12 @@
       "cluster": "Lucknow",
       "lead_status": "Connected",
       "lead_stage": "Meeting Confirmed - Customer Home",
-      "total": 33,
-      "updated_today": 18,
-      "scheduled_today": 5,
+      "total": 32,
+      "updated_today": 17,
+      "scheduled_today": 4,
       "overdue": 7,
       "by_attempts": {
-        "1": 11,
+        "1": 10,
         "2": 8,
         "3": 7,
         "5": 1,
@@ -459,38 +519,42 @@
     },
     {
       "cluster": "Nagpur",
-      "lead_status": "Connected",
-      "lead_stage": "Meeting Confirmed - Customer Home",
-      "total": 37,
-      "updated_today": 16,
-      "scheduled_today": 5,
-      "overdue": 19,
-      "by_attempts": {
-        "3": 5,
-        "1": 25,
-        "2": 2,
-        "4": 2,
-        "0": 3
-      }
-    },
-    {
-      "cluster": "Nagpur",
       "lead_status": "Meeting",
       "lead_stage": "Meeting Done - Hot",
-      "total": 191,
-      "updated_today": 27,
-      "scheduled_today": 3,
+      "total": 195,
+      "updated_today": 31,
+      "scheduled_today": 5,
       "overdue": 183,
       "by_attempts": {
-        "1": 125,
+        "3": 7,
+        "1": 127,
         "2": 35,
         "4": 3,
-        "3": 5,
         "0": 13,
         "5": 3,
         "9": 2,
         "8": 2,
         "7": 3
+      }
+    },
+    {
+      "cluster": "Nagpur",
+      "lead_status": "Booked",
+      "lead_stage": "Booking Processing",
+      "total": 233,
+      "updated_today": 54,
+      "scheduled_today": 14,
+      "overdue": 215,
+      "by_attempts": {
+        "1": 151,
+        "2": 45,
+        "3": 13,
+        "0": 10,
+        "4": 6,
+        "5": 5,
+        "7": 1,
+        "6": 1,
+        "8": 1
       }
     },
     {
@@ -504,26 +568,6 @@
       "by_attempts": {
         "1": 6,
         "2": 1
-      }
-    },
-    {
-      "cluster": "Nagpur",
-      "lead_status": "Booked",
-      "lead_stage": "Booking Processing",
-      "total": 234,
-      "updated_today": 54,
-      "scheduled_today": 14,
-      "overdue": 217,
-      "by_attempts": {
-        "1": 151,
-        "2": 45,
-        "3": 13,
-        "0": 10,
-        "4": 7,
-        "5": 5,
-        "7": 1,
-        "6": 1,
-        "8": 1
       }
     },
     {
@@ -619,18 +663,6 @@
       }
     },
     {
-      "cluster": "Chennai",
-      "lead_status": "Open",
-      "lead_stage": "Assigned",
-      "total": 6,
-      "updated_today": 1,
-      "scheduled_today": 0,
-      "overdue": 0,
-      "by_attempts": {
-        "0": 6
-      }
-    },
-    {
       "cluster": "Varanasi",
       "lead_status": "Connected",
       "lead_stage": "Meeting Confirmed - Customer Home",
@@ -699,13 +731,18 @@
     {
       "cluster": "Indore",
       "lead_status": "Booked",
-      "lead_stage": "Advance Received",
-      "total": 1,
-      "updated_today": 1,
-      "scheduled_today": 1,
-      "overdue": 0,
+      "lead_stage": "Booking Processing",
+      "total": 33,
+      "updated_today": 10,
+      "scheduled_today": 2,
+      "overdue": 30,
       "by_attempts": {
-        "1": 1
+        "1": 23,
+        "2": 5,
+        "5": 1,
+        "9": 1,
+        "10": 2,
+        "0": 1
       }
     },
     {
@@ -762,19 +799,16 @@
     },
     {
       "cluster": "Nashik",
-      "lead_status": "Meeting",
-      "lead_stage": "Meeting Done - Hot",
+      "lead_status": "Booked",
+      "lead_stage": "Booking Processing",
       "total": 29,
-      "updated_today": 3,
-      "scheduled_today": 1,
+      "updated_today": 7,
+      "scheduled_today": 2,
       "overdue": 27,
       "by_attempts": {
-        "1": 18,
-        "0": 4,
-        "2": 4,
-        "9": 1,
-        "8": 1,
-        "3": 1
+        "1": 22,
+        "2": 5,
+        "0": 2
       }
     },
     {
@@ -889,15 +923,17 @@
     },
     {
       "cluster": "Kolhapur",
-      "lead_status": "Connected",
-      "lead_stage": "Meeting Confirmed - Customer Home",
-      "total": 4,
-      "updated_today": 1,
+      "lead_status": "Meeting",
+      "lead_stage": "Meeting Done - Hot",
+      "total": 16,
+      "updated_today": 2,
       "scheduled_today": 1,
-      "overdue": 2,
+      "overdue": 14,
       "by_attempts": {
-        "1": 3,
-        "6": 1
+        "1": 12,
+        "3": 1,
+        "0": 2,
+        "2": 1
       }
     },
     {
@@ -951,12 +987,12 @@
       "cluster": "Pune",
       "lead_status": "Booked",
       "lead_stage": "Booking Processing",
-      "total": 181,
-      "updated_today": 39,
-      "scheduled_today": 8,
-      "overdue": 168,
+      "total": 178,
+      "updated_today": 37,
+      "scheduled_today": 9,
+      "overdue": 164,
       "by_attempts": {
-        "1": 111,
+        "1": 108,
         "2": 44,
         "0": 8,
         "4": 4,
@@ -1134,20 +1170,6 @@
     },
     {
       "cluster": "Nashik",
-      "lead_status": "Booked",
-      "lead_stage": "Booking Processing",
-      "total": 28,
-      "updated_today": 5,
-      "scheduled_today": 1,
-      "overdue": 27,
-      "by_attempts": {
-        "1": 21,
-        "2": 5,
-        "0": 2
-      }
-    },
-    {
-      "cluster": "Nashik",
       "lead_status": "Open",
       "lead_stage": "Call Later",
       "total": 24,
@@ -1203,7 +1225,7 @@
       "lead_status": "Meeting",
       "lead_stage": "Meeting Done - Moderate",
       "total": 166,
-      "updated_today": 4,
+      "updated_today": 5,
       "scheduled_today": 1,
       "overdue": 159,
       "by_attempts": {
@@ -1213,28 +1235,6 @@
         "4": 3,
         "5": 2,
         "0": 2
-      }
-    },
-    {
-      "cluster": "Pune",
-      "lead_status": "Meeting",
-      "lead_stage": "Meeting Done - Moderate",
-      "total": 683,
-      "updated_today": 76,
-      "scheduled_today": 13,
-      "overdue": 642,
-      "by_attempts": {
-        "1": 335,
-        "2": 199,
-        "0": 43,
-        "3": 52,
-        "5": 16,
-        "4": 22,
-        "9": 2,
-        "8": 3,
-        "7": 5,
-        "10": 1,
-        "6": 5
       }
     },
     {
@@ -1548,14 +1548,13 @@
     {
       "cluster": "Delhi",
       "lead_status": "Booked",
-      "lead_stage": "Pending Verification",
-      "total": 2,
-      "updated_today": 2,
+      "lead_stage": "Verification Rejected",
+      "total": 1,
+      "updated_today": 1,
       "scheduled_today": 1,
-      "overdue": 1,
+      "overdue": 0,
       "by_attempts": {
-        "1": 1,
-        "2": 1
+        "1": 1
       }
     },
     {
@@ -1602,7 +1601,7 @@
       "lead_status": "Meeting",
       "lead_stage": "Meeting Done - Moderate",
       "total": 49,
-      "updated_today": 7,
+      "updated_today": 8,
       "scheduled_today": 2,
       "overdue": 39,
       "by_attempts": {
@@ -1818,13 +1817,13 @@
       "cluster": "Indore",
       "lead_status": "Connected",
       "lead_stage": "Meeting Confirmed - Customer Home",
-      "total": 8,
-      "updated_today": 2,
-      "scheduled_today": 1,
+      "total": 7,
+      "updated_today": 1,
+      "scheduled_today": 0,
       "overdue": 6,
       "by_attempts": {
         "2": 1,
-        "1": 7
+        "1": 6
       }
     },
     {
@@ -2052,7 +2051,7 @@
       "lead_status": "Closed - Cold",
       "lead_stage": "Lead - Not Interested",
       "total": 577,
-      "updated_today": 34,
+      "updated_today": 35,
       "scheduled_today": 8,
       "overdue": 518,
       "by_attempts": {
@@ -2121,13 +2120,15 @@
     {
       "cluster": "Nagpur",
       "lead_status": "Connected",
-      "lead_stage": "DEV Done",
-      "total": 1,
-      "updated_today": 1,
+      "lead_stage": "Design Created",
+      "total": 11,
+      "updated_today": 5,
       "scheduled_today": 1,
-      "overdue": 0,
+      "overdue": 1,
       "by_attempts": {
-        "1": 1
+        "1": 5,
+        "0": 5,
+        "6": 1
       }
     },
     {
@@ -2135,7 +2136,7 @@
       "lead_status": "Meeting",
       "lead_stage": "Meeting Done - Moderate",
       "total": 568,
-      "updated_today": 75,
+      "updated_today": 76,
       "scheduled_today": 9,
       "overdue": 531,
       "by_attempts": {
@@ -2257,15 +2258,35 @@
       }
     },
     {
+      "cluster": "Lucknow",
+      "lead_status": "Booked",
+      "lead_stage": "Booking Processing",
+      "total": 102,
+      "updated_today": 16,
+      "scheduled_today": 3,
+      "overdue": 97,
+      "by_attempts": {
+        "1": 65,
+        "4": 5,
+        "2": 14,
+        "0": 5,
+        "3": 6,
+        "7": 1,
+        "5": 4,
+        "19": 1,
+        "6": 1
+      }
+    },
+    {
       "cluster": "Jaipur",
       "lead_status": "Meeting",
       "lead_stage": "Meeting Done - Hot",
-      "total": 43,
-      "updated_today": 5,
-      "scheduled_today": 2,
+      "total": 42,
+      "updated_today": 4,
+      "scheduled_today": 1,
       "overdue": 41,
       "by_attempts": {
-        "2": 8,
+        "2": 7,
         "1": 29,
         "0": 1,
         "8": 1,
@@ -2292,14 +2313,14 @@
     },
     {
       "cluster": "Invalid",
-      "lead_status": "Meeting",
-      "lead_stage": "Meeting Done - Hot",
-      "total": 4,
-      "updated_today": 2,
+      "lead_status": "Booked",
+      "lead_stage": "Booking Processing",
+      "total": 1,
+      "updated_today": 1,
       "scheduled_today": 1,
-      "overdue": 3,
+      "overdue": 0,
       "by_attempts": {
-        "1": 4
+        "1": 1
       }
     },
     {
@@ -2383,12 +2404,12 @@
       "cluster": "Noida",
       "lead_status": "Booked",
       "lead_stage": "Booking Processing",
-      "total": 15,
-      "updated_today": 7,
+      "total": 13,
+      "updated_today": 5,
       "scheduled_today": 0,
-      "overdue": 15,
+      "overdue": 13,
       "by_attempts": {
-        "1": 11,
+        "1": 9,
         "2": 3,
         "4": 1
       }
@@ -2461,13 +2482,13 @@
       "cluster": "Lucknow",
       "lead_status": "Meeting",
       "lead_stage": "Meeting Done - Moderate",
-      "total": 462,
-      "updated_today": 27,
-      "scheduled_today": 5,
+      "total": 461,
+      "updated_today": 26,
+      "scheduled_today": 4,
       "overdue": 432,
       "by_attempts": {
         "2": 73,
-        "1": 302,
+        "1": 301,
         "4": 18,
         "3": 35,
         "9": 4,
@@ -2529,6 +2550,18 @@
       }
     },
     {
+      "cluster": "Invalid",
+      "lead_status": "Meeting",
+      "lead_stage": "Meeting Done - Hot",
+      "total": 3,
+      "updated_today": 1,
+      "scheduled_today": 0,
+      "overdue": 3,
+      "by_attempts": {
+        "1": 3
+      }
+    },
+    {
       "cluster": "Noida",
       "lead_status": "Connected",
       "lead_stage": "Meeting Postponed",
@@ -2562,23 +2595,6 @@
         "3": 2,
         "7": 1,
         "9": 1
-      }
-    },
-    {
-      "cluster": "Indore",
-      "lead_status": "Booked",
-      "lead_stage": "Booking Processing",
-      "total": 34,
-      "updated_today": 11,
-      "scheduled_today": 1,
-      "overdue": 32,
-      "by_attempts": {
-        "1": 22,
-        "2": 7,
-        "5": 1,
-        "9": 1,
-        "10": 2,
-        "0": 1
       }
     },
     {
@@ -2702,27 +2718,13 @@
       }
     },
     {
-      "cluster": "Nagpur",
-      "lead_status": "Connected",
-      "lead_stage": "Design Created",
-      "total": 10,
-      "updated_today": 4,
-      "scheduled_today": 0,
-      "overdue": 1,
-      "by_attempts": {
-        "0": 5,
-        "1": 4,
-        "6": 1
-      }
-    },
-    {
       "cluster": "Delhi",
       "lead_status": "Booked",
       "lead_stage": "Booking Processing",
       "total": 12,
       "updated_today": 5,
       "scheduled_today": 0,
-      "overdue": 12,
+      "overdue": 11,
       "by_attempts": {
         "1": 11,
         "2": 1
@@ -2733,7 +2735,7 @@
       "lead_status": "Closed - Won",
       "lead_stage": "Order Confirmed",
       "total": 770,
-      "updated_today": 52,
+      "updated_today": 53,
       "scheduled_today": 0,
       "overdue": 770,
       "by_attempts": {
@@ -2752,12 +2754,12 @@
       "cluster": "Lucknow",
       "lead_status": "Closed - Won",
       "lead_stage": "Order Confirmed",
-      "total": 1086,
-      "updated_today": 92,
+      "total": 1088,
+      "updated_today": 96,
       "scheduled_today": 1,
-      "overdue": 1083,
+      "overdue": 1085,
       "by_attempts": {
-        "1": 833,
+        "1": 835,
         "0": 41,
         "2": 136,
         "5": 13,
@@ -2822,7 +2824,20 @@
       "scheduled_today": 0,
       "overdue": 1,
       "by_attempts": {
-        "4": 1
+        "1": 1
+      }
+    },
+    {
+      "cluster": "Noida",
+      "lead_status": "Booked",
+      "lead_stage": "Verification Rejected",
+      "total": 2,
+      "updated_today": 2,
+      "scheduled_today": 0,
+      "overdue": 2,
+      "by_attempts": {
+        "4": 1,
+        "1": 1
       }
     },
     {
@@ -2845,12 +2860,12 @@
       "cluster": "Nagpur",
       "lead_status": "Closed - Cold",
       "lead_stage": "Lead - Not Interested",
-      "total": 1073,
-      "updated_today": 73,
+      "total": 1072,
+      "updated_today": 72,
       "scheduled_today": 1,
-      "overdue": 970,
+      "overdue": 969,
       "by_attempts": {
-        "1": 1027,
+        "1": 1026,
         "12": 18,
         "8": 1,
         "0": 6,
@@ -2909,23 +2924,16 @@
       }
     },
     {
-      "cluster": "Lucknow",
+      "cluster": "Delhi",
       "lead_status": "Booked",
-      "lead_stage": "Booking Processing",
-      "total": 101,
-      "updated_today": 13,
-      "scheduled_today": 2,
-      "overdue": 97,
+      "lead_stage": "Pending Verification",
+      "total": 2,
+      "updated_today": 2,
+      "scheduled_today": 0,
+      "overdue": 2,
       "by_attempts": {
-        "1": 64,
-        "4": 5,
-        "2": 14,
-        "0": 5,
-        "3": 6,
-        "7": 1,
-        "5": 4,
-        "19": 1,
-        "6": 1
+        "1": 1,
+        "2": 1
       }
     },
     {
@@ -2958,12 +2966,12 @@
       "cluster": "Jabalpur",
       "lead_status": "Booked",
       "lead_stage": "Booking Processing",
-      "total": 30,
-      "updated_today": 13,
+      "total": 29,
+      "updated_today": 12,
       "scheduled_today": 0,
-      "overdue": 30,
+      "overdue": 29,
       "by_attempts": {
-        "1": 20,
+        "1": 19,
         "3": 3,
         "6": 1,
         "4": 1,
@@ -3180,14 +3188,15 @@
     {
       "cluster": "Pune",
       "lead_status": "Booked",
-      "lead_stage": "Pending Verification",
-      "total": 4,
-      "updated_today": 3,
+      "lead_stage": "Verification Rejected",
+      "total": 24,
+      "updated_today": 7,
       "scheduled_today": 0,
-      "overdue": 4,
+      "overdue": 24,
       "by_attempts": {
-        "2": 3,
-        "1": 1
+        "2": 7,
+        "1": 15,
+        "3": 2
       }
     },
     {
@@ -3286,6 +3295,23 @@
       }
     },
     {
+      "cluster": "Nashik",
+      "lead_status": "Meeting",
+      "lead_stage": "Meeting Done - Hot",
+      "total": 28,
+      "updated_today": 2,
+      "scheduled_today": 0,
+      "overdue": 27,
+      "by_attempts": {
+        "0": 4,
+        "1": 17,
+        "2": 4,
+        "9": 1,
+        "8": 1,
+        "3": 1
+      }
+    },
+    {
       "cluster": "Jaipur",
       "lead_status": "Connected",
       "lead_stage": "Design Created",
@@ -3381,6 +3407,18 @@
         "6": 1,
         "15": 1,
         "8": 1
+      }
+    },
+    {
+      "cluster": "Jaipur",
+      "lead_status": "Booked",
+      "lead_stage": "Pending Verification",
+      "total": 1,
+      "updated_today": 1,
+      "scheduled_today": 1,
+      "overdue": 0,
+      "by_attempts": {
+        "2": 1
       }
     },
     {
@@ -3509,18 +3547,6 @@
       }
     },
     {
-      "cluster": "Lucknow",
-      "lead_status": "Booked",
-      "lead_stage": "Pending RM Call",
-      "total": 3,
-      "updated_today": 1,
-      "scheduled_today": 0,
-      "overdue": 3,
-      "by_attempts": {
-        "1": 3
-      }
-    },
-    {
       "cluster": "Kanpur",
       "lead_status": "Connected",
       "lead_stage": "Meeting Postponed",
@@ -3551,12 +3577,12 @@
       "cluster": "Indore",
       "lead_status": "Meeting",
       "lead_stage": "Meeting Done - Moderate",
-      "total": 124,
-      "updated_today": 5,
+      "total": 125,
+      "updated_today": 6,
       "scheduled_today": 1,
       "overdue": 112,
       "by_attempts": {
-        "1": 58,
+        "1": 59,
         "4": 6,
         "2": 26,
         "3": 17,
@@ -3605,7 +3631,7 @@
       "lead_status": "Booked",
       "lead_stage": "Booking Processing",
       "total": 30,
-      "updated_today": 9,
+      "updated_today": 10,
       "scheduled_today": 1,
       "overdue": 29,
       "by_attempts": {
@@ -3971,15 +3997,26 @@
     },
     {
       "cluster": "Nagpur",
-      "lead_status": "Booked",
-      "lead_stage": "Pending RM Call",
-      "total": 3,
-      "updated_today": 2,
+      "lead_status": "Closed - Won",
+      "lead_stage": "Order Confirmed",
+      "total": 3651,
+      "updated_today": 238,
       "scheduled_today": 0,
-      "overdue": 3,
+      "overdue": 3644,
       "by_attempts": {
-        "2": 2,
-        "1": 1
+        "2": 573,
+        "1": 2478,
+        "0": 299,
+        "3": 145,
+        "4": 81,
+        "5": 31,
+        "7": 11,
+        "10": 3,
+        "6": 13,
+        "9": 7,
+        "8": 6,
+        "11": 3,
+        "12": 1
       }
     },
     {
@@ -4023,13 +4060,13 @@
       "cluster": "Jaipur",
       "lead_status": "Meeting",
       "lead_stage": "Meeting Done - Moderate",
-      "total": 93,
-      "updated_today": 5,
+      "total": 94,
+      "updated_today": 6,
       "scheduled_today": 1,
       "overdue": 92,
       "by_attempts": {
         "1": 54,
-        "2": 15,
+        "2": 16,
         "3": 9,
         "8": 3,
         "5": 3,
@@ -4050,30 +4087,6 @@
       "by_attempts": {
         "2": 2,
         "1": 13
-      }
-    },
-    {
-      "cluster": "Nagpur",
-      "lead_status": "Closed - Won",
-      "lead_stage": "Order Confirmed",
-      "total": 3650,
-      "updated_today": 234,
-      "scheduled_today": 0,
-      "overdue": 3643,
-      "by_attempts": {
-        "1": 2478,
-        "0": 299,
-        "3": 145,
-        "2": 572,
-        "4": 81,
-        "5": 31,
-        "7": 11,
-        "10": 3,
-        "6": 13,
-        "9": 7,
-        "8": 6,
-        "11": 3,
-        "12": 1
       }
     },
     {
@@ -4109,7 +4122,7 @@
       "lead_status": "Closed - Won",
       "lead_stage": "Order Confirmed",
       "total": 1066,
-      "updated_today": 66,
+      "updated_today": 68,
       "scheduled_today": 0,
       "overdue": 1051,
       "by_attempts": {
@@ -4209,15 +4222,15 @@
       "cluster": "Pune",
       "lead_status": "Closed - Won",
       "lead_stage": "Order Confirmed",
-      "total": 2871,
-      "updated_today": 248,
+      "total": 2872,
+      "updated_today": 254,
       "scheduled_today": 0,
-      "overdue": 2863,
+      "overdue": 2864,
       "by_attempts": {
         "2": 593,
         "1": 2004,
         "0": 93,
-        "3": 113,
+        "3": 114,
         "7": 7,
         "4": 26,
         "6": 8,
@@ -4543,7 +4556,7 @@
       "lead_status": "Closed - Cold",
       "lead_stage": "Lead - Not Interested",
       "total": 624,
-      "updated_today": 17,
+      "updated_today": 18,
       "scheduled_today": 3,
       "overdue": 490,
       "by_attempts": {
@@ -4583,6 +4596,19 @@
       "by_attempts": {
         "1": 14,
         "12": 5
+      }
+    },
+    {
+      "cluster": "Nagpur",
+      "lead_status": "Booked",
+      "lead_stage": "Pending RM Call",
+      "total": 3,
+      "updated_today": 2,
+      "scheduled_today": 0,
+      "overdue": 3,
+      "by_attempts": {
+        "2": 1,
+        "1": 2
       }
     },
     {
@@ -4637,7 +4663,7 @@
     {
       "cluster": "Agra",
       "lead_status": "Booked",
-      "lead_stage": "Pending Verification",
+      "lead_stage": "Verification Rejected",
       "total": 1,
       "updated_today": 1,
       "scheduled_today": 0,
@@ -4729,7 +4755,7 @@
       "lead_status": "Closed - Won",
       "lead_stage": "Order Confirmed",
       "total": 578,
-      "updated_today": 47,
+      "updated_today": 49,
       "scheduled_today": 0,
       "overdue": 578,
       "by_attempts": {
@@ -4850,6 +4876,18 @@
       }
     },
     {
+      "cluster": "Jabalpur",
+      "lead_status": "Booked",
+      "lead_stage": "Pending Verification",
+      "total": 1,
+      "updated_today": 1,
+      "scheduled_today": 0,
+      "overdue": 1,
+      "by_attempts": {
+        "1": 1
+      }
+    },
+    {
       "cluster": "Agra",
       "lead_status": "Closed - Lost",
       "lead_stage": "Lead - Not Qualified",
@@ -4882,6 +4920,24 @@
       }
     },
     {
+      "cluster": "Lucknow",
+      "lead_status": "Meeting",
+      "lead_stage": "Followup On Call",
+      "total": 45,
+      "updated_today": 3,
+      "scheduled_today": 0,
+      "overdue": 40,
+      "by_attempts": {
+        "1": 32,
+        "5": 1,
+        "3": 5,
+        "2": 3,
+        "0": 2,
+        "8": 1,
+        "4": 1
+      }
+    },
+    {
       "cluster": "Kota",
       "lead_status": "Open",
       "lead_stage": "Assigned",
@@ -4910,13 +4966,12 @@
       "cluster": "Gwalior",
       "lead_status": "Booked",
       "lead_stage": "Pending RM Call",
-      "total": 2,
-      "updated_today": 2,
+      "total": 1,
+      "updated_today": 1,
       "scheduled_today": 0,
-      "overdue": 2,
+      "overdue": 1,
       "by_attempts": {
-        "1": 1,
-        "3": 1
+        "1": 1
       }
     },
     {
@@ -5122,14 +5177,13 @@
     {
       "cluster": "Hyderabad",
       "lead_status": "Booked",
-      "lead_stage": "Verification Rejected",
-      "total": 8,
-      "updated_today": 5,
+      "lead_stage": "Pending Verification",
+      "total": 1,
+      "updated_today": 1,
       "scheduled_today": 0,
-      "overdue": 8,
+      "overdue": 1,
       "by_attempts": {
-        "2": 2,
-        "1": 6
+        "2": 1
       }
     },
     {
@@ -5237,13 +5291,14 @@
       "cluster": "Nagpur",
       "lead_status": "Booked",
       "lead_stage": "Verification Rejected",
-      "total": 15,
-      "updated_today": 3,
+      "total": 17,
+      "updated_today": 5,
       "scheduled_today": 0,
-      "overdue": 15,
+      "overdue": 17,
       "by_attempts": {
         "2": 3,
-        "1": 8,
+        "4": 1,
+        "1": 9,
         "6": 1,
         "0": 2,
         "3": 1
@@ -5260,20 +5315,6 @@
       "by_attempts": {
         "3": 1,
         "1": 2
-      }
-    },
-    {
-      "cluster": "Pune",
-      "lead_status": "Booked",
-      "lead_stage": "Verification Rejected",
-      "total": 20,
-      "updated_today": 3,
-      "scheduled_today": 0,
-      "overdue": 20,
-      "by_attempts": {
-        "1": 13,
-        "2": 5,
-        "3": 2
       }
     },
     {
@@ -5417,13 +5458,13 @@
     {
       "cluster": "Indore",
       "lead_status": "Booked",
-      "lead_stage": "Pending Verification",
-      "total": 4,
-      "updated_today": 4,
+      "lead_stage": "Verification Rejected",
+      "total": 5,
+      "updated_today": 2,
       "scheduled_today": 0,
-      "overdue": 4,
+      "overdue": 5,
       "by_attempts": {
-        "1": 3,
+        "1": 4,
         "2": 1
       }
     },
@@ -5461,24 +5502,6 @@
         "0": 17,
         "6": 4,
         "7": 1
-      }
-    },
-    {
-      "cluster": "Lucknow",
-      "lead_status": "Meeting",
-      "lead_stage": "Followup On Call",
-      "total": 44,
-      "updated_today": 2,
-      "scheduled_today": 0,
-      "overdue": 40,
-      "by_attempts": {
-        "1": 31,
-        "5": 1,
-        "3": 5,
-        "2": 3,
-        "0": 2,
-        "8": 1,
-        "4": 1
       }
     },
     {
@@ -5559,14 +5582,21 @@
     },
     {
       "cluster": "Kolhapur",
-      "lead_status": "Booked",
-      "lead_stage": "Booking Pending by Cx",
-      "total": 1,
-      "updated_today": 1,
+      "lead_status": "Closed - Won",
+      "lead_stage": "Order Confirmed",
+      "total": 346,
+      "updated_today": 33,
       "scheduled_today": 0,
-      "overdue": 1,
+      "overdue": 346,
       "by_attempts": {
-        "2": 1
+        "2": 24,
+        "1": 298,
+        "0": 8,
+        "4": 4,
+        "3": 9,
+        "9": 1,
+        "6": 1,
+        "7": 1
       }
     },
     {
@@ -5615,13 +5645,13 @@
     {
       "cluster": "Kanpur",
       "lead_status": "Booked",
-      "lead_stage": "HOTO Initiated",
-      "total": 1,
+      "lead_stage": "Verification Rejected",
+      "total": 4,
       "updated_today": 1,
       "scheduled_today": 0,
-      "overdue": 1,
+      "overdue": 4,
       "by_attempts": {
-        "1": 1
+        "1": 4
       }
     },
     {
@@ -5690,25 +5720,6 @@
       }
     },
     {
-      "cluster": "Kolhapur",
-      "lead_status": "Closed - Won",
-      "lead_stage": "Order Confirmed",
-      "total": 345,
-      "updated_today": 31,
-      "scheduled_today": 0,
-      "overdue": 345,
-      "by_attempts": {
-        "1": 298,
-        "0": 8,
-        "2": 23,
-        "4": 4,
-        "3": 9,
-        "9": 1,
-        "6": 1,
-        "7": 1
-      }
-    },
-    {
       "cluster": "Gurgaon",
       "lead_status": "Connected",
       "lead_stage": "DEV Scheduled",
@@ -5750,7 +5761,7 @@
       "lead_status": "Closed - Won",
       "lead_stage": "Order Confirmed",
       "total": 163,
-      "updated_today": 19,
+      "updated_today": 20,
       "scheduled_today": 0,
       "overdue": 163,
       "by_attempts": {
@@ -5862,7 +5873,7 @@
       "lead_status": "Meeting",
       "lead_stage": "Followup On Call",
       "total": 79,
-      "updated_today": 3,
+      "updated_today": 4,
       "scheduled_today": 1,
       "overdue": 74,
       "by_attempts": {
@@ -5981,7 +5992,7 @@
       "lead_status": "Closed - Won",
       "lead_stage": "Order Confirmed",
       "total": 609,
-      "updated_today": 59,
+      "updated_today": 60,
       "scheduled_today": 0,
       "overdue": 607,
       "by_attempts": {
@@ -6106,19 +6117,6 @@
       }
     },
     {
-      "cluster": "Nagpur",
-      "lead_status": "Booked",
-      "lead_stage": "Pending Verification",
-      "total": 3,
-      "updated_today": 1,
-      "scheduled_today": 0,
-      "overdue": 3,
-      "by_attempts": {
-        "1": 2,
-        "2": 1
-      }
-    },
-    {
       "cluster": "Amravati",
       "lead_status": "Meeting",
       "lead_stage": "On-Hold",
@@ -6138,13 +6136,13 @@
       "cluster": "Gwalior",
       "lead_status": "Closed - Won",
       "lead_stage": "Order Confirmed",
-      "total": 483,
-      "updated_today": 30,
+      "total": 484,
+      "updated_today": 32,
       "scheduled_today": 0,
-      "overdue": 483,
+      "overdue": 484,
       "by_attempts": {
         "1": 366,
-        "3": 15,
+        "3": 16,
         "2": 53,
         "7": 3,
         "11": 2,
@@ -6238,6 +6236,19 @@
         "0": 2,
         "3": 1,
         "1": 3
+      }
+    },
+    {
+      "cluster": "Hyderabad",
+      "lead_status": "Booked",
+      "lead_stage": "Verification Rejected",
+      "total": 7,
+      "updated_today": 4,
+      "scheduled_today": 0,
+      "overdue": 7,
+      "by_attempts": {
+        "1": 6,
+        "2": 1
       }
     },
     {
@@ -6348,21 +6359,21 @@
       "cluster": "Jabalpur",
       "lead_status": "Meeting",
       "lead_stage": "Followup On Call",
-      "total": 214,
-      "updated_today": 14,
-      "scheduled_today": 1,
+      "total": 213,
+      "updated_today": 13,
+      "scheduled_today": 0,
       "overdue": 196,
       "by_attempts": {
         "2": 46,
         "1": 111,
         "5": 6,
         "4": 14,
-        "10": 2,
         "12": 1,
         "3": 22,
         "6": 4,
         "8": 4,
         "7": 3,
+        "10": 1,
         "9": 1
       }
     },
@@ -6482,13 +6493,13 @@
     {
       "cluster": "Gwalior",
       "lead_status": "Booked",
-      "lead_stage": "Pending Verification",
-      "total": 1,
-      "updated_today": 1,
+      "lead_stage": "Verification Rejected",
+      "total": 3,
+      "updated_today": 2,
       "scheduled_today": 0,
-      "overdue": 1,
+      "overdue": 3,
       "by_attempts": {
-        "2": 1
+        "2": 3
       }
     },
     {
@@ -6507,12 +6518,12 @@
       "cluster": "Pune",
       "lead_status": "Booked",
       "lead_stage": "Booking Pending by Cx",
-      "total": 4,
-      "updated_today": 1,
+      "total": 6,
+      "updated_today": 3,
       "scheduled_today": 0,
-      "overdue": 4,
+      "overdue": 6,
       "by_attempts": {
-        "2": 1,
+        "2": 3,
         "1": 3
       }
     },
@@ -6556,14 +6567,14 @@
     {
       "cluster": "Pune",
       "lead_status": "Booked",
-      "lead_stage": "Pending RM Call",
+      "lead_stage": "Pending Verification",
       "total": 4,
       "updated_today": 3,
       "scheduled_today": 0,
       "overdue": 4,
       "by_attempts": {
-        "2": 3,
-        "1": 1
+        "2": 2,
+        "1": 2
       }
     },
     {
@@ -6593,6 +6604,19 @@
       }
     },
     {
+      "cluster": "Pune",
+      "lead_status": "Booked",
+      "lead_stage": "Pending RM Call",
+      "total": 2,
+      "updated_today": 1,
+      "scheduled_today": 0,
+      "overdue": 2,
+      "by_attempts": {
+        "1": 1,
+        "2": 1
+      }
+    },
+    {
       "cluster": "Delhi",
       "lead_status": "Meeting",
       "lead_stage": "Meeting Done - Hot",
@@ -6606,6 +6630,18 @@
         "4": 3,
         "0": 1,
         "5": 1
+      }
+    },
+    {
+      "cluster": "Indore",
+      "lead_status": "Booked",
+      "lead_stage": "Pending RM Call",
+      "total": 2,
+      "updated_today": 1,
+      "scheduled_today": 0,
+      "overdue": 2,
+      "by_attempts": {
+        "1": 2
       }
     },
     {
@@ -6631,18 +6667,6 @@
       "by_attempts": {
         "1": 1,
         "3": 1
-      }
-    },
-    {
-      "cluster": "Indore",
-      "lead_status": "Booked",
-      "lead_stage": "Pending RM Call",
-      "total": 1,
-      "updated_today": 0,
-      "scheduled_today": 0,
-      "overdue": 1,
-      "by_attempts": {
-        "1": 1
       }
     },
     {
@@ -6873,18 +6897,6 @@
     },
     {
       "cluster": "Pune",
-      "lead_status": "Booked",
-      "lead_stage": "RM Rejected",
-      "total": 1,
-      "updated_today": 1,
-      "scheduled_today": 0,
-      "overdue": 1,
-      "by_attempts": {
-        "3": 1
-      }
-    },
-    {
-      "cluster": "Pune",
       "lead_status": "Meeting",
       "lead_stage": "Meeting Done - Customer Not Reachable",
       "total": 38,
@@ -6948,7 +6960,7 @@
       "lead_status": "Booked",
       "lead_stage": "Booking Processing",
       "total": 2,
-      "updated_today": 1,
+      "updated_today": 2,
       "scheduled_today": 0,
       "overdue": 2,
       "by_attempts": {
@@ -7237,6 +7249,18 @@
       }
     },
     {
+      "cluster": "Indore",
+      "lead_status": "Booked",
+      "lead_stage": "Pending Verification",
+      "total": 3,
+      "updated_today": 3,
+      "scheduled_today": 0,
+      "overdue": 3,
+      "by_attempts": {
+        "2": 3
+      }
+    },
+    {
       "cluster": "Aurangabad",
       "lead_status": "Closed - Lost",
       "lead_stage": "Meeting - Not Qualified",
@@ -7420,9 +7444,9 @@
       "lead_status": "Meeting",
       "lead_stage": "Followup On Call",
       "total": 88,
-      "updated_today": 3,
+      "updated_today": 4,
       "scheduled_today": 1,
-      "overdue": 79,
+      "overdue": 78,
       "by_attempts": {
         "1": 52,
         "2": 18,
@@ -7433,18 +7457,6 @@
         "4": 3,
         "6": 1,
         "12": 1
-      }
-    },
-    {
-      "cluster": "Gwalior",
-      "lead_status": "Booked",
-      "lead_stage": "Verification Rejected",
-      "total": 2,
-      "updated_today": 1,
-      "scheduled_today": 0,
-      "overdue": 2,
-      "by_attempts": {
-        "2": 2
       }
     },
     {
@@ -7770,21 +7782,6 @@
       "scheduled_today": 0,
       "overdue": 1,
       "by_attempts": {
-        "2": 1
-      }
-    },
-    {
-      "cluster": "Kolhapur",
-      "lead_status": "Meeting",
-      "lead_stage": "Meeting Done - Hot",
-      "total": 15,
-      "updated_today": 1,
-      "scheduled_today": 0,
-      "overdue": 14,
-      "by_attempts": {
-        "3": 1,
-        "0": 2,
-        "1": 11,
         "2": 1
       }
     },
@@ -8551,6 +8548,18 @@
       }
     },
     {
+      "cluster": "Lucknow",
+      "lead_status": "Booked",
+      "lead_stage": "Pending RM Call",
+      "total": 2,
+      "updated_today": 0,
+      "scheduled_today": 0,
+      "overdue": 2,
+      "by_attempts": {
+        "1": 2
+      }
+    },
+    {
       "cluster": "Indore",
       "lead_status": "Closed - Lost",
       "lead_stage": "Lost to Competitor",
@@ -8669,12 +8678,12 @@
       "cluster": "Delhi",
       "lead_status": "Closed - Lost",
       "lead_stage": "Lost to Competitor",
-      "total": 19,
-      "updated_today": 1,
+      "total": 18,
+      "updated_today": 0,
       "scheduled_today": 0,
       "overdue": 18,
       "by_attempts": {
-        "1": 18,
+        "1": 17,
         "2": 1
       }
     },
@@ -8840,18 +8849,6 @@
       "overdue": 0,
       "by_attempts": {
         "0": 1
-      }
-    },
-    {
-      "cluster": "Lucknow",
-      "lead_status": "Booked",
-      "lead_stage": "Pending Verification",
-      "total": 2,
-      "updated_today": 1,
-      "scheduled_today": 0,
-      "overdue": 2,
-      "by_attempts": {
-        "1": 2
       }
     },
     {
@@ -9182,6 +9179,19 @@
       }
     },
     {
+      "cluster": "Kolhapur",
+      "lead_status": "Connected",
+      "lead_stage": "Meeting Confirmed - Customer Home",
+      "total": 3,
+      "updated_today": 0,
+      "scheduled_today": 0,
+      "overdue": 2,
+      "by_attempts": {
+        "1": 2,
+        "6": 1
+      }
+    },
+    {
       "cluster": "Solapur",
       "lead_status": "Connected",
       "lead_stage": "Design Created",
@@ -9394,6 +9404,22 @@
       "overdue": 3,
       "by_attempts": {
         "1": 4
+      }
+    },
+    {
+      "cluster": "Jabalpur",
+      "lead_status": "Meeting",
+      "lead_stage": "On-Hold",
+      "total": 22,
+      "updated_today": 2,
+      "scheduled_today": 1,
+      "overdue": 19,
+      "by_attempts": {
+        "10": 1,
+        "2": 7,
+        "1": 12,
+        "3": 1,
+        "6": 1
       }
     },
     {
@@ -9944,21 +9970,6 @@
       }
     },
     {
-      "cluster": "Jabalpur",
-      "lead_status": "Meeting",
-      "lead_stage": "On-Hold",
-      "total": 21,
-      "updated_today": 1,
-      "scheduled_today": 0,
-      "overdue": 19,
-      "by_attempts": {
-        "2": 7,
-        "1": 12,
-        "3": 1,
-        "6": 1
-      }
-    },
-    {
       "cluster": "Bangalore",
       "lead_status": "Meeting",
       "lead_stage": "Meeting Done - Customer Not Reachable",
@@ -10009,19 +10020,6 @@
         "1": 17,
         "4": 3,
         "2": 2
-      }
-    },
-    {
-      "cluster": "Indore",
-      "lead_status": "Booked",
-      "lead_stage": "Verification Rejected",
-      "total": 3,
-      "updated_today": 0,
-      "scheduled_today": 0,
-      "overdue": 3,
-      "by_attempts": {
-        "2": 1,
-        "1": 2
       }
     },
     {
@@ -10269,27 +10267,16 @@
       }
     },
     {
-      "cluster": "Kanpur",
-      "lead_status": "Booked",
-      "lead_stage": "Verification Rejected",
-      "total": 3,
-      "updated_today": 0,
-      "scheduled_today": 0,
-      "overdue": 3,
-      "by_attempts": {
-        "1": 3
-      }
-    },
-    {
       "cluster": "Jabalpur",
       "lead_status": "Booked",
-      "lead_stage": "Pending Verification",
-      "total": 1,
+      "lead_stage": "Verification Rejected",
+      "total": 2,
       "updated_today": 1,
       "scheduled_today": 0,
-      "overdue": 1,
+      "overdue": 2,
       "by_attempts": {
-        "2": 1
+        "2": 1,
+        "3": 1
       }
     },
     {
@@ -10914,18 +10901,6 @@
       }
     },
     {
-      "cluster": "Jabalpur",
-      "lead_status": "Booked",
-      "lead_stage": "Verification Rejected",
-      "total": 1,
-      "updated_today": 0,
-      "scheduled_today": 0,
-      "overdue": 1,
-      "by_attempts": {
-        "3": 1
-      }
-    },
-    {
       "cluster": "Kanpur",
       "lead_status": "Lost",
       "lead_stage": "SIQ - Opportunity Remaining",
@@ -11411,6 +11386,18 @@
       "overdue": 0,
       "by_attempts": {
         "0": 1
+      }
+    },
+    {
+      "cluster": "Lucknow",
+      "lead_status": "Booked",
+      "lead_stage": "Pending Verification",
+      "total": 1,
+      "updated_today": 0,
+      "scheduled_today": 0,
+      "overdue": 1,
+      "by_attempts": {
+        "1": 1
       }
     },
     {
@@ -14030,6 +14017,19 @@
       "overdue": 0,
       "by_attempts": {
         "0": 1
+      }
+    },
+    {
+      "cluster": "Nagpur",
+      "lead_status": "Booked",
+      "lead_stage": "Pending Verification",
+      "total": 2,
+      "updated_today": 0,
+      "scheduled_today": 0,
+      "overdue": 2,
+      "by_attempts": {
+        "1": 1,
+        "2": 1
       }
     },
     {
