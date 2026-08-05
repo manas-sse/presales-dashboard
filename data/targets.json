@@ -1,32 +1,58 @@
 {
   "meta": {
-    "updated": "2026-06-04",
-    "note": "TAT targets in fractional hours. bql_to_ms and ms_to_md as rates (0.0-1.0) -- used by Control Tower's city funnel breakdown for BQL->MS% and MS->MD% coloring. LRMs inherit their cluster target; omit a cluster to use global. Add an 'ms_to_md' entry here (same shape as bql_to_ms) when ready -- Control Tower gracefully shows no target coloring until it exists."
+    "updated": "2026-08-05",
+    "note": "TAT targets in fractional hours. bql_to_ms and ms_to_md as rates (0.0-1.0) -- used by Control Tower's city funnel breakdown for BQL->MS% and MS->MD% coloring. LRMs inherit their cluster target; omit a cluster to use global. lc_to_first_call is split into working_hours and calendar bases (Referral MOP Aug'26 review) -- index.html's resolveTarget() does not yet read the basis-specific sub-keys, so wire that up before relying on it in the UI. bql_to_ms global/by_cluster values are MS/Leads from the Combined MOP table in Referral MOP Aug'26_Final.xlsx (India row = global)."
   },
   "lc_to_first_call": {
     "unit": "hours",
     "percentile": 80,
-    "global": 24,
-    "by_cluster": {
-      "Pune": 20,
-      "Delhi": 28
+    "working_hours": {
+      "global": 2
+    },
+    "calendar": {
+      "global": 12
     }
   },
   "lc_to_ms": {
     "unit": "hours",
     "percentile": 80,
-    "global": 168,
-    "by_cluster": {
-      "Pune": 144,
-      "Delhi": 192
-    }
+    "global": 72
   },
   "bql_to_ms": {
     "unit": "rate",
-    "global": 0.15,
+    "global": 0.7942,
     "by_cluster": {
-      "Pune": 0.18,
-      "Delhi": 0.12
+      "Ahmedabad": 0.9159,
+      "Nagpur": 0.8006,
+      "Amravati": 0.6729,
+      "Aurangabad": 0.771,
+      "Nashik": 0.8563,
+      "Pune": 0.837,
+      "Kolhapur": 0.8983,
+      "Jalgaon": 0.8276,
+      "Solapur": 0.6176,
+      "Bhopal": 0.8199,
+      "Gwalior": 0.6268,
+      "Indore": 0.7829,
+      "Jabalpur": 0.7672,
+      "Jaipur": 0.6827,
+      "Delhi": 0.8766,
+      "Faridabad": 0.9091,
+      "Gurgaon": 0.8769,
+      "Ghaziabad": 0.8701,
+      "Noida": 0.8462,
+      "Agra": 0.6122,
+      "Kanpur": 0.9268,
+      "Lucknow": 0.7719,
+      "Varanasi": 0.8571,
+      "Hyderabad": 0.9253,
+      "Bangalore": 0.788,
+      "Chennai": 0.7202,
+      "Coimbatore": 0.4167
     }
+  },
+  "ms_to_md": {
+    "unit": "rate",
+    "global": 0.88
   }
 }
