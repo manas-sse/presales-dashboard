@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-08-17T11:06:19Z",
+    "generated_at": "2026-08-17T12:05:22Z",
     "current_month": "2026-08",
     "cutoff_day": 17,
     "note": "BQL = Lead Created (relabelled, no separate qualifying condition yet). Effort = event-date based, RAW dates, no backfill; %s are pace ratios, not true conversion (numerator/denominator are different lead sets). Cohort(MO) = same-month-bounded (lead created in month X counts toward month X's MS/MD/Order only if that milestone ALSO falls in month X), WITH backfill (see BACKFILL rule in etl.py). MTD tables truncate every month (including past ones) to day-of-month <= today's day-of-month. HOTO, Tier, Sub-Channel not implemented \u2014 deferred. Referral channel only."
@@ -163,10 +163,10 @@
       },
       {
         "month": "2026-08",
-        "bql": 3028,
+        "bql": 3034,
         "ms": 1900,
         "md": 1525,
-        "order": 774
+        "order": 775
       }
     ],
     "mtd": [
@@ -319,10 +319,10 @@
       },
       {
         "month": "2026-08",
-        "bql": 3028,
+        "bql": 3034,
         "ms": 1816,
         "md": 1525,
-        "order": 774
+        "order": 775
       }
     ],
     "city_full_month": [
@@ -4561,7 +4561,7 @@
       {
         "month": "2026-08",
         "cluster": "Jaipur",
-        "bql": 103,
+        "bql": 104,
         "ms": 76,
         "md": 47,
         "order": 16
@@ -4620,7 +4620,7 @@
         "bql": 381,
         "ms": 337,
         "md": 287,
-        "order": 159
+        "order": 160
       },
       {
         "month": "2026-08",
@@ -4641,7 +4641,7 @@
       {
         "month": "2026-08",
         "cluster": "Pune",
-        "bql": 380,
+        "bql": 385,
         "ms": 308,
         "md": 239,
         "order": 153
@@ -8771,7 +8771,7 @@
       {
         "month": "2026-08",
         "cluster": "Jaipur",
-        "bql": 103,
+        "bql": 104,
         "ms": 71,
         "md": 47,
         "order": 16
@@ -8830,7 +8830,7 @@
         "bql": 381,
         "ms": 329,
         "md": 287,
-        "order": 159
+        "order": 160
       },
       {
         "month": "2026-08",
@@ -8851,7 +8851,7 @@
       {
         "month": "2026-08",
         "cluster": "Pune",
-        "bql": 380,
+        "bql": 385,
         "ms": 293,
         "md": 239,
         "order": 153
@@ -9027,7 +9027,7 @@
       },
       {
         "month": "2026-08",
-        "bql": 3028,
+        "bql": 3034,
         "ms": 1479,
         "md": 1287,
         "order": 630
@@ -9169,7 +9169,7 @@
       },
       {
         "month": "2026-08",
-        "bql": 3028,
+        "bql": 3034,
         "ms": 1432,
         "md": 1287,
         "order": 630
@@ -13363,7 +13363,7 @@
       {
         "month": "2026-08",
         "cluster": "Jaipur",
-        "bql": 103,
+        "bql": 104,
         "ms": 58,
         "md": 38,
         "order": 12
@@ -13443,7 +13443,7 @@
       {
         "month": "2026-08",
         "cluster": "Pune",
-        "bql": 380,
+        "bql": 385,
         "ms": 244,
         "md": 210,
         "order": 122
@@ -17533,7 +17533,7 @@
       {
         "month": "2026-08",
         "cluster": "Jaipur",
-        "bql": 103,
+        "bql": 104,
         "ms": 54,
         "md": 38,
         "order": 12
@@ -17613,7 +17613,7 @@
       {
         "month": "2026-08",
         "cluster": "Pune",
-        "bql": 380,
+        "bql": 385,
         "ms": 235,
         "md": 210,
         "order": 122
@@ -17935,14 +17935,14 @@
           },
           {
             "day": 17,
-            "count_in": 43,
-            "conv_total_pct": 32.6,
-            "d1_3_pct": 30.2,
-            "d1_7_pct": 32.6,
+            "count_in": 49,
+            "conv_total_pct": 28.6,
+            "d1_3_pct": 26.5,
+            "d1_7_pct": 28.6,
             "cells": {
-              "17": 16.3,
-              "18": 14.0,
-              "23": 2.3
+              "17": 14.3,
+              "18": 12.2,
+              "23": 2.0
             }
           },
           {
@@ -18060,10 +18060,10 @@
         ],
         "all": {
           "day": "ALL",
-          "count_in": 3028,
-          "conv_total_pct": 48.8,
-          "d1_3_pct": 41.3,
-          "d1_7_pct": 46.8,
+          "count_in": 3034,
+          "conv_total_pct": 48.7,
+          "d1_3_pct": 41.2,
+          "d1_7_pct": 46.7,
           "cells": {
             "7": 3.2,
             "2": 2.8,
@@ -18083,7 +18083,7 @@
             "12": 3.2,
             "13": 3.6,
             "28": 0.1,
-            "17": 1.7,
+            "17": 1.6,
             "19": 0.2,
             "31": 0.0,
             "18": 0.9,
