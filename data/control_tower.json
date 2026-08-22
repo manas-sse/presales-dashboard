@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-08-22T13:20:56Z",
+    "generated_at": "2026-08-22T14:02:15Z",
     "current_month": "2026-08",
     "cutoff_day": 22,
     "note": "BQL = Lead Created (relabelled, no separate qualifying condition yet). Effort = event-date based, RAW dates, no backfill; %s are pace ratios, not true conversion (numerator/denominator are different lead sets). Cohort(MO) = same-month-bounded (lead created in month X counts toward month X's MS/MD/Order only if that milestone ALSO falls in month X), WITH backfill (see BACKFILL rule in etl.py). MTD tables truncate every month (including past ones) to day-of-month <= today's day-of-month. HOTO, Tier, Sub-Channel not implemented \u2014 deferred. Referral channel only."
@@ -150,23 +150,23 @@
       {
         "month": "2026-06",
         "bql": 7235,
-        "ms": 3903,
+        "ms": 3902,
         "md": 3540,
         "order": 1862
       },
       {
         "month": "2026-07",
         "bql": 6178,
-        "ms": 3665,
+        "ms": 3664,
         "md": 3165,
         "order": 1614
       },
       {
         "month": "2026-08",
-        "bql": 3971,
-        "ms": 2502,
-        "md": 2017,
-        "order": 1043
+        "bql": 3977,
+        "ms": 2514,
+        "md": 2030,
+        "order": 1049
       }
     ],
     "mtd": [
@@ -306,23 +306,23 @@
       {
         "month": "2026-06",
         "bql": 5248,
-        "ms": 2770,
+        "ms": 2769,
         "md": 2494,
         "order": 1285
       },
       {
         "month": "2026-07",
         "bql": 4223,
-        "ms": 2463,
+        "ms": 2462,
         "md": 2152,
         "order": 1049
       },
       {
         "month": "2026-08",
-        "bql": 3971,
-        "ms": 2379,
-        "md": 2017,
-        "order": 1043
+        "bql": 3977,
+        "ms": 2378,
+        "md": 2030,
+        "order": 1049
       }
     ],
     "city_full_month": [
@@ -3641,9 +3641,9 @@
       {
         "month": "2026-05",
         "cluster": "Amravati",
-        "bql": 98,
-        "ms": 62,
-        "md": 56,
+        "bql": 99,
+        "ms": 63,
+        "md": 57,
         "order": 23
       },
       {
@@ -3825,9 +3825,9 @@
       {
         "month": "2026-05",
         "cluster": "Nagpur",
-        "bql": 785,
-        "ms": 518,
-        "md": 467,
+        "bql": 784,
+        "ms": 517,
+        "md": 466,
         "order": 255
       },
       {
@@ -4122,7 +4122,7 @@
         "month": "2026-06",
         "cluster": "Pune",
         "bql": 992,
-        "ms": 707,
+        "ms": 706,
         "md": 688,
         "order": 317
       },
@@ -4306,7 +4306,7 @@
         "month": "2026-07",
         "cluster": "Jabalpur",
         "bql": 412,
-        "ms": 175,
+        "ms": 174,
         "md": 141,
         "order": 100
       },
@@ -4434,7 +4434,7 @@
         "month": "2026-08",
         "cluster": "Agra",
         "bql": 28,
-        "ms": 19,
+        "ms": 20,
         "md": 14,
         "order": 7
       },
@@ -4458,14 +4458,14 @@
         "month": "2026-08",
         "cluster": "Amravati",
         "bql": 44,
-        "ms": 35,
+        "ms": 36,
         "md": 33,
         "order": 19
       },
       {
         "month": "2026-08",
         "cluster": "Aurangabad",
-        "bql": 54,
+        "bql": 56,
         "ms": 42,
         "md": 37,
         "order": 12
@@ -4476,7 +4476,7 @@
         "bql": 94,
         "ms": 71,
         "md": 52,
-        "order": 19
+        "order": 20
       },
       {
         "month": "2026-08",
@@ -4529,16 +4529,16 @@
       {
         "month": "2026-08",
         "cluster": "Gurgaon",
-        "bql": 65,
+        "bql": 66,
         "ms": 56,
-        "md": 44,
-        "order": 11
+        "md": 45,
+        "order": 12
       },
       {
         "month": "2026-08",
         "cluster": "Gwalior",
         "bql": 345,
-        "ms": 91,
+        "ms": 92,
         "md": 81,
         "order": 27
       },
@@ -4546,7 +4546,7 @@
         "month": "2026-08",
         "cluster": "Hyderabad",
         "bql": 125,
-        "ms": 100,
+        "ms": 101,
         "md": 63,
         "order": 45
       },
@@ -4556,12 +4556,12 @@
         "bql": 156,
         "ms": 112,
         "md": 101,
-        "order": 32
+        "order": 34
       },
       {
         "month": "2026-08",
         "cluster": "Invalid",
-        "bql": 155,
+        "bql": 153,
         "ms": 24,
         "md": 18,
         "order": 6
@@ -4570,7 +4570,7 @@
         "month": "2026-08",
         "cluster": "Jabalpur",
         "bql": 278,
-        "ms": 132,
+        "ms": 133,
         "md": 109,
         "order": 64
       },
@@ -4633,15 +4633,15 @@
       {
         "month": "2026-08",
         "cluster": "Nagpur",
-        "bql": 493,
-        "ms": 435,
-        "md": 373,
+        "bql": 495,
+        "ms": 437,
+        "md": 375,
         "order": 200
       },
       {
         "month": "2026-08",
         "cluster": "Nashik",
-        "bql": 94,
+        "bql": 95,
         "ms": 70,
         "md": 62,
         "order": 42
@@ -4651,16 +4651,16 @@
         "cluster": "Noida",
         "bql": 79,
         "ms": 57,
-        "md": 43,
+        "md": 44,
         "order": 24
       },
       {
         "month": "2026-08",
         "cluster": "Pune",
-        "bql": 532,
-        "ms": 408,
-        "md": 327,
-        "order": 207
+        "bql": 533,
+        "ms": 412,
+        "md": 336,
+        "order": 209
       },
       {
         "month": "2026-08",
@@ -4681,8 +4681,8 @@
       {
         "month": "2026-08",
         "cluster": "Varanasi",
-        "bql": 26,
-        "ms": 21,
+        "bql": 27,
+        "ms": 22,
         "md": 18,
         "order": 9
       },
@@ -7915,9 +7915,9 @@
       {
         "month": "2026-05",
         "cluster": "Amravati",
-        "bql": 62,
-        "ms": 33,
-        "md": 32,
+        "bql": 63,
+        "ms": 34,
+        "md": 33,
         "order": 11
       },
       {
@@ -8091,9 +8091,9 @@
       {
         "month": "2026-05",
         "cluster": "Nagpur",
-        "bql": 536,
-        "ms": 328,
-        "md": 297,
+        "bql": 535,
+        "ms": 327,
+        "md": 296,
         "order": 160
       },
       {
@@ -8388,7 +8388,7 @@
         "month": "2026-06",
         "cluster": "Pune",
         "bql": 704,
-        "ms": 490,
+        "ms": 489,
         "md": 465,
         "order": 230
       },
@@ -8572,7 +8572,7 @@
         "month": "2026-07",
         "cluster": "Jabalpur",
         "bql": 280,
-        "ms": 122,
+        "ms": 121,
         "md": 101,
         "order": 68
       },
@@ -8700,7 +8700,7 @@
         "month": "2026-08",
         "cluster": "Agra",
         "bql": 28,
-        "ms": 18,
+        "ms": 17,
         "md": 14,
         "order": 7
       },
@@ -8731,7 +8731,7 @@
       {
         "month": "2026-08",
         "cluster": "Aurangabad",
-        "bql": 54,
+        "bql": 56,
         "ms": 41,
         "md": 37,
         "order": 12
@@ -8742,7 +8742,7 @@
         "bql": 94,
         "ms": 66,
         "md": 52,
-        "order": 19
+        "order": 20
       },
       {
         "month": "2026-08",
@@ -8795,10 +8795,10 @@
       {
         "month": "2026-08",
         "cluster": "Gurgaon",
-        "bql": 65,
+        "bql": 66,
         "ms": 51,
-        "md": 44,
-        "order": 11
+        "md": 45,
+        "order": 12
       },
       {
         "month": "2026-08",
@@ -8812,7 +8812,7 @@
         "month": "2026-08",
         "cluster": "Hyderabad",
         "bql": 125,
-        "ms": 88,
+        "ms": 87,
         "md": 63,
         "order": 45
       },
@@ -8822,12 +8822,12 @@
         "bql": 156,
         "ms": 108,
         "md": 101,
-        "order": 32
+        "order": 34
       },
       {
         "month": "2026-08",
         "cluster": "Invalid",
-        "bql": 155,
+        "bql": 153,
         "ms": 23,
         "md": 18,
         "order": 6
@@ -8884,7 +8884,7 @@
         "month": "2026-08",
         "cluster": "Lucknow",
         "bql": 291,
-        "ms": 198,
+        "ms": 197,
         "md": 148,
         "order": 71
       },
@@ -8899,15 +8899,15 @@
       {
         "month": "2026-08",
         "cluster": "Nagpur",
-        "bql": 493,
+        "bql": 495,
         "ms": 422,
-        "md": 373,
+        "md": 375,
         "order": 200
       },
       {
         "month": "2026-08",
         "cluster": "Nashik",
-        "bql": 94,
+        "bql": 95,
         "ms": 69,
         "md": 62,
         "order": 42
@@ -8917,16 +8917,16 @@
         "cluster": "Noida",
         "bql": 79,
         "ms": 54,
-        "md": 43,
+        "md": 44,
         "order": 24
       },
       {
         "month": "2026-08",
         "cluster": "Pune",
-        "bql": 532,
-        "ms": 385,
-        "md": 327,
-        "order": 207
+        "bql": 533,
+        "ms": 387,
+        "md": 336,
+        "order": 209
       },
       {
         "month": "2026-08",
@@ -8947,7 +8947,7 @@
       {
         "month": "2026-08",
         "cluster": "Varanasi",
-        "bql": 26,
+        "bql": 27,
         "ms": 21,
         "md": 18,
         "order": 9
@@ -9093,16 +9093,16 @@
       {
         "month": "2026-07",
         "bql": 6178,
-        "ms": 3082,
+        "ms": 3081,
         "md": 2754,
         "order": 1371
       },
       {
         "month": "2026-08",
-        "bql": 3971,
-        "ms": 2019,
-        "md": 1738,
-        "order": 871
+        "bql": 3977,
+        "ms": 2029,
+        "md": 1750,
+        "order": 877
       }
     ],
     "mtd": [
@@ -9235,16 +9235,16 @@
       {
         "month": "2026-07",
         "bql": 4223,
-        "ms": 2004,
+        "ms": 2003,
         "md": 1834,
         "order": 870
       },
       {
         "month": "2026-08",
-        "bql": 3971,
-        "ms": 1937,
-        "md": 1738,
-        "order": 871
+        "bql": 3977,
+        "ms": 1935,
+        "md": 1750,
+        "order": 877
       }
     ],
     "city_full_month": [
@@ -12515,9 +12515,9 @@
       {
         "month": "2026-05",
         "cluster": "Amravati",
-        "bql": 98,
-        "ms": 55,
-        "md": 51,
+        "bql": 99,
+        "ms": 56,
+        "md": 52,
         "order": 19
       },
       {
@@ -12699,9 +12699,9 @@
       {
         "month": "2026-05",
         "cluster": "Nagpur",
-        "bql": 785,
-        "ms": 438,
-        "md": 400,
+        "bql": 784,
+        "ms": 437,
+        "md": 399,
         "order": 214
       },
       {
@@ -13180,7 +13180,7 @@
         "month": "2026-07",
         "cluster": "Jabalpur",
         "bql": 412,
-        "ms": 146,
+        "ms": 145,
         "md": 126,
         "order": 84
       },
@@ -13308,7 +13308,7 @@
         "month": "2026-08",
         "cluster": "Agra",
         "bql": 28,
-        "ms": 17,
+        "ms": 18,
         "md": 14,
         "order": 6
       },
@@ -13332,14 +13332,14 @@
         "month": "2026-08",
         "cluster": "Amravati",
         "bql": 44,
-        "ms": 28,
+        "ms": 29,
         "md": 27,
         "order": 14
       },
       {
         "month": "2026-08",
         "cluster": "Aurangabad",
-        "bql": 54,
+        "bql": 56,
         "ms": 31,
         "md": 30,
         "order": 8
@@ -13350,7 +13350,7 @@
         "bql": 94,
         "ms": 50,
         "md": 40,
-        "order": 15
+        "order": 16
       },
       {
         "month": "2026-08",
@@ -13403,16 +13403,16 @@
       {
         "month": "2026-08",
         "cluster": "Gurgaon",
-        "bql": 65,
+        "bql": 66,
         "ms": 46,
-        "md": 38,
-        "order": 8
+        "md": 39,
+        "order": 9
       },
       {
         "month": "2026-08",
         "cluster": "Gwalior",
         "bql": 345,
-        "ms": 73,
+        "ms": 74,
         "md": 63,
         "order": 18
       },
@@ -13420,7 +13420,7 @@
         "month": "2026-08",
         "cluster": "Hyderabad",
         "bql": 125,
-        "ms": 68,
+        "ms": 69,
         "md": 58,
         "order": 40
       },
@@ -13430,12 +13430,12 @@
         "bql": 156,
         "ms": 85,
         "md": 80,
-        "order": 29
+        "order": 31
       },
       {
         "month": "2026-08",
         "cluster": "Invalid",
-        "bql": 155,
+        "bql": 153,
         "ms": 21,
         "md": 17,
         "order": 6
@@ -13507,15 +13507,15 @@
       {
         "month": "2026-08",
         "cluster": "Nagpur",
-        "bql": 493,
-        "ms": 352,
-        "md": 325,
+        "bql": 495,
+        "ms": 354,
+        "md": 326,
         "order": 170
       },
       {
         "month": "2026-08",
         "cluster": "Nashik",
-        "bql": 94,
+        "bql": 95,
         "ms": 57,
         "md": 52,
         "order": 33
@@ -13525,16 +13525,16 @@
         "cluster": "Noida",
         "bql": 79,
         "ms": 45,
-        "md": 38,
+        "md": 39,
         "order": 19
       },
       {
         "month": "2026-08",
         "cluster": "Pune",
-        "bql": 532,
-        "ms": 336,
-        "md": 291,
-        "order": 173
+        "bql": 533,
+        "ms": 339,
+        "md": 300,
+        "order": 175
       },
       {
         "month": "2026-08",
@@ -13555,8 +13555,8 @@
       {
         "month": "2026-08",
         "cluster": "Varanasi",
-        "bql": 26,
-        "ms": 13,
+        "bql": 27,
+        "ms": 14,
         "md": 13,
         "order": 7
       },
@@ -16749,9 +16749,9 @@
       {
         "month": "2026-05",
         "cluster": "Amravati",
-        "bql": 62,
-        "ms": 27,
-        "md": 27,
+        "bql": 63,
+        "ms": 28,
+        "md": 28,
         "order": 7
       },
       {
@@ -16925,9 +16925,9 @@
       {
         "month": "2026-05",
         "cluster": "Nagpur",
-        "bql": 536,
-        "ms": 268,
-        "md": 243,
+        "bql": 535,
+        "ms": 267,
+        "md": 242,
         "order": 128
       },
       {
@@ -17406,7 +17406,7 @@
         "month": "2026-07",
         "cluster": "Jabalpur",
         "bql": 280,
-        "ms": 97,
+        "ms": 96,
         "md": 87,
         "order": 55
       },
@@ -17534,7 +17534,7 @@
         "month": "2026-08",
         "cluster": "Agra",
         "bql": 28,
-        "ms": 16,
+        "ms": 15,
         "md": 14,
         "order": 6
       },
@@ -17565,7 +17565,7 @@
       {
         "month": "2026-08",
         "cluster": "Aurangabad",
-        "bql": 54,
+        "bql": 56,
         "ms": 31,
         "md": 30,
         "order": 8
@@ -17576,7 +17576,7 @@
         "bql": 94,
         "ms": 48,
         "md": 40,
-        "order": 15
+        "order": 16
       },
       {
         "month": "2026-08",
@@ -17629,10 +17629,10 @@
       {
         "month": "2026-08",
         "cluster": "Gurgaon",
-        "bql": 65,
+        "bql": 66,
         "ms": 42,
-        "md": 38,
-        "order": 8
+        "md": 39,
+        "order": 9
       },
       {
         "month": "2026-08",
@@ -17646,7 +17646,7 @@
         "month": "2026-08",
         "cluster": "Hyderabad",
         "bql": 125,
-        "ms": 68,
+        "ms": 67,
         "md": 58,
         "order": 40
       },
@@ -17656,12 +17656,12 @@
         "bql": 156,
         "ms": 83,
         "md": 80,
-        "order": 29
+        "order": 31
       },
       {
         "month": "2026-08",
         "cluster": "Invalid",
-        "bql": 155,
+        "bql": 153,
         "ms": 20,
         "md": 17,
         "order": 6
@@ -17718,7 +17718,7 @@
         "month": "2026-08",
         "cluster": "Lucknow",
         "bql": 291,
-        "ms": 155,
+        "ms": 154,
         "md": 123,
         "order": 51
       },
@@ -17733,15 +17733,15 @@
       {
         "month": "2026-08",
         "cluster": "Nagpur",
-        "bql": 493,
+        "bql": 495,
         "ms": 342,
-        "md": 325,
+        "md": 326,
         "order": 170
       },
       {
         "month": "2026-08",
         "cluster": "Nashik",
-        "bql": 94,
+        "bql": 95,
         "ms": 57,
         "md": 52,
         "order": 33
@@ -17751,16 +17751,16 @@
         "cluster": "Noida",
         "bql": 79,
         "ms": 44,
-        "md": 38,
+        "md": 39,
         "order": 19
       },
       {
         "month": "2026-08",
         "cluster": "Pune",
-        "bql": 532,
-        "ms": 315,
-        "md": 291,
-        "order": 173
+        "bql": 533,
+        "ms": 316,
+        "md": 300,
+        "order": 175
       },
       {
         "month": "2026-08",
@@ -17781,7 +17781,7 @@
       {
         "month": "2026-08",
         "cluster": "Varanasi",
-        "bql": 26,
+        "bql": 27,
         "ms": 13,
         "md": 13,
         "order": 7
@@ -17997,14 +17997,15 @@
           {
             "day": 11,
             "count_in": 211,
-            "conv_total_pct": 49.3,
+            "conv_total_pct": 49.8,
             "d1_3_pct": 38.9,
             "d1_7_pct": 45.0,
             "cells": {
-              "22": 2.4,
+              "22": 1.9,
               "11": 19.4,
               "12": 12.8,
               "13": 6.6,
+              "23": 0.9,
               "19": 0.5,
               "18": 1.4,
               "15": 3.3,
@@ -18079,17 +18080,17 @@
             "count_in": 197,
             "conv_total_pct": 52.8,
             "d1_3_pct": 44.7,
-            "d1_7_pct": 49.7,
+            "d1_7_pct": 49.2,
             "cells": {
               "16": 18.3,
-              "19": 2.0,
+              "19": 1.5,
               "18": 2.5,
               "17": 2.0,
               "15": 24.4,
-              "22": 1.5,
-              "23": 1.0,
+              "23": 2.0,
               "25": 0.5,
-              "21": 0.5
+              "21": 0.5,
+              "22": 1.0
             }
           },
           {
@@ -18172,13 +18173,13 @@
           {
             "day": 21,
             "count_in": 185,
-            "conv_total_pct": 42.7,
-            "d1_3_pct": 40.5,
-            "d1_7_pct": 42.7,
+            "conv_total_pct": 43.2,
+            "d1_3_pct": 41.1,
+            "d1_7_pct": 43.2,
             "cells": {
               "22": 11.9,
               "26": 1.1,
-              "23": 5.4,
+              "23": 5.9,
               "21": 23.2,
               "25": 0.5,
               "27": 0.5
@@ -18186,17 +18187,17 @@
           },
           {
             "day": 22,
-            "count_in": 206,
-            "conv_total_pct": 39.3,
-            "d1_3_pct": 35.4,
-            "d1_7_pct": 39.3,
+            "count_in": 212,
+            "conv_total_pct": 42.0,
+            "d1_3_pct": 36.8,
+            "d1_7_pct": 42.0,
             "cells": {
-              "23": 11.7,
-              "22": 22.3,
-              "24": 1.5,
-              "28": 1.0,
-              "26": 1.5,
-              "25": 1.5
+              "23": 12.7,
+              "25": 2.4,
+              "22": 22.2,
+              "24": 1.9,
+              "28": 0.9,
+              "26": 1.9
             }
           },
           {
@@ -18274,10 +18275,10 @@
         ],
         "all": {
           "day": "ALL",
-          "count_in": 3971,
-          "conv_total_pct": 50.8,
-          "d1_3_pct": 42.3,
-          "d1_7_pct": 48.1,
+          "count_in": 3977,
+          "conv_total_pct": 51.0,
+          "d1_3_pct": 42.4,
+          "d1_7_pct": 48.2,
           "cells": {
             "7": 2.4,
             "2": 2.1,
@@ -18287,7 +18288,7 @@
             "1": 0.9,
             "8": 3.2,
             "6": 1.9,
-            "9": 3.5,
+            "9": 3.4,
             "15": 2.9,
             "20": 2.8,
             "4": 0.6,
@@ -18303,13 +18304,13 @@
             "17": 1.3,
             "31": 0.1,
             "18": 2.2,
-            "23": 1.3,
+            "23": 1.5,
             "30": 0.1,
             "29": 0.1,
-            "24": 0.1,
-            "25": 0.1,
+            "24": 0.2,
+            "25": 0.2,
             "27": 0.1,
-            "26": 0.1
+            "26": 0.2
           }
         }
       },
@@ -18579,15 +18580,15 @@
           },
           {
             "day": 19,
-            "count_in": 130,
-            "conv_total_pct": 85.4,
-            "d1_3_pct": 85.4,
-            "d1_7_pct": 85.4,
+            "count_in": 129,
+            "conv_total_pct": 86.0,
+            "d1_3_pct": 86.0,
+            "d1_7_pct": 86.0,
             "cells": {
-              "20": 3.8,
-              "19": 58.5,
-              "18": 21.5,
-              "16": 1.5
+              "20": 3.9,
+              "19": 58.9,
+              "18": 21.7,
+              "16": 1.6
             }
           },
           {
@@ -18624,57 +18625,58 @@
           {
             "day": 22,
             "count_in": 120,
-            "conv_total_pct": 58.3,
-            "d1_3_pct": 58.3,
-            "d1_7_pct": 58.3,
+            "conv_total_pct": 61.7,
+            "d1_3_pct": 61.7,
+            "d1_7_pct": 61.7,
             "cells": {
-              "22": 48.3,
+              "22": 51.7,
               "21": 9.2,
               "20": 0.8
             }
           },
           {
             "day": 23,
-            "count_in": 70,
-            "conv_total_pct": 17.1,
-            "d1_3_pct": 17.1,
-            "d1_7_pct": 17.1,
+            "count_in": 79,
+            "conv_total_pct": 17.7,
+            "d1_3_pct": 17.7,
+            "d1_7_pct": 17.7,
             "cells": {
-              "22": 14.3,
-              "19": 1.4,
-              "15": 1.4
+              "22": 15.2,
+              "19": 1.3,
+              "15": 1.3
             }
           },
           {
             "day": 24,
-            "count_in": 9,
-            "conv_total_pct": 11.1,
-            "d1_3_pct": 11.1,
-            "d1_7_pct": 11.1,
+            "count_in": 10,
+            "conv_total_pct": 20.0,
+            "d1_3_pct": 20.0,
+            "d1_7_pct": 20.0,
             "cells": {
-              "20": 11.1
+              "22": 10.0,
+              "20": 10.0
             }
           },
           {
             "day": 25,
-            "count_in": 8,
-            "conv_total_pct": 62.5,
-            "d1_3_pct": 62.5,
-            "d1_7_pct": 62.5,
+            "count_in": 10,
+            "conv_total_pct": 70.0,
+            "d1_3_pct": 70.0,
+            "d1_7_pct": 70.0,
             "cells": {
-              "22": 37.5,
-              "21": 12.5,
-              "15": 12.5
+              "22": 50.0,
+              "21": 10.0,
+              "15": 10.0
             }
           },
           {
             "day": 26,
-            "count_in": 7,
-            "conv_total_pct": 14.3,
-            "d1_3_pct": 14.3,
-            "d1_7_pct": 14.3,
+            "count_in": 8,
+            "conv_total_pct": 50.0,
+            "d1_3_pct": 50.0,
+            "d1_7_pct": 50.0,
             "cells": {
-              "22": 14.3
+              "22": 50.0
             }
           },
           {
@@ -18690,11 +18692,11 @@
           {
             "day": 28,
             "count_in": 6,
-            "conv_total_pct": 66.7,
-            "d1_3_pct": 66.7,
-            "d1_7_pct": 66.7,
+            "conv_total_pct": 83.3,
+            "d1_3_pct": 83.3,
+            "d1_7_pct": 83.3,
             "cells": {
-              "22": 16.7,
+              "22": 33.3,
               "16": 16.7,
               "13": 16.7,
               "7": 16.7
@@ -18734,14 +18736,14 @@
         ],
         "all": {
           "day": "ALL",
-          "count_in": 2502,
-          "conv_total_pct": 79.7,
-          "d1_3_pct": 78.8,
-          "d1_7_pct": 79.5,
+          "count_in": 2514,
+          "conv_total_pct": 79.8,
+          "d1_3_pct": 79.0,
+          "d1_7_pct": 79.6,
           "cells": {
-            "1": 3.0,
+            "1": 2.9,
             "2": 5.0,
-            "5": 3.8,
+            "5": 3.7,
             "3": 0.9,
             "7": 4.0,
             "8": 5.1,
@@ -18752,13 +18754,13 @@
             "11": 3.1,
             "20": 4.3,
             "13": 4.6,
-            "22": 3.0,
+            "22": 3.5,
             "10": 0.5,
             "12": 4.3,
             "21": 3.4,
             "14": 4.3,
             "15": 4.2,
-            "16": 6.0,
+            "16": 5.9,
             "19": 4.3,
             "17": 0.4
           }
@@ -19079,22 +19081,22 @@
           {
             "day": 21,
             "count_in": 86,
-            "conv_total_pct": 33.7,
-            "d1_3_pct": 33.7,
-            "d1_7_pct": 33.7,
+            "conv_total_pct": 36.0,
+            "d1_3_pct": 36.0,
+            "d1_7_pct": 36.0,
             "cells": {
-              "22": 5.8,
+              "22": 8.1,
               "21": 27.9
             }
           },
           {
             "day": 22,
-            "count_in": 75,
-            "conv_total_pct": 26.7,
-            "d1_3_pct": 26.7,
-            "d1_7_pct": 26.7,
+            "count_in": 88,
+            "conv_total_pct": 27.3,
+            "d1_3_pct": 27.3,
+            "d1_7_pct": 27.3,
             "cells": {
-              "22": 26.7
+              "22": 27.3
             }
           },
           {
@@ -19172,7 +19174,7 @@
         ],
         "all": {
           "day": "ALL",
-          "count_in": 2017,
+          "count_in": 2030,
           "conv_total_pct": 47.0,
           "d1_3_pct": 41.0,
           "d1_7_pct": 44.9,
@@ -19186,14 +19188,14 @@
             "16": 3.1,
             "15": 3.5,
             "6": 1.8,
-            "9": 4.1,
+            "9": 4.0,
             "12": 2.0,
             "18": 2.4,
             "13": 2.6,
             "8": 2.6,
             "4": 0.7,
             "11": 2.1,
-            "22": 1.8,
+            "22": 2.1,
             "14": 2.9,
             "21": 2.4,
             "19": 3.1,
