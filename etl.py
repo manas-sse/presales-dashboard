@@ -64,6 +64,12 @@ WH_END_H   = 18         # Working day ends at 18:00 IST (6 PM)
 # Monday is the LRM team's weekoff → working days are Tuesday–Sunday.
 WH_WORKING_DAYS: set = {1, 2, 3, 4, 5, 6}   # Tue, Wed, Thu, Fri, Sat, Sun
 
+# ── DAILY MOVEMENT RETENTION (TEMPORARY) ─────────────────────────────────────
+# daily_movement.json hit GitHub's 100 MB per-file limit (Oct 2026). Until a
+# proper storage solution is in place, only the last N calendar months
+# (including the current one) are written. Set to None to keep everything.
+DAILY_MOVEMENT_MONTHS = 6
+
 
 def normalise_cluster(raw: str) -> str:
     """
@@ -555,21 +561,29 @@ def build_daily_movement(audit_sorted: list, lead_meta: dict) -> dict:
                         touches[key]["updates"] += 1
             prev = ev
 
+    # Retention cutoff (see DAILY_MOVEMENT_MONTHS). Applied after the walk so the
+    # first in-window transition still sees the lead's prior state.
+    data_from = ""
+    if DAILY_MOVEMENT_MONTHS:
+        t = today_ist()
+        y, m = divmod(t.year * 12 + (t.month - 1) - (DAILY_MOVEMENT_MONTHS - 1), 12)
+        data_from = f"{y:04d}-{m + 1:02d}-01"
+
     stage_records = [
         {"date": k[0], "cluster": k[1], "lrm": k[2],
          "from_stage": k[3], "to_stage": k[4], "count": v}
-        for k, v in transitions_stage.items()
+        for k, v in transitions_stage.items() if k[0] >= data_from
     ]
     status_records = [
         {"date": k[0], "cluster": k[1], "lrm": k[2],
          "from_status": k[3], "to_status": k[4], "count": v}
-        for k, v in transitions_status.items()
+        for k, v in transitions_status.items() if k[0] >= data_from
     ]
     touch_records = [
         {"date": k[0], "cluster": k[1], "lrm": k[2],
          "calls_no_transition": v["calls"],
          "updates_no_transition": v["updates"]}
-        for k, v in touches.items()
+        for k, v in touches.items() if k[0] >= data_from
     ]
     stage_records.sort(key=lambda x: (x["date"], x["cluster"]), reverse=True)
     status_records.sort(key=lambda x: (x["date"], x["cluster"]), reverse=True)
@@ -578,6 +592,7 @@ def build_daily_movement(audit_sorted: list, lead_meta: dict) -> dict:
     return {
         "meta": {
             "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "data_from":    data_from or None,
             "total_stage_transitions":  sum(r["count"] for r in stage_records),
             "total_status_transitions": sum(r["count"] for r in status_records),
             "total_touches":            sum(r["calls_no_transition"] + r["updates_no_transition"]
@@ -1552,7 +1567,7 @@ def main():
     print("[4/8] Aggregating lead snapshot...")
     city_stage = build_city_stage_output(aggregate_city_stage(leads_raw))
     with open("data/city_stage.json", "w") as f:
-        json.dump(city_stage, f, indent=2, default=str)
+        json.dump(city_stage, f, separators=(',', ':'), default=str)
     print(f"      city_stage.json — {city_stage['meta']['total_leads']:,} leads")
 
     call_attempts = build_call_attempts_output(leads_raw)
@@ -1567,14 +1582,14 @@ def main():
     print("[6/8] Building daily movement + EOD position...")
     dm = build_daily_movement(audit_sorted, lead_meta)
     with open("data/daily_movement.json", "w") as f:
-        json.dump(dm, f, indent=2, default=str)
+        json.dump(dm, f, separators=(',', ':'), default=str)
     print(f"      daily_movement.json — {dm['meta']['total_stage_transitions']:,} stage, "
           f"{dm['meta']['total_status_transitions']:,} status transitions, "
           f"{dm['meta']['total_touches']:,} touches")
 
     eod = build_eod_position(audit_sorted, lead_meta)
     with open("data/eod_position.json", "w") as f:
-        json.dump(eod, f, indent=2, default=str)
+        json.dump(eod, f, separators=(',', ':'), default=str)
     print(f"      eod_position.json — {eod['meta']['total_records']:,} rows (from→to format)")
 
     eod_leads = build_eod_leads(audit_sorted, lead_meta)
@@ -1585,17 +1600,17 @@ def main():
     print("[7/8] Building LRM performance + TAT...")
     lrm = build_lrm_performance(audit_sorted, lead_meta)
     with open("data/lrm_performance.json", "w") as f:
-        json.dump(lrm, f, indent=2, default=str)
+        json.dump(lrm, f, separators=(',', ':'), default=str)
     print(f"      lrm_performance.json — {lrm['meta']['lrm_count']} LRMs · {len(lrm['records']):,} rows")
 
     tat = build_tat_stats(audit_sorted, lead_meta, lead_ms_dates, lead_won_dates)
     with open("data/tat_stats.json", "w") as f:
-        json.dump(tat, f, indent=2, default=str)
+        json.dump(tat, f, separators=(',', ':'), default=str)
     print(f"      tat_stats.json — {tat['meta']['total_leads']:,} lead-level TAT records")
 
     conv = build_lrm_conversion(audit_sorted, lead_meta)
     with open("data/lrm_conversion.json", "w") as f:
-        json.dump(conv, f, indent=2, default=str)
+        json.dump(conv, f, separators=(',', ':'), default=str)
     print(f"      lrm_conversion.json — {conv['meta']['total_records']:,} lead-LRM records")
 
     snap = build_lrm_snapshot(leads_raw, audit_sorted, lead_meta)
